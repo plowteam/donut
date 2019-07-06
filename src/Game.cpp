@@ -10,9 +10,8 @@ namespace Donut {
 
 const std::string kWindowTitle = "donut";
 
-Game::Game(int argc, char** argv)
-{
-	int windowWidth = 1280, windowHeight = 1024;
+Game::Game(int argc, char** argv) {
+	const int windowWidth = 1280, windowHeight = 1024;
 	_window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
 
 	File file("wrench.p3d", FileMode::Read);
