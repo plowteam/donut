@@ -1,0 +1,17 @@
+## make
+CMakeFiles
+*/CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+makefile
+build*
+prebuilt
+
+## windows build process
+.vs
+/deps
+/MSVC*
+
+# VSCode cache files
+/.vscode/ipch/
