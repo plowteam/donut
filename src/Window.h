@@ -10,7 +10,7 @@ struct SDLDestroyer
 	void operator()(SDL_GLContext* glcontext) const { SDL_GL_DeleteContext(*glcontext); }
 };
 
-namespace donut
+namespace Donut
 {
 
 class Window

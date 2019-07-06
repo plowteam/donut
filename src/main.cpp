@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 
 	try
 	{
-		std::unique_ptr<donut::Game> game(new donut::Game(argc, argv));
+		std::unique_ptr<Donut::Game> game(new Donut::Game(argc, argv));
 		game->Run();
 	}
 	catch (std::runtime_error& e)

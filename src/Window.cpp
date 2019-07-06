@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace donut {
+namespace Donut {
 
 Window::Window(const std::string& title, int width, int height)
 {
