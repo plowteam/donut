@@ -14,12 +14,13 @@ Game::Game(int argc, char** argv) {
 	const int windowWidth = 1280, windowHeight = 1024;
 	_window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
 
-	File file("wrench.p3d", FileMode::Read);
-
-	Pure3D::Pure3D p3d;
-	p3d.LoadFromFile(file);
-
-	file.Close();
+	if (std::filesystem::exists("wrench.p3d"))
+	{
+		File file("wrench.p3d", FileMode::Read);
+		Pure3D::Pure3D p3d;
+		p3d.LoadFromFile(file);
+		file.Close();
+	}
 }
 
 Game::~Game() {
