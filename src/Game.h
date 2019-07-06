@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace donut {
+namespace Donut {
 
 class Window;
 
@@ -21,4 +21,4 @@ private:
     std::unique_ptr<Window> _window;
 };
 
-} // namespace donut
+} // namespace Donut

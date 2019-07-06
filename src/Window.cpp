@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace donut {
+namespace Donut {
 
 Window::Window(const std::string& title, const int width, const int height) {
     SDL_version compiledVersion, linkedVersion;

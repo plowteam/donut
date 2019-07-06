@@ -13,7 +13,7 @@ struct SDLDestroyer {
     }
 };
 
-namespace donut {
+namespace Donut {
 
 class Window {
 public:
@@ -35,4 +35,4 @@ private:
     std::unique_ptr<SDL_Window, SDLDestroyer> _window;
     std::unique_ptr<SDL_GLContext, SDLDestroyer> _glContext;
 };
-} // namespace donut
+} // namespace Donut

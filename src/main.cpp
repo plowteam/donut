@@ -23,13 +23,12 @@ int main(int argc, char** argv) {
               << std::endl;
 
     try {
-        const auto game = std::make_unique<donut::Game>(argc, argv);
+        const auto game = std::make_unique<Donut::Game>(argc, argv);
         game->Run();
     } catch (std::runtime_error& e) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal error", e.what(), nullptr);
         return EXIT_FAILURE;
     }
-
     return EXIT_SUCCESS;
 }
 

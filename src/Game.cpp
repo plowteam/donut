@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace donut {
+namespace Donut {
 
 const std::string kWindowTitle = "donut";
 
