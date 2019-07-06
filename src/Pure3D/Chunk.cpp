@@ -5,6 +5,18 @@
 namespace Donut::Pure3D
 {
 
+std::ostream& operator<< (std::ostream& os, ChunkType chunktype)
+{
+	switch (chunktype)
+	{
+	case ChunkType::P3DRoot: return os << "Root";
+	case ChunkType::Texture: return os << "Texture";
+	case ChunkType::Image: return os << "Image";
+	case ChunkType::ImageData: return os << "ImageData";
+	};
+	return os << static_cast<std::uint32_t>(chunktype);
+}
+
 Chunk::Chunk()
 {
 
@@ -23,7 +35,7 @@ void Chunk::Read(File& file, int indentLevel)
 	file.Read<uint32_t>(&_totalSize, 1);
 
 	std::cout << std::hex << std::showbase <<
-		std::string(indentLevel, '\t') + "Type: " << _type << "\n"
+		std::string(indentLevel, '\t') + "Type: " << static_cast<ChunkType>(_type) << "\n"
 		+ std::string(indentLevel, '\t') + "Data Size: " << _dataSize << "\n"
 		+ std::string(indentLevel, '\t') + "ChildrenSize: " << _totalSize - _dataSize << "\n";
 
