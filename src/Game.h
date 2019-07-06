@@ -2,23 +2,23 @@
 
 #include <memory>
 
-namespace donut
-{
+namespace donut {
 
 class Window;
 
-class Game
-{
+class Game {
 public:
-	Game(int argc, char** argv);
-	~Game();
+    Game(int argc, char** argv);
+    ~Game();
 
-	Window& GetWindow() { return *_window; }
+    Window& GetWindow() const {
+        return *_window;
+    }
 
-	void Run();
+    void Run();
 
 private:
-	std::unique_ptr<Window> _window;
+    std::unique_ptr<Window> _window;
 };
 
 } // namespace donut

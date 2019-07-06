@@ -1,33 +1,38 @@
 #pragma once
 
-#include <SDL.h>
 #include <memory>
 #include <string>
+#include <SDL.h>
 
-struct SDLDestroyer
-{
-	void operator()(SDL_Window* window) const { SDL_DestroyWindow(window); }
-	void operator()(SDL_GLContext* glcontext) const { SDL_GL_DeleteContext(*glcontext); }
+struct SDLDestroyer {
+    void operator()(SDL_Window* window) const {
+        SDL_DestroyWindow(window);
+    }
+    void operator()(SDL_GLContext* glcontext) const {
+        SDL_GL_DeleteContext(*glcontext);
+    }
 };
 
-namespace donut
-{
+namespace donut {
 
-class Window
-{
-  public:
-	Window(const std::string& title, int width, int height);
+class Window {
+public:
+    Window(const std::string& title, int width, int height);
 
-	operator SDL_Window* () { return _window.get(); }
-	operator SDL_GLContext* () { return _glContext.get(); }
+    operator SDL_Window*() {
+        return _window.get();
+    }
+    operator SDL_GLContext*() {
+        return _glContext.get();
+    }
 
-	const std::string& GetTitle() const;
-	void SetTitle(const std::string&);
+    const std::string GetTitle() const;
+    void SetTitle(const std::string&);
 
-	void Swap();
+    void Swap();
 
-  private:
-	std::unique_ptr<SDL_Window, SDLDestroyer> _window;
-	std::unique_ptr<SDL_GLContext, SDLDestroyer> _glContext;
+private:
+    std::unique_ptr<SDL_Window, SDLDestroyer> _window;
+    std::unique_ptr<SDL_GLContext, SDLDestroyer> _glContext;
 };
 } // namespace donut
