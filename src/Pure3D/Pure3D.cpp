@@ -18,7 +18,7 @@ void Pure3D::LoadFromFile(File& file)
 	// rewind to the start, the file type is the root chunk type
 	file.Seek(0, FileSeekMode::Begin);
 
-	_root.Read(file, 0);
+	_root.Read(file);
 }
 
 }

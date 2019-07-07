@@ -96,20 +96,21 @@ enum class ChunkType : uint32_t {
 	P3DRoot = 0xFF443350,
 };
 
+std::ostream& operator<< (std::ostream& os, ChunkType chunktype);
+
 class Chunk
 {
 public:
-	Chunk();
-	~Chunk();
-	void Read(File&, int indentLevel);
+	void Read(const File&);
+
+	ChunkType GetType() { return _type; }
+	bool IsType(ChunkType type) { return _type == type; }
+	std::vector<std::unique_ptr<Chunk>>& GetChildren() { return _children; }
 protected:
-	void readChildren(File&, int indentLevel);
+	void readChildren(const File&, std::uint32_t size);
 
-	std::uint32_t _type;
-	std::uint32_t _dataSize;
-	std::uint32_t _totalSize;
-
-	Chunk* _parent;
+	ChunkType _type;
+	std::vector<uint8_t> _data;
 	std::vector<std::unique_ptr<Chunk>> _children;
 };
 
