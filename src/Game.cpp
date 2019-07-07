@@ -1,7 +1,7 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <Game.h>
-#include <Pure3D/Pure3D.h>
 #include <SDL.h>
 #include <Window.h>
 #include <glad/glad.h>
@@ -18,32 +18,27 @@ Game::Game(int argc, char** argv) {
     const int windowWidth = 1280, windowHeight = 1024;
     _window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
 
-	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(
-		static_cast<SDL_Window*>(*_window.get()),
-		static_cast<SDL_GLContext*>(*_window.get())
-	);
-	ImGui_ImplOpenGL3_Init("#version 130");
+    ImGui::CreateContext();
+    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window.get()),
+                                 static_cast<SDL_GLContext*>(*_window.get()));
+    ImGui_ImplOpenGL3_Init("#version 130");
 
     if (std::filesystem::exists("wrench.p3d")) {
         File file("wrench.p3d", FileMode::Read);
-        Pure3D::Pure3D p3d;
-        p3d.LoadFromFile(file);
-        file.Close();
 
-        const auto& chunks = p3d.GetRoot().GetChildren();
-        for (const auto& chunk : chunks) {
-            std::cout << chunk->GetType() << std::endl;
-        }
+        _p3d = std::make_unique<Pure3D::Pure3D>();
+        _p3d->LoadFromFile(file);
+
+        file.Close();
     }
 }
 
 Game::~Game() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
+    ImGui::DestroyContext();
 
-	_window.reset();
+    _window.reset();
 
     SDL_Quit();
 }
@@ -56,22 +51,45 @@ void Game::Run() {
             if (event.type == SDL_QUIT)
                 running = false;
 
-			ImGui_ImplSDL2_ProcessEvent(&event);
+            ImGui_ImplSDL2_ProcessEvent(&event);
         }
 
-		ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window.get()));
-		ImGui::NewFrame();
-		ImGui::ShowDemoWindow();
+        ImGui::NewFrame();
 
-		ImGui::Render();
+        // ImGui::ShowDemoWindow();
 
-		ImGuiIO& io = ImGui::GetIO();
-		glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+        if (_p3d != nullptr) {
+            ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Always);
+            ImGui::Begin("wrench.p3d");
+
+			const auto traverse_chunk = [&](const auto& self, Pure3D::Chunk& chunk) -> void {
+                std::ostringstream name;
+                name << chunk.GetType();
+
+                if (ImGui::TreeNode(&chunk, name.str().c_str())) {
+                    for (std::unique_ptr<Pure3D::Chunk>& child : chunk.GetChildren()) {
+                        self(self, *child.get());
+					}
+
+                    ImGui::TreePop();
+                }
+            };
+
+			traverse_chunk(traverse_chunk, _p3d->GetRoot());
+
+            ImGui::End();
+        }
+
+        ImGui::Render();
+
+        ImGuiIO& io = ImGui::GetIO();
+        glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         _window->Swap();
     }
 }
