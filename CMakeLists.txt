@@ -19,6 +19,7 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 
+add_subdirectory(thirdparty)
 add_subdirectory(src)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
