@@ -23,8 +23,8 @@ Game::Game(int argc, char** argv) {
                                  static_cast<SDL_GLContext*>(*_window.get()));
     ImGui_ImplOpenGL3_Init("#version 130");
 
-    if (std::filesystem::exists("wrench.p3d")) {
-        File file("wrench.p3d", FileMode::Read);
+    if (std::filesystem::exists("homer_m.p3d")) {
+        File file("homer_m.p3d", FileMode::Read);
 
         _p3d = std::make_unique<Pure3D::Pure3D>();
         _p3d->LoadFromFile(file);
@@ -59,28 +59,7 @@ void Game::Run() {
         ImGui::NewFrame();
 
         if (_p3d != nullptr) {
-            ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Always);
-            ImGui::Begin("wrench.p3d");
-
-			const auto traverse_chunk = [&](const auto& self, Pure3D::Chunk& chunk) -> void {
-                std::ostringstream name;
-                name << chunk.GetType();
-
-                if (ImGui::TreeNode(&chunk, name.str().c_str())) {
-                    ImGui::TextDisabled("Type ID: %lx", chunk.GetType());
-                    ImGui::TextDisabled("Data Size: %db", chunk.GetData().size());
-
-					for (std::unique_ptr<Pure3D::Chunk>& child : chunk.GetChildren()) {
-                        self(self, *child.get());
-					}
-
-                    ImGui::TreePop();
-                }
-            };
-
-			traverse_chunk(traverse_chunk, _p3d->GetRoot());
-
-            ImGui::End();
+            debugDrawP3D("homer_m.p3d", *_p3d);
         }
 
         ImGui::Render();
@@ -93,6 +72,32 @@ void Game::Run() {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         _window->Swap();
     }
+}
+
+void Game::debugDrawP3D(const std::string& name, const Pure3D::Pure3D& p3d)
+{
+    ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
+    ImGui::Begin(name.c_str());
+
+    const auto traverse_chunk = [&](const auto& self, Pure3D::Chunk& chunk) -> void {
+        std::ostringstream name;
+        name << chunk.GetType();
+
+        if (ImGui::TreeNode(&chunk, name.str().c_str())) {
+            ImGui::TextDisabled("Type ID: %lx", chunk.GetType());
+            ImGui::TextDisabled("Data Size: %db", chunk.GetData().size());
+
+            for (std::unique_ptr<Pure3D::Chunk>& child : chunk.GetChildren()) {
+                self(self, *child.get());
+            }
+
+            ImGui::TreePop();
+        }
+    };
+
+    traverse_chunk(traverse_chunk, _p3d->GetRoot());
+
+    ImGui::End();
 }
 
 } // namespace Donut
