@@ -68,7 +68,8 @@ void Game::Run() {
                 std::ostringstream name;
                 name << chunk.GetType();
 
-                if (ImGui::TreeNode(&chunk, name.str().c_str())) {
+				ImGuiTreeNodeFlags_ flags = chunk.GetChildren().empty() ? ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_None;
+                if (ImGui::TreeNodeEx(&chunk, flags, name.str().c_str())) {
                     for (std::unique_ptr<Pure3D::Chunk>& child : chunk.GetChildren()) {
                         self(self, *child.get());
 					}
