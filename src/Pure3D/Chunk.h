@@ -115,8 +115,6 @@ public:
     }
 
 protected:
-    void readChildren(const File&, std::uint32_t size);
-
     ChunkType _type;
     std::vector<uint8_t> _data;
     std::vector<std::unique_ptr<Chunk>> _children;

@@ -3,28 +3,24 @@
 namespace Donut::Pure3D {
 
 void Chunk::Read(const File& file) {
-    std::uint32_t dataSize, totalSize;
+    const std::size_t startOff = file.Position();
 
+	// every chunk has these properties
+    std::uint32_t dataSize, totalSize;
     file.Read<ChunkType>(&_type);
     file.Read<uint32_t>(&dataSize);
     file.Read<uint32_t>(&totalSize);
 
-    // read the data
+    // read chunk specific data
     _data.resize(dataSize - 12);
     file.ReadBytes(_data.data(), dataSize - 12);
 
-    readChildren(file, totalSize - dataSize);
-}
-
-void Chunk::readChildren(const File& file, std::uint32_t size) {
-    if (size <= 0)
-        return;
-
-    uint32_t endPos = file.Position() + size;
+	// read all children chunks
+    const std::size_t endPos = startOff + totalSize;
     while (file.Position() < endPos) {
         _children.push_back(std::make_unique<Chunk>());
         _children.back()->Read(file);
-    }
+	}
 }
 
 std::ostream& operator<<(std::ostream& os, ChunkType chunktype) {
@@ -200,7 +196,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype) {
     case ChunkType::P3DRoot:
         return os << "P3DRoot";
     };
-    return os << "Unknown " << std::hex << std::showbase << static_cast<std::uint32_t>(chunktype) << std::dec << std::noshowbase;
+    return os << "Unknown " << std::hex << std::showbase << static_cast<std::uint32_t>(chunktype)
+              << std::dec << std::noshowbase;
 }
 
 } // namespace Donut::Pure3D
