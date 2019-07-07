@@ -200,7 +200,7 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype) {
     case ChunkType::P3DRoot:
         return os << "P3DRoot";
     };
-    return os << static_cast<std::uint32_t>(chunktype);
+    return os << "Unknown " << std::hex << std::showbase << static_cast<std::uint32_t>(chunktype) << std::dec << std::noshowbase;
 }
 
 } // namespace Donut::Pure3D
