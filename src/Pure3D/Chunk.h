@@ -107,6 +107,9 @@ public:
     bool IsType(ChunkType type) {
         return _type == type;
     }
+    std::vector<uint8_t>& GetData() {
+        return _data;
+    }
     std::vector<std::unique_ptr<Chunk>>& GetChildren() {
         return _children;
     }
