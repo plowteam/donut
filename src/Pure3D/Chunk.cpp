@@ -10,7 +10,7 @@ void Chunk::Read(const File& file) {
     file.Read<uint32_t>(&totalSize);
 
     // read the data
-    _data.resize(dataSize);
+    _data.resize(dataSize - 12);
     file.ReadBytes(_data.data(), dataSize - 12);
 
     readChildren(file, totalSize - dataSize);
