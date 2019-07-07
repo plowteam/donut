@@ -32,6 +32,14 @@ public:
 	void Close();
 
 	template <typename T>
+	std::size_t Read(T* data) const
+	{
+		assert(_file != nullptr);
+		static_assert(std::is_trivially_copyable_v<T>, "T must be trivially copyable");
+		return std::fread(data, sizeof(T), 1, _file);
+	}
+
+	template <typename T>
 	std::size_t Read(T* data, std::size_t length) const
 	{
 		assert(_file != nullptr);
