@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 
+#include <glad/glad.h>
+
 namespace Donut {
 
 const std::string kWindowTitle = "donut";
@@ -41,6 +43,9 @@ void Game::Run() {
             if (event.type == SDL_QUIT)
                 running = false;
         }
+
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
         _window->Swap();
     }
