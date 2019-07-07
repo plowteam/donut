@@ -58,8 +58,6 @@ void Game::Run() {
         ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window.get()));
         ImGui::NewFrame();
 
-        // ImGui::ShowDemoWindow();
-
         if (_p3d != nullptr) {
             ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Always);
             ImGui::Begin("wrench.p3d");
@@ -68,9 +66,11 @@ void Game::Run() {
                 std::ostringstream name;
                 name << chunk.GetType();
 
-				ImGuiTreeNodeFlags_ flags = chunk.GetChildren().empty() ? ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_None;
-                if (ImGui::TreeNodeEx(&chunk, flags, name.str().c_str())) {
-                    for (std::unique_ptr<Pure3D::Chunk>& child : chunk.GetChildren()) {
+                if (ImGui::TreeNode(&chunk, name.str().c_str())) {
+                    ImGui::TextDisabled("Type ID: %lx", chunk.GetType());
+                    ImGui::TextDisabled("Data Size: %db", chunk.GetData().size());
+
+					for (std::unique_ptr<Pure3D::Chunk>& child : chunk.GetChildren()) {
                         self(self, *child.get());
 					}
 
