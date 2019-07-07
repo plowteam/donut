@@ -17,6 +17,8 @@ class Pure3D
 public:
 	Pure3D();
 	void LoadFromFile(File&);
+
+	Chunk& GetRoot() { return _root; }
 protected:
 	Chunk _root;
 };

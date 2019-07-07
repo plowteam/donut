@@ -4,6 +4,7 @@
 
 #include <Pure3D/Pure3D.h>
 
+#include <iostream>
 #include <string>
 
 namespace Donut {
@@ -20,6 +21,11 @@ Game::Game(int argc, char** argv) {
 		Pure3D::Pure3D p3d;
 		p3d.LoadFromFile(file);
 		file.Close();
+
+		const auto& chunks = p3d.GetRoot().GetChildren();
+		for (const auto& chunk : chunks) {
+			std::cout << chunk->GetType() << std::endl;
+		}
 	}
 }
 
