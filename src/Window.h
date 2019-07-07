@@ -9,11 +9,11 @@ struct SDLDestroyer {
         SDL_DestroyWindow(window);
     }
     void operator()(SDL_Renderer* renderer) const {
-		SDL_DestroyRenderer(renderer);
+        SDL_DestroyRenderer(renderer);
     }
-	void operator()(SDL_GLContext* glcontext) const {
-		SDL_GL_DeleteContext(*glcontext);
-	}
+    void operator()(SDL_GLContext* glcontext) const {
+        SDL_GL_DeleteContext(*glcontext);
+    }
 };
 
 namespace Donut {
@@ -35,8 +35,8 @@ public:
     void Swap();
 
 private:
-	std::unique_ptr<SDL_Window, SDLDestroyer> _window;
-	std::unique_ptr<SDL_Renderer, SDLDestroyer> _renderer;
+    std::unique_ptr<SDL_Window, SDLDestroyer> _window;
+    std::unique_ptr<SDL_Renderer, SDLDestroyer> _renderer;
     std::unique_ptr<SDL_GLContext, SDLDestroyer> _glContext;
 };
 } // namespace Donut
