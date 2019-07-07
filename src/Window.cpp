@@ -1,6 +1,7 @@
 #include <Window.h>
 
 #include <iostream>
+#include <glad/glad.h>
 
 namespace Donut {
 
@@ -41,6 +42,32 @@ Window::Window(const std::string& title, const int width, const int height) {
     }
 
     _window = std::move(window);
+
+	SDL_Renderer* renderer = SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED);
+
+	if (renderer == nullptr) {
+		std::cerr << "SDL2 Renderer couldn't be created. Error: "
+			<< SDL_GetError()
+			<< std::endl;
+		exit(1);
+	}
+
+	_renderer = std::move(std::unique_ptr<SDL_Renderer, SDLDestroyer>(renderer));
+
+	auto context = SDL_GL_CreateContext(_window.get());
+
+	// Create a OpenGL context on SDL2
+	_glContext = std::move(std::unique_ptr<SDL_GLContext, SDLDestroyer>(&context));
+
+	// Load GL extensions using glad
+	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+		std::cerr << "Failed to initialize the OpenGL context." << std::endl;
+		exit(1);
+	}
+
+	// Loaded OpenGL successfully.
+	std::cout << "OpenGL version loaded: " << GLVersion.major << "."
+		<< GLVersion.minor << std::endl;
 }
 
 void Window::SetTitle(const std::string& title) {
