@@ -42,19 +42,4 @@ if (WIN32)
 	set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 endif (WIN32)
 
-function(create_target_directory_groups target_name)
-    # Place any files that aren't in the source list in a separate group so that they don't get in
-    # the way.
-    source_group("Other Files" REGULAR_EXPRESSION ".")
-
-    get_target_property(target_sources "${target_name}" SOURCES)
-
-    foreach(file_name IN LISTS target_sources)
-        get_filename_component(dir_name "${file_name}" PATH)
-        # Group names use '\' as a separator even though the entire rest of CMake uses '/'...
-        string(REPLACE "/" "\\" group_name "${dir_name}")
-        source_group("${group_name}" FILES "${file_name}")
-    endforeach()
-endfunction()
-
-create_target_directory_groups(${PROJECT_NAME})
+source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${DONUT_SOURCES} ${DONUT_HEADERS})
