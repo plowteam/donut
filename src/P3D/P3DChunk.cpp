@@ -1,25 +1,28 @@
-#include <Pure3D/Chunk.h>
+#include <P3D/P3DChunk.h>
 
-namespace Donut::Pure3D {
+namespace Donut::P3D {
 
-void Chunk::Read(const File& file) {
-    const std::size_t startOff = file.Position();
+P3DChunk::P3DChunk(const std::vector<std::uint8_t>& chunk) {
+    // minimum size of a chunk
+    assert(chunk.size() >= 12);
 
-	// every chunk has these properties
-    std::uint32_t dataSize, totalSize;
-    file.Read<ChunkType>(&_type);
-    file.Read<uint32_t>(&dataSize);
-    file.Read<uint32_t>(&totalSize);
+    _type = *reinterpret_cast<const ChunkType*>(&chunk[0]);
 
-    // read chunk specific data
-    _data.resize(dataSize - 12);
-    file.ReadBytes(_data.data(), dataSize - 12);
+    const std::uint32_t dataSize = *reinterpret_cast<const std::uint32_t*>(&chunk[4]);
+    const std::uint32_t totalSize = *reinterpret_cast<const std::uint32_t*>(&chunk[8]);
 
-	// read all children chunks
-    const std::size_t endPos = startOff + totalSize;
-    while (file.Position() < endPos) {
-        _children.push_back(std::make_unique<Chunk>());
-        _children.back()->Read(file);
+    // define our data and ignore the first 12 bytes
+    _data = std::vector<std::uint8_t>(chunk.begin() + 12, chunk.begin() + dataSize);
+
+    auto it = std::next(chunk.begin(), dataSize);
+    while (it < chunk.end()) {
+		// cheat a little and get the chunks size so we can advance our stream
+        const std::uint32_t tSize = *reinterpret_cast<const std::uint32_t*>(&it[8]);
+
+		const auto cChunkData = std::vector<std::uint8_t>(it, std::next(it, tSize));
+        _children.push_back(std::make_unique<P3DChunk>(cChunkData));
+
+		std::advance(it, tSize);
 	}
 }
 
@@ -200,4 +203,4 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype) {
               << std::dec << std::noshowbase;
 }
 
-} // namespace Donut::Pure3D
+} // namespace Donut::P3D

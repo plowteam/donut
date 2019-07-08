@@ -4,7 +4,7 @@
 #include <vector>
 #include <File.h>
 
-namespace Donut::Pure3D {
+namespace Donut::P3D {
 
 enum class ChunkType : uint32_t {
     Camera = 0x2200,
@@ -97,27 +97,27 @@ enum class ChunkType : uint32_t {
 
 std::ostream& operator<<(std::ostream& os, ChunkType chunktype);
 
-class Chunk {
+class P3DChunk {
 public:
-    void Read(const File&);
+    P3DChunk(const std::vector<std::uint8_t>&);
 
-    ChunkType GetType() {
+    ChunkType GetType() const {
         return _type;
     }
-    bool IsType(ChunkType type) {
+    bool IsType(ChunkType type) const {
         return _type == type;
     }
-    std::vector<uint8_t>& GetData() {
+    const std::vector<std::uint8_t>& GetData() const {
         return _data;
     }
-    std::vector<std::unique_ptr<Chunk>>& GetChildren() {
+    const std::vector<std::unique_ptr<P3DChunk>>& GetChildren() const {
         return _children;
     }
 
 protected:
     ChunkType _type;
-    std::vector<uint8_t> _data;
-    std::vector<std::unique_ptr<Chunk>> _children;
+    std::vector<std::uint8_t> _data;
+    std::vector<std::unique_ptr<P3DChunk>> _children;
 };
 
-} // namespace Donut::Pure3D
+} // namespace Donut::P3D

@@ -10,6 +10,8 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl.h>
 
+#include <P3D/Loaders/PolySkinLoader.h>
+
 namespace Donut {
 
 const std::string kWindowTitle = "donut";
@@ -23,14 +25,7 @@ Game::Game(int argc, char** argv) {
                                  static_cast<SDL_GLContext*>(*_window.get()));
     ImGui_ImplOpenGL3_Init("#version 130");
 
-    if (std::filesystem::exists("homer_m.p3d")) {
-        File file("homer_m.p3d", FileMode::Read);
-
-        _p3d = std::make_unique<Pure3D::Pure3D>();
-        _p3d->LoadFromFile(file);
-
-        file.Close();
-    }
+    createMesh();
 }
 
 Game::~Game() {
@@ -74,12 +69,24 @@ void Game::Run() {
     }
 }
 
-void Game::debugDrawP3D(const std::string& name, const Pure3D::Pure3D& p3d)
-{
+void Game::createMesh() {
+    _p3d = std::make_unique<P3D::P3DFile>("homer_m.p3d");
+
+	const auto& root = _p3d->GetRoot();
+    for (const auto& chunk : root.GetChildren()) {
+        if (chunk->IsType(P3D::ChunkType::PolySkin)) {
+            P3D::PolySkinLoader loader;
+            loader.Load(*chunk.get());
+		}
+	}
+}
+
+void Game::debugDrawP3D(const std::string& name, const P3D::P3DFile& p3d) {
     ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
     ImGui::Begin(name.c_str());
 
-    const auto traverse_chunk = [&](const auto& self, Pure3D::Chunk& chunk) -> void {
+	ImGui::SetNextItemOpen(true); // open the root node
+    const auto traverse_chunk = [&](const auto& self, P3D::P3DChunk& chunk) -> void {
         std::ostringstream name;
         name << chunk.GetType();
 
@@ -87,8 +94,8 @@ void Game::debugDrawP3D(const std::string& name, const Pure3D::Pure3D& p3d)
             ImGui::TextDisabled("Type ID: %lx", chunk.GetType());
             ImGui::TextDisabled("Data Size: %db", chunk.GetData().size());
 
-            for (std::unique_ptr<Pure3D::Chunk>& child : chunk.GetChildren()) {
-                self(self, *child.get());
+            for (auto& child : chunk.GetChildren()) {
+                self(self, *child);
             }
 
             ImGui::TreePop();

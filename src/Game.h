@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <Pure3D/Pure3D.h>
+#include <P3D/P3DFile.h>
 
 namespace Donut {
 
@@ -18,10 +18,11 @@ public:
 
     void Run();
 private:
-    void debugDrawP3D(const std::string&, const Pure3D::Pure3D&);
+    void createMesh();
+    void debugDrawP3D(const std::string&, const P3D::P3DFile&);
 
     std::unique_ptr<Window> _window;
-    std::unique_ptr<Pure3D::Pure3D> _p3d;
+    std::unique_ptr<P3D::P3DFile> _p3d;
 };
 
 } // namespace Donut
