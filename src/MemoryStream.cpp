@@ -9,7 +9,7 @@ MemoryStream::MemoryStream(const std::vector<std::uint8_t>& data)
 	_position = _data.begin();
 }
 
-void MemoryStream::Read(void* dest, std::size_t length)
+void MemoryStream::ReadBytes(std::uint8_t* dest, std::size_t length)
 {
 	// check cur + length doesn't exceed size
 
@@ -18,6 +18,17 @@ void MemoryStream::Read(void* dest, std::size_t length)
 
 	// advance our current position iterator
 	std::advance(_position, length);
+}
+
+std::string MemoryStream::ReadLPString()
+{
+	std::uint8_t length = Read<std::uint8_t>();
+
+	std::string ret;
+	ret.resize(length);
+
+	ReadBytes((uint8_t*)ret.data(), length);
+	return ret;
 }
 
 void MemoryStream::Seek(std::size_t position, SeekMode mode)

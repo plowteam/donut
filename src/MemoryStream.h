@@ -14,7 +14,17 @@ public:
 	MemoryStream(const std::vector<std::uint8_t>&);
     // MemoryStream(std::uint8_t* data, std::size_t);
 
-	void Read(void* dest, std::size_t length);
+	void ReadBytes(std::uint8_t* dest, std::size_t length);
+
+	template <typename T>
+    T Read() {
+		std::uint8_t* ptr = &(*_position); // this looks like shit v
+		T ret = *reinterpret_cast<T*>(ptr);
+		std::advance(_position, sizeof(T));
+		return ret;
+    }
+
+	std::string ReadLPString();
 
     void Seek(std::size_t position, SeekMode mode);
     std::size_t Position() { return std::distance(_data.begin(), _position); }
