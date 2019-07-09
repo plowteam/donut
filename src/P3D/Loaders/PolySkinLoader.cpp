@@ -1,5 +1,6 @@
 #include <P3D/Loaders/PolySkinLoader.h>
 #include <MemoryStream.h>
+#include <iostream>
 
 namespace Donut::P3D {
 
@@ -9,7 +10,6 @@ std::unique_ptr<PolySkin> PolySkinLoader::Load(const P3DChunk& chunk)
 
 	MemoryStream stream(chunk.GetData());
 
-	//std::uint8_t nameLen;
 	std::string name = stream.ReadLPString();
 	std::uint32_t version = stream.Read<std::uint32_t>();
 	std::string skeletonName = stream.ReadLPString();
@@ -17,12 +17,22 @@ std::unique_ptr<PolySkin> PolySkinLoader::Load(const P3DChunk& chunk)
 
 	printf("PolySkin %s (Version %x): Skeleton %s, %d Prim Groups\n", name.c_str(), version, skeletonName.c_str(), numPrimGroups);
 
-	// Children Chunks:
-	// PrimGroups
-    // BoundingBox (0x10003)
-    // BoundingSphere (0x10004)
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch(child->GetType())
+		{
+			case ChunkType::PrimitiveGroup:
+			case ChunkType::BoundingBox:
+			case ChunkType::BoundingSphere:
+			std::cout << "\t" << child->GetType() << " unimplemented.\n";
+			break;
+			default:
+			std::cout << "\tUnexpected Chunk: " << child->GetType() << "\n";
+		}
 
-    return std::make_unique<PolySkin>();
+	}
+
+    return std::make_unique<PolySkin>(name, skeletonName);
 }
 
 } // namespace Donut::P3D

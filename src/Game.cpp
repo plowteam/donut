@@ -76,7 +76,9 @@ void Game::createMesh() {
     for (const auto& chunk : root.GetChildren()) {
         if (chunk->IsType(P3D::ChunkType::PolySkin)) {
             P3D::PolySkinLoader loader;
-            loader.Load(*chunk.get());
+            auto polySkin = loader.Load(*chunk.get());
+
+			std::cout << "PolySkin " << polySkin->GetName() << "\n";
 		}
 	}
 }
@@ -90,9 +92,9 @@ void Game::debugDrawP3D(const std::string& name, const P3D::P3DFile& p3d) {
         std::ostringstream name;
         name << chunk.GetType();
 
-        if (ImGui::TreeNode(&chunk, name.str().c_str())) {
-            ImGui::TextDisabled("Type ID: %lx", chunk.GetType());
-            ImGui::TextDisabled("Data Size: %db", chunk.GetData().size());
+        if (ImGui::TreeNode(&chunk, "%s", name.str().c_str())) {
+            ImGui::TextDisabled("Type ID: %x", static_cast<std::uint32_t>(chunk.GetType()));
+            ImGui::TextDisabled("Data Size: %ldb", chunk.GetData().size());
 
             for (auto& child : chunk.GetChildren()) {
                 self(self, *child);
