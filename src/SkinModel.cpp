@@ -58,28 +58,30 @@ void SkinModel::createMesh() {
     std::vector<Vertex> allVerts;
     std::vector<std::uint32_t> allIndices;
 
-	std::uint32_t vertOffset = 0;
+    std::uint32_t vertOffset = 0;
     for (auto const& prim : _polySkin->GetPrimGroups()) {
         auto verts = prim->GetVerticies();
         auto normals = prim->GetNormals();
         auto indices = prim->GetIndices();
 
-		for (std::uint32_t i = 0; i < verts.size(); i++) {
+        for (std::uint32_t i = 0; i < verts.size(); i++) {
             allVerts.push_back(Vertex{verts[i], normals[i]});
-		}
+        }
 
-		for (std::uint32_t i = 0; i < indices.size(); i++) {
+        for (std::uint32_t i = 0; i < indices.size(); i++) {
             allIndices.push_back(indices[i] + vertOffset);
         }
 
-		vertOffset += verts.size();
+        vertOffset += verts.size();
     }
 
-	glGenVertexArrays(1, &_vertexArrayObject);
+    glGenVertexArrays(1, &_vertexArrayObject);
     glBindVertexArray(_vertexArrayObject);
 
-	_vertexBuffer = std::make_unique<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
-    _indexBuffer = std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
+    _vertexBuffer =
+        std::make_unique<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
+    _indexBuffer =
+        std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(glm::vec3));
     glEnableVertexAttribArray(0);
@@ -89,15 +91,32 @@ void SkinModel::createMesh() {
 }
 
 void SkinModel::Draw(glm::mat4& viewProj) {
-	_shader->Bind();
+    _shader->Bind();
     _shader->SetUniformValue("viewProj", viewProj);
 
     glBindVertexArray(_vertexArrayObject);
 
-	std::uint32_t idxOffset = 0;
-	for (auto const& prim : _polySkin->GetPrimGroups()) {
+    std::uint32_t idxOffset = 0;
+    for (auto const& prim : _polySkin->GetPrimGroups()) {
         auto indicesSize = prim->GetIndices().size();
-        glDrawElements(GL_TRIANGLE_STRIP, indicesSize, _indexBuffer->GetType(), (void*)(idxOffset*4));
+
+        GLenum mode = GL_TRIANGLE_STRIP;
+		switch (prim->GetPrimitiveType()) {
+		case P3D::PrimGroup::PrimitiveType::TriangleStrip:
+            mode = GL_TRIANGLE_STRIP;
+            break;
+        case P3D::PrimGroup::PrimitiveType::TriangleList:
+            mode = GL_TRIANGLES;
+            break;
+        case P3D::PrimGroup::PrimitiveType::LineStrip:
+            mode = GL_LINE_STRIP;
+            break;
+        case P3D::PrimGroup::PrimitiveType::LineList:
+            mode = GL_LINES;
+            break;
+		}
+
+        glDrawElements(mode, indicesSize, _indexBuffer->GetType(), (void*)(idxOffset * 4));
         idxOffset += indicesSize;
     }
 
