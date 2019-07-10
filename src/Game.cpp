@@ -36,6 +36,9 @@ Game::Game(int argc, char** argv) {
     glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0,
                           GL_FALSE);
 
+	glEnable(GL_TEXTURE_1D);
+	glEnable(GL_TEXTURE_2D);
+
     ImGui::CreateContext();
     ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window.get()),
                                  static_cast<SDL_GLContext*>(*_window.get()));

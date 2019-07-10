@@ -1,5 +1,7 @@
 #include <iostream>
 #include <SkinModel.h>
+#include "glm/gtx/transform.hpp"
+
 namespace Donut {
 
 SkinModel::SkinModel(const std::string& filename) : _filename(filename) {
@@ -45,8 +47,9 @@ std::string vertexShader = R"glsl(
 
 	void main()
 	{
+		mat4 boneMarix = GetMatrix(0);
 		Normal = normal;
-		gl_Position = viewProj * vec4(position, 1.0);
+		gl_Position = viewProj * (boneMarix * vec4(position, 1.0));
 	}
 )glsl";
 
@@ -94,6 +97,12 @@ void SkinModel::createMesh() {
     _indexBuffer =
         std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
 
+	_boneBuffer = std::make_unique<GL::TextureBuffer>();
+	_boneMatrices.resize(1, glm::mat4(1.0f));
+	//glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 3.14f, glm::vec3(0, 1, 0));
+	//_boneMatrices[0] = rotationMatrix;
+	_boneBuffer->SetBuffer(_boneMatrices.data(), _boneMatrices.size() * sizeof(glm::mat4));
+
 	int ptr = 0;
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
     ptr += sizeof(glm::vec3);
@@ -115,7 +124,10 @@ void SkinModel::createMesh() {
 void SkinModel::Draw(glm::mat4& viewProj) {
     _shader->Bind();
     _shader->SetUniformValue("viewProj", viewProj);
-    //_shader->SetUniformValue("boneBuffer", nullptr); // TODO
+
+	glActiveTexture(GL_TEXTURE1);
+	_boneBuffer->Bind();
+	_shader->SetUniformValue("boneBuffer", 1);
 
     glBindVertexArray(_vertexArrayObject);
 

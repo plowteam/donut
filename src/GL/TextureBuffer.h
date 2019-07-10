@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glad/glad.h>
 #include <vector>
 
 namespace Donut::GL {
@@ -12,7 +13,7 @@ public:
 
         typedef std::vector<unsigned char> Buffer;
 
-        unsigned int m_target;
+		GLuint m_target;
         Buffer m_buffer;
     };
 

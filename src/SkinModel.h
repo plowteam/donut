@@ -3,6 +3,7 @@
 #include <GL/ShaderProgram.h>
 #include <GL/IndexBuffer.h>
 #include <GL/VertexBuffer.h>
+#include <GL/TextureBuffer.h>
 #include <P3D/P3DFile.h>
 #include <P3D/PolySkin.h>
 #include <P3D/Loaders/PolySkinLoader.h>
@@ -40,6 +41,9 @@ private:
     GLuint _vertexArrayObject;
     std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
     std::unique_ptr<GL::IndexBuffer> _indexBuffer;
+
+	std::unique_ptr<GL::TextureBuffer> _boneBuffer;
+	std::vector<glm::mat4> _boneMatrices;
 };
 
 } // namespace Donut

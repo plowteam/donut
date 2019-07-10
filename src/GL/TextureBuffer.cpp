@@ -16,6 +16,10 @@ TextureBuffer::~TextureBuffer() {
 void TextureBuffer::Load() {
     glGenTextures(1, &m_handle);
     glGenBuffers(1, &m_bufferHandle);
+
+	glBindBuffer(m_data.m_target, m_bufferHandle);
+	glBufferData(m_data.m_target, 0, 0, GL_DYNAMIC_READ);
+	glBindBuffer(m_data.m_target, 0);
 	
 	glBindTexture(m_data.m_target, m_handle);
     glTexBuffer(m_data.m_target, GL_RGBA32F, m_bufferHandle);
