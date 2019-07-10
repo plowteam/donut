@@ -35,7 +35,10 @@ public:
 	std::vector<glm::vec3>& GetVerticies() { return _verticies; }
 	std::vector<uint32_t>& GetIndices() { return _indices; }
 	std::vector<glm::vec3>& GetNormals() { return _normals; }
-	std::vector<glm::vec2>& GetUV() { return _uvs;; }
+	std::vector<glm::vec2>& GetUV() { return _uvs; }
+	std::vector<glm::vec3>& GetWeights() { return _weights; }
+	std::vector<uint8_t>& GetMatrixList() { return _matrixList; }
+	std::vector<uint32_t>& GetMatrixPalette() { return _matrixPalette; }
 
 private:
     std::string _shaderName;
@@ -43,7 +46,10 @@ private:
     std::vector<glm::vec3> _verticies;
     std::vector<uint32_t> _indices;
     std::vector<glm::vec3> _normals;
-    std::vector<glm::vec2> _uvs;
+	std::vector<glm::vec2> _uvs;
+	std::vector<glm::vec3> _weights;
+	std::vector<uint8_t> _matrixList;
+	std::vector<uint32_t> _matrixPalette;
 };
 
 } // namespace Donut::P3D
