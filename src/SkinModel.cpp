@@ -93,7 +93,14 @@ void SkinModel::Draw(glm::mat4& viewProj) {
     _shader->SetUniformValue("viewProj", viewProj);
 
     glBindVertexArray(_vertexArrayObject);
-    glDrawElements(GL_TRIANGLE_STRIP, _indexBuffer->GetCount(), _indexBuffer->GetType(), 0);
+
+	std::uint32_t idxOffset = 0;
+	for (auto const& prim : _polySkin->GetPrimGroups()) {
+        auto indicesSize = prim->GetIndices().size();
+        glDrawElements(GL_TRIANGLE_STRIP, indicesSize, _indexBuffer->GetType(), (void*)(idxOffset*4));
+        idxOffset += indicesSize;
+    }
+
     glBindVertexArray(0);
 }
 
