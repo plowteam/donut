@@ -141,7 +141,7 @@ void Game::Run() {
         glm::mat4 mvp = projectionMatrix * viewMatrix * glm::mat4(1.0f);
 
 		// bind to texture 0 for now
-		_textures["char_swatches1.bmp"]->Bind(0);
+		_textures["char_swatches_lit.bmp"]->Bind(0);
         if (_skinModel != nullptr)
             _skinModel->Draw(mvp);
 

@@ -29,9 +29,11 @@ std::string vertexShader = R"glsl(
 
 	in vec3 position;
 	in vec3 normal;
+	in vec2 uv;
 	in vec3 boneWeights;
 	in ivec3 boneIndices;
 
+	out vec2 texCoord;
 	out vec3 Normal;
 
 	uniform mat4 viewProj;
@@ -48,6 +50,7 @@ std::string vertexShader = R"glsl(
 	void main()
 	{
 		mat4 boneMarix = GetMatrix(0);
+		texCoord = uv;
 		Normal = normal;
 		gl_Position = viewProj * (boneMarix * vec4(position, 1.0));
 	}
@@ -56,13 +59,22 @@ std::string vertexShader = R"glsl(
 std::string fragmentShader = R"glsl(
 	#version 150 core
 
+	uniform sampler2D diffuseTex;
+
+	in vec2 texCoord;
 	in vec3 Normal;
 	out vec4 outColor;
 
 	void main()
 	{
-		vec3 rgb_normal = Normal * 0.5 + 0.5;
-		outColor = vec4(rgb_normal, 1.0);
+	    vec3 n = normalize(Normal);
+	    vec3 light0Position = normalize(vec3(-0.4, 0.5, -0.6));
+	    float NdotL0 = clamp(dot(n, light0Position), 0.0, 1.0);
+	    vec3 diffuse = vec3(NdotL0 + 0.5);
+	    diffuse.rgb = clamp(diffuse.rgb, 0.0, 1.0);
+        vec3 diffuseColor = texture2D(diffuseTex, texCoord).rgb;
+
+        outColor = vec4(diffuseColor * diffuse, 1.0);
 	}
 )glsl";
 
@@ -75,11 +87,12 @@ void SkinModel::createMesh() {
     std::uint32_t vertOffset = 0;
     for (auto const& prim : _polySkin->GetPrimGroups()) {
         auto verts = prim->GetVerticies();
-        auto normals = prim->GetNormals();
+		auto uvs = prim->GetUV();
+		auto normals = prim->GetNormals();
         auto indices = prim->GetIndices();
 
         for (std::uint32_t i = 0; i < verts.size(); i++) {
-            allVerts.push_back(Vertex{verts[i], normals[i]});
+            allVerts.push_back(Vertex{verts[i], normals[i], glm::vec2(uvs[i].x, 1.0f - uvs[i].y)});
         }
 
         for (std::uint32_t i = 0; i < indices.size(); i++) {
@@ -106,17 +119,20 @@ void SkinModel::createMesh() {
 	int ptr = 0;
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
     ptr += sizeof(glm::vec3);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
+	ptr += sizeof(glm::vec3);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
+    ptr += sizeof(glm::vec2);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
     ptr += sizeof(glm::vec3);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
-    ptr += sizeof(glm::vec3);
-    glVertexAttribIPointer(3, 3, GL_INT, sizeof(Vertex), (GLvoid*)ptr);
+    glVertexAttribIPointer(4, 3, GL_INT, sizeof(Vertex), (GLvoid*)ptr);
     ptr += sizeof(glm::ivec3);
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
-    glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(4);
 
     glBindVertexArray(0);
 }
