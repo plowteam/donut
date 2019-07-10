@@ -53,6 +53,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 		case ChunkType::UVList:
 		{
             std::uint32_t len = data.Read<std::uint32_t>();
+			std::uint32_t channel = data.Read<std::uint32_t>();
 
             auto& uvs = primGroup->GetUV();
             uvs.resize(len);
