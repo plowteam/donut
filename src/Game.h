@@ -17,6 +17,8 @@ public:
     }
 
     void Run();
+    void LoadModel(const std::string&);
+
 private:
     void debugDrawP3D(const P3D::P3DFile&);
 

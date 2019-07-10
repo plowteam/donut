@@ -31,7 +31,7 @@ Game::Game(int argc, char** argv) {
     _camPos = glm::vec3(0.0f, 2.0f, -2.0f);
     _lookAt = glm::vec3(0.0f, 1.15f, 0.0f);
 
-	glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
     glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0,
                           GL_FALSE);
@@ -41,7 +41,7 @@ Game::Game(int argc, char** argv) {
                                  static_cast<SDL_GLContext*>(*_window.get()));
     ImGui_ImplOpenGL3_Init("#version 130");
 
-	_skinModel = std::make_unique<SkinModel>("homer_m.p3d");
+	LoadModel("homer_m.p3d");
 }
 
 Game::~Game() {
@@ -52,6 +52,13 @@ Game::~Game() {
     _window.reset();
 
     SDL_Quit();
+}
+
+void Game::LoadModel(const std::string& name) {
+    if (_skinModel != nullptr)
+	    _skinModel.reset();
+
+    _skinModel = std::make_unique<SkinModel>(name);
 }
 
 void Game::Run() {
@@ -69,27 +76,40 @@ void Game::Run() {
         ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window.get()));
         ImGui::NewFrame();
 
-        debugDrawP3D(_skinModel->GetP3DFile());
+		std::vector<std::string> models{"homer_m.p3d", "marge_m.p3d", "bart_m.p3d", "barney_m.p3d", "carl_m.p3d", "hooker_m.p3d"};
+
+		ImGui::BeginMainMenuBar();
+        for (auto const& model : models) {
+            if (ImGui::Button(model.c_str()))
+                LoadModel(model.c_str());
+		}
+
+		ImGui::EndMainMenuBar();
+
+        if (_skinModel != nullptr)
+            debugDrawP3D(_skinModel->GetP3DFile());
+
         ImGui::Begin("Camera");
         ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);
         ImGui::SliderFloat3("lookat", &_lookAt[0], -10.0f, 10.f);
-		ImGui::End();
+        ImGui::End();
 
         ImGui::Render();
 
         ImGuiIO& io = ImGui::GetIO();
         glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-        glEnable(GL_DEPTH_TEST);  
+        glEnable(GL_DEPTH_TEST);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projectionMatrix = glm::perspective(
+        glm::mat4 projectionMatrix = glm::perspective(
             glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.0f);
 
-		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
+        glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
         glm::mat4 mvp = projectionMatrix * viewMatrix * glm::mat4(1.0f);
-		
-		_skinModel->Draw(mvp);
+
+        if (_skinModel != nullptr)
+            _skinModel->Draw(mvp);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         _window->Swap();
@@ -100,7 +120,7 @@ void Game::debugDrawP3D(const P3D::P3DFile& p3d) {
     ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
     ImGui::Begin(p3d.GetFileName().c_str());
 
-	ImGui::SetNextItemOpen(true); // open the root node
+    ImGui::SetNextItemOpen(true); // open the root node
     const auto traverse_chunk = [&](const auto& self, const P3D::P3DChunk& chunk) -> void {
         std::ostringstream name;
         name << chunk.GetType();
