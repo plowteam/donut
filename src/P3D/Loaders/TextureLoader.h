@@ -12,6 +12,10 @@ class TextureLoader {
 public:
 	// I think we need a LoadFromChunk thing
     std::unique_ptr<Texture> Load(const P3DChunk&);
+
+private:
+	std::vector<uint8_t> getImageData(const P3DChunk&);
+	ImageData decodeImageData(const std::vector<std::uint8_t>&);
 };
 
 } // namespace Donut::P3D
