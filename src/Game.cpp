@@ -10,7 +10,7 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl.h>
 
-#include <P3D/Loaders/PolySkinLoader.h>
+#include <P3D/Loaders/TextureLoader.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -41,6 +41,7 @@ Game::Game(int argc, char** argv) {
                                  static_cast<SDL_GLContext*>(*_window.get()));
     ImGui_ImplOpenGL3_Init("#version 130");
 
+    loadGlobal();
 	LoadModel("homer_m.p3d");
 }
 
@@ -52,6 +53,19 @@ Game::~Game() {
     _window.reset();
 
     SDL_Quit();
+}
+
+void Game::loadGlobal() {
+    _globalP3D = std::make_unique<P3D::P3DFile>("global.p3d");
+
+    const auto& root = _globalP3D->GetRoot();
+    for (const auto& chunk : root.GetChildren()) {
+        if (chunk->GetType() != P3D::ChunkType::Texture)
+            continue;
+
+		P3D::TextureLoader loader;
+        auto texture = loader.Load(*chunk.get());
+    }
 }
 
 void Game::LoadModel(const std::string& name) {
@@ -85,6 +99,9 @@ void Game::Run() {
 		}
 
 		ImGui::EndMainMenuBar();
+
+		 if (_globalP3D != nullptr)
+            debugDrawP3D(*_globalP3D.get());
 
         if (_skinModel != nullptr)
             debugDrawP3D(_skinModel->GetP3DFile());
