@@ -150,10 +150,8 @@ void Game::Run() {
         glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
         glm::mat4 mvp = projectionMatrix * viewMatrix * glm::mat4(1.0f);
 
-		// bind to texture 0 for now
-		_textures["char_swatches_lit.bmp"]->Bind(0);
         if (_skinModel != nullptr)
-            _skinModel->Draw(mvp);
+			_skinModel->Draw(GetResourceManager(), mvp);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         _window->Swap();

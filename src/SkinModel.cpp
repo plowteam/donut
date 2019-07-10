@@ -188,7 +188,7 @@ void SkinModel::createMesh() {
     glBindVertexArray(0);
 }
 
-void SkinModel::Draw(glm::mat4& viewProj) {
+void SkinModel::Draw(const ResourceManager& rm, glm::mat4& viewProj) {
     _shader->Bind();
     _shader->SetUniformValue("viewProj", viewProj);
 
@@ -217,6 +217,11 @@ void SkinModel::Draw(glm::mat4& viewProj) {
             mode = GL_LINES;
             break;
 		}
+
+		_shader->SetUniformValue("diffuseTex", 0);
+		rm.GetTexture("char_swatches_lit.bmp").Bind(0);
+		if (prim->GetShaderName() == "eyeball_m")
+			rm.GetTexture("eyeball.bmp.0").Bind(0);
 
         glDrawElements(mode, indicesSize, _indexBuffer->GetType(), (void*)(idxOffset * 4));
         idxOffset += indicesSize;

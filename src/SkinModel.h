@@ -8,6 +8,7 @@
 #include <P3D/PolySkin.h>
 #include <P3D/Skeleton.h>
 #include <P3D/Loaders/PolySkinLoader.h>
+#include <ResourceManager.h>
 #include <P3D/Loaders/SkeletonLoader.h>
 #include <string>
 #include <vector>
@@ -28,7 +29,7 @@ class SkinModel {
 public:
     SkinModel(const std::string& filename);
 
-	void Draw(glm::mat4& viewProj);
+	void Draw(const ResourceManager&, glm::mat4& viewProj);
 
 	P3D::P3DFile& GetP3DFile() {
         return *_p3dFile.get();
