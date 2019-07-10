@@ -50,9 +50,17 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
             data.ReadBytes(reinterpret_cast<uint8_t*>(normals.data()), len * sizeof(glm::vec3));
             break;
 		}
+		case ChunkType::UVList:
+		{
+            std::uint32_t len = data.Read<std::uint32_t>();
+
+            auto& uvs = primGroup->GetUV();
+            uvs.resize(len);
+            data.ReadBytes(reinterpret_cast<uint8_t*>(uvs.data()), len * sizeof(glm::vec2));
+            break;
+		}
 		// expect all this
         case ChunkType::PackedNormalList:
-        case ChunkType::UVList:
         case ChunkType::MatrixList:
         case ChunkType::WeightList:
         case ChunkType::MatrixPalette:

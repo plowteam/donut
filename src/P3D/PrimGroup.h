@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
 namespace Donut::P3D {
@@ -34,6 +35,7 @@ public:
 	std::vector<glm::vec3>& GetVerticies() { return _verticies; }
 	std::vector<uint32_t>& GetIndices() { return _indices; }
 	std::vector<glm::vec3>& GetNormals() { return _normals; }
+	std::vector<glm::vec2>& GetUV() { return _uvs;; }
 
 private:
     std::string _shaderName;
@@ -41,6 +43,7 @@ private:
     std::vector<glm::vec3> _verticies;
     std::vector<uint32_t> _indices;
     std::vector<glm::vec3> _normals;
+    std::vector<glm::vec2> _uvs;
 };
 
 } // namespace Donut::P3D
