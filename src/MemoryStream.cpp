@@ -24,10 +24,12 @@ std::string MemoryStream::ReadLPString()
 {
 	std::uint8_t length = Read<std::uint8_t>();
 
-	std::string ret;
-	ret.resize(length);
+	// read into a char* first, reading directly into a std::string fucks length up
+	char* str = new char[length];
+    ReadBytes(reinterpret_cast<uint8_t*>(str), length);
+	std::string ret(str);
+	delete[] str;
 
-	ReadBytes((uint8_t*)ret.data(), length);
 	return ret;
 }
 
