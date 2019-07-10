@@ -45,6 +45,9 @@ Game::Game(int argc, char** argv) {
                                  static_cast<SDL_GLContext*>(*_window.get()));
     ImGui_ImplOpenGL3_Init("#version 130");
 
+	// init sub classes
+	_resourceManager = std::make_unique<ResourceManager>();
+
     loadGlobal();
 	LoadModel("homer_m.p3d");
 
@@ -76,8 +79,6 @@ Game::~Game() {
 void Game::loadGlobal() {
     _globalP3D = std::make_unique<P3D::P3DFile>("global.p3d");
 
-	_textures = std::map<std::string, std::unique_ptr<GL::Texture2D>>();
-
     const auto& root = _globalP3D->GetRoot();
     for (const auto& chunk : root.GetChildren()) {
         if (chunk->GetType() != P3D::ChunkType::Texture)
@@ -89,7 +90,7 @@ void Game::loadGlobal() {
 		auto texdata = texture->GetData();
 
 		auto tex2d = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
-		_textures[texture->GetName()] = std::move(tex2d);
+		_resourceManager->AddTexture(texture->GetName(), std::move(tex2d));
     }
 }
 
@@ -134,14 +135,6 @@ void Game::Run() {
         ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);
         ImGui::SliderFloat3("lookat", &_lookAt[0], -10.0f, 10.f);
         ImGui::End();
-
-		ImGui::Begin("Global Textures");
-		for (auto const& [key, val] : _textures)
-		{
-			ImGui::Text(key.c_str());
-			ImGui::Image((void*)val->GetHandle(), ImVec2(val->GetWidth(), val->GetHeight()));
-		}
-		ImGui::End();
 
         ImGui::Render();
 
