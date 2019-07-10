@@ -42,6 +42,8 @@ Window::Window(const std::string& title, const int width, const int height) {
 
     _window = std::move(window);
 
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+
     SDL_Renderer* renderer = SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED);
 
     if (renderer == nullptr) {

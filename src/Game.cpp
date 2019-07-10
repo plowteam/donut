@@ -16,9 +16,20 @@ namespace Donut {
 
 const std::string kWindowTitle = "donut";
 
+void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
+                                GLsizei length, const GLchar* message, const void* userParam) {
+    fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
+}
+
 Game::Game(int argc, char** argv) {
     const int windowWidth = 1280, windowHeight = 1024;
     _window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
+
+	glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(MessageCallback, 0);
+    glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0,
+                          GL_FALSE);
 
     ImGui::CreateContext();
     ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window.get()),
