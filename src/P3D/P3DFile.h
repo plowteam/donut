@@ -15,10 +15,14 @@ class P3DFile {
 public:
     P3DFile(const std::string& file);
 
-    P3DChunk& GetRoot() {
+    const P3DChunk& GetRoot() const {
         return *_root.get();
     }
+    const std::string& GetFileName() const {
+        return _filename;
+	}
 protected:
+    std::string _filename;
     std::unique_ptr<P3DChunk> _root;
     std::vector<std::uint8_t> _data;
 };

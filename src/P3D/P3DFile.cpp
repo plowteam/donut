@@ -3,7 +3,7 @@
 
 namespace Donut::P3D {
 
-P3DFile::P3DFile(const std::string& path) {
+P3DFile::P3DFile(const std::string& path) : _filename(path) {
     File file;
     file.Open(path, FileMode::Read);
 
