@@ -11,12 +11,12 @@ class Texture2D
 	Texture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData);
 	~Texture2D();
 
-	inline void Bind()
+	inline void Bind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, _textureID);
 	}
 
-	inline void Bind(unsigned char slot)
+	inline void Bind(unsigned char slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, _textureID);
