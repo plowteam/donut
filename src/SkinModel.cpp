@@ -27,10 +27,21 @@ std::string vertexShader = R"glsl(
 
 	in vec3 position;
 	in vec3 normal;
+	in vec3 boneWeights;
+	in ivec3 boneIndices;
 
 	out vec3 Normal;
 
 	uniform mat4 viewProj;
+	uniform samplerBuffer boneBuffer;
+
+	mat4 GetMatrix(int index)
+	{
+		return mat4(texelFetch(boneBuffer, (index * 4) + 0),
+				    texelFetch(boneBuffer, (index * 4) + 1),
+				    texelFetch(boneBuffer, (index * 4) + 2),
+				    texelFetch(boneBuffer, (index * 4) + 3));
+	}
 
 	void main()
 	{
@@ -82,10 +93,21 @@ void SkinModel::createMesh() {
         std::make_unique<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
     _indexBuffer =
         std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(glm::vec3));
+
+	int ptr = 0;
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
+    ptr += sizeof(glm::vec3);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
+    ptr += sizeof(glm::vec3);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
+    ptr += sizeof(glm::vec3);
+    glVertexAttribIPointer(3, 3, GL_INT, sizeof(Vertex), (GLvoid*)ptr);
+    ptr += sizeof(glm::ivec3);
+
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
 
     glBindVertexArray(0);
 }
@@ -93,6 +115,7 @@ void SkinModel::createMesh() {
 void SkinModel::Draw(glm::mat4& viewProj) {
     _shader->Bind();
     _shader->SetUniformValue("viewProj", viewProj);
+    //_shader->SetUniformValue("boneBuffer", nullptr); // TODO
 
     glBindVertexArray(_vertexArrayObject);
 

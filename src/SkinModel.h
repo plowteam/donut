@@ -17,6 +17,8 @@ class SkinModel {
 	struct Vertex {
         glm::vec3 pos;
         glm::vec3 normal;
+        glm::vec3 boneWeights;
+        glm::ivec3 boneIndices;
 	};
 
 public:
