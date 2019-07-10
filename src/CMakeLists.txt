@@ -23,7 +23,7 @@ add_executable(${PROJECT_NAME} ${DONUT_SOURCES} ${DONUT_HEADERS})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE glad imgui ${SDL2_LIBRARY})
+target_link_libraries(${PROJECT_NAME} PRIVATE glm glad imgui ${SDL2_LIBRARY})
 
 if (WIN32)
 	if (USE_DEBUG_CONSOLE)
