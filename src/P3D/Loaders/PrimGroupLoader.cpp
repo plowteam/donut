@@ -87,7 +87,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 
 			auto& matrixPalette = primGroup->GetMatrixPalette();
 			matrixPalette.resize(len);
-			data.ReadBytes(reinterpret_cast<uint8_t*>(matrixPalette.data()), len);
+			data.ReadBytes(reinterpret_cast<uint8_t*>(matrixPalette.data()), len * sizeof(uint32_t));
 			break;
 		}
         default:

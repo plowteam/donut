@@ -49,10 +49,13 @@ std::string vertexShader = R"glsl(
 
 	void main()
 	{
-		mat4 boneMarix = GetMatrix(0);
+		mat4 boneMatrix = GetMatrix(boneIndices[0]) * boneWeights[0];
+		boneMatrix += GetMatrix(boneIndices[1]) * boneWeights[1];
+		boneMatrix += GetMatrix(boneIndices[2]) * boneWeights[2];
+
 		texCoord = uv;
 		Normal = normal;
-		gl_Position = viewProj * (boneMarix * vec4(position, 1.0));
+		gl_Position = viewProj * (boneMatrix * vec4(position, 1.0));
 	}
 )glsl";
 
@@ -89,10 +92,32 @@ void SkinModel::createMesh() {
         auto verts = prim->GetVerticies();
 		auto uvs = prim->GetUV();
 		auto normals = prim->GetNormals();
-        auto indices = prim->GetIndices();
+		auto indices = prim->GetIndices();
+		auto weights = prim->GetWeights();
+		auto matrixList = prim->GetMatrixList();
+		auto matrixPalette = prim->GetMatrixPalette();
+
+		bool hasBoneIndices = !matrixList.empty() && !matrixPalette.empty();
+		bool hasWeights = !weights.empty();
 
         for (std::uint32_t i = 0; i < verts.size(); i++) {
-            allVerts.push_back(Vertex{verts[i], normals[i], glm::vec2(uvs[i].x, 1.0f - uvs[i].y)});
+
+			auto boneIndices = hasBoneIndices ? glm::ivec3(
+				matrixPalette[matrixList[(i * 4) + 3]],
+				matrixPalette[matrixList[(i * 4) + 2]],
+				matrixPalette[matrixList[(i * 4) + 1]]
+			) : glm::ivec3(0, 0, 0);
+
+			auto weight = hasWeights ? weights[i] : glm::vec3(1, 0, 0);
+
+            allVerts.push_back(Vertex
+			{
+				verts[i],
+				normals[i],
+				glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
+				weight,
+				boneIndices
+			});
         }
 
         for (std::uint32_t i = 0; i < indices.size(); i++) {
@@ -111,9 +136,11 @@ void SkinModel::createMesh() {
         std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
 
 	_boneBuffer = std::make_unique<GL::TextureBuffer>();
-	_boneMatrices.resize(1, glm::mat4(1.0f));
+	_boneMatrices.resize(32, glm::mat4(1.0f));
+	auto translate = glm::translate(glm::vec3(0, 0.5f, 0));
 	//glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 3.14f, glm::vec3(0, 1, 0));
-	//_boneMatrices[0] = rotationMatrix;
+	//_boneMatrices[17] = translate;
+	//_boneMatrices[18] = translate;
 	_boneBuffer->SetBuffer(_boneMatrices.data(), _boneMatrices.size() * sizeof(glm::mat4));
 
 	int ptr = 0;
