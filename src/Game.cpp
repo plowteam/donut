@@ -61,6 +61,8 @@ Game::~Game() {
 void Game::loadGlobal() {
     _globalP3D = std::make_unique<P3D::P3DFile>("global.p3d");
 
+	_textures = std::map<std::string, std::unique_ptr<GL::Texture2D>>();
+
     const auto& root = _globalP3D->GetRoot();
     for (const auto& chunk : root.GetChildren()) {
         if (chunk->GetType() != P3D::ChunkType::Texture)
@@ -68,6 +70,11 @@ void Game::loadGlobal() {
 
 		P3D::TextureLoader loader;
         auto texture = loader.Load(*chunk.get());
+
+		auto texdata = texture->GetData();
+
+		auto tex2d = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
+		_textures[texture->GetName()] = std::move(tex2d);
     }
 }
 
@@ -103,9 +110,6 @@ void Game::Run() {
 
 		ImGui::EndMainMenuBar();
 
-		 if (_globalP3D != nullptr)
-            debugDrawP3D(*_globalP3D.get());
-
         if (_skinModel != nullptr)
             debugDrawP3D(_skinModel->GetP3DFile());
 
@@ -113,6 +117,14 @@ void Game::Run() {
         ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);
         ImGui::SliderFloat3("lookat", &_lookAt[0], -10.0f, 10.f);
         ImGui::End();
+
+		ImGui::Begin("Global Textures");
+		for (auto const& [key, val] : _textures)
+		{
+			ImGui::Text(key.c_str());
+			ImGui::Image((void*)val->GetHandle(), ImVec2(val->GetWidth(), val->GetHeight()));
+		}
+		ImGui::End();
 
         ImGui::Render();
 
@@ -128,6 +140,8 @@ void Game::Run() {
         glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
         glm::mat4 mvp = projectionMatrix * viewMatrix * glm::mat4(1.0f);
 
+		// bind to texture 0 for now
+		_textures["char_swatches1.bmp"]->Bind(0);
         if (_skinModel != nullptr)
             _skinModel->Draw(mvp);
 
