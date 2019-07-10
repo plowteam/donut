@@ -12,6 +12,9 @@
 
 #include <P3D/Loaders/PolySkinLoader.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace Donut {
 
 const std::string kWindowTitle = "donut";
@@ -25,6 +28,8 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 Game::Game(int argc, char** argv) {
     const int windowWidth = 1280, windowHeight = 1024;
     _window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
+    _camPos = glm::vec3(0.0f, 2.0f, -2.0f);
+    _lookAt = glm::vec3(0.0f, 1.15f, 0.0f);
 
 	glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
@@ -36,7 +41,7 @@ Game::Game(int argc, char** argv) {
                                  static_cast<SDL_GLContext*>(*_window.get()));
     ImGui_ImplOpenGL3_Init("#version 130");
 
-    createMesh();
+	_skinModel = std::make_unique<SkinModel>("homer_m.p3d");
 }
 
 Game::~Game() {
@@ -64,42 +69,39 @@ void Game::Run() {
         ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window.get()));
         ImGui::NewFrame();
 
-        if (_p3d != nullptr) {
-            debugDrawP3D("homer_m.p3d", *_p3d);
-        }
+        debugDrawP3D(_skinModel->GetP3DFile());
+        ImGui::Begin("Camera");
+        ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);
+        ImGui::SliderFloat3("lookat", &_lookAt[0], -10.0f, 10.f);
+		ImGui::End();
 
         ImGui::Render();
 
         ImGuiIO& io = ImGui::GetIO();
         glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+        glEnable(GL_DEPTH_TEST);  
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
+
+		glm::mat4 projectionMatrix = glm::perspective(
+            glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.0f);
+
+		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
+        glm::mat4 mvp = projectionMatrix * viewMatrix * glm::mat4(1.0f);
+		
+		_skinModel->Draw(mvp);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         _window->Swap();
     }
 }
 
-void Game::createMesh() {
-    _p3d = std::make_unique<P3D::P3DFile>("homer_m.p3d");
-
-	const auto& root = _p3d->GetRoot();
-    for (const auto& chunk : root.GetChildren()) {
-        if (chunk->IsType(P3D::ChunkType::PolySkin)) {
-            P3D::PolySkinLoader loader;
-            auto polySkin = loader.Load(*chunk.get());
-
-			std::cout << "PolySkin " << polySkin->GetName() << "\n";
-		}
-	}
-}
-
-void Game::debugDrawP3D(const std::string& name, const P3D::P3DFile& p3d) {
+void Game::debugDrawP3D(const P3D::P3DFile& p3d) {
     ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
-    ImGui::Begin(name.c_str());
+    ImGui::Begin(p3d.GetFileName().c_str());
 
 	ImGui::SetNextItemOpen(true); // open the root node
-    const auto traverse_chunk = [&](const auto& self, P3D::P3DChunk& chunk) -> void {
+    const auto traverse_chunk = [&](const auto& self, const P3D::P3DChunk& chunk) -> void {
         std::ostringstream name;
         name << chunk.GetType();
 
@@ -115,7 +117,7 @@ void Game::debugDrawP3D(const std::string& name, const P3D::P3DFile& p3d) {
         }
     };
 
-    traverse_chunk(traverse_chunk, _p3d->GetRoot());
+    traverse_chunk(traverse_chunk, p3d.GetRoot());
 
     ImGui::End();
 }

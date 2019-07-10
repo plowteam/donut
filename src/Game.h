@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <P3D/P3DFile.h>
+#include <SkinModel.h>
 
 namespace Donut {
 
@@ -18,11 +18,13 @@ public:
 
     void Run();
 private:
-    void createMesh();
-    void debugDrawP3D(const std::string&, const P3D::P3DFile&);
+    void debugDrawP3D(const P3D::P3DFile&);
 
     std::unique_ptr<Window> _window;
-    std::unique_ptr<P3D::P3DFile> _p3d;
+    std::unique_ptr<SkinModel> _skinModel;
+
+	glm::vec3 _lookAt;
+    glm::vec3 _camPos;
 };
 
 } // namespace Donut
