@@ -60,7 +60,7 @@ Game::Game(int argc, char** argv)
 		{
 		case P3D::ChunkType::Animation:
 		{
-			P3D::Animation::Load(*chunk.get());
+			P3D::Animation::Load(*chunk);
 			break;
 		}
 		default: break;
@@ -88,7 +88,7 @@ void Game::loadGlobal()
 	{
 		if (chunk->GetType() != P3D::ChunkType::Texture) continue;
 
-		auto texture = P3D::Texture::Load(*chunk.get());
+		auto texture = P3D::Texture::Load(*chunk);
 		auto texdata = texture->GetData();
 
 		auto tex2d = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
