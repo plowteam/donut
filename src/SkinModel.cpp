@@ -16,6 +16,12 @@ SkinModel::SkinModel(const std::string& filename) : _filename(filename) {
 
             break;
         }
+		case P3D::ChunkType::Skeleton: {
+			P3D::SkeletonLoader loader;
+			_skeleton = loader.Load(*chunk.get());
+
+			break;
+		}
         default:
             break;
         }
@@ -86,6 +92,10 @@ void SkinModel::createMesh() {
 
     std::vector<Vertex> allVerts;
     std::vector<std::uint32_t> allIndices;
+
+	for (auto const& joint : _skeleton->GetJoints()) {
+		std::cout << joint->GetName() << std::endl;
+	}
 
     std::uint32_t vertOffset = 0;
     for (auto const& prim : _polySkin->GetPrimGroups()) {

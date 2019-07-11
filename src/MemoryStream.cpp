@@ -27,7 +27,15 @@ std::string MemoryStream::ReadLPString()
 	// read into a char* first, reading directly into a std::string fucks length up
 	char* str = new char[length];
     ReadBytes(reinterpret_cast<uint8_t*>(str), length);
-	std::string ret(str);
+
+	// Bullshit null terminate
+	std::uint32_t l = 0;
+	for (; l < length; ++l)
+	{
+		if (str[l] == 0) break;
+	}
+
+	std::string ret(str, l);
 	delete[] str;
 
 	return ret;

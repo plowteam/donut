@@ -6,7 +6,9 @@
 #include <GL/TextureBuffer.h>
 #include <P3D/P3DFile.h>
 #include <P3D/PolySkin.h>
+#include <P3D/Skeleton.h>
 #include <P3D/Loaders/PolySkinLoader.h>
+#include <P3D/Loaders/SkeletonLoader.h>
 #include <string>
 #include <vector>
 
@@ -36,7 +38,8 @@ private:
 
     std::string _filename;
     std::unique_ptr<P3D::P3DFile> _p3dFile;
-    std::unique_ptr<P3D::PolySkin> _polySkin;
+	std::unique_ptr<P3D::PolySkin> _polySkin;
+	std::unique_ptr<P3D::Skeleton> _skeleton;
 
 	std::unique_ptr<GL::ShaderProgram> _shader;
     GLuint _vertexArrayObject;
