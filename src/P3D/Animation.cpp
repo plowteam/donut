@@ -14,8 +14,9 @@ namespace Donut::P3D {
 		uint32_t version = stream.Read<uint32_t>();
 		std::string name = stream.ReadLPString();
 
-		uint8_t animType[4];
-		stream.ReadBytes(animType, 4);
+		uint8_t str[4];
+		stream.ReadBytes(str, 4);
+		std::string animType = std::string(reinterpret_cast<char*>(str), 4);
 
 		float numFrames = stream.Read<float>();
 		float frameRate = stream.Read<float>();
@@ -37,7 +38,7 @@ namespace Donut::P3D {
 			}
 		}
 
-		return std::make_unique<Animation>();
+		return std::make_unique<Animation>(name, animType, numFrames, frameRate, looping);
 	}
 
 } // namespace Donut::P3D
