@@ -21,9 +21,8 @@ endif()
 
 add_executable(${PROJECT_NAME} ${DONUT_SOURCES} ${DONUT_HEADERS})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
-target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE glm glad imgui ${SDL2_LIBRARY})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 glm glad imgui)
 
 if (WIN32)
 	if (USE_DEBUG_CONSOLE)
@@ -43,3 +42,17 @@ if (WIN32)
 endif (WIN32)
 
 source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${DONUT_SOURCES} ${DONUT_HEADERS})
+
+# copy sdl2.dll
+if (MSVC)
+	function(windows_copy_files TARGET SOURCE_DIR DEST_DIR)
+		string(REPLACE "/" "\\\\" SOURCE_DIR ${SOURCE_DIR})
+		string(REPLACE "/" "\\\\" DEST_DIR ${DEST_DIR})
+		add_custom_command(TARGET ${TARGET} POST_BUILD
+			COMMAND if not exist ${DEST_DIR} mkdir ${DEST_DIR} 2> nul
+			COMMAND robocopy ${SOURCE_DIR} ${DEST_DIR} ${ARGN} /NJH /NJS /NDL /NFL /NC /NS /NP || cmd /c "exit /b 0"
+		)
+	endfunction()
+
+    windows_copy_files(${PROJECT_NAME} ${SDL2_DLL_DIR} "${CMAKE_BINARY_DIR}/bin/$<CONFIG>/" SDL2.dll)
+endif()
