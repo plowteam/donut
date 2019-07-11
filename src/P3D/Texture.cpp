@@ -25,7 +25,7 @@ std::vector<uint8_t> getImageData(const P3DChunk& chunk)
 ImageData decodeImageData(const std::vector<uint8_t>& data)
 {
 	ImageData ret;
-	uint8_t* image = stbi_load_from_memory(data.data(), data.size(), &ret.width, &ret.height, &ret.comp, 0);
+	uint8_t* image = stbi_load_from_memory(data.data(), (std::int32_t)data.size(), &ret.width, &ret.height, &ret.comp, 0);
 	ret.data       = std::vector<uint8_t>(image, image + (ret.width * ret.height * ret.comp));
 	stbi_image_free(image);
 

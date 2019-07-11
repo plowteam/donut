@@ -111,7 +111,7 @@ void ShaderProgram::SetUniformValue(const char* uniformName, const glm::mat4& m)
 
 void ShaderProgram::SetUniformValue(const char* uniformName, std::size_t count, const glm::mat4* m)
 {
-	glUniformMatrix4fv(_uniforms[uniformName], count, GL_FALSE, glm::value_ptr(m[0]));
+	glUniformMatrix4fv(_uniforms[uniformName], (GLsizei)count, GL_FALSE, glm::value_ptr(m[0]));
 }
 
 GLuint ShaderProgram::createSubShader(GLenum type, const std::string& source)

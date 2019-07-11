@@ -53,7 +53,7 @@ void MemoryStream::Seek(std::size_t position, SeekMode mode)
 		std::advance(_position, position);
 		break;
 	case SeekMode::End:
-		_position = std::next(_data.end(), -position);
+		_position = std::next(_data.end(), -(std::int32_t)position);
 		break;
 	}
 }

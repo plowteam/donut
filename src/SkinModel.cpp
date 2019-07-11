@@ -100,7 +100,7 @@ void SkinModel::createMesh()
 		std::cout << joint->GetName() << std::endl;
 	}
 
-	uint32_t vertOffset = 0;
+	size_t vertOffset = 0;
 	for (auto const& prim : _polySkin->GetPrimGroups())
 	{
 		auto verts         = prim->GetVerticies();
@@ -135,7 +135,7 @@ void SkinModel::createMesh()
 
 		for (uint32_t i = 0; i < indices.size(); i++)
 		{
-			allIndices.push_back(indices[i] + vertOffset);
+			allIndices.push_back(indices[i] + (std::uint32_t)vertOffset);
 		}
 
 		vertOffset += verts.size();
@@ -172,7 +172,7 @@ void SkinModel::createMesh()
 
 	_boneBuffer->SetBuffer(_finalMatrices.data(), _finalMatrices.size() * sizeof(glm::mat4));
 
-	int ptr = 0;
+	size_t ptr = 0;
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
 	ptr += sizeof(glm::vec3);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);
@@ -204,10 +204,10 @@ void SkinModel::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 
 	glBindVertexArray(_vertexArrayObject);
 
-	uint32_t idxOffset = 0;
+	size_t idxOffset = 0;
 	for (auto const& prim : _polySkin->GetPrimGroups())
 	{
-		auto indicesSize = prim->GetIndices().size();
+		auto indicesSize = (GLsizei)prim->GetIndices().size();
 
 		GLenum mode = GL_TRIANGLE_STRIP;
 		switch (prim->GetPrimitiveType())

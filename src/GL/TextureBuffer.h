@@ -15,7 +15,7 @@ class TextureBuffer
 
 	void Bind();
 	void Unbind();
-	void SetBuffer(void* buffer, unsigned int length);
+	void SetBuffer(void* buffer, size_t length);
 
   protected:
 	GLuint m_handle;

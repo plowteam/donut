@@ -35,7 +35,7 @@ TextureBuffer::~TextureBuffer()
 	}
 }
 
-void TextureBuffer::SetBuffer(void* buffer, unsigned int length)
+void TextureBuffer::SetBuffer(void* buffer, size_t length)
 {
 	glBindBuffer(GL_TEXTURE_BUFFER, m_bufferHandle);
 	glBufferData(GL_TEXTURE_BUFFER, length, buffer, GL_DYNAMIC_READ);
