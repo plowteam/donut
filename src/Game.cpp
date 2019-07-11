@@ -41,8 +41,8 @@ Game::Game(int argc, char** argv)
 	glEnable(GL_TEXTURE_2D);
 
 	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window.get()),
-	                             static_cast<SDL_GLContext*>(*_window.get()));
+	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window),
+	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
 	// init sub classes
@@ -117,22 +117,22 @@ void Game::Run()
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window.get()));
+		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
 
-		std::vector<std::string> models { "homer_m.p3d", "marge_m.p3d", "bart_m.p3d", "barney_m.p3d", "carl_m.p3d", "hooker_m.p3d" };
+		std::vector<std::string> models { "homer_m", "marge_m", "bart_m", "carl_m", "apu_m", "a_amer_m", "a_army_m", "beeman_m", "grandp_m", "ned_m", "otto_m" };
 
 		ImGui::BeginMainMenuBar();
 		for (auto const& model : models)
 		{
-			if (ImGui::Button(model.c_str())) LoadModel(model.c_str());
+			if (ImGui::Button(model.c_str())) LoadModel(model + ".p3d");
 		}
 
 		ImGui::EndMainMenuBar();
 
 		if (_skinModel != nullptr) debugDrawP3D(_skinModel->GetP3DFile());
 
-		debugDrawP3D(*_animP3D.get());
+		debugDrawP3D(*_animP3D);
 
 		ImGui::Begin("Camera");
 		ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);
@@ -151,7 +151,7 @@ void Game::Run()
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.0f);
 
 		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
-		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::mat4(1.0f);
+		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f) , glm::vec3(-1.0f, 1.0f, 1.0f));
 
 		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
 

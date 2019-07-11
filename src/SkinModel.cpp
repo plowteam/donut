@@ -150,7 +150,7 @@ void SkinModel::createMesh()
 
 		for (uint32_t i = 0; i < indices.size(); i++)
 		{
-			allIndices.push_back(indices[i] + (std::uint32_t)vertOffset);
+			allIndices.push_back(indices[i] + static_cast<uint32_t>(vertOffset));
 		}
 
 		vertOffset += verts.size();
