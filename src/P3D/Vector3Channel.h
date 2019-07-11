@@ -15,6 +15,8 @@ public:
 	virtual void Read(MemoryStream& stream) override;
 
 	uint32_t GetNumFrames() { return _numberOfFrames; }
+	std::vector<glm::vec3>& GetValues() { return _values; }
+	std::vector<uint16_t>& GetFrames() { return _frames; }
 private:
 	uint32_t _numberOfFrames;
 	std::vector<glm::vec3> _values;
