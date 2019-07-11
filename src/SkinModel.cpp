@@ -148,18 +148,24 @@ void SkinModel::createMesh() {
         std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
 
 	_boneBuffer = std::make_unique<GL::TextureBuffer>();
-	_boneMatrices.resize(joints.size(), glm::mat4(1.0f));
-	_poseMatrices.resize(joints.size(), glm::mat4(1.0f));
+	_boneMatrices.resize(joints.size(), glm::mat4(1.0f)); // Skeleton matrices, these don't change
+	_poseMatrices.resize(joints.size(), glm::mat4(1.0f)); // Pose matrices, these change with animation
+	_finalMatrices.resize(joints.size(), glm::mat4(1.0f)); // Final matrices, rest pose matrix inverse * pose matrix
 
 	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex) {
-		//_boneMatrices[jointIndex] = glm::inverse(joints[jointIndex]->GetRestPose()) * _boneMatrices[joints[jointIndex]->GetParent()];
+		_boneMatrices[jointIndex] = joints[jointIndex]->GetRestPose() * _boneMatrices[joints[jointIndex]->GetParent()];
 	}
 
-	auto translate = glm::translate(glm::vec3(0, 0.5f, 0));
-	//glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 3.14f, glm::vec3(0, 1, 0));
-	//_boneMatrices[17] = translate;
-	//_boneMatrices[18] = translate;
-	_boneBuffer->SetBuffer(_boneMatrices.data(), _boneMatrices.size() * sizeof(glm::mat4));
+	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex) {
+		// TODO: Get pose from anim
+		_poseMatrices[jointIndex] = _boneMatrices[jointIndex];
+	}
+
+	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex) {
+		_finalMatrices[jointIndex] = glm::inverse(_boneMatrices[jointIndex]) * _poseMatrices[jointIndex];
+	}
+
+	_boneBuffer->SetBuffer(_finalMatrices.data(), _finalMatrices.size() * sizeof(glm::mat4));
 
 	int ptr = 0;
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)ptr);

@@ -49,6 +49,7 @@ private:
 	std::unique_ptr<GL::TextureBuffer> _boneBuffer;
 	std::vector<glm::mat4> _boneMatrices;
 	std::vector<glm::mat4> _poseMatrices;
+	std::vector<glm::mat4> _finalMatrices;
 };
 
 } // namespace Donut
