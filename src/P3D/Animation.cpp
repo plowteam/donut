@@ -1,4 +1,5 @@
 #include <P3D/Animation.h>
+#include <P3D/AnimationGroupList.h>
 #include <MemoryStream.h>
 #include <iostream>
 
@@ -20,11 +21,14 @@ namespace Donut::P3D {
 		float frameRate = stream.Read<float>();
 		uint32_t looping = stream.Read<uint32_t>();
 
+		std::unique_ptr<AnimationGroupList> groupList;
+
 		for (auto const& child : chunk.GetChildren())
 		{
 			switch (child->GetType())
 			{
 			case ChunkType::AnimationGroupList:
+				groupList = AnimationGroupList::Load(*child.get());
 				break;
 			default:
 				std::cout << "Unexpected Chunk: " << child->GetType() << "\n";
