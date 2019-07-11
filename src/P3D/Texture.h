@@ -1,7 +1,6 @@
 #pragma once
 
-#include <memory>
-#include <string>
+#include <P3D/P3DChunk.h>
 
 namespace Donut::P3D
 {
@@ -19,6 +18,8 @@ class Texture
   public:
 	Texture(const std::string& name, uint32_t width, uint32_t height, uint32_t bpp, ImageData data):
 	    _name(name), _width(width), _height(height), _bpp(bpp), _data(data) {}
+
+	static std::unique_ptr<Texture> Load(const P3DChunk&);
 
 	const std::string& GetName() { return _name; }
 	const uint32_t GetWidth() { return _width; }

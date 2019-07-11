@@ -4,8 +4,6 @@
 #include <GL/ShaderProgram.h>
 #include <GL/TextureBuffer.h>
 #include <GL/VertexBuffer.h>
-#include <P3D/Loaders/PolySkinLoader.h>
-#include <P3D/Loaders/SkeletonLoader.h>
 #include <P3D/P3DFile.h>
 #include <P3D/PolySkin.h>
 #include <P3D/Skeleton.h>

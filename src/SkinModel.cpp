@@ -17,19 +17,11 @@ SkinModel::SkinModel(const std::string& filename):
 		switch (chunk->GetType())
 		{
 		case P3D::ChunkType::PolySkin:
-		{
-			P3D::PolySkinLoader loader;
-			_polySkin = loader.Load(*chunk.get());
-
+			_polySkin = P3D::PolySkin::Load(*chunk.get());
 			break;
-		}
 		case P3D::ChunkType::Skeleton:
-		{
-			P3D::SkeletonLoader loader;
-			_skeleton = loader.Load(*chunk.get());
-
+			_skeleton = P3D::Skeleton::Load(*chunk.get());
 			break;
-		}
 		default:
 			break;
 		}

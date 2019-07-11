@@ -1,6 +1,6 @@
 #include <Game.h>
 #include <P3D/Animation.h>
-#include <P3D/Loaders/TextureLoader.h>
+#include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>
 #include <glad/glad.h>
@@ -90,9 +90,7 @@ void Game::loadGlobal()
 		if (chunk->GetType() != P3D::ChunkType::Texture)
 			continue;
 
-		P3D::TextureLoader loader;
-		auto texture = loader.Load(*chunk.get());
-
+		auto texture = P3D::Texture::Load(*chunk.get());
 		auto texdata = texture->GetData();
 
 		auto tex2d = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());

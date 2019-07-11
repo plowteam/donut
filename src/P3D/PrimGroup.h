@@ -1,8 +1,8 @@
 #pragma once
 
+#include <P3D/P3DChunk.h>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
-#include <string>
 
 namespace Donut::P3D
 {
@@ -33,6 +33,8 @@ class PrimGroup
 
 	PrimGroup(const std::string& shader, PrimGroup::PrimitiveType type):
 	    _shaderName(shader), _primType(type) {}
+
+	static std::unique_ptr<PrimGroup> Load(const P3DChunk&);
 
 	const std::string& GetShaderName() { return _shaderName; }
 	PrimGroup::PrimitiveType GetPrimitiveType() { return _primType; }
