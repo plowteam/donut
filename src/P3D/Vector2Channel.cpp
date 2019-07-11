@@ -4,5 +4,9 @@
 
 namespace Donut::P3D {
 
+	void Vector2Channel::Read(MemoryStream& stream)
+	{
+		AnimChannel::Read(stream);
 
+	}
 } // namespace Donut::P3D

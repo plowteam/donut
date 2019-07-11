@@ -4,17 +4,17 @@
 #include <string>
 #include <vector>
 #include <glm/mat4x4.hpp>
+#include "AnimChannel.h"
 
 namespace Donut::P3D {
 
-class Vector2Channel {
+class Vector2Channel : AnimChannel {
 public:
 	Vector2Channel() {}
+	virtual void Read(MemoryStream& stream) override;
 private:
-	uint32_t _version;
 	uint32_t _numberOfFrames;
 	uint16_t _mapping;
-	std::string _parameter;
 	std::vector<glm::vec2> _values;
 	std::vector<uint16_t> _frames;
 	glm::vec3 _constants;

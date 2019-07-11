@@ -6,10 +6,7 @@ namespace Donut::P3D {
 
 	void Vector3Channel::Read(MemoryStream& stream)
 	{
-		_version = stream.Read<std::uint32_t>();
-
-		uint8_t parameter[4];
-		stream.ReadBytes(parameter, 4);
+		AnimChannel::Read(stream);
 
 		_numberOfFrames = stream.Read<std::uint32_t>();
 

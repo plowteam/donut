@@ -5,17 +5,16 @@
 #include <vector>
 #include <glm/mat4x4.hpp>
 #include <MemoryStream.h>
+#include "AnimChannel.h"
 
 namespace Donut::P3D {
 
-class Vector3Channel {
+class Vector3Channel : AnimChannel {
 public:
 	Vector3Channel() {}
-	void Read(MemoryStream& stream);
+	virtual void Read(MemoryStream& stream) override;
 private:
-	uint32_t _version;
 	uint32_t _numberOfFrames;
-	std::string _parameter;
 	std::vector<glm::vec3> _values;
 	std::vector<uint16_t> _frames;
 };

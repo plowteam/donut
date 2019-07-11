@@ -4,5 +4,9 @@
 
 namespace Donut::P3D {
 
+	void QuaternionChannel::Read(MemoryStream& stream)
+	{
+		AnimChannel::Read(stream);
 
+	}
 } // namespace Donut::P3D
