@@ -30,6 +30,8 @@ namespace Donut::P3D {
 			case ChunkType::AnimationGroupList:
 				groupList = AnimationGroupList::Load(*child.get());
 				break;
+			case ChunkType::AnimationSize:
+				break;
 			default:
 				std::cout << "Unexpected Chunk: " << child->GetType() << "\n";
 			}
