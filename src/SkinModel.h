@@ -8,6 +8,7 @@
 #include <P3D/PolySkin.h>
 #include <P3D/Skeleton.h>
 #include <P3D/Shader.h>
+#include <P3D/Animation.h>
 #include <ResourceManager.h>
 #include <SkinAnimation.h>
 #include <glm/glm.hpp>
