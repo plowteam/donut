@@ -40,9 +40,9 @@ class SkinModel
 		return *_p3dFile;
 	}
 
-	P3D::P3DFile& GetAnimP3DFile()
+	P3D::P3DFile* GetAnimP3DFile()
 	{
-		return *_animP3D.get();
+		return _animP3D.get();
 	}
 
   private:

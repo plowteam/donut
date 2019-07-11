@@ -125,7 +125,11 @@ void Game::Run()
 		if (_skinModel != nullptr)
 		{
 			debugDrawP3D(_skinModel->GetP3DFile());
-			debugDrawP3D(_skinModel->GetAnimP3DFile());
+
+			if (_skinModel->GetAnimP3DFile() != nullptr)
+			{
+				debugDrawP3D(*_skinModel->GetAnimP3DFile());
+			}
 		}
 
 		ImGui::Begin("Camera");

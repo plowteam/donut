@@ -46,6 +46,8 @@ SkinModel::SkinModel(const std::string& filename):
 
 void SkinModel::LoadAnimations(const std::string& filename)
 {
+	if (!std::filesystem::exists(filename)) return;
+
 	_animP3D = std::make_unique<P3D::P3DFile>(filename);
 
 	const auto& root = _animP3D->GetRoot();
