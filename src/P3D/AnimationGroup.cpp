@@ -15,8 +15,12 @@ namespace Donut::P3D {
 		uint32_t groupId = stream.Read<uint32_t>();
 		uint32_t numChannels = stream.Read<uint32_t>();
 
+		std::unique_ptr<Vector3Channel> vector3Channel = nullptr;
+
 		for (auto const& child : chunk.GetChildren())
 		{
+			MemoryStream data(child->GetData());
+
 			switch (child->GetType())
 			{
 			case ChunkType::Vector1Channel:
@@ -24,6 +28,8 @@ namespace Donut::P3D {
 			case ChunkType::Vector2Channel:
 				break;
 			case ChunkType::Vector3Channel:
+				vector3Channel = std::make_unique<Vector3Channel>();
+				vector3Channel->Read(data);
 				break;
 			case ChunkType::QuaternionChannel:
 				break;
