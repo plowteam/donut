@@ -29,7 +29,7 @@ namespace Donut::P3D {
 			}
 		}
 
-		return std::make_unique<AnimationGroupList>();
+		return std::make_unique<AnimationGroupList>(std::move(groups));
 	}
 
 } // namespace Donut::P3D
