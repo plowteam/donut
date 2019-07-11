@@ -12,6 +12,8 @@ public:
 		_groups(std::move(groups)) {}
 
 	static std::unique_ptr<AnimationGroupList> Load(const P3DChunk&);
+
+	std::vector<std::unique_ptr<AnimationGroup>>& GetGroups() { return _groups; }
 private:
 	std::vector<std::unique_ptr<AnimationGroup>> _groups;
 };

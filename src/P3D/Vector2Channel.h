@@ -12,6 +12,8 @@ class Vector2Channel : AnimChannel {
 public:
 	Vector2Channel() {}
 	virtual void Read(MemoryStream& stream) override;
+
+	uint32_t GetNumFrames() { return _numberOfFrames; }
 private:
 	uint32_t _numberOfFrames;
 	uint16_t _mapping;

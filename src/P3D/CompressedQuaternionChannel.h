@@ -12,6 +12,8 @@ class CompressedQuaternionChannel : AnimChannel {
 public:
 	CompressedQuaternionChannel() {}
 	virtual void Read(MemoryStream& stream) override;
+
+	uint32_t GetNumFrames() { return _numberOfFrames; }
 private:
 	uint32_t _numberOfFrames;
 	std::vector<glm::vec4> _values;

@@ -15,6 +15,11 @@ public:
 
 	static std::unique_ptr<AnimationGroup> Load(const P3DChunk&);
 	void LoadChannels(const P3DChunk&);
+
+	std::unique_ptr<Vector2Channel>& GetVector2Channel() { return _vector2Channel; }
+	std::unique_ptr<Vector3Channel>& GetVector3Channel() { return _vector3Channel; }
+	std::unique_ptr<QuaternionChannel>& GetQuaternionChannel() { return _quaternionChannel; }
+	std::unique_ptr<CompressedQuaternionChannel>& GetCompressedQuaternionChannel() { return _compressedQuaternionChannel; }
 private:
 
 	std::unique_ptr<Vector2Channel> _vector2Channel;
