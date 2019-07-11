@@ -1,7 +1,7 @@
-#include "glm/gtx/transform.hpp"
-
+#include <glm/gtx/transform.hpp>
 #include <SkinModel.h>
 #include <iostream>
+#include <P3D/Texture.h>
 
 namespace Donut
 {
@@ -9,6 +9,8 @@ namespace Donut
 SkinModel::SkinModel(const std::string& filename):
     _filename(filename)
 {
+	_textures = std::map<std::string, std::unique_ptr<GL::Texture2D>>();
+
 	_p3dFile = std::make_unique<P3D::P3DFile>(filename);
 
 	const auto& root = _p3dFile->GetRoot();
@@ -16,6 +18,19 @@ SkinModel::SkinModel(const std::string& filename):
 	{
 		switch (chunk->GetType())
 		{
+		case P3D::ChunkType::Shader:
+		{
+			auto shader = P3D::Shader::Load(*chunk);
+			_shaders[shader->GetName()] = std::move(shader);
+			break;
+		}
+		case P3D::ChunkType::Texture:
+		{
+			auto texture = P3D::Texture::Load(*chunk);
+			auto texdata                  = texture->GetData();
+			_textures[texture->GetName()] = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
+			break;
+		}
 		case P3D::ChunkType::PolySkin:
 			_polySkin = P3D::PolySkin::Load(*chunk);
 			break;
@@ -227,8 +242,14 @@ void SkinModel::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 		}
 
 		_shader->SetUniformValue("diffuseTex", 0);
-		rm.GetTexture("char_swatches_lit.bmp").Bind(0);
-		if (prim->GetShaderName() == "eyeball_m") rm.GetTexture("eyeball.bmp.0").Bind(0);
+
+		const auto& shader = _shaders[prim->GetShaderName()];
+		const auto& texName = shader->GetTexture();
+
+		if (_textures.find(texName) == _textures.end())
+			rm.GetTexture(texName).Bind(0);
+		else
+			_textures.at(texName)->Bind(0);
 
 		glDrawElements(mode, indicesSize, _indexBuffer->GetType(), (void*)(idxOffset * 4));
 		idxOffset += indicesSize;
