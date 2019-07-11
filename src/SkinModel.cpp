@@ -29,6 +29,98 @@ SkinModel::SkinModel(const std::string& filename):
 	createMesh();
 }
 
+void SkinModel::LoadAnimations(const std::string& filename)
+{
+	_animP3D = std::make_unique<P3D::P3DFile>(filename);
+
+	const auto& root = _animP3D->GetRoot();
+	for (const auto& chunk : root.GetChildren())
+	{
+		switch (chunk->GetType())
+		{
+		case P3D::ChunkType::Animation:
+		{
+			CreateAnimation(*P3D::Animation::Load(*chunk.get()).get());
+			break;
+		}
+		default: break;
+		}
+	}
+
+	UpdateBoneMatrices();
+}
+
+void SkinModel::CreateAnimation(const P3D::Animation& p3dAnim)
+{
+	auto p3dGroupList = p3dAnim.GetGroupList();
+	if (p3dGroupList == nullptr) return;
+
+	auto animation = std::make_unique<SkinAnimation>(
+		p3dAnim.GetName(),
+		p3dAnim.GetNumFrames() / p3dAnim.GetFrameRate(),
+		(int32_t)p3dAnim.GetNumFrames(),
+		p3dAnim.GetFrameRate());
+
+	auto const& joints = _skeleton->GetJoints();
+
+	for (auto const& joint : _skeleton->GetJoints())
+	{
+		auto track = std::make_unique<SkinAnimation::Track>(joint->GetName());
+
+		const auto& jointRestPose = joint->GetRestPose();
+		const auto& jointTranslation = jointRestPose[3];
+		const auto& jointRotation = glm::quat_cast(jointRestPose);
+
+		auto p3dGroup = p3dGroupList->GetGroup(joint->GetName());
+		if (p3dGroup == nullptr)
+		{
+			track->AddTranslationKey(0, jointTranslation);
+			track->AddRotationKey(0, jointRotation);
+		}
+		else
+		{
+			auto vector2Channel = p3dGroup->GetVector2Channel();
+			auto vector3Channel = p3dGroup->GetVector3Channel();
+			auto quaternionChannel = p3dGroup->GetQuaternionChannel();
+			auto compressedQuaternionChannel = p3dGroup->GetCompressedQuaternionChannel();
+
+			if (vector3Channel != nullptr)
+			{
+				const auto& frames = vector3Channel->GetFrames();
+				const auto& values = vector3Channel->GetValues();
+
+				for (size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
+				{
+					track->AddTranslationKey(frames[i], values[i]);
+				}
+			}
+			else
+			{
+				track->AddTranslationKey(0, jointTranslation);
+			}
+
+			if (compressedQuaternionChannel != nullptr)
+			{
+				const auto& frames = compressedQuaternionChannel->GetFrames();
+				const auto& values = compressedQuaternionChannel->GetValues();
+
+				for (size_t i = 0; i < compressedQuaternionChannel->GetNumFrames(); ++i)
+				{
+					track->AddRotationKey(frames[i], values[i]);
+				}
+			}
+			else
+			{
+				track->AddRotationKey(0, jointRotation);
+			}
+		}
+
+		animation->AddTrack(track);
+	}
+
+	_animations.push_back(std::move(animation));
+}
+
 std::string vertexShader = R"glsl(
 	#version 150 core
 
@@ -156,18 +248,7 @@ void SkinModel::createMesh()
 
 	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
 	{
-		_boneMatrices[jointIndex] = joints[jointIndex]->GetRestPose() * _boneMatrices[joints[jointIndex]->GetParent()];
-	}
-
-	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
-	{
-		// TODO: Get pose from anim
-		_poseMatrices[jointIndex] = _boneMatrices[jointIndex];
-	}
-
-	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
-	{
-		_finalMatrices[jointIndex] = glm::inverse(_boneMatrices[jointIndex]) * _poseMatrices[jointIndex];
+		_boneMatrices[jointIndex] = _boneMatrices[joints[jointIndex]->GetParent()] * joints[jointIndex]->GetRestPose();
 	}
 
 	_boneBuffer->SetBuffer(_finalMatrices.data(), _finalMatrices.size() * sizeof(glm::mat4));
@@ -191,6 +272,26 @@ void SkinModel::createMesh()
 	glEnableVertexAttribArray(4);
 
 	glBindVertexArray(0);
+}
+
+void SkinModel::UpdateBoneMatrices()
+{
+	const auto& animation = _animations[0];
+	auto const& joints = _skeleton->GetJoints();
+
+	_poseMatrices[0] = glm::mat4(1.0f);
+
+	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
+	{
+		_poseMatrices[jointIndex] = _poseMatrices[joints[jointIndex]->GetParent()] * animation->Evaluate(jointIndex, 0.0f);
+	}
+
+	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
+	{
+		_finalMatrices[jointIndex] = _poseMatrices[jointIndex] * glm::inverse(_boneMatrices[jointIndex]);
+	}
+
+	_boneBuffer->SetBuffer(_finalMatrices.data(), _finalMatrices.size() * sizeof(glm::mat4));
 }
 
 void SkinModel::Draw(const ResourceManager& rm, glm::mat4& viewProj)

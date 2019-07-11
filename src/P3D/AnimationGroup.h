@@ -13,17 +13,23 @@ namespace Donut::P3D
 class AnimationGroup
 {
   public:
-	AnimationGroup() {}
+	AnimationGroup(const std::string& name, uint32_t groupId) :
+		_name(name), _groupId(groupId) {}
 
 	static std::unique_ptr<AnimationGroup> Load(const P3DChunk&);
 	void LoadChannels(const P3DChunk&);
 
-	std::unique_ptr<Vector2Channel>& GetVector2Channel() { return _vector2Channel; }
-	std::unique_ptr<Vector3Channel>& GetVector3Channel() { return _vector3Channel; }
-	std::unique_ptr<QuaternionChannel>& GetQuaternionChannel() { return _quaternionChannel; }
-	std::unique_ptr<CompressedQuaternionChannel>& GetCompressedQuaternionChannel() { return _compressedQuaternionChannel; }
+	const std::string& GetName() const { return _name; }
+	uint32_t GetGroupId() const { return _groupId; }
+
+	const Vector2Channel* GetVector2Channel() const { return _vector2Channel.get(); }
+	const Vector3Channel* GetVector3Channel() const { return _vector3Channel.get(); }
+	const QuaternionChannel* GetQuaternionChannel() const { return _quaternionChannel.get(); }
+	const CompressedQuaternionChannel* GetCompressedQuaternionChannel() const { return _compressedQuaternionChannel.get(); }
 
   private:
+	std::string _name;
+	uint32_t _groupId;
 	std::unique_ptr<Vector2Channel> _vector2Channel;
 	std::unique_ptr<Vector3Channel> _vector3Channel;
 	std::unique_ptr<QuaternionChannel> _quaternionChannel;

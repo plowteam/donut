@@ -17,9 +17,9 @@ class Vector3Channel: AnimChannel
 	Vector3Channel() {}
 	virtual void Read(MemoryStream& stream) override;
 
-	uint32_t GetNumFrames() { return _numberOfFrames; }
-	std::vector<glm::vec3>& GetValues() { return _values; }
-	std::vector<uint16_t>& GetFrames() { return _frames; }
+	uint32_t GetNumFrames() const { return _numberOfFrames; }
+	const std::vector<glm::vec3>& GetValues() const { return _values; }
+	const std::vector<uint16_t>& GetFrames() const { return _frames; }
 
   private:
 	uint32_t _numberOfFrames;

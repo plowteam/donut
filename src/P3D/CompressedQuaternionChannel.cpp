@@ -17,12 +17,12 @@ void CompressedQuaternionChannel::Read(MemoryStream& stream)
 	_values.resize(_numberOfFrames);
 	for (uint32_t i = 0; i < _numberOfFrames; ++i)
 	{
-		float w = (float)stream.Read<int16_t>() / (float)SHRT_MAX;
-		float x = (float)stream.Read<int16_t>() / (float)SHRT_MAX;
-		float y = (float)stream.Read<int16_t>() / (float)SHRT_MAX;
-		float z = (float)stream.Read<int16_t>() / (float)SHRT_MAX;
+		float w = stream.Read<int16_t>() / (float)SHRT_MAX;
+		float x = stream.Read<int16_t>() / (float)SHRT_MAX;
+		float y = stream.Read<int16_t>() / (float)SHRT_MAX;
+		float z = stream.Read<int16_t>() / (float)SHRT_MAX;
 
-		_values[i] = glm::vec4(x, y, z, w);
+		_values[i] = glm::quat(w, x, y, z);
 	}
 }
 } // namespace Donut::P3D

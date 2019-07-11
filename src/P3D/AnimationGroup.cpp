@@ -16,7 +16,7 @@ std::unique_ptr<AnimationGroup> AnimationGroup::Load(const P3DChunk& chunk)
 	uint32_t groupId     = stream.Read<uint32_t>();
 	uint32_t numChannels = stream.Read<uint32_t>();
 
-	auto animationGroup = std::make_unique<AnimationGroup>();
+	auto animationGroup = std::make_unique<AnimationGroup>(name, groupId);
 
 	for (auto const& child : chunk.GetChildren())
 	{

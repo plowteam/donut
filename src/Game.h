@@ -21,7 +21,7 @@ class Game
 	}
 
 	void Run();
-	void LoadModel(const std::string&);
+	void LoadModel(const std::string&, const std::string&);
 
 	ResourceManager& GetResourceManager() { return *_resourceManager.get(); }
 

@@ -1,5 +1,4 @@
 #include <Game.h>
-#include <P3D/Animation.h>
 #include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>
@@ -49,23 +48,7 @@ Game::Game(int argc, char** argv)
 	_resourceManager = std::make_unique<ResourceManager>();
 
 	loadGlobal();
-	LoadModel("homer_m.p3d");
-
-	_animP3D = std::make_unique<P3D::P3DFile>("homer_a.p3d");
-
-	const auto& root = _animP3D->GetRoot();
-	for (const auto& chunk : root.GetChildren())
-	{
-		switch (chunk->GetType())
-		{
-		case P3D::ChunkType::Animation:
-		{
-			P3D::Animation::Load(*chunk.get());
-			break;
-		}
-		default: break;
-		}
-	}
+	LoadModel("homer_m.p3d", "homer_a.p3d");
 }
 
 Game::~Game()
@@ -96,11 +79,12 @@ void Game::loadGlobal()
 	}
 }
 
-void Game::LoadModel(const std::string& name)
+void Game::LoadModel(const std::string& name, const std::string& anim)
 {
 	if (_skinModel != nullptr) _skinModel.reset();
 
 	_skinModel = std::make_unique<SkinModel>(name);
+	_skinModel->LoadAnimations(anim);
 }
 
 void Game::Run()
@@ -120,19 +104,29 @@ void Game::Run()
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window.get()));
 		ImGui::NewFrame();
 
-		std::vector<std::string> models { "homer_m.p3d", "marge_m.p3d", "bart_m.p3d", "barney_m.p3d", "carl_m.p3d", "hooker_m.p3d" };
+		std::vector<std::pair<std::string, std::string>> models
+		{
+			{ "homer_m.p3d", "homer_a.p3d" },
+			{ "marge_m.p3d", "marge_a.p3d" },
+			{ "bart_m.p3d", "bart_a.p3d" },
+			{ "barney_m.p3d", "barney_a.p3d" },
+			{ "carl_m.p3d", "carl_a.p3d" },
+			{ "hooker_m.p3d", "hooker_a.p3d" },
+		};
 
 		ImGui::BeginMainMenuBar();
 		for (auto const& model : models)
 		{
-			if (ImGui::Button(model.c_str())) LoadModel(model.c_str());
+			if (ImGui::Button(model.first.c_str())) LoadModel(model.first.c_str(), model.second.c_str());
 		}
 
 		ImGui::EndMainMenuBar();
 
-		if (_skinModel != nullptr) debugDrawP3D(_skinModel->GetP3DFile());
-
-		debugDrawP3D(*_animP3D.get());
+		if (_skinModel != nullptr)
+		{
+			debugDrawP3D(_skinModel->GetP3DFile());
+			debugDrawP3D(_skinModel->GetAnimP3DFile());
+		}
 
 		ImGui::Begin("Camera");
 		ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);

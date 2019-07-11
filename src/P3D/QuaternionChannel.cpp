@@ -22,7 +22,7 @@ void QuaternionChannel::Read(MemoryStream& stream)
 		float y = stream.Read<float>();
 		float z = stream.Read<float>();
 
-		_values[i] = glm::vec4(x, y, z, w);
+		_values[i] = glm::quat(w, x, y, z);
 	}
 }
 } // namespace Donut::P3D

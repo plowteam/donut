@@ -39,7 +39,7 @@ std::unique_ptr<Animation> Animation::Load(const P3DChunk& chunk)
 		}
 	}
 
-	return std::make_unique<Animation>(name, animType, numFrames, frameRate, looping);
+	return std::make_unique<Animation>(name, animType, numFrames, frameRate, looping, groupList);
 }
 
 } // namespace Donut::P3D

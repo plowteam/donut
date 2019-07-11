@@ -15,7 +15,14 @@ class AnimationGroupList
 
 	static std::unique_ptr<AnimationGroupList> Load(const P3DChunk&);
 
-	std::vector<std::unique_ptr<AnimationGroup>>& GetGroups() { return _groups; }
+	const AnimationGroup* GetGroup(const std::string& name) const
+	{
+		for (const auto& group : _groups)
+		{
+			if (group->GetName() == name) return group.get();
+		}
+		return nullptr;
+	}
 
   private:
 	std::vector<std::unique_ptr<AnimationGroup>> _groups;
