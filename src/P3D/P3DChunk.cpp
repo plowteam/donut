@@ -191,6 +191,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 		return os << "CarCameraData";
 	case ChunkType::Set:
 		return os << "Set";
+	case ChunkType::StaticEntity:
+		return os << "StaticEntity";
 	case ChunkType::PhysicsObject:
 		return os << "PhysicsObject";
 	case ChunkType::PhysicsInertiaMatrix:
