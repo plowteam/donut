@@ -11,12 +11,12 @@ std::unique_ptr<SkeletonJoint> SkeletonJointLoader::Load(const P3DChunk& chunk)
 	MemoryStream stream(chunk.GetData());
 
 	std::string name = stream.ReadLPString();
-	uint32_t parent = stream.Read<std::uint32_t>();
-	int32_t dof = stream.Read<std::int32_t>();
-	int32_t freeAxis = stream.Read<std::int32_t>();
-	int32_t primaryAxis = stream.Read<std::int32_t>();
-	int32_t secondaryAxis = stream.Read<std::int32_t>();
-	int32_t twistAxis = stream.Read<std::int32_t>();
+	uint32_t parent = stream.Read<uint32_t>();
+	int32_t dof = stream.Read<int32_t>();
+	int32_t freeAxis = stream.Read<int32_t>();
+	int32_t primaryAxis = stream.Read<int32_t>();
+	int32_t secondaryAxis = stream.Read<int32_t>();
+	int32_t twistAxis = stream.Read<int32_t>();
 
 	glm::mat4 restPose;
 	stream.ReadBytes(reinterpret_cast<uint8_t*>(&restPose[0][0]), sizeof(glm::mat4));

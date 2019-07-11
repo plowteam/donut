@@ -2,7 +2,8 @@
 
 #include <glad/glad.h>
 
-namespace Donut::GL {
+namespace Donut::GL
+{
 
 class Texture2D
 {

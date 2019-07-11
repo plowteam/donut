@@ -1,16 +1,17 @@
 #pragma once
 
-#include <string>
+#include <GL/Texture2D.h>
 #include <map>
 #include <memory>
+#include <string>
 #include <vector>
 
-#include <GL/Texture2D.h>
+namespace Donut
+{
 
-namespace Donut {
-
-class ResourceManager {
-public:
+class ResourceManager
+{
+  public:
 	ResourceManager();
 
 	void AddTexture(const std::string& name, std::unique_ptr<GL::Texture2D> texture);

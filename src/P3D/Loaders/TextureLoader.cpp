@@ -15,18 +15,18 @@ std::unique_ptr<Texture> TextureLoader::Load(const P3DChunk& chunk)
 	MemoryStream stream(chunk.GetData());
 
 	std::string name = stream.ReadLPString();
-    std::uint32_t version = stream.Read<std::uint32_t>();
+    uint32_t version = stream.Read<uint32_t>();
 
 	assert(version == 14000);
 
-    std::uint32_t width = stream.Read<std::uint32_t>();
-    std::uint32_t height = stream.Read<std::uint32_t>();
-    std::uint32_t bpp = stream.Read<std::uint32_t>();
-    std::uint32_t alphaDepth = stream.Read<std::uint32_t>();
-    std::uint32_t numMipMaps = stream.Read<std::uint32_t>();
-    std::uint32_t textureType = stream.Read<std::uint32_t>();
-    std::uint32_t usage = stream.Read<std::uint32_t>();
-    std::uint32_t priority = stream.Read<std::uint32_t>();
+    uint32_t width = stream.Read<uint32_t>();
+    uint32_t height = stream.Read<uint32_t>();
+    uint32_t bpp = stream.Read<uint32_t>();
+    uint32_t alphaDepth = stream.Read<uint32_t>();
+    uint32_t numMipMaps = stream.Read<uint32_t>();
+    uint32_t textureType = stream.Read<uint32_t>();
+    uint32_t usage = stream.Read<uint32_t>();
+    uint32_t priority = stream.Read<uint32_t>();
 
 	assert(chunk.GetChildren().size() > 0);
 
@@ -36,13 +36,13 @@ std::unique_ptr<Texture> TextureLoader::Load(const P3DChunk& chunk)
 	MemoryStream img(imageChunk->GetData());
 
 	std::string img_name = img.ReadLPString();
-    std::uint32_t img_version = img.Read<std::uint32_t>();
-    std::uint32_t img_width = img.Read<std::uint32_t>();
-    std::uint32_t img_height = img.Read<std::uint32_t>();
-    std::uint32_t img_bpp = img.Read<std::uint32_t>();
-    std::uint32_t img_palettized = img.Read<std::uint32_t>();
-    std::uint32_t img_hasAlpha = img.Read<std::uint32_t>();
-    std::uint32_t img_format = img.Read<std::uint32_t>();
+    uint32_t img_version = img.Read<uint32_t>();
+    uint32_t img_width = img.Read<uint32_t>();
+    uint32_t img_height = img.Read<uint32_t>();
+    uint32_t img_bpp = img.Read<uint32_t>();
+    uint32_t img_palettized = img.Read<uint32_t>();
+    uint32_t img_hasAlpha = img.Read<uint32_t>();
+    uint32_t img_format = img.Read<uint32_t>();
 
 	// lets just check its the same shit
     assert(width == img_width);
@@ -54,27 +54,27 @@ std::unique_ptr<Texture> TextureLoader::Load(const P3DChunk& chunk)
 		throw std::runtime_error("no image data in image homer");
 
 	auto const& imgDataChunk       = imageChunk->GetChildren().at(0);
-	std::vector<std::uint8_t> data = getImageData(*imgDataChunk.get());
+	std::vector<uint8_t> data = getImageData(*imgDataChunk.get());
 
 	ImageData imgdata = decodeImageData(data);
 
     return std::make_unique<Texture>(name, width, height, bpp, imgdata);
 }
 
-std::vector<std::uint8_t> TextureLoader::getImageData(const P3DChunk& chunk)
+std::vector<uint8_t> TextureLoader::getImageData(const P3DChunk& chunk)
 {
 	assert(chunk.IsType(ChunkType::ImageData));
 
 	MemoryStream stream(chunk.GetData());
 
-    std::uint32_t length = stream.Read<std::uint32_t>();
-	std::vector<std::uint8_t> data(length);
+    uint32_t length = stream.Read<uint32_t>();
+	std::vector<uint8_t> data(length);
 	stream.ReadBytes(data.data(), data.size());
 	return data;
 }
 
 // just does png for now
-ImageData TextureLoader::decodeImageData(const std::vector<std::uint8_t>& data)
+ImageData TextureLoader::decodeImageData(const std::vector<uint8_t>& data)
 {
 	ImageData ret;
 	uint8_t* image = stbi_load_from_memory(data.data(), data.size(), &ret.width, &ret.height, &ret.comp, 0);

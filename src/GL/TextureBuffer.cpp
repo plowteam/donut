@@ -1,11 +1,13 @@
 #include <GL/TextureBuffer.h>
 #include <glad/glad.h>
 
-namespace Donut::GL {
+namespace Donut::GL
+{
 
-TextureBuffer::TextureBuffer() :
-	m_handle(0),
-	m_bufferHandle(0) {
+TextureBuffer::TextureBuffer():
+    m_handle(0),
+    m_bufferHandle(0)
+{
 	glGenTextures(1, &m_handle);
 	glGenBuffers(1, &m_bufferHandle);
 
@@ -18,30 +20,36 @@ TextureBuffer::TextureBuffer() :
 	glBindTexture(GL_TEXTURE_BUFFER, 0);
 }
 
-TextureBuffer::~TextureBuffer() {
-	if (m_bufferHandle != 0) {
+TextureBuffer::~TextureBuffer()
+{
+	if (m_bufferHandle != 0)
+	{
 		glDeleteBuffers(1, &m_bufferHandle);
 		m_bufferHandle = 0;
 	}
 
-	if (m_handle != 0) {
+	if (m_handle != 0)
+	{
 		glDeleteTextures(1, &m_handle);
 		m_handle = 0;
 	}
 }
 
-void TextureBuffer::SetBuffer(void* buffer, unsigned int length) {
+void TextureBuffer::SetBuffer(void* buffer, unsigned int length)
+{
 	glBindBuffer(GL_TEXTURE_BUFFER, m_bufferHandle);
 	glBufferData(GL_TEXTURE_BUFFER, length, buffer, GL_DYNAMIC_READ);
 	glBindBuffer(GL_TEXTURE_BUFFER, 0);
 }
 
-void TextureBuffer::Bind() {
-    glBindTexture(GL_TEXTURE_BUFFER, m_handle);
+void TextureBuffer::Bind()
+{
+	glBindTexture(GL_TEXTURE_BUFFER, m_handle);
 }
 
-void TextureBuffer::Unbind() {
-    glBindTexture(GL_TEXTURE_BUFFER, 0);
+void TextureBuffer::Unbind()
+{
+	glBindTexture(GL_TEXTURE_BUFFER, 0);
 }
 
 } // namespace Donut::GL

@@ -9,13 +9,13 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 
     MemoryStream stream(chunk.GetData());
 
-    std::uint32_t version = stream.Read<std::uint32_t>(); // should be 0
+    uint32_t version = stream.Read<uint32_t>(); // should be 0
     std::string shaderName = stream.ReadLPString();
     PrimGroup::PrimitiveType primType = stream.Read<PrimGroup::PrimitiveType>();
-    std::uint32_t hasDataFlags = stream.Read<std::uint32_t>();
-    std::uint32_t numVerts = stream.Read<std::uint32_t>();
-    std::uint32_t numIndices = stream.Read<std::uint32_t>();
-    std::uint32_t numMatrices = stream.Read<std::uint32_t>();
+    uint32_t hasDataFlags = stream.Read<uint32_t>();
+    uint32_t numVerts = stream.Read<uint32_t>();
+    uint32_t numIndices = stream.Read<uint32_t>();
+    uint32_t numMatrices = stream.Read<uint32_t>();
 
 	std::unique_ptr<PrimGroup> primGroup = std::make_unique<PrimGroup>(shaderName, primType);
 
@@ -25,7 +25,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
         switch (child->GetType()) {
         case ChunkType::PositionList:
 		{
-            std::uint32_t len = data.Read<std::uint32_t>();
+            uint32_t len = data.Read<uint32_t>();
 
 			auto& verts = primGroup->GetVerticies();
             verts.resize(len);
@@ -34,7 +34,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 		}
         case ChunkType::IndexList:
 		{
-            std::uint32_t len = data.Read<std::uint32_t>();
+            uint32_t len = data.Read<uint32_t>();
 
 			auto& indices = primGroup->GetIndices();
             indices.resize(len);
@@ -43,7 +43,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 		}
         case ChunkType::NormalList:
 		{
-            std::uint32_t len = data.Read<std::uint32_t>();
+            uint32_t len = data.Read<uint32_t>();
 
 			auto& normals = primGroup->GetNormals();
             normals.resize(len);
@@ -52,8 +52,8 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 		}
 		case ChunkType::UVList:
 		{
-            std::uint32_t len = data.Read<std::uint32_t>();
-			std::uint32_t channel = data.Read<std::uint32_t>();
+            uint32_t len = data.Read<uint32_t>();
+			uint32_t channel = data.Read<uint32_t>();
 
             auto& uvs = primGroup->GetUV();
             uvs.resize(len);
@@ -65,7 +65,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 			break;
         case ChunkType::MatrixList:
 		{
-			std::uint32_t len = data.Read<std::uint32_t>();
+			uint32_t len = data.Read<uint32_t>();
 
 			auto& matrixList = primGroup->GetMatrixList();
 			matrixList.resize(len * 4);
@@ -74,7 +74,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 		}
         case ChunkType::WeightList:
 		{
-			std::uint32_t len = data.Read<std::uint32_t>();
+			uint32_t len = data.Read<uint32_t>();
 
 			auto& weights = primGroup->GetWeights();
 			weights.resize(len);
@@ -83,7 +83,7 @@ std::unique_ptr<PrimGroup> PrimGroupLoader::Load(const P3DChunk& chunk) {
 		}
         case ChunkType::MatrixPalette:
 		{
-			std::uint32_t len = data.Read<std::uint32_t>();
+			uint32_t len = data.Read<uint32_t>();
 
 			auto& matrixPalette = primGroup->GetMatrixPalette();
 			matrixPalette.resize(len);

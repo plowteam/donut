@@ -1,20 +1,23 @@
 #pragma once
 
+#include <glm/mat4x4.hpp>
 #include <memory>
 #include <string>
-#include <glm/mat4x4.hpp>
 
-namespace Donut::P3D {
+namespace Donut::P3D
+{
 
-class SkeletonJoint {
-public:
-	SkeletonJoint(const std::string& name, uint32_t parent, const glm::mat4 restPose) :
-		_name(name), _parent(parent), _restPose(restPose) {}
+class SkeletonJoint
+{
+  public:
+	SkeletonJoint(const std::string& name, uint32_t parent, const glm::mat4 restPose):
+	    _name(name), _parent(parent), _restPose(restPose) {}
 
 	const std::string& GetName() { return _name; }
 	uint32_t GetParent() { return _parent; }
 	const glm::mat4& GetRestPose() { return _restPose; }
-private:
+
+  private:
 	std::string _name;
 	uint32_t _parent;
 	int32_t _dof;

@@ -1,9 +1,10 @@
 #include <GL/IndexBuffer.h>
 #include <cassert>
 
-namespace Donut::GL {
+namespace Donut::GL
+{
 
-IndexBuffer::IndexBuffer(const void* indices, size_t indicesCount, GLenum type):
+IndexBuffer::IndexBuffer(const void* indices, std::size_t indicesCount, GLenum type):
     _ibo(0), _count(indicesCount), _type(type), _hint(GL_STATIC_DRAW)
 {
 	assert(indices != nullptr);

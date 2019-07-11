@@ -1,15 +1,16 @@
 #include <MemoryStream.h>
 #include <cstring>
 
-namespace Donut {
-
-MemoryStream::MemoryStream(const std::vector<std::uint8_t>& data)
+namespace Donut
 {
-	_data = data;
+
+MemoryStream::MemoryStream(const std::vector<uint8_t>& data)
+{
+	_data     = data;
 	_position = _data.begin();
 }
 
-void MemoryStream::ReadBytes(std::uint8_t* dest, std::size_t length)
+void MemoryStream::ReadBytes(uint8_t* dest, std::size_t length)
 {
 	// check cur + length doesn't exceed size
 
@@ -22,14 +23,14 @@ void MemoryStream::ReadBytes(std::uint8_t* dest, std::size_t length)
 
 std::string MemoryStream::ReadLPString()
 {
-	std::uint8_t length = Read<std::uint8_t>();
+	uint8_t length = Read<uint8_t>();
 
 	// read into a char* first, reading directly into a std::string fucks length up
 	char* str = new char[length];
-    ReadBytes(reinterpret_cast<uint8_t*>(str), length);
+	ReadBytes(reinterpret_cast<uint8_t*>(str), length);
 
 	// Bullshit null terminate
-	std::uint32_t l = 0;
+	uint32_t l = 0;
 	for (; l < length; ++l)
 	{
 		if (str[l] == 0) break;
@@ -43,18 +44,18 @@ std::string MemoryStream::ReadLPString()
 
 void MemoryStream::Seek(std::size_t position, SeekMode mode)
 {
-	switch (mode) {
-		case SeekMode::Begin:
+	switch (mode)
+	{
+	case SeekMode::Begin:
 		_position = std::next(_data.begin(), position);
 		break;
-		case SeekMode::Current:
+	case SeekMode::Current:
 		std::advance(_position, position);
 		break;
-		case SeekMode::End:
+	case SeekMode::End:
 		_position = std::next(_data.end(), -position);
 		break;
 	}
 }
 
-
-}
+} // namespace Donut

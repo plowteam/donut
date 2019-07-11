@@ -15,7 +15,7 @@ public:
 
 private:
 	std::vector<uint8_t> getImageData(const P3DChunk&);
-	ImageData decodeImageData(const std::vector<std::uint8_t>&);
+	ImageData decodeImageData(const std::vector<uint8_t>&);
 };
 
 } // namespace Donut::P3D

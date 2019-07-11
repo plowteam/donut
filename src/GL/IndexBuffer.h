@@ -1,11 +1,12 @@
 #pragma once
 
 #include <cstdio>
+#include <glad/glad.h>
 #include <memory>
 #include <stdint.h>
-#include <glad/glad.h>
 
-namespace Donut::GL {
+namespace Donut::GL
+{
 
 class IndexBuffer
 {

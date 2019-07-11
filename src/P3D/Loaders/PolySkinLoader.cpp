@@ -12,9 +12,9 @@ std::unique_ptr<PolySkin> PolySkinLoader::Load(const P3DChunk& chunk)
 	MemoryStream stream(chunk.GetData());
 
 	std::string name = stream.ReadLPString();
-	std::uint32_t version = stream.Read<std::uint32_t>();
+	uint32_t version = stream.Read<uint32_t>();
 	std::string skeletonName = stream.ReadLPString();
-	std::uint32_t numPrimGroups = stream.Read<std::uint32_t>();
+	uint32_t numPrimGroups = stream.Read<uint32_t>();
 
 	assert(version == 3);
 

@@ -2,10 +2,11 @@
 
 #include <glad/glad.h>
 
-namespace Donut::GL {
+namespace Donut::GL
+{
 
-class VertexBinding {
-
+class VertexBinding
+{
 };
 
 } // namespace Donut::GL

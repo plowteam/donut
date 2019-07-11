@@ -12,8 +12,8 @@ std::unique_ptr<Skeleton> SkeletonLoader::Load(const P3DChunk& chunk)
 	MemoryStream stream(chunk.GetData());
 
 	std::string name = stream.ReadLPString();
-	std::uint32_t version = stream.Read<std::uint32_t>();
-	std::uint32_t numJoints = stream.Read<std::uint32_t>();
+	uint32_t version = stream.Read<uint32_t>();
+	uint32_t numJoints = stream.Read<uint32_t>();
 
 	assert(version == 0);
 

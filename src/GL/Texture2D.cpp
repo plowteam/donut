@@ -3,7 +3,7 @@
 namespace Donut::GL
 {
 
-Texture2D::Texture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData) :
+Texture2D::Texture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData):
     _width(width), _height(height), _internalFormat(internalFormat), _format(format), _type(type)
 {
 	glGenTextures(1, &_textureID);
