@@ -22,8 +22,7 @@ Window::Window(const std::string& title, const int width, const int height)
 	if (SDL_WasInit(0) == 0)
 	{
 		SDL_SetMainReady();
-		if (SDL_Init(0) != 0)
-			throw std::runtime_error("Could not initialize SDL: " + std::string(SDL_GetError()));
+		if (SDL_Init(0) != 0) throw std::runtime_error("Could not initialize SDL: " + std::string(SDL_GetError()));
 
 		if (SDL_InitSubSystem(SDL_INIT_VIDEO) != 0)
 			throw std::runtime_error("Could not initialize SDL Video Subsystem: " +

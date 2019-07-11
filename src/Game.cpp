@@ -63,8 +63,7 @@ Game::Game(int argc, char** argv)
 			P3D::Animation::Load(*chunk.get());
 			break;
 		}
-		default:
-			break;
+		default: break;
 		}
 	}
 }
@@ -87,8 +86,7 @@ void Game::loadGlobal()
 	const auto& root = _globalP3D->GetRoot();
 	for (const auto& chunk : root.GetChildren())
 	{
-		if (chunk->GetType() != P3D::ChunkType::Texture)
-			continue;
+		if (chunk->GetType() != P3D::ChunkType::Texture) continue;
 
 		auto texture = P3D::Texture::Load(*chunk.get());
 		auto texdata = texture->GetData();
@@ -100,8 +98,7 @@ void Game::loadGlobal()
 
 void Game::LoadModel(const std::string& name)
 {
-	if (_skinModel != nullptr)
-		_skinModel.reset();
+	if (_skinModel != nullptr) _skinModel.reset();
 
 	_skinModel = std::make_unique<SkinModel>(name);
 }
@@ -114,8 +111,7 @@ void Game::Run()
 	{
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_QUIT)
-				running = false;
+			if (event.type == SDL_QUIT) running = false;
 
 			ImGui_ImplSDL2_ProcessEvent(&event);
 		}
@@ -129,14 +125,12 @@ void Game::Run()
 		ImGui::BeginMainMenuBar();
 		for (auto const& model : models)
 		{
-			if (ImGui::Button(model.c_str()))
-				LoadModel(model.c_str());
+			if (ImGui::Button(model.c_str())) LoadModel(model.c_str());
 		}
 
 		ImGui::EndMainMenuBar();
 
-		if (_skinModel != nullptr)
-			debugDrawP3D(_skinModel->GetP3DFile());
+		if (_skinModel != nullptr) debugDrawP3D(_skinModel->GetP3DFile());
 
 		debugDrawP3D(*_animP3D.get());
 
@@ -159,8 +153,7 @@ void Game::Run()
 		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
 		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::mat4(1.0f);
 
-		if (_skinModel != nullptr)
-			_skinModel->Draw(GetResourceManager(), mvp);
+		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();

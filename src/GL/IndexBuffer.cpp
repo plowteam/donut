@@ -5,14 +5,13 @@ namespace Donut::GL
 {
 
 IndexBuffer::IndexBuffer(const void* indices, std::size_t indicesCount, GLenum type):
-    _ibo(0), _count(indicesCount), _type(type), _hint(GL_STATIC_DRAW)
+    _count(indicesCount), _type(type), _ibo(0), _hint(GL_STATIC_DRAW)
 {
 	assert(indices != nullptr);
 	assert(indicesCount > 0);
 
 	glGenBuffers(1, &_ibo);
-	if (glGetError() != GL_NO_ERROR)
-		return;
+	if (glGetError() != GL_NO_ERROR) return;
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _count * GetTypeSize(_type), indices, _hint);

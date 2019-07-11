@@ -30,14 +30,12 @@ void File::Open(const std::filesystem::path& path, FileMode mode)
 	_file = std::fopen(path.c_str(), "rb");
 #endif
 
-	if (_file == nullptr)
-		throw std::runtime_error("fopen failed");
+	if (_file == nullptr) throw std::runtime_error("fopen failed");
 }
 
 void File::Close()
 {
-	if (_file != nullptr)
-		std::fclose(_file);
+	if (_file != nullptr) std::fclose(_file);
 
 	_file = nullptr;
 }

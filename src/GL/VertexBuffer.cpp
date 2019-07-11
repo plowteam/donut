@@ -14,8 +14,7 @@ VertexBuffer::VertexBuffer(const void* vertices, std::size_t vertexCount, size_t
 	assert(strideBytes > 0);
 
 	glGenBuffers(1, &_vbo);
-	if (glGetError() != GL_NO_ERROR)
-		return;
+	if (glGetError() != GL_NO_ERROR) return;
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertexCount * strideBytes, vertices, _hint);

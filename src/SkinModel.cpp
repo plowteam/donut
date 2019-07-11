@@ -22,8 +22,7 @@ SkinModel::SkinModel(const std::string& filename):
 		case P3D::ChunkType::Skeleton:
 			_skeleton = P3D::Skeleton::Load(*chunk.get());
 			break;
-		default:
-			break;
+		default: break;
 		}
 	}
 
@@ -117,12 +116,12 @@ void SkinModel::createMesh()
 
 		for (uint32_t i = 0; i < verts.size(); i++)
 		{
-
-			auto boneIndices = hasBoneIndices ? glm::ivec3(
-			                                        matrixPalette[matrixList[(i * 4) + 3]],
-			                                        matrixPalette[matrixList[(i * 4) + 2]],
-			                                        matrixPalette[matrixList[(i * 4) + 1]])
-			                                  : glm::ivec3(0, 0, 0);
+			auto boneIndices = hasBoneIndices
+			                       ? glm::ivec3(
+			                             matrixPalette[matrixList[(i * 4) + 3]],
+			                             matrixPalette[matrixList[(i * 4) + 2]],
+			                             matrixPalette[matrixList[(i * 4) + 1]])
+			                       : glm::ivec3(0, 0, 0);
 
 			auto weight = hasWeights ? weights[i] : glm::vec3(1, 0, 0);
 
@@ -229,8 +228,7 @@ void SkinModel::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 
 		_shader->SetUniformValue("diffuseTex", 0);
 		rm.GetTexture("char_swatches_lit.bmp").Bind(0);
-		if (prim->GetShaderName() == "eyeball_m")
-			rm.GetTexture("eyeball.bmp.0").Bind(0);
+		if (prim->GetShaderName() == "eyeball_m") rm.GetTexture("eyeball.bmp.0").Bind(0);
 
 		glDrawElements(mode, indicesSize, _indexBuffer->GetType(), (void*)(idxOffset * 4));
 		idxOffset += indicesSize;
@@ -238,5 +236,4 @@ void SkinModel::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 
 	glBindVertexArray(0);
 }
-
 } // namespace Donut
