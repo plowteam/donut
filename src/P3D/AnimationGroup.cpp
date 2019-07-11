@@ -15,41 +15,43 @@ namespace Donut::P3D {
 		uint32_t groupId = stream.Read<uint32_t>();
 		uint32_t numChannels = stream.Read<uint32_t>();
 
-		std::unique_ptr<Vector2Channel> vector2Channel = nullptr;
-		std::unique_ptr<Vector3Channel> vector3Channel = nullptr;
-		std::unique_ptr<QuaternionChannel> quaternionChannel = nullptr;
-		std::unique_ptr<CompressedQuaternionChannel> compressedQuaternionChannel = nullptr;
+		auto animationGroup = std::make_unique<AnimationGroup>();
 
 		for (auto const& child : chunk.GetChildren())
 		{
-			MemoryStream data(child->GetData());
-
-			switch (child->GetType())
-			{
-			case ChunkType::Vector1Channel:
-				break;
-			case ChunkType::Vector2Channel:
-				vector2Channel = std::make_unique<Vector2Channel>();
-				vector2Channel->Read(data);
-				break;
-			case ChunkType::Vector3Channel:
-				vector3Channel = std::make_unique<Vector3Channel>();
-				vector3Channel->Read(data);
-				break;
-			case ChunkType::QuaternionChannel:
-				quaternionChannel = std::make_unique<QuaternionChannel>();
-				quaternionChannel->Read(data);
-				break;
-			case ChunkType::CompressedQuaternionChannel:
-				compressedQuaternionChannel = std::make_unique<CompressedQuaternionChannel>();
-				compressedQuaternionChannel->Read(data);
-				break;
-			default:
-				std::cout << "Unexpected Chunk: " << child->GetType() << "\n";
-			}
+			animationGroup->LoadChannels(*child);
 		}
 
-		return std::make_unique<AnimationGroup>();
+		return animationGroup;
+	}
+
+	void AnimationGroup::LoadChannels(const P3DChunk& chunk)
+	{
+		MemoryStream data(chunk.GetData());
+
+		switch (chunk.GetType())
+		{
+		case ChunkType::Vector1Channel:
+			break;
+		case ChunkType::Vector2Channel:
+			_vector2Channel = std::make_unique<Vector2Channel>();
+			_vector2Channel->Read(data);
+			break;
+		case ChunkType::Vector3Channel:
+			_vector3Channel = std::make_unique<Vector3Channel>();
+			_vector3Channel->Read(data);
+			break;
+		case ChunkType::QuaternionChannel:
+			_quaternionChannel = std::make_unique<QuaternionChannel>();
+			_quaternionChannel->Read(data);
+			break;
+		case ChunkType::CompressedQuaternionChannel:
+			_compressedQuaternionChannel = std::make_unique<CompressedQuaternionChannel>();
+			_compressedQuaternionChannel->Read(data);
+			break;
+		default:
+			std::cout << "Unexpected Chunk: " << chunk.GetType() << "\n";
+		}
 	}
 
 } // namespace Donut::P3D

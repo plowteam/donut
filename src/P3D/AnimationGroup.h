@@ -14,6 +14,7 @@ public:
 	AnimationGroup() {}
 
 	static std::unique_ptr<AnimationGroup> Load(const P3DChunk&);
+	void LoadChannels(const P3DChunk&);
 private:
 
 	std::unique_ptr<Vector2Channel> _vector2Channel;
