@@ -11,6 +11,7 @@
 #include <imgui_impl_sdl.h>
 
 #include <P3D/Loaders/TextureLoader.h>
+#include <P3D/Animation.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -46,6 +47,20 @@ Game::Game(int argc, char** argv) {
 
     loadGlobal();
 	LoadModel("homer_m.p3d");
+
+	_animP3D = std::make_unique<P3D::P3DFile>("homer_a.p3d");
+
+	const auto& root = _animP3D->GetRoot();
+	for (const auto& chunk : root.GetChildren()) {
+		switch (chunk->GetType()) {
+		case P3D::ChunkType::Animation: {
+			P3D::Animation::Load(*chunk.get());
+			break;
+		}
+		default:
+			break;
+		}
+	}
 }
 
 Game::~Game() {
@@ -112,6 +127,8 @@ void Game::Run() {
 
         if (_skinModel != nullptr)
             debugDrawP3D(_skinModel->GetP3DFile());
+
+		debugDrawP3D(*_animP3D.get());
 
         ImGui::Begin("Camera");
         ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);
