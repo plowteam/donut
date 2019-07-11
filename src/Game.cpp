@@ -40,8 +40,8 @@ Game::Game(int argc, char** argv)
 	glEnable(GL_TEXTURE_2D);
 
 	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window.get()),
-	                             static_cast<SDL_GLContext*>(*_window.get()));
+	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window),
+	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
 	// init sub classes
@@ -71,7 +71,7 @@ void Game::loadGlobal()
 	{
 		if (chunk->GetType() != P3D::ChunkType::Texture) continue;
 
-		auto texture = P3D::Texture::Load(*chunk.get());
+		auto texture = P3D::Texture::Load(*chunk);
 		auto texdata = texture->GetData();
 
 		auto tex2d = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
@@ -101,7 +101,7 @@ void Game::Run()
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window.get()));
+		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
 
 		std::vector<std::pair<std::string, std::string>> models
@@ -145,7 +145,7 @@ void Game::Run()
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.0f);
 
 		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
-		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::mat4(1.0f);
+		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f) , glm::vec3(-1.0f, 1.0f, 1.0f));
 
 		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
 

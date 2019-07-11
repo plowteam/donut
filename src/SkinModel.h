@@ -7,7 +7,7 @@
 #include <P3D/P3DFile.h>
 #include <P3D/PolySkin.h>
 #include <P3D/Skeleton.h>
-#include <P3D/Animation.h>
+#include <P3D/Shader.h>
 #include <ResourceManager.h>
 #include <SkinAnimation.h>
 #include <glm/glm.hpp>
@@ -34,9 +34,9 @@ class SkinModel
 
 	void Draw(const ResourceManager&, glm::mat4& viewProj);
 
-	P3D::P3DFile& GetP3DFile()
+	P3D::P3DFile& GetP3DFile() const
 	{
-		return *_p3dFile.get();
+		return *_p3dFile;
 	}
 
 	P3D::P3DFile& GetAnimP3DFile()
@@ -56,6 +56,8 @@ class SkinModel
 	std::unique_ptr<P3D::Skeleton> _skeleton;
 	std::vector<std::unique_ptr<SkinAnimation>> _animations;
 
+	std::map<std::string, std::unique_ptr<P3D::Shader>> _shaders;
+	std::map<std::string, std::unique_ptr<GL::Texture2D>> _textures;
 	std::unique_ptr<GL::ShaderProgram> _shader;
 	GLuint _vertexArrayObject;
 	std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
