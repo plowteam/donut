@@ -93,6 +93,8 @@ void SkinModel::createMesh() {
     std::vector<Vertex> allVerts;
     std::vector<std::uint32_t> allIndices;
 
+	auto const& joints = _skeleton->GetJoints();
+
 	for (auto const& joint : _skeleton->GetJoints()) {
 		std::cout << joint->GetName() << std::endl;
 	}
@@ -146,7 +148,13 @@ void SkinModel::createMesh() {
         std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
 
 	_boneBuffer = std::make_unique<GL::TextureBuffer>();
-	_boneMatrices.resize(32, glm::mat4(1.0f));
+	_boneMatrices.resize(joints.size(), glm::mat4(1.0f));
+	_poseMatrices.resize(joints.size(), glm::mat4(1.0f));
+
+	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex) {
+		//_boneMatrices[jointIndex] = glm::inverse(joints[jointIndex]->GetRestPose()) * _boneMatrices[joints[jointIndex]->GetParent()];
+	}
+
 	auto translate = glm::translate(glm::vec3(0, 0.5f, 0));
 	//glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 3.14f, glm::vec3(0, 1, 0));
 	//_boneMatrices[17] = translate;
