@@ -31,6 +31,11 @@ Window::Window(const std::string& title, const int width, const int height) {
                                      std::string(SDL_GetError()));
     }
 
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4); 
+
     const uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_ALLOW_HIGHDPI;
 
     auto window = std::unique_ptr<SDL_Window, SDLDestroyer>(SDL_CreateWindow(
@@ -41,8 +46,6 @@ Window::Window(const std::string& title, const int width, const int height) {
     }
 
     _window = std::move(window);
-
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
     SDL_Renderer* renderer = SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED);
 
