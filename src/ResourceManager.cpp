@@ -13,14 +13,33 @@ void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<GL::Te
 	_textures[name] = std::move(texture);
 }
 
+void ResourceManager::AddShader(const std::string& name, std::unique_ptr<P3D::Shader> shader)
+{
+	_shaders[name] = std::move(shader);
+}
+
 const GL::Texture2D& ResourceManager::GetTexture(const std::string& name) const
 {
 	if (_textures.find(name) == _textures.end())
 	{
-		return *_errorTexture.get();
+		return *_errorTexture;
 	}
 
 	return *_textures.at(name);
+}
+
+const GL::Texture2D& ResourceManager::GetShaderTexture(const std::string& name) const
+{
+	if (_shaders.find(name) == _shaders.end())
+		return *_errorTexture;
+
+	auto const& shader = _shaders.at(name);
+	auto const& texture = shader->GetTexture();
+
+	if (_textures.find(texture) == _textures.end())
+		return *_errorTexture;
+
+	return *_textures.at(texture);
 }
 
 } // namespace Donut

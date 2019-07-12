@@ -28,8 +28,8 @@ Game::Game(int argc, char** argv)
 {
 	const int windowWidth = 1280, windowHeight = 1024;
 	_window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
-	_camPos = glm::vec3(0.0f, 2.0f, -2.0f);
-	_lookAt = glm::vec3(0.0f, 1.15f, 0.0f);
+	_camPos = glm::vec3(-230.0f, 19.0f, -150.0f);
+	_lookAt = glm::vec3(-215.0f, -40.0f, -310.0f);
 
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
@@ -51,6 +51,8 @@ Game::Game(int argc, char** argv)
 	LoadModel("homer_m.p3d", "homer_a.p3d");
 
 	_level = std::make_unique<Level>();
+
+	_level->LoadP3D("L1_TERRA.p3d");
 
 	// simpsons house l1z1.p3d;l1r1.p3d;l1r7.p3d;
 	_level->LoadP3D("l1z1.p3d");
@@ -170,8 +172,8 @@ void Game::Run()
 		}
 
 		ImGui::Begin("Camera");
-		ImGui::SliderFloat3("pos", &_camPos[0], -10.0f, 10.f);
-		ImGui::SliderFloat3("lookat", &_lookAt[0], -10.0f, 10.f);
+		ImGui::SliderFloat3("pos", &_camPos[0], -1000.0f, 1000.f);
+		ImGui::SliderFloat3("lookat", &_lookAt[0], -1000.0f, 1000.f);
 		ImGui::End();
 
 		ImGui::Render();

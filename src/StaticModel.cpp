@@ -57,7 +57,7 @@ StaticModel::StaticModel(std::unique_ptr<P3D::StaticEntity> entity):
 	glBindVertexArray(0);
 }
 
-void StaticModel::Draw(const GL::ShaderProgram& shader, const ResourceManager&)
+void StaticModel::Draw(const GL::ShaderProgram& shader, const ResourceManager& rm)
 {
 	glBindVertexArray(_vertexArrayObject);
 
@@ -82,6 +82,8 @@ void StaticModel::Draw(const GL::ShaderProgram& shader, const ResourceManager&)
 			mode = GL_LINES;
 			break;
 		}
+
+		rm.GetShaderTexture(prim->GetShaderName()).Bind(0);
 
 		glDrawElements(mode, indicesSize, _indexBuffer->GetType(), (void*)(idxOffset * 4));
 		idxOffset += indicesSize;

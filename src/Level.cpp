@@ -1,6 +1,8 @@
 #include <Level.h>
 #include <P3D/StaticEntity.h>
 #include <P3D/Texture.h>
+#include <P3D/P3DFile.h>
+
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 
@@ -43,6 +45,7 @@ std::string lvlFragmentShader = R"glsl(
 Level::Level()
 {
 	_worldShader = std::make_unique<GL::ShaderProgram>(lvlVertexShader, lvlFragmentShader);
+	_resourceManager = std::make_unique<ResourceManager>();
 }
 
 void Level::LoadP3D(const std::string& filename)
@@ -65,14 +68,17 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::Shader:
 		{
 			auto shader                 = P3D::Shader::Load(*chunk);
-			_shaders[shader->GetName()] = std::move(shader);
+			const std::string shader_name = shader->GetName();
+			_resourceManager->AddShader(shader_name, std::move(shader));
 			break;
 		}
 		case P3D::ChunkType::Texture:
 		{
-			auto texture                  = P3D::Texture::Load(*chunk);
-			auto texdata                  = texture->GetData();
-			_textures[texture->GetName()] = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
+			auto texture = P3D::Texture::Load(*chunk);
+			auto texdata = texture->GetData();
+			auto tex2d   = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
+			_resourceManager->AddTexture(texture->GetName(), std::move(tex2d));
+			
 			break;
 		}
 		case P3D::ChunkType::StaticEntity:
@@ -87,8 +93,6 @@ void Level::LoadP3D(const std::string& filename)
 		default: break;
 		}
 	}
-
-	std::cout << "Loaded " << _shaders.size() << " shaders & " << _textures.size() << " textures & " << _models.size() << " static models\n";
 }
 
 void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
@@ -99,7 +103,7 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 	rm.GetTexture("errorlol").Bind(0);
 	for (const auto& model : _models)
 	{
-		model->Draw(*_worldShader, rm);
+		model->Draw(*_worldShader, *_resourceManager);
 	}
 }
 
