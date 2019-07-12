@@ -3,6 +3,7 @@
 #include <P3D/P3DChunk.h>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 
 namespace Donut::P3D
 {
@@ -43,6 +44,7 @@ class PrimGroup
 	std::vector<glm::vec3>& GetNormals() { return _normals; }
 	std::vector<glm::vec2>& GetUV() { return _uvs; }
 	std::vector<glm::vec3>& GetWeights() { return _weights; }
+	std::vector<glm::vec<4, uint8_t>>& GetColors() { return _colors; }
 	std::vector<uint8_t>& GetMatrixList() { return _matrixList; }
 	std::vector<uint32_t>& GetMatrixPalette() { return _matrixPalette; }
 
@@ -54,6 +56,7 @@ class PrimGroup
 	std::vector<glm::vec3> _normals;
 	std::vector<glm::vec2> _uvs;
 	std::vector<glm::vec3> _weights;
+	std::vector<glm::vec<4, uint8_t>> _colors;
 	std::vector<uint8_t> _matrixList;
 	std::vector<uint32_t> _matrixPalette;
 };

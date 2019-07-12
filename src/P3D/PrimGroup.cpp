@@ -64,9 +64,6 @@ std::unique_ptr<PrimGroup> PrimGroup::Load(const P3DChunk& chunk)
 			data.ReadBytes(reinterpret_cast<uint8_t*>(uvs.data()), len * sizeof(glm::vec2));
 			break;
 		}
-		// expect all this
-		case ChunkType::PackedNormalList:
-			break;
 		case ChunkType::MatrixList:
 		{
 			uint32_t len = data.Read<uint32_t>();
@@ -94,8 +91,26 @@ std::unique_ptr<PrimGroup> PrimGroup::Load(const P3DChunk& chunk)
 			data.ReadBytes(reinterpret_cast<uint8_t*>(matrixPalette.data()), len * sizeof(uint32_t));
 			break;
 		}
+		case ChunkType::ColourList:
+		{
+			uint32_t len = data.Read<uint32_t>();
+
+			auto& colorList = primGroup->GetColors();
+			colorList.resize(len);
+			data.ReadBytes(reinterpret_cast<uint8_t*>(colorList.data()), len * sizeof(uint32_t));
+			break;
+		}
+		case ChunkType::VertexShader: 
+		{
+			auto vertexShader = data.ReadLPString();
+			std::cout << "VertexShader: " << vertexShader << "\n";
+			break;
+		}
+		// expect all this
+		case ChunkType::PackedNormalList:
+			break;
 		default:
-			std::cout << "Unexpected Chunk: " << child->GetType() << "\n";
+			std::cout << "[PrimGroup] Unexpected Chunk: " << child->GetType() << "\n";
 		}
 	}
 
