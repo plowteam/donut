@@ -118,6 +118,9 @@ void Game::Run()
 		std::vector<std::pair<std::string, std::string>> models
 		{
 			{ "homer_m.p3d", "homer_a.p3d" },
+			{ "h_evil_m.p3d", "homer_a.p3d" },
+			{ "h_fat_m.p3d", "homer_a.p3d" },
+			{ "h_undr_m.p3d", "homer_a.p3d" },
 			{ "marge_m.p3d", "marge_a.p3d" },
 			{ "bart_m.p3d", "bart_a.p3d" },
 			{ "barney_m.p3d", "barney_a.p3d" },
@@ -128,7 +131,7 @@ void Game::Run()
 		ImGui::BeginMainMenuBar();
 		for (auto const& model : models)
 		{
-			if (ImGui::Button(model.first.c_str())) LoadModel(model.first.c_str(), model.second.c_str());
+			if (ImGui::Button(model.first.c_str())) LoadModel(model.first, model.second);
 		}
 
 		ImGui::EndMainMenuBar();
