@@ -66,6 +66,7 @@ void SkinModel::LoadAnimations(const std::string& filename)
 		}
 	}
 
+
 	UpdateAnimation(_animIndex, 0.0f);
 }
 
@@ -137,6 +138,7 @@ void SkinModel::CreateAnimation(const P3D::Animation& p3dAnim)
 		animation->AddTrack(track);
 	}
 
+	AnimationNames.push_back(p3dAnim.GetName());
 	_animations.push_back(std::move(animation));
 }
 

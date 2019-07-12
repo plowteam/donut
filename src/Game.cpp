@@ -133,6 +133,22 @@ void Game::Run()
 			if (ImGui::Button(model.first.c_str())) LoadModel(model.first, model.second);
 		}
 
+		if (_skinModel != nullptr && !_skinModel->AnimationNames.empty())
+		{
+			if (ImGui::BeginCombo("##combo", _skinModel->AnimationNames[_skinModel->_animIndex].c_str()))
+			{
+				for (int n = 0; n < _skinModel->AnimationNames.size(); n++)
+				{
+					bool is_selected = (_skinModel->_animIndex == n);
+					if (ImGui::Selectable(_skinModel->AnimationNames[n].c_str(), is_selected))
+						_skinModel->_animIndex = n;
+					if (is_selected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+		}
+
 		ImGui::EndMainMenuBar();
 
 		if (_skinModel != nullptr)

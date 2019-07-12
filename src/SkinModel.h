@@ -46,12 +46,14 @@ class SkinModel
 		return _animP3D.get();
 	}
 
+	std::vector<std::string> AnimationNames;
+	int32_t _animIndex;
+
   private:
 	void createMesh();
 	void CreateAnimation(const P3D::Animation&);
 	void UpdateAnimation(size_t animIndex, double time);
 
-	size_t _animIndex;
 	float _animTime;
 
 	std::string _filename;

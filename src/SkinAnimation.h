@@ -158,6 +158,7 @@ public:
 	glm::mat4 Evaluate(size_t trackIndex, float time);
 	void AddTrack(std::unique_ptr<Track>& track) { _tracks.push_back(std::move(track)); }
 	size_t GetNumTracks() const { return _tracks.size(); }
+	const std::string& GetName() const { return _name; }
 	float GetFrameRate() const { return _frameRate; }
 
 private:
