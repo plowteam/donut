@@ -33,6 +33,7 @@ class SkinModel
 	SkinModel(const std::string& filename);
 	void LoadAnimations(const std::string& filename);
 
+	void Update(double dt);
 	void Draw(const ResourceManager&, glm::mat4& viewProj);
 
 	P3D::P3DFile& GetP3DFile() const
@@ -48,7 +49,10 @@ class SkinModel
   private:
 	void createMesh();
 	void CreateAnimation(const P3D::Animation&);
-	void UpdateBoneMatrices();
+	void UpdateAnimation(size_t animIndex, double time);
+
+	size_t _animIndex;
+	float _animTime;
 
 	std::string _filename;
 	std::unique_ptr<P3D::P3DFile> _p3dFile;

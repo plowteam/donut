@@ -89,10 +89,21 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 
 void Game::Run()
 {
+	// measure our delta time
+	uint64_t now = SDL_GetPerformanceCounter();
+	uint64_t last = 0;
+	double deltaTime = 0.0;
+
 	SDL_Event event;
 	bool running = true;
 	while (running)
 	{
+		last = now;
+		now = SDL_GetPerformanceCounter();
+
+		deltaTime = ((now - last) * 1000 / (double)SDL_GetPerformanceFrequency());
+		deltaTime /= 1000.0;
+
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT) running = false;
@@ -130,6 +141,8 @@ void Game::Run()
 			{
 				debugDrawP3D(*_skinModel->GetAnimP3DFile());
 			}
+
+			_skinModel->Update(deltaTime);
 		}
 
 		ImGui::Begin("Camera");

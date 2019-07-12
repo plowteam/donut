@@ -7,7 +7,9 @@ namespace Donut
 {
 
 SkinModel::SkinModel(const std::string& filename):
-    _filename(filename)
+    _filename(filename),
+	_animTime(0.0f),
+	_animIndex(19)
 {
 	_textures = std::map<std::string, std::unique_ptr<GL::Texture2D>>();
 
@@ -64,7 +66,7 @@ void SkinModel::LoadAnimations(const std::string& filename)
 		}
 	}
 
-	UpdateBoneMatrices();
+	UpdateAnimation(_animIndex, 0.0f);
 }
 
 void SkinModel::CreateAnimation(const P3D::Animation& p3dAnim)
@@ -291,16 +293,26 @@ void SkinModel::createMesh()
 	glBindVertexArray(0);
 }
 
-void SkinModel::UpdateBoneMatrices()
+void SkinModel::Update(double dt)
 {
-	const auto& animation = _animations[0];
+	_animTime += dt;
+	UpdateAnimation(_animIndex, _animTime);
+}
+
+void SkinModel::UpdateAnimation(size_t animIndex, double time)
+{
+	if (animIndex >= _animations.size()) return;
+
+	const auto& animation = _animations[animIndex];
 	auto const& joints = _skeleton->GetJoints();
+
+	time *= animation->GetFrameRate();
 
 	_poseMatrices[0] = glm::mat4(1.0f);
 
 	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
 	{
-		_poseMatrices[jointIndex] = _poseMatrices[joints[jointIndex]->GetParent()] * animation->Evaluate(jointIndex, 0.0f);
+		_poseMatrices[jointIndex] = _poseMatrices[joints[jointIndex]->GetParent()] * animation->Evaluate(jointIndex, time);
 	}
 
 	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
