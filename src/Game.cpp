@@ -49,6 +49,13 @@ Game::Game(int argc, char** argv)
 
 	loadGlobal();
 	LoadModel("homer_m.p3d", "homer_a.p3d");
+
+	_level = std::make_unique<Level>();
+
+	// simpsons house l1z1.p3d;l1r1.p3d;l1r7.p3d;
+	_level->LoadP3D("l1z1.p3d");
+	_level->LoadP3D("l1r1.p3d");
+	_level->LoadP3D("l1r7.p3d");
 }
 
 Game::~Game()
@@ -177,11 +184,12 @@ void Game::Run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glm::mat4 projectionMatrix = glm::perspective(
-		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.0f);
+		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 1.0f, 10000.0f);
 
 		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
 		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f) , glm::vec3(-1.0f, 1.0f, 1.0f));
 
+		if (_level != nullptr) _level->Draw(GetResourceManager(), mvp);
 		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
