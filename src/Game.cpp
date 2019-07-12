@@ -101,8 +101,7 @@ void Game::Run()
 		last = now;
 		now = SDL_GetPerformanceCounter();
 
-		deltaTime = ((now - last) * 1000 / (double)SDL_GetPerformanceFrequency());
-		deltaTime /= 1000.0;
+		deltaTime = ((now - last) / (double)SDL_GetPerformanceFrequency());
 
 		while (SDL_PollEvent(&event))
 		{
