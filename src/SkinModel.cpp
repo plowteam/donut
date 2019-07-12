@@ -208,11 +208,6 @@ void SkinModel::createMesh()
 
 	auto const& joints = _skeleton->GetJoints();
 
-	for (auto const& joint : _skeleton->GetJoints())
-	{
-		std::cout << joint->GetName() << std::endl;
-	}
-
 	size_t vertOffset = 0;
 	for (auto const& prim : _polySkin->GetPrimGroups())
 	{
