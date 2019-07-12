@@ -129,9 +129,8 @@ void Game::Run()
 			{ "h_undr_m.p3d", "homer_a.p3d" },
 			{ "marge_m.p3d", "marge_a.p3d" },
 			{ "bart_m.p3d", "bart_a.p3d" },
-			{ "barney_m.p3d", "barney_a.p3d" },
-			{ "carl_m.p3d", "carl_a.p3d" },
-			{ "hooker_m.p3d", "hooker_a.p3d" },
+			{ "apu_m.p3d", "apu_a.p3d" },
+			{ "a_amer_m.p3d", "apu_a.p3d" },
 		};
 
 		ImGui::BeginMainMenuBar();
