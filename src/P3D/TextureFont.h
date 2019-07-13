@@ -1,9 +1,24 @@
 #pragma once
 
 #include <P3D/P3DChunk.h>
+#include <P3D/Texture.h>
 
 namespace Donut::P3D
 {
+	struct FontGlyph
+	{
+		uint32_t textureId;
+		float bottomLeftX;
+		float bottomLeftY;
+		float topRightX;
+		float topRightY;
+		float leftBearing;
+		float rightBearing;
+		float width;
+		float advance;
+		uint32_t id;
+	};
+
 	class TextureFont
 	{
 	public:
@@ -15,13 +30,15 @@ namespace Donut::P3D
 
 	private:
 
-		uint32_t _version;
+		void ReadChild(const P3DChunk&);
+
 		std::string _name;
-		std::string _shader;
 		float _size;
 		float _width;
 		float _height;
 		float _baseLine;
 		uint32_t _numTextures;
+		std::vector<std::unique_ptr<Texture>> _texures;
+		std::vector<FontGlyph> _glyphs;
 	};
 } // namespace Donut::P3D

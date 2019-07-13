@@ -1,7 +1,5 @@
 #include <MemoryStream.h>
 #include <P3D/TextureFont.h>
-#include <P3D/Texture.h>
-#include <P3D/FontGlyphs.h>
 #include <iostream>
 
 namespace Donut::P3D
@@ -21,28 +19,36 @@ namespace Donut::P3D
 		float baseLine = stream.Read<float>();
 		uint32_t numTextures = stream.Read<uint32_t>();
 
-		std::vector<std::unique_ptr<Texture>> texures;
-		std::unique_ptr<FontGlyphs> glyphs;
+		auto textureFont = std::make_unique<TextureFont>(name, numTextures, size, width, height, baseLine);
 
 		for (auto const& child : chunk.GetChildren())
 		{
-			switch (child->GetType())
-			{
-				case ChunkType::Texture:
-				{
-					texures.push_back(P3D::Texture::Load(*child));
-					break;
-				}
-				case ChunkType::FontGlyphs:
-				{
-					glyphs = P3D::FontGlyphs::Load(*child);
-					break;
-				}
-				default:
-					throw std::exception("unexpected child chunk in TextureFont");
-			}
+			textureFont->ReadChild(*child);
 		}
 
-		return std::make_unique<TextureFont>(name, numTextures, size, width, height, baseLine);
+		return textureFont;
+	}
+
+	void TextureFont::ReadChild(const P3DChunk& child)
+	{
+		switch (child.GetType())
+		{
+		case ChunkType::Texture:
+		{
+			_texures.push_back(P3D::Texture::Load(child));
+			break;
+		}
+		case ChunkType::FontGlyphs:
+		{
+			MemoryStream data(child.GetData());
+			uint32_t numGlyphs = data.Read<uint32_t>();
+			_glyphs.resize(numGlyphs);
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), numGlyphs * sizeof(FontGlyph));
+
+			break;
+		}
+		default:
+			throw std::exception("unexpected child chunk in TextureFont");
+		}
 	}
 } // namespace Donut::P3D
