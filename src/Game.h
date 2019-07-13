@@ -26,6 +26,8 @@ class Game
 
 	ResourceManager& GetResourceManager() { return *_resourceManager; }
 
+	void LockMouse(bool lockMouse);
+
   private:
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
@@ -39,6 +41,10 @@ class Game
 
 	glm::vec3 _lookAt;
 	glm::vec3 _camPos;
+
+	bool _mouseLocked;
+	int _lockedMousePosX;
+	int _lockedMousePosY;
 };
 
 } // namespace Donut

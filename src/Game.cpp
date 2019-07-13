@@ -73,6 +73,8 @@ Game::Game(int argc, char** argv)
 	_level->LoadP3D("l1z4.p3d");
 	_level->LoadP3D("l1z6.p3d");
 	_level->LoadP3D("l1z7.p3d");
+
+	_mouseLocked = false;
 }
 
 Game::~Game()
@@ -109,6 +111,31 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 
 	_skinModel = std::make_unique<SkinModel>(name);
 	_skinModel->LoadAnimations(anim);
+}
+
+void Game::LockMouse(bool lockMouse)
+{
+	if (_mouseLocked == lockMouse)
+	{
+		return;
+	}
+
+	_mouseLocked = lockMouse;
+
+	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+	SDL_SetRelativeMouseMode(lockMouse ? SDL_TRUE : SDL_FALSE);
+
+	if (lockMouse)
+	{
+		SDL_GetMouseState(&_lockedMousePosX, &_lockedMousePosY);
+	}
+
+	int w, h;
+	SDL_GetWindowSize(static_cast<SDL_Window*>(*_window), &w, &h);
+	SDL_WarpMouseInWindow(static_cast<SDL_Window*>(*_window), w / 2, h / 2);
+	SDL_GetRelativeMouseState(NULL, NULL);
+
+	SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
 }
 
 class FreeCamera
@@ -199,13 +226,12 @@ void Game::Run()
 			Input::HandleEvent(event);
 		}
 
-		bool lockMouse = Input::IsDown(Button::MouseRight);
-		SDL_SetRelativeMouseMode(lockMouse ? SDL_TRUE : SDL_FALSE);
+		LockMouse(Input::IsDown(Button::MouseRight));
 
 		float mouseDeltaX = Input::GetMouseDeltaX();
 		float mouseDeltaY = Input::GetMouseDeltaY();
 
-		if (lockMouse)
+		if (_mouseLocked)
 		{
 			camera.LookDelta(mouseDeltaX * 0.25f, mouseDeltaY * 0.25f);
 		}
