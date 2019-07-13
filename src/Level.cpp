@@ -1,6 +1,7 @@
 #include <Level.h>
 #include <P3D/P3DFile.h>
 #include <P3D/StaticEntity.h>
+#include <P3D/StaticPhys.h>
 #include <P3D/Texture.h>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
@@ -101,6 +102,17 @@ void Level::LoadP3D(const std::string& filename)
 			auto model = std::make_unique<StaticEntity>(*ent);
 
 			_staticEntities.push_back(std::move(model));
+			break;
+		}
+		case P3D::ChunkType::StaticPhys:
+		{
+			//const auto& ent = P3D::StaticPhys::Load(*chunk);
+			// std::cout << "StaticPhys: " << ent->GetName() << "\n";
+			// std::cout << "\tCollisionObject: " << ent->GetCollisionObject().GetName() << "\n";
+			
+			//auto model      = std::make_unique<StaticEntity>(*ent);
+
+			//_staticEntities.push_back(std::move(model));
 			break;
 		}
 		case P3D::ChunkType::WorldSphere:
