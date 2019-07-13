@@ -200,12 +200,15 @@ void Game::Run()
 			Input::HandleEvent(event);
 		}
 
+		bool lockMouse = Input::IsDown(Button::MouseRight);
+		SDL_SetRelativeMouseMode(lockMouse ? SDL_TRUE : SDL_FALSE);
+
 		float mouseDeltaX = Input::GetMouseDeltaX();
 		float mouseDeltaY = Input::GetMouseDeltaY();
 
-		if (Input::IsDown(Button::MouseRight))
+		if (lockMouse)
 		{
-			camera.LookDelta(mouseDeltaX, mouseDeltaY);
+			camera.LookDelta(mouseDeltaX * 0.25f, mouseDeltaY * 0.25f);
 		}
 
 		auto inputForce = glm::vec3(0.0f);
@@ -216,7 +219,7 @@ void Game::Run()
 		if (glm::length2(inputForce) > 0.0f)
 		{
 			inputForce = glm::normalize(inputForce);
-			inputForce *= Input::IsDown(Button::KeyLSHIFT) ? 100.0f : 10.0f;
+			inputForce *= Input::IsDown(Button::KeyLSHIFT) ? 60.0f : 10.0f;
 			camera.Move(inputForce, (float)deltaTime);
 		}
 
