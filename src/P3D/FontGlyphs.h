@@ -8,6 +8,10 @@ namespace Donut::P3D
 	{
 	public:
 
+		FontGlyphs() {}
+
+		static std::unique_ptr<FontGlyphs> Load(const P3DChunk&);
+
 	private:
 
 	};

@@ -5,6 +5,7 @@
 #include <FreeCamera.h>
 #include <SpriteBatch.h>
 #include <P3D/Texture.h>
+#include <P3D/TextureFont.h>
 #include <SDL.h>
 #include <Window.h>
 #include <glad/glad.h>
@@ -54,6 +55,23 @@ Game::Game(int argc, char** argv)
 
 	loadGlobal();
 	LoadModel("homer_m.p3d", "homer_a.p3d");
+
+	if (std::filesystem::exists("font0_24.p3d"))
+	{
+		auto p3dFont = std::make_unique<P3D::P3DFile>("font0_24.p3d");
+		const auto& root = p3dFont->GetRoot();
+		for (const auto& chunk : root.GetChildren())
+		{
+			switch (chunk->GetType())
+			{
+				case P3D::ChunkType::TextureFont:
+				{
+					P3D::TextureFont::Load(*chunk);
+					break;
+				}
+			}
+		}
+	}
 
 	_level = std::make_unique<Level>();
 
