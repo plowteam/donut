@@ -28,7 +28,8 @@ endif()
 add_executable(${PROJECT_NAME} ${DONUT_SOURCES} ${DONUT_HEADERS})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 glm glad imgui)
+target_include_directories(${PROJECT_NAME} PRIVATE ${BULLET_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 glm glad imgui ${BULLET_COLLISION_LIBRARY} ${BULLET_DYNAMICS_LIBRARY} ${BULLET_MATH_LIBRARY})
 
 if (WIN32)
 	if (USE_DEBUG_CONSOLE)
