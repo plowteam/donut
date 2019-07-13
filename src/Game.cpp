@@ -5,7 +5,6 @@
 #include <FreeCamera.h>
 #include <SpriteBatch.h>
 #include <P3D/Texture.h>
-#include <P3D/TextureFont.h>
 #include <SDL.h>
 #include <Window.h>
 #include <glad/glad.h>
@@ -66,7 +65,7 @@ Game::Game(int argc, char** argv)
 			{
 				case P3D::ChunkType::TextureFont:
 				{
-					P3D::TextureFont::Load(*chunk);
+					_textureFontP3D = P3D::TextureFont::Load(*chunk);
 					break;
 				}
 			}
@@ -270,6 +269,18 @@ void Game::Run()
 			}
 
 			_skinModel->Update(deltaTime);
+		}
+
+		if (_textureFontP3D != nullptr)
+		{
+			ImGui::Begin("Font Textures");
+			for (int i = 0; i < _textureFontP3D->GetNumTextures(); ++i)
+			{
+				auto texture = _textureFontP3D->GetTexture(i);
+				ImGui::Text(_textureFontP3D->GetTextureName(i).c_str());
+				ImGui::Image((void*)texture->GetHandle(), ImVec2(texture->GetWidth(), texture->GetHeight()));
+			}
+			ImGui::End();
 		}
 
 		ImGui::Render();

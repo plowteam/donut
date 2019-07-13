@@ -33,22 +33,37 @@ namespace Donut::P3D
 	{
 		switch (child.GetType())
 		{
-		case ChunkType::Texture:
-		{
-			_texures.push_back(P3D::Texture::Load(child));
-			break;
-		}
-		case ChunkType::FontGlyphs:
-		{
-			MemoryStream data(child.GetData());
-			uint32_t numGlyphs = data.Read<uint32_t>();
-			_glyphs.resize(numGlyphs);
-			data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), numGlyphs * sizeof(FontGlyph));
+			case ChunkType::Texture:
+			{
+				auto texture = P3D::Texture::Load(child);
+				auto texdata = texture->GetData();
+				std::unique_ptr<GL::Texture2D> glTexture;
 
-			break;
-		}
-		default:
-			throw std::exception("unexpected child chunk in TextureFont");
+				if (texdata.comp == 4)
+				{
+					glTexture = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, texdata.data.data());
+				}
+				else
+				{
+					glTexture = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
+				}
+
+				_glTextures.push_back(std::move(glTexture));
+				_texures.push_back(std::move(texture));
+
+				break;
+			}
+			case ChunkType::FontGlyphs:
+			{
+				MemoryStream data(child.GetData());
+				uint32_t numGlyphs = data.Read<uint32_t>();
+				_glyphs.resize(numGlyphs);
+				data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), numGlyphs * sizeof(FontGlyph));
+
+				break;
+			}
+			default:
+				throw std::exception("unexpected child chunk in TextureFont");
 		}
 	}
 } // namespace Donut::P3D

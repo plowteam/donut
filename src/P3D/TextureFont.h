@@ -2,6 +2,7 @@
 
 #include <P3D/P3DChunk.h>
 #include <P3D/Texture.h>
+#include <GL/Texture2D.h>
 
 namespace Donut::P3D
 {
@@ -28,6 +29,10 @@ namespace Donut::P3D
 
 		static std::unique_ptr<TextureFont> Load(const P3DChunk&);
 
+		inline uint32_t GetNumTextures() const { return _numTextures; }
+		inline GL::Texture2D* GetTexture(size_t index) { return _glTextures[index].get(); }
+		inline std::string GetTextureName(size_t index) { return _texures[index]->GetName(); }
+
 	private:
 
 		void ReadChild(const P3DChunk&);
@@ -39,6 +44,7 @@ namespace Donut::P3D
 		float _baseLine;
 		uint32_t _numTextures;
 		std::vector<std::unique_ptr<Texture>> _texures;
+		std::vector<std::unique_ptr<GL::Texture2D>> _glTextures;
 		std::vector<FontGlyph> _glyphs;
 	};
 } // namespace Donut::P3D

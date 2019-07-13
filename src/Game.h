@@ -2,6 +2,7 @@
 
 #include <ResourceManager.h>
 #include <SkinModel.h>
+#include <P3D/TextureFont.h>
 #include <Level.h>
 #include <memory>
 
@@ -38,6 +39,7 @@ class Game
 	std::unique_ptr<Level> _level;
 	std::unique_ptr<P3D::P3DFile> _animP3D;
 	std::unique_ptr<P3D::P3DFile> _globalP3D;
+	std::unique_ptr<P3D::TextureFont> _textureFontP3D;
 
 	bool _mouseLocked;
 	int _lockedMousePosX;
