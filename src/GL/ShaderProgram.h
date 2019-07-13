@@ -16,6 +16,7 @@ class ShaderProgram
 	~ShaderProgram();
 
 	void Bind();
+	void Unbind();
 
 	void SetUniformValue(const char* uniformName, int value);
 	void SetUniformValue(const char* uniformName, float value);

@@ -74,6 +74,11 @@ void ShaderProgram::Bind()
 	glUseProgram(_program);
 }
 
+void ShaderProgram::Unbind()
+{
+	glUseProgram(0);
+}
+
 void ShaderProgram::SetUniformValue(const char* uniformName, int value)
 {
 	glUniform1i(_uniforms[uniformName], value);

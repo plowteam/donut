@@ -39,9 +39,6 @@ class Game
 	std::unique_ptr<P3D::P3DFile> _animP3D;
 	std::unique_ptr<P3D::P3DFile> _globalP3D;
 
-	glm::vec3 _lookAt;
-	glm::vec3 _camPos;
-
 	bool _mouseLocked;
 	int _lockedMousePosX;
 	int _lockedMousePosY;

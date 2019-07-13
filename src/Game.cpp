@@ -2,6 +2,7 @@
 #include <Input.h>
 #include <LineRenderer.h>
 #include <FreeCamera.h>
+#include <SpriteBatch.h>
 #include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>
@@ -33,8 +34,6 @@ Game::Game(int argc, char** argv)
 {
 	const int windowWidth = 1280, windowHeight = 1024;
 	_window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
-	_camPos = glm::vec3(-230.0f, 5.0f, -175.0f);
-	_lookAt = glm::vec3(-215.0f, -24.0f, -310.0f);
 
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
@@ -148,6 +147,8 @@ void Game::Run()
 	camera.MoveTo(glm::vec3(230.0f, -19.0f, 150.0f));
 
 	LineRenderer lines(10000);
+	SpriteBatch sprites;
+	GL::ShaderProgram* spriteShader = sprites.GetShader();
 
 	SDL_Event event;
 	bool running = true;
@@ -245,11 +246,6 @@ void Game::Run()
 			_skinModel->Update(deltaTime);
 		}
 
-		ImGui::Begin("Camera");
-		ImGui::SliderFloat3("pos", &_camPos[0], -1000.0f, 1000.f);
-		ImGui::SliderFloat3("lookat", &_lookAt[0], -1000.0f, 1000.f);
-		ImGui::End();
-
 		ImGui::Render();
 
 		ImGuiIO& io = ImGui::GetIO();
@@ -276,6 +272,17 @@ void Game::Run()
 		mvp = mvp * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		
 		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
+
+		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
+
+		sprites.Begin();
+
+		//for (int i = 0; i < 32; ++i)
+		//{
+		//	sprites.Draw(nullptr, glm::vec2(i * 32, i * 32), glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 0.5f));
+		//}
+
+		sprites.End(proj);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();

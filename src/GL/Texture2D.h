@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 
 namespace Donut::GL
 {
@@ -26,6 +27,7 @@ class Texture2D
 	const GLuint GetHandle() const { return _textureID; }
 	const GLsizei GetWidth() const { return _width; }
 	const GLsizei GetHeight() const { return _height; }
+	const glm::ivec2 GetSize() const { return glm::ivec2(_width, _height); }
 
   private:
 	GLuint _textureID;
