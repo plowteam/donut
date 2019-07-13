@@ -123,7 +123,6 @@ void Game::LockMouse(bool lockMouse)
 
 	_mouseLocked = lockMouse;
 
-	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
 	SDL_SetRelativeMouseMode(lockMouse ? SDL_TRUE : SDL_FALSE);
 
 	if (lockMouse)
@@ -134,9 +133,8 @@ void Game::LockMouse(bool lockMouse)
 	int w, h;
 	SDL_GetWindowSize(static_cast<SDL_Window*>(*_window), &w, &h);
 	SDL_WarpMouseInWindow(static_cast<SDL_Window*>(*_window), w / 2, h / 2);
-	SDL_GetRelativeMouseState(NULL, NULL);
 
-	SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
+	Input::ResetMouseDelta();
 }
 
 class FreeCamera

@@ -15,6 +15,7 @@ namespace Donut
 		~Input() = delete;
 
 		static void PreEvent();
+		static void ResetMouseDelta();
 		static void HandleEvent(const SDL_Event& e);
 
 		static bool IsDown(Button button);

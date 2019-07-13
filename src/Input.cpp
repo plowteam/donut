@@ -137,10 +137,15 @@ namespace Donut
 		buttonState.Down = down;
 	}
 
-	void Input::PreEvent()
+	void Input::ResetMouseDelta()
 	{
 		MouseDeltaX = 0.0f;
 		MouseDeltaY = 0.0f;
+	}
+
+	void Input::PreEvent()
+	{
+		ResetMouseDelta();
 
 		for (size_t i = 0; i < to_underlying(Button::Count); ++i)
 		{
