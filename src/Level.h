@@ -3,7 +3,8 @@
 #include <GL/ShaderProgram.h>
 
 #include <ResourceManager.h>
-#include <StaticModel.h>
+#include <StaticEntity.h>
+#include <WorldSphere.h>
 #include <glm/glm.hpp>
 #include <map>
 #include <string>
@@ -22,7 +23,8 @@ public:
 
 private:
 	std::unique_ptr<ResourceManager> _resourceManager;
-	std::vector<std::unique_ptr<StaticModel>> _models;
+    std::unique_ptr<WorldSphere> _worldSphere;
+	std::vector<std::unique_ptr<StaticEntity>> _staticEntities;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
 };
 
