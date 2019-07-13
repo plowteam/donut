@@ -67,7 +67,6 @@ Game::Game(int argc, char** argv)
 	_level->LoadP3D("l1r2.p3d");
 	_level->LoadP3D("l1r3.p3d");
 	_level->LoadP3D("l1r4a.p3d");
-	_level->LoadP3D("l1r4b.p3d");
 	_level->LoadP3D("l1r6.p3d");
 	_level->LoadP3D("l1z2.p3d");
 	_level->LoadP3D("l1z3.p3d");
