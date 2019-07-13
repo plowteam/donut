@@ -21,15 +21,8 @@ void MemoryStream::ReadBytes(uint8_t* dest, std::size_t length)
 	std::advance(_position, length);
 }
 
-std::string MemoryStream::ReadLPString()
+std::string MemoryStream::ReadString(std::size_t length)
 {
-	uint8_t length = Read<uint8_t>();
-
-	// empty string
-	if (length == 0)
-		return std::string();
-
-	// read into a char* first, reading directly into a std::string fucks length up
 	char* str = new char[length];
 	ReadBytes(reinterpret_cast<uint8_t*>(str), length);
 
@@ -46,6 +39,18 @@ std::string MemoryStream::ReadLPString()
 	return ret;
 }
 
+
+std::string MemoryStream::ReadLPString()
+{
+	const auto length = Read<uint8_t>();
+
+	// empty string
+	if (length == 0)
+		return std::string();
+
+	return ReadString(length);
+}
+
 void MemoryStream::Seek(std::size_t position, SeekMode mode)
 {
 	switch (mode)
@@ -57,7 +62,7 @@ void MemoryStream::Seek(std::size_t position, SeekMode mode)
 		std::advance(_position, position);
 		break;
 	case SeekMode::End:
-		_position = std::next(_data.end(), -(std::int32_t)position);
+		_position = std::next(_data.end(), -static_cast<int32_t>(position));
 		break;
 	}
 }

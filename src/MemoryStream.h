@@ -32,6 +32,7 @@ class MemoryStream
 		return ret;
 	}
 
+	std::string ReadString(std::size_t length);
 	std::string ReadLPString();
 
 	void Seek(std::size_t position, SeekMode mode);
