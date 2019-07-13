@@ -1,6 +1,7 @@
 #include <Game.h>
 #include <Input.h>
 #include <LineRenderer.h>
+#include <FreeCamera.h>
 #include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>
@@ -135,64 +136,6 @@ void Game::LockMouse(bool lockMouse)
 
 	Input::ResetMouseDelta();
 }
-
-class FreeCamera
-{
-public:
-
-	FreeCamera() :
-		Pitch(0.0f), Yaw(0.0f), Position(0.0f)
-	{
-		UpdateRotationQuat();
-		UpdateViewMatrix();
-	}
-
-	const glm::mat4 GetViewMatrix() const { return ViewMatrix; }
-
-	void MoveTo(glm::vec3 position)
-	{
-		Position = position;
-		UpdateViewMatrix();
-	}
-
-	void Move(glm::vec3 force, float dt)
-	{
-		if (glm::length2(force) > 0.0f)
-		{
-			Position += (glm::inverse(RotationQuat) * force) * dt;
-			UpdateViewMatrix();
-		}
-	}
-
-	void LookDelta(float x, float y)
-	{
-		Yaw -= x;
-		Yaw += glm::ceil(-Yaw / 360.0f) * 360.0f;
-		Pitch = glm::clamp(Pitch - y, -90.0f, 90.0f);
-
-		UpdateRotationQuat();
-		UpdateViewMatrix();
-	}
-
-private:
-
-	void UpdateViewMatrix()
-	{
-		ViewMatrix = glm::toMat4(RotationQuat) * glm::translate(glm::mat4(1.0f), Position);
-	}
-
-	void UpdateRotationQuat()
-	{
-		RotationQuat = glm::inverse(glm::quat(glm::vec3(glm::radians(Pitch), glm::radians(Yaw), 0.0f)));
-	}
-
-	float Pitch;
-	float Yaw;
-
-	glm::vec3 Position;
-	glm::quat RotationQuat;
-	glm::mat4 ViewMatrix;
-};
 
 void Game::Run()
 {
