@@ -42,9 +42,11 @@ std::string lvlFragmentShader = R"glsl(
 
 	void main()
 	{
-		vec3 diffuseColor = texture2D(diffuseTex, texCoord).rgb * vertColor.rgb;
+		vec4 diffuseColor = texture2D(diffuseTex, texCoord);
+		if (diffuseColor.a == 0.0)
+			discard;
 
-        outColor = vec4(diffuseColor, 1.0);
+        outColor = vec4(diffuseColor.rgb * vertColor.rgb, diffuseColor.a);
 	}
 )glsl";
 
@@ -82,8 +84,14 @@ void Level::LoadP3D(const std::string& filename)
 		{
 			auto texture = P3D::Texture::Load(*chunk);
 			auto texdata = texture->GetData();
-			auto tex2d   = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
-			_resourceManager->AddTexture(texture->GetName(), std::move(tex2d));
+
+			std::unique_ptr<GL::Texture2D> tex;
+			if (texdata.comp == 4)
+				tex = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, texdata.data.data());
+			else
+				tex = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
+
+			_resourceManager->AddTexture(texture->GetName(), std::move(tex));
 
 			break;
 		}

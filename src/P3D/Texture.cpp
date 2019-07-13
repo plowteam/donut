@@ -52,7 +52,7 @@ std::unique_ptr<Texture> Texture::Load(const P3DChunk& chunk)
 	uint32_t usage       = stream.Read<uint32_t>();
 	uint32_t priority    = stream.Read<uint32_t>();
 
-	assert(chunk.GetChildren().size() > 0);
+	assert(!chunk.GetChildren().empty());
 
 	// assume we just have one image chunk in this, not seen anything else yet
 	auto const& imageChunk = chunk.GetChildren().at(0);
@@ -74,11 +74,11 @@ std::unique_ptr<Texture> Texture::Load(const P3DChunk& chunk)
 	assert(bpp == img_bpp);
 
 	// finally we have the image data
-	if (imageChunk->GetChildren().size() < 1)
+	if (imageChunk->GetChildren().empty())
 		throw std::runtime_error("no image data in image homer");
 
 	auto const& imgDataChunk  = imageChunk->GetChildren().at(0);
-	std::vector<uint8_t> data = getImageData(*imgDataChunk.get());
+	std::vector<uint8_t> data = getImageData(*imgDataChunk);
 
 	ImageData imgdata = decodeImageData(data);
 
