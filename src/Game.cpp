@@ -1,8 +1,8 @@
 #include <Game.h>
+#include <Input.h>
 #include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>
-#include <Input.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -29,8 +29,8 @@ Game::Game(int argc, char** argv)
 {
 	const int windowWidth = 1280, windowHeight = 1024;
 	_window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
-	_camPos = glm::vec3(-230.0f, 19.0f, -150.0f);
-	_lookAt = glm::vec3(-215.0f, -40.0f, -310.0f);
+	_camPos = glm::vec3(-230.0f, 5.0f, -175.0f);
+	_lookAt = glm::vec3(-215.0f, -24.0f, -310.0f);
 
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
@@ -100,8 +100,8 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 void Game::Run()
 {
 	// measure our delta time
-	uint64_t now = SDL_GetPerformanceCounter();
-	uint64_t last = 0;
+	uint64_t now     = SDL_GetPerformanceCounter();
+	uint64_t last    = 0;
 	double deltaTime = 0.0;
 
 	SDL_Event event;
@@ -109,7 +109,7 @@ void Game::Run()
 	while (running)
 	{
 		last = now;
-		now = SDL_GetPerformanceCounter();
+		now  = SDL_GetPerformanceCounter();
 
 		deltaTime = ((now - last) / (double)SDL_GetPerformanceFrequency());
 
@@ -133,8 +133,7 @@ void Game::Run()
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
 
-		std::vector<std::pair<std::string, std::string>> models
-		{
+		std::vector<std::pair<std::string, std::string>> models {
 			{ "homer_m.p3d", "homer_a.p3d" },
 			{ "h_evil_m.p3d", "homer_a.p3d" },
 			{ "h_fat_m.p3d", "homer_a.p3d" },
@@ -192,7 +191,7 @@ void Game::Run()
 		glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -200,9 +199,14 @@ void Game::Run()
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 1.0f, 10000.0f);
 
 		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
-		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f) , glm::vec3(-1.0f, 1.0f, 1.0f));
+		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(-1.0f, 1.0f, 1.0f));
 
 		if (_level != nullptr) _level->Draw(GetResourceManager(), mvp);
+
+		// -230.0f, 19.0f, -150.0f
+		mvp = mvp * glm::translate(glm::mat4(1.0f), glm::vec3(229.0f, 3.5f, -180.0f));
+		mvp = mvp * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		
 		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
