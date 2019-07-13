@@ -102,8 +102,8 @@ std::unique_ptr<PrimGroup> PrimGroup::Load(const P3DChunk& chunk)
 		}
 		case ChunkType::VertexShader: 
 		{
-			auto vertexShader = data.ReadLPString();
-			std::cout << "VertexShader: " << vertexShader << "\n";
+			auto vertexShader = data.ReadLPString(); // always "" ?
+			// std::cout << "VertexShader: " << vertexShader << "\n";
 			break;
 		}
 		// expect all this
