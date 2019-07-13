@@ -3,10 +3,10 @@
 #include <P3D/StaticEntity.h>
 #include <P3D/StaticPhys.h>
 #include <P3D/Texture.h>
+#include <P3D/WorldSphere.h>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
-
-#include <P3D/WorldSphere.h>
+#include "P3D/Intersect.h"
 
 namespace Donut
 {
@@ -99,20 +99,26 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::StaticEntity:
 		{
 			const auto& ent = P3D::StaticEntity::Load(*chunk);
-			auto model = std::make_unique<StaticEntity>(*ent);
+			auto model      = std::make_unique<StaticEntity>(*ent);
 
 			_staticEntities.push_back(std::move(model));
 			break;
 		}
 		case P3D::ChunkType::StaticPhys:
 		{
-			//const auto& ent = P3D::StaticPhys::Load(*chunk);
+			const auto& ent = P3D::StaticPhys::Load(*chunk);
 			// std::cout << "StaticPhys: " << ent->GetName() << "\n";
 			// std::cout << "\tCollisionObject: " << ent->GetCollisionObject().GetName() << "\n";
-			
+
 			//auto model      = std::make_unique<StaticEntity>(*ent);
 
 			//_staticEntities.push_back(std::move(model));
+			break;
+		}
+		case P3D::ChunkType::Intersect:
+		{
+			auto intersect = P3D::Intersect::Load(*chunk);
+			_intersects.push_back(std::move(intersect));
 			break;
 		}
 		case P3D::ChunkType::WorldSphere:

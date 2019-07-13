@@ -1,3 +1,4 @@
+#include <FreeCamera.h>
 #include <Game.h>
 #include <Input.h>
 #include <LineRenderer.h>
@@ -9,8 +10,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl.h>
@@ -195,6 +196,13 @@ void Game::Run()
 		lines.DrawSphere(glm::vec3(0), 100, 16, 16, glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
 		lines.DrawAABBox(glm::vec3(-100.0f), glm::vec3(100.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
+		for (auto const& intersect : _level->GetIntersects())
+		{
+			auto const& aabb = intersect->GetAABB();
+			lines.DrawAABBox(aabb.GetMin(), aabb.GetMax(), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+			
+		}
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
@@ -260,7 +268,7 @@ void Game::Run()
 		glm::mat4 projectionMatrix = glm::perspective(
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 10000.0f);
 
-		glm::mat4 viewMatrix = camera.GetViewMatrix();//glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
+		glm::mat4 viewMatrix = camera.GetViewMatrix(); //glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
 		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(-1.0f, 1.0f, 1.0f));
 
 		lines.Flush(mvp);
@@ -270,7 +278,7 @@ void Game::Run()
 		// -230.0f, 19.0f, -150.0f
 		mvp = mvp * glm::translate(glm::mat4(1.0f), glm::vec3(229.0f, 3.5f, -180.0f));
 		mvp = mvp * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		
+
 		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
 
 		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
