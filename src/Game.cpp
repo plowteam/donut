@@ -1,5 +1,6 @@
 #include <Game.h>
 #include <Input.h>
+#include <LineRenderer.h>
 #include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>
@@ -206,6 +207,8 @@ void Game::Run()
 	FreeCamera camera;
 	camera.MoveTo(glm::vec3(230.0f, -19.0f, 150.0f));
 
+	LineRenderer lines(10000);
+
 	SDL_Event event;
 	bool running = true;
 	while (running)
@@ -247,6 +250,9 @@ void Game::Run()
 			inputForce *= Input::IsDown(Button::KeyLSHIFT) ? 60.0f : 10.0f;
 			camera.Move(inputForce, (float)deltaTime);
 		}
+
+		lines.DrawSphere(glm::vec3(0), 100, 16, 16, glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+		lines.DrawAABBox(glm::vec3(-100.0f), glm::vec3(100.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
@@ -320,6 +326,8 @@ void Game::Run()
 
 		glm::mat4 viewMatrix = camera.GetViewMatrix();//glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
 		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(-1.0f, 1.0f, 1.0f));
+
+		lines.Flush(mvp);
 
 		if (_level != nullptr) _level->Draw(GetResourceManager(), mvp);
 

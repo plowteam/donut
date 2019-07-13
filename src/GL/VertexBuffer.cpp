@@ -26,6 +26,13 @@ VertexBuffer::~VertexBuffer()
 		glDeleteBuffers(1, &_vbo);
 }
 
+void VertexBuffer::UpdateBuffer(const void* data, size_t offset, size_t size)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 std::size_t VertexBuffer::GetVertexCount() const noexcept
 {
 	return _vertexCount;

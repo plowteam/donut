@@ -29,6 +29,7 @@ class VertexBuffer
 	//const std::unique_ptr<GLvoid*> GetData() const;
 
 	inline void Bind() { glBindBuffer(GL_ARRAY_BUFFER, _vbo); }
+	void UpdateBuffer(const void* data, size_t offset, size_t size);
 
   private:
 	GLuint _vbo;
