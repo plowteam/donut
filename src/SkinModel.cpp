@@ -309,7 +309,7 @@ void SkinModel::UpdateAnimation(size_t animIndex, double time)
 
 	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
 	{
-		_poseMatrices[jointIndex] = _poseMatrices[joints[jointIndex]->GetParent()] * animation->Evaluate(jointIndex, time);
+		_poseMatrices[jointIndex] = _poseMatrices[joints[jointIndex]->GetParent()] * animation->Evaluate(jointIndex, (float)time);
 	}
 
 	for (uint32_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)

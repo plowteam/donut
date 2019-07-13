@@ -15,14 +15,17 @@ std::string lvlVertexShader = R"glsl(
 
 	in vec3 position;
 	in vec2 uv;
+	in vec4 color;
 
 	out vec2 texCoord;
+	out vec4 vertColor;
 
 	uniform mat4 viewProj;
 
 	void main()
 	{
 		texCoord = uv;
+		vertColor = color;
 		gl_Position = viewProj * vec4(position, 1.0);
 	}
 )glsl";
@@ -33,11 +36,13 @@ std::string lvlFragmentShader = R"glsl(
 	uniform sampler2D diffuseTex;
 
 	in vec2 texCoord;
+	in vec4 vertColor;
+
 	out vec4 outColor;
 
 	void main()
 	{
-		vec3 diffuseColor = texture2D(diffuseTex, texCoord).rgb;
+		vec3 diffuseColor = texture2D(diffuseTex, texCoord).rgb * vertColor.rgb;
 
         outColor = vec4(diffuseColor, 1.0);
 	}

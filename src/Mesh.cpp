@@ -5,6 +5,14 @@
 namespace Donut
 {
 
+static glm::vec4 ConvertColor(uint32_t v)
+{
+	return glm::vec4((v & 255) / 255.0f,
+					((v >> 8) & 255) / 255.0f,
+					((v >> 16) & 255) / 255.0f,
+					((v >> 24) & 255) / 255.0f);
+}
+
 Mesh::Mesh(const P3D::Mesh& mesh):
     _name(mesh.GetName())
 {
@@ -17,6 +25,7 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 	{
 		auto verts         = prim->GetVerticies();
 		auto uvs           = prim->GetUV();
+		auto colors        = prim->GetColors();
 		auto indices       = prim->GetIndices();
 
 		for (uint32_t i = 0; i < verts.size(); i++)
@@ -24,6 +33,7 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 			allVerts.push_back(Vertex {
 			    verts[i],
 			    glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
+				ConvertColor(colors[i]),
 			});
 		}
 
@@ -68,9 +78,12 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 	ptr += sizeof(glm::vec3);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(ptr)); // uv
 	ptr += sizeof(glm::vec2);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(ptr)); // color
+	ptr += sizeof(glm::vec4);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
 }

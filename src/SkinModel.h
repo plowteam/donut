@@ -54,7 +54,7 @@ class SkinModel
 	void CreateAnimation(const P3D::Animation&);
 	void UpdateAnimation(size_t animIndex, double time);
 
-	float _animTime;
+	double _animTime;
 
 	std::string _filename;
 	std::unique_ptr<P3D::P3DFile> _p3dFile;
