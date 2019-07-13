@@ -5,6 +5,7 @@
 #include <GL/ShaderProgram.h>
 #include <vector>
 #include <stack>
+#include <map>
 
 namespace Donut
 {
@@ -17,6 +18,7 @@ namespace Donut
 
 		void Begin();
 		void End(const glm::mat4& proj);
+		void DrawText(const std::string& text, glm::vec2& position, const glm::vec4& colour);
 		void Draw(GL::Texture2D* texture, const glm::vec2& position, float angle, const glm::vec4& colour);
 		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour);
 		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, float angle, const glm::vec4& colour);

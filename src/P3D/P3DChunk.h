@@ -71,6 +71,7 @@ enum class ChunkType : uint32_t
 	ExpressionGroup             = 0x21001,
 	ExpressionMixer             = 0x21002,
 	TextureFont                 = 0x22000,
+	FontGlyphs                  = 0x22001,
 	ImageFont                   = 0x22002,
 	Scenegraph                  = 0x120100,
 	Animation                   = 0x121000,

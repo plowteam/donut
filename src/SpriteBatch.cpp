@@ -53,6 +53,14 @@ namespace Donut
 		return Shader.get();
 	}
 
+	void SpriteBatch::DrawText(const std::string& text, glm::vec2& position, const glm::vec4& colour)
+	{
+		for (const char& c : text)
+		{
+
+		}
+	}
+
 	SpriteBatch::Sprite::Sprite(
 		GL::Texture2D* texture,
 		const glm::vec2& position,
