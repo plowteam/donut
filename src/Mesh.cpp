@@ -6,11 +6,11 @@ namespace Donut
 {
 
 static glm::vec4 ConvertColor(uint32_t v)
-{
-	return glm::vec4((v & 255) / 255.0f,
-					((v >> 8) & 255) / 255.0f,
-					((v >> 16) & 255) / 255.0f,
-					((v >> 24) & 255) / 255.0f);
+{	
+	return glm::vec4(((v >> 16) & 255) / 255.0f,
+					 ((v >> 8) & 255) / 255.0f,
+					 ((v & 255)) / 255.0f,
+					 ((v >> 24) & 255) / 255.0f);
 }
 
 Mesh::Mesh(const P3D::Mesh& mesh):
