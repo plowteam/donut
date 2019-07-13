@@ -191,10 +191,6 @@ void Game::Run()
 
 		Input::PreEvent();
 
-		// TODO
-		int xDelta, yDelta = 0;
-		SDL_GetRelativeMouseState(&xDelta, &yDelta);
-
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT) running = false;
@@ -204,10 +200,12 @@ void Game::Run()
 			Input::HandleEvent(event);
 		}
 
+		float mouseDeltaX = Input::GetMouseDeltaX();
+		float mouseDeltaY = Input::GetMouseDeltaY();
+
 		if (Input::IsDown(Button::MouseRight))
 		{
-			//camera.LookDelta(100.0f * deltaTime, 0.0f);
-			camera.LookDelta(xDelta * 0.5f, yDelta * 0.5f);
+			camera.LookDelta(mouseDeltaX, mouseDeltaY);
 		}
 
 		auto inputForce = glm::vec3(0.0f);

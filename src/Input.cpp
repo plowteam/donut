@@ -120,6 +120,8 @@ namespace Donut
 	};
 
 	Input::ButtonState Input::ButtonStates[to_underlying(Button::Count)] = { ButtonState() };
+	float Input::MouseDeltaX = 0.0f;
+	float Input::MouseDeltaY = 0.0f;
 
 	Button Input::KeyCodeToButtonCode(SDL_Keycode key)
 	{
@@ -137,6 +139,9 @@ namespace Donut
 
 	void Input::PreEvent()
 	{
+		MouseDeltaX = 0.0f;
+		MouseDeltaY = 0.0f;
+
 		for (size_t i = 0; i < to_underlying(Button::Count); ++i)
 		{
 			auto& buttonState = ButtonStates[i];
@@ -155,6 +160,21 @@ namespace Donut
 		{
 			UpdateButton((Button)(e.button.button), (e.button.state == SDL_PRESSED));
 		}
+		else if (e.type == SDL_MOUSEMOTION)
+		{
+			MouseDeltaX += (float)e.motion.xrel;
+			MouseDeltaY += (float)e.motion.yrel;
+		}
+	}
+
+	float Input::GetMouseDeltaX()
+	{
+		return MouseDeltaX;
+	}
+
+	float Input::GetMouseDeltaY()
+	{
+		return MouseDeltaY;
 	}
 
 	bool Input::IsDown(Button button)

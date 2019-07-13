@@ -20,6 +20,8 @@ namespace Donut
 		static bool IsDown(Button button);
 		static bool JustPressed(Button button);
 		static bool JustReleased(Button button);
+		static float GetMouseDeltaX();
+		static float GetMouseDeltaY();
 
 	private:
 
@@ -34,6 +36,9 @@ namespace Donut
 		};
 
 		static void UpdateButton(Button button, bool down);
+
+		static float MouseDeltaX;
+		static float MouseDeltaY;
 
 		static Button KeyCodeToButtonCode(SDL_Keycode key);
 		static std::map<SDL_Keycode, Button> KeyCodeToButtonCodeMap;
