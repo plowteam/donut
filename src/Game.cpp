@@ -132,12 +132,11 @@ public:
 
 	void Move(glm::vec3 force, float dt)
 	{
-		if (force.length() > 0.0f)
+		if (glm::length2(force) > 0.0f)
 		{
 			Position += (glm::inverse(RotationQuat) * force) * dt;
+			UpdateViewMatrix();
 		}
-
-		UpdateViewMatrix();
 	}
 
 	void LookDelta(float x, float y)
