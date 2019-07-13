@@ -107,7 +107,8 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
 
-	_worldSphere->Draw(*_worldShader, *_resourceManager);
+	if (_worldSphere != nullptr)
+		_worldSphere->Draw(*_worldShader, *_resourceManager);
 
 	for (const auto& ent : _staticEntities)
 	{
