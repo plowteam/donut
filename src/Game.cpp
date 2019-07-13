@@ -6,6 +6,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl.h>
@@ -109,12 +111,74 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 	_skinModel->LoadAnimations(anim);
 }
 
+class FreeCamera
+{
+public:
+
+	FreeCamera() :
+		Pitch(0.0f), Yaw(0.0f), Position(0.0f)
+	{
+		UpdateRotationQuat();
+		UpdateViewMatrix();
+	}
+
+	const glm::mat4 GetViewMatrix() const { return ViewMatrix; }
+
+	void MoveTo(glm::vec3 position)
+	{
+		Position = position;
+		UpdateViewMatrix();
+	}
+
+	void Move(glm::vec3 force, float dt)
+	{
+		if (force.length() > 0.0f)
+		{
+			Position += (glm::inverse(RotationQuat) * force) * dt;
+		}
+
+		UpdateViewMatrix();
+	}
+
+	void LookDelta(float x, float y)
+	{
+		Yaw -= x;
+		Yaw += glm::ceil(-Yaw / 360.0f) * 360.0f;
+		Pitch = glm::clamp(Pitch - y, -90.0f, 90.0f);
+
+		UpdateRotationQuat();
+		UpdateViewMatrix();
+	}
+
+private:
+
+	void UpdateViewMatrix()
+	{
+		ViewMatrix = glm::toMat4(RotationQuat) * glm::translate(glm::mat4(1.0f), Position);
+	}
+
+	void UpdateRotationQuat()
+	{
+		RotationQuat = glm::inverse(glm::quat(glm::vec3(glm::radians(Pitch), glm::radians(Yaw), 0.0f)));
+	}
+
+	float Pitch;
+	float Yaw;
+
+	glm::vec3 Position;
+	glm::quat RotationQuat;
+	glm::mat4 ViewMatrix;
+};
+
 void Game::Run()
 {
 	// measure our delta time
 	uint64_t now     = SDL_GetPerformanceCounter();
 	uint64_t last    = 0;
 	double deltaTime = 0.0;
+
+	FreeCamera camera;
+	camera.MoveTo(glm::vec3(230.0f, -19.0f, 150.0f));
 
 	SDL_Event event;
 	bool running = true;
@@ -127,6 +191,10 @@ void Game::Run()
 
 		Input::PreEvent();
 
+		// TODO
+		int xDelta, yDelta = 0;
+		SDL_GetRelativeMouseState(&xDelta, &yDelta);
+
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT) running = false;
@@ -136,9 +204,22 @@ void Game::Run()
 			Input::HandleEvent(event);
 		}
 
-		if (Input::JustPressed(Button::MouseLeft))
+		if (Input::IsDown(Button::MouseRight))
 		{
-			std::cout << "just pressed" << std::endl;
+			//camera.LookDelta(100.0f * deltaTime, 0.0f);
+			camera.LookDelta(xDelta * 0.5f, yDelta * 0.5f);
+		}
+
+		auto inputForce = glm::vec3(0.0f);
+		if (Input::IsDown(Button::KeyW)) inputForce += glm::vec3(0.0f, 0.0f, 1.0f);
+		if (Input::IsDown(Button::KeyS)) inputForce -= glm::vec3(0.0f, 0.0f, 1.0f);
+		if (Input::IsDown(Button::KeyA)) inputForce += glm::vec3(1.0f, 0.0f, 0.0f);
+		if (Input::IsDown(Button::KeyD)) inputForce -= glm::vec3(1.0f, 0.0f, 0.0f);
+		if (glm::length2(inputForce) > 0.0f)
+		{
+			inputForce = glm::normalize(inputForce);
+			inputForce *= Input::IsDown(Button::KeyLSHIFT) ? 100.0f : 10.0f;
+			camera.Move(inputForce, (float)deltaTime);
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -210,7 +291,7 @@ void Game::Run()
 		glm::mat4 projectionMatrix = glm::perspective(
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 1.0f, 10000.0f);
 
-		glm::mat4 viewMatrix = glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
+		glm::mat4 viewMatrix = camera.GetViewMatrix();//glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
 		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(-1.0f, 1.0f, 1.0f));
 
 		if (_level != nullptr) _level->Draw(GetResourceManager(), mvp);
