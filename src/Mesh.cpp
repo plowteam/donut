@@ -95,7 +95,7 @@ void Mesh::Draw(const GL::ShaderProgram& shader, const ResourceManager& rm)
 	for (auto const& prim : _primGroups)
 	{
 		rm.GetShaderTexture(prim.shaderName).Bind(0);
-		glDrawElements(prim.type, prim.indicesCount, _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));
+		glDrawElements(prim.type, (GLsizei)prim.indicesCount, _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));
 	}
 
 	glBindVertexArray(0);

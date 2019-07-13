@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/VertexBuffer.h>
+#include <GL/VertexBinding.h>
 #include <GL/ShaderProgram.h>
 #include <glm/glm.hpp>
 #include <vector>
@@ -35,10 +36,10 @@ namespace Donut
 		size_t m_vertexCount;
 		size_t m_maxVertexCount;
 
-		GLuint m_vertexArrayObject;
 		std::unique_ptr<GL::VertexBuffer> m_vertexBuffer;
+		std::unique_ptr<GL::VertexBinding> m_vertexBinding;
 		std::vector<char> m_buffer;
-		static const size_t VERTEX_ATTRIB_STRIDE;
+		static const size_t VertexSize;
 		std::unique_ptr<GL::ShaderProgram> _shader;
 	};
 }

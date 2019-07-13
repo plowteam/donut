@@ -20,7 +20,7 @@ std::unique_ptr<CollisionObject> CollisionObject::Load(const P3DChunk& chunk)
 
 	std::cout << name << " obj count: " << objectCount << " owner count: " << ownerCount << "\n";
 
-	return std::make_unique<CollisionObject>(name);
+	return std::make_unique<CollisionObject>(name, nullptr);
 }
 
 CollisionBoundingBox CollisionBoundingBox::Load(const P3DChunk& chunk)

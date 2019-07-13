@@ -35,29 +35,24 @@ namespace Donut
 	}
 )glsl";
 
-	const size_t LineRenderer::VERTEX_ATTRIB_STRIDE = 28;
+	const size_t LineRenderer::VertexSize = 28;
 
 	LineRenderer::LineRenderer(size_t maxVertexCount) :
 		m_maxVertexCount(maxVertexCount),
 		m_vertexCount(0)
 	{
-		m_buffer.resize(VERTEX_ATTRIB_STRIDE * m_maxVertexCount, 0);
+		m_buffer.resize(VertexSize * m_maxVertexCount, 0);
 
-		glGenVertexArrays(1, &m_vertexArrayObject);
-		glBindVertexArray(m_vertexArrayObject);
+		m_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, m_maxVertexCount, VertexSize);
 
-		m_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, m_maxVertexCount, VERTEX_ATTRIB_STRIDE);
+		GL::ArrayElement vertexLayout[] =
+		{
+			GL::ArrayElement(0, 3, GL::AE_FLOAT, VertexSize, 0),
+			GL::ArrayElement(1, 4, GL::AE_FLOAT, VertexSize, 3 * sizeof(float))
+		};
 
-		std::size_t ptr = 0;
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_ATTRIB_STRIDE, reinterpret_cast<GLvoid*>(ptr)); // pos
-		ptr += sizeof(glm::vec3);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, VERTEX_ATTRIB_STRIDE, reinterpret_cast<GLvoid*>(ptr)); // color
-		ptr += sizeof(glm::vec4);
-
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-
-		glBindVertexArray(0);
+		m_vertexBinding = std::make_unique<GL::VertexBinding>();
+		m_vertexBinding->Create(vertexLayout, 2, *m_vertexBuffer.get());
 
 		_shader = std::make_unique<GL::ShaderProgram>(VertSrc, FragSrc);
 	}
@@ -69,14 +64,14 @@ namespace Donut
 			return;
 		}
 
-		m_vertexBuffer->UpdateBuffer(m_buffer.data(), 0, m_vertexCount * VERTEX_ATTRIB_STRIDE);
+		m_vertexBuffer->UpdateBuffer(m_buffer.data(), 0, m_vertexCount * VertexSize);
 
 		_shader->Bind();
 		_shader->SetUniformValue("viewProj", viewProj);
 
-		glBindVertexArray(m_vertexArrayObject);
+		m_vertexBinding->Bind();
 		glDrawArrays(GL_LINES, 0, (GLsizei)m_vertexCount);
-		glBindVertexArray(0);
+		m_vertexBinding->Unbind();
 
 		m_vertexCount = 0;
 	}
@@ -236,7 +231,7 @@ namespace Donut
 			return;
 		}
 
-		char* vertexData = &m_buffer[m_vertexCount * VERTEX_ATTRIB_STRIDE];
+		char* vertexData = &m_buffer[m_vertexCount * VertexSize];
 		*(glm::vec3*)(vertexData) = position;
 		*(glm::vec4*)(vertexData + sizeof(glm::vec3)) = colour;
 
