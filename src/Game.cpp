@@ -2,6 +2,7 @@
 #include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>
+#include <Input.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -112,11 +113,20 @@ void Game::Run()
 
 		deltaTime = ((now - last) / (double)SDL_GetPerformanceFrequency());
 
+		Input::PreEvent();
+
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT) running = false;
 
 			ImGui_ImplSDL2_ProcessEvent(&event);
+
+			Input::HandleEvent(event);
+		}
+
+		if (Input::JustPressed(Button::MouseLeft))
+		{
+			std::cout << "just pressed" << std::endl;
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
