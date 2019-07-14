@@ -37,7 +37,7 @@ find_package(OpenGL REQUIRED)
 
 # Use bundled SDL2 on Windows x86_64
 if (MSVC)
-    set(SDL2_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL2-2.0.9")
+    set(SDL2_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL2-2.0.8")
     set(SDL2_FOUND YES)
     set(SDL2_INCLUDE_DIR "${SDL2_PREFIX}/include" CACHE PATH "Path to SDL2 headers")
     set(SDL2_LIBRARY "${SDL2_PREFIX}/lib/x64/SDL2.lib" CACHE PATH "Path to SDL2 library")
@@ -53,7 +53,7 @@ if (SDL2_FOUND)
 endif()
 
 # find_package(OpenAL REQUIRED)
-find_package(BULLET REQUIRED COMPONENTS BulletCollision LinearMath)
+find_package(Bullet REQUIRED COMPONENTS BulletCollision_Debug LinearMath_Debug)
 
 # More Dependencies
 add_subdirectory(thirdparty)

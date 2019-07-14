@@ -12,7 +12,7 @@ namespace Donut::P3D
 class WorldSphere
 {
   public:
-	WorldSphere(const std::string& name, std::vector<std::unique_ptr<Mesh>>& meshes):
+	WorldSphere(const std::string& name, std::vector<std::unique_ptr<Mesh>> meshes):
 	    _name(name), _meshes(std::move(meshes)) {}
 
 	static std::unique_ptr<WorldSphere> Load(const P3DChunk&);

@@ -32,7 +32,7 @@ std::unique_ptr<BillboardQuadGroup> BillboardQuadGroup::Load(const P3DChunk& chu
 			quads.push_back(BillboardQuad::Load(*child));
 			break;
 		}
-		default: throw std::exception("unexpected child chunk in BillboardQuadGroup");
+		default: throw std::runtime_error("unexpected child chunk in BillboardQuadGroup");
 		}
 	}
 

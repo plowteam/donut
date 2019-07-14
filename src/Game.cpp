@@ -2,10 +2,9 @@
 #include <Game.h>
 #include <Input/Input.h>
 #include <Core/FpsTimer.h>
-#include <Render/LineRenderer.h>
-#include <FreeCamera.h>
-#include <Render/SpriteBatch.h>
 #include <P3D/Texture.h>
+#include <Render/LineRenderer.h>
+#include <Render/SpriteBatch.h>
 #include <SDL.h>
 #include <Window.h>
 #include <glad/glad.h>
@@ -58,17 +57,17 @@ Game::Game(int argc, char** argv)
 
 	if (std::filesystem::exists("font0_16.p3d"))
 	{
-		auto p3dFont = std::make_unique<P3D::P3DFile>("font0_16.p3d");
+		auto p3dFont     = std::make_unique<P3D::P3DFile>("font0_16.p3d");
 		const auto& root = p3dFont->GetRoot();
 		for (const auto& chunk : root.GetChildren())
 		{
 			switch (chunk->GetType())
 			{
-				case P3D::ChunkType::TextureFont:
-				{
-					_textureFontP3D = P3D::TextureFont::Load(*chunk);
-					break;
-				}
+			case P3D::ChunkType::TextureFont:
+			{
+				_textureFontP3D = P3D::TextureFont::Load(*chunk);
+				break;
+			}
 			}
 		}
 	}
@@ -155,6 +154,17 @@ void Game::LockMouse(bool lockMouse)
 	Input::ResetMouseDelta();
 }
 
+std::vector<std::pair<std::string, std::string>> models {
+	{ "homer_m.p3d", "homer_a.p3d" },
+	{ "h_evil_m.p3d", "homer_a.p3d" },
+	{ "h_fat_m.p3d", "homer_a.p3d" },
+	{ "h_undr_m.p3d", "homer_a.p3d" },
+	{ "marge_m.p3d", "marge_a.p3d" },
+	{ "bart_m.p3d", "bart_a.p3d" },
+	{ "apu_m.p3d", "apu_a.p3d" },
+	{ "a_amer_m.p3d", "apu_a.p3d" },
+};
+
 void Game::Run()
 {
 	// measure our delta time
@@ -222,23 +232,11 @@ void Game::Run()
 		{
 			auto const& aabb = intersect->GetAABB();
 			lines.DrawAABBox(aabb.GetMin(), aabb.GetMax(), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-			
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
-
-		std::vector<std::pair<std::string, std::string>> models {
-			{ "homer_m.p3d", "homer_a.p3d" },
-			{ "h_evil_m.p3d", "homer_a.p3d" },
-			{ "h_fat_m.p3d", "homer_a.p3d" },
-			{ "h_undr_m.p3d", "homer_a.p3d" },
-			{ "marge_m.p3d", "marge_a.p3d" },
-			{ "bart_m.p3d", "bart_a.p3d" },
-			{ "apu_m.p3d", "apu_a.p3d" },
-			{ "a_amer_m.p3d", "apu_a.p3d" },
-		};
 
 		ImGui::BeginMainMenuBar();
 		for (auto const& model : models)

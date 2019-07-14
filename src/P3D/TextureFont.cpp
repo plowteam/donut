@@ -68,7 +68,7 @@ namespace Donut::P3D
 				break;
 			}
 			default:
-				throw std::exception("unexpected child chunk in TextureFont");
+				throw std::runtime_error("unexpected child chunk in TextureFont");
 		}
 	}
 

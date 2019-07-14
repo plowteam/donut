@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <glad/glad.h>
 
 namespace Donut::GL
@@ -18,19 +19,19 @@ namespace Donut::GL
 
 	struct ArrayElement
 	{
-		ArrayElement(size_t attributeIndex,
-			size_t componentCount,
+		ArrayElement(std::size_t attributeIndex,
+			std::size_t componentCount,
 			ElementType type,
-			size_t stride,
-			size_t offset,
-			size_t instanceStep = 0);
+			std::size_t stride,
+			std::size_t offset,
+			std::size_t instanceStep = 0);
 
-		size_t attributeIndex;
-		size_t componentCount;
+		std::size_t attributeIndex;
+		std::size_t componentCount;
 		ElementType type;
-		size_t stride;
-		size_t offset;
-		size_t instanceStep;
+		std::size_t stride;
+		std::size_t offset;
+		std::size_t instanceStep;
 	};
 
 	class VertexBinding
@@ -41,8 +42,8 @@ namespace Donut::GL
 		explicit VertexBinding();
 		~VertexBinding();
 
-		void Create(const ArrayElement* elements, size_t elementCount, const VertexBuffer& vertices);
-		void Create(const ArrayElement* elements, size_t elementCount, const VertexBuffer& vertices, const IndexBuffer& indices, ElementType indicesType);
+		void Create(const ArrayElement* elements, std::size_t elementCount, const VertexBuffer& vertices);
+		void Create(const ArrayElement* elements, std::size_t elementCount, const VertexBuffer& vertices, const IndexBuffer& indices, ElementType indicesType);
 		void Dispose();
 		void Bind();
 		void Unbind();
@@ -50,7 +51,7 @@ namespace Donut::GL
 	private:
 
 		void CreateVAO();
-		void SetupVertices(const VertexBuffer& vertices, const ArrayElement* elements, size_t elementCount);
+		void SetupVertices(const VertexBuffer& vertices, const ArrayElement* elements, std::size_t elementCount);
 		void SetupIndices(const IndexBuffer& indices, ElementType indicesType);
 
 		GLuint m_handle;

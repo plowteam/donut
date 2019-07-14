@@ -40,7 +40,7 @@ std::unique_ptr<Mesh> Mesh::Load(const P3DChunk& chunk)
 		case ChunkType::DrawShadow:
 			break;
 		default:
-			throw std::exception("unexpected child chunk in Mesh");
+			throw std::runtime_error("unexpected child chunk in Mesh");
 		}
 	}
 
