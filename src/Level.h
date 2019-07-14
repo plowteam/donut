@@ -14,14 +14,17 @@
 #include <BulletCollision/CollisionDispatch/btCollisionWorld.h>
 #include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
 
+#include <BulletDebugDraw.h>
+
 namespace Donut
 {
 
 class Level
 {
 public:
-	Level();
+	Level(LineRenderer*);
 
+	void DebugDraw();
 	void Draw(const ResourceManager&, glm::mat4& viewProj);
 	void LoadP3D(const std::string& filename);
 
@@ -39,6 +42,12 @@ private:
 	std::unique_ptr<btDefaultCollisionConfiguration> _collisionConfiguration;
 	std::unique_ptr<btCollisionDispatcher> _collisionDispatcher;
 	std::unique_ptr<btBroadphaseInterface> _broadphase;
+
+	std::unique_ptr<BulletDebugDraw> _debugDraw;
+
+	btAlignedObjectArray<btCollisionObject*> _allocatedCollisionObjects;
+
+
 };
 
 } // namespace Donut

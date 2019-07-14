@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ResourceManager.h>
+#include <Render/LineRenderer.h>
 #include <Render/SkinModel.h>
 #include <P3D/TextureFont.h>
 #include <Level.h>
@@ -36,6 +37,7 @@ class Game
 	std::unique_ptr<Window> _window;
 	std::unique_ptr<ResourceManager> _resourceManager;
 	std::unique_ptr<SkinModel> _skinModel;
+	std::unique_ptr<LineRenderer> _lineRenderer;
 	std::unique_ptr<Level> _level;
 	std::unique_ptr<P3D::P3DFile> _animP3D;
 	std::unique_ptr<P3D::P3DFile> _globalP3D;
