@@ -52,7 +52,8 @@ if (SDL2_FOUND)
     target_include_directories(SDL2 INTERFACE "${SDL2_INCLUDE_DIR}")
 endif()
 
-find_package(BULLET)
+# find_package(OpenAL REQUIRED)
+find_package(BULLET REQUIRED COMPONENTS BulletCollision LinearMath)
 
 # More Dependencies
 add_subdirectory(thirdparty)

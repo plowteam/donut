@@ -32,7 +32,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 glm glad imgui)
 
 if (BULLET_FOUND)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${BULLET_INCLUDE_DIR})
-	target_link_libraries(${PROJECT_NAME} PRIVATE ${BULLET_COLLISION_LIBRARY} ${BULLET_DYNAMICS_LIBRARY} ${BULLET_MATH_LIBRARY})
+	target_link_libraries(${PROJECT_NAME} PRIVATE ${BULLET_COLLISION_LIBRARY} ${BULLET_MATH_LIBRARY})
 endif()
 
 
