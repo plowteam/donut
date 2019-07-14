@@ -55,9 +55,9 @@ Game::Game(int argc, char** argv)
 	loadGlobal();
 	LoadModel("homer_m.p3d", "homer_a.p3d");
 
-	if (std::filesystem::exists("font0_24.p3d"))
+	if (std::filesystem::exists("font0_16.p3d"))
 	{
-		auto p3dFont = std::make_unique<P3D::P3DFile>("font0_24.p3d");
+		auto p3dFont = std::make_unique<P3D::P3DFile>("font0_16.p3d");
 		const auto& root = p3dFont->GetRoot();
 		for (const auto& chunk : root.GetChildren())
 		{
@@ -314,10 +314,12 @@ void Game::Run()
 
 		sprites.Begin();
 
-		//for (int i = 0; i < 32; ++i)
-		//{
-		//	sprites.Draw(nullptr, glm::vec2(i * 32, i * 32), glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 0.5f));
-		//}
+		if (_textureFontP3D != nullptr)
+		{
+			std::string s = "Call Mr Plow, that's my name, that name again is Mr Plow!";
+			sprites.DrawText(_textureFontP3D.get(), s, glm::vec2(64 + 3, 128 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+			sprites.DrawText(_textureFontP3D.get(), s, glm::vec2(64, 128), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+		}
 
 		sprites.End(proj);
 

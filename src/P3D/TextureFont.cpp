@@ -57,13 +57,29 @@ namespace Donut::P3D
 			{
 				MemoryStream data(child.GetData());
 				uint32_t numGlyphs = data.Read<uint32_t>();
-				_glyphs.resize(numGlyphs);
-				data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), numGlyphs * sizeof(FontGlyph));
+
+				for (int i = 0; i < numGlyphs; ++i)
+				{
+					FontGlyph glyph;
+					data.ReadBytes(reinterpret_cast<uint8_t*>(&glyph), sizeof(FontGlyph));
+					_glyphs.insert(std::pair<int32_t, FontGlyph>(glyph.id, glyph));
+				}
 
 				break;
 			}
 			default:
 				throw std::exception("unexpected child chunk in TextureFont");
 		}
+	}
+
+	bool TextureFont::TryGetGlyph(int32_t id, FontGlyph& glyph) const
+	{
+		if (_glyphs.find(id) != _glyphs.end())
+		{
+			glyph = _glyphs.at(id);
+			return true;
+		}
+
+		return false;
 	}
 } // namespace Donut::P3D

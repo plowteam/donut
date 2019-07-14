@@ -3,6 +3,7 @@
 #include <P3D/P3DChunk.h>
 #include <P3D/Texture.h>
 #include <Render/OpenGL/Texture2D.h>
+#include <map>
 
 namespace Donut::P3D
 {
@@ -17,7 +18,7 @@ namespace Donut::P3D
 		float rightBearing;
 		float width;
 		float advance;
-		uint32_t id;
+		int32_t id;
 	};
 
 	class TextureFont
@@ -32,6 +33,8 @@ namespace Donut::P3D
 		inline uint32_t GetNumTextures() const { return _numTextures; }
 		inline GL::Texture2D* GetTexture(size_t index) { return _glTextures[index].get(); }
 		inline std::string GetTextureName(size_t index) { return _texures[index]->GetName(); }
+		inline float GetHeight() const { return _height; }
+		bool TryGetGlyph(int32_t id, FontGlyph& glyph) const;
 
 	private:
 
@@ -45,6 +48,6 @@ namespace Donut::P3D
 		uint32_t _numTextures;
 		std::vector<std::unique_ptr<Texture>> _texures;
 		std::vector<std::unique_ptr<GL::Texture2D>> _glTextures;
-		std::vector<FontGlyph> _glyphs;
+		std::map<int32_t, FontGlyph> _glyphs;
 	};
 } // namespace Donut::P3D

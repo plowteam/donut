@@ -37,7 +37,7 @@ namespace Donut
 
 		void main()
 		{
-			outColor = frag_color;
+			outColor = texture2D(texture, frag_texcoord) * frag_color;
 		}
 	)glsl";
 
@@ -53,11 +53,26 @@ namespace Donut
 		return Shader.get();
 	}
 
-	void SpriteBatch::DrawText(const std::string& text, glm::vec2& position, const glm::vec4& colour)
+
+	void SpriteBatch::DrawText(P3D::TextureFont* font, const std::string& text, glm::vec2& position, const glm::vec4& colour)
 	{
+		P3D::FontGlyph glyph;
+		glm::vec2 curPosition = position;
+
 		for (const char& c : text)
 		{
+			if (!font->TryGetGlyph(c, glyph)) continue;
 
+			GL::Texture2D* glyphTexture = font->GetTexture(glyph.textureId);
+
+			Draw(glyphTexture,
+				 curPosition + glm::vec2(glyph.leftBearing),
+				 glm::vec2(glyph.bottomLeftX, 1.0f - glyph.topRightY),
+				 glm::vec2(glyph.topRightX, 1.0f - glyph.bottomLeftY),
+				 glm::vec2(glyph.width, font->GetHeight()),
+				 colour);
+
+			curPosition += glm::vec2(glyph.advance, 0);
 		}
 	}
 
