@@ -54,7 +54,7 @@ namespace Donut
 	}
 
 
-	void SpriteBatch::DrawText(P3D::TextureFont* font, const std::string& text, glm::vec2& position, const glm::vec4& colour)
+	void SpriteBatch::DrawText(P3D::TextureFont* font, const std::string& text, const glm::vec2& position, const glm::vec4& colour)
 	{
 		P3D::FontGlyph glyph;
 		glm::vec2 curPosition = position;
