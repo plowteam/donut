@@ -11,11 +11,15 @@ or if using desktop client make sure you do: `git submodule update --init --recu
 
 * download [vs2019](https://visualstudio.microsoft.com/downloads/) (vs2017 or higher is fine)
 * download [cmake](https://cmake.org/download/)
-* download [bullet](https://github.com/bulletphysics/bullet3) and build it
 * open cmake gui and point it to `donut` folder, then set build directory to `donut/build`
-* set `BULLET_ROOT` to the bullet directory (make sure it's built)
+* set `BULLET_ROOT` to the bullet directory
 * press configure & generate
 * open project in vs2019 and build
+
+### building bullet
+
+* download [bullet](https://github.com/bulletphysics/bullet3)
+* build it using cmake or premake, w/e, just make sure `USE_MSVC_RUNTIME_LIBRARY_DLL` is enabled
 
 ## linux
 
