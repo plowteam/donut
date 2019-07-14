@@ -11,6 +11,9 @@
 #include <string>
 #include <vector>
 
+#include <BulletCollision/CollisionDispatch/btCollisionWorld.h>
+#include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
+
 namespace Donut
 {
 
@@ -30,6 +33,12 @@ private:
 	std::vector<std::unique_ptr<StaticEntity>> _staticEntities;
 	std::vector<std::unique_ptr<P3D::Intersect>> _intersects;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
+
+	// physics (move to another class after poc)
+	std::unique_ptr<btCollisionWorld> _collisionWorld;
+	std::unique_ptr<btDefaultCollisionConfiguration> _collisionConfiguration;
+	std::unique_ptr<btCollisionDispatcher> _collisionDispatcher;
+	std::unique_ptr<btBroadphaseInterface> _broadphase;
 };
 
 } // namespace Donut

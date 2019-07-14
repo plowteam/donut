@@ -1,12 +1,14 @@
 #include <Level.h>
 #include <P3D/P3DFile.h>
+#include <P3D/Intersect.h>
 #include <P3D/StaticEntity.h>
 #include <P3D/StaticPhys.h>
 #include <P3D/Texture.h>
 #include <P3D/WorldSphere.h>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
-#include "P3D/Intersect.h"
+
+#include <BulletCollision/BroadphaseCollision/btDbvtBroadphase.h>
 
 namespace Donut
 {
@@ -55,6 +57,14 @@ Level::Level()
 {
 	_worldShader     = std::make_unique<GL::ShaderProgram>(lvlVertexShader, lvlFragmentShader);
 	_resourceManager = std::make_unique<ResourceManager>();
+
+	_collisionConfiguration = std::make_unique<btDefaultCollisionConfiguration>();
+	_collisionDispatcher    = std::make_unique<btCollisionDispatcher>(_collisionConfiguration.get());
+	_broadphase             = std::make_unique<btDbvtBroadphase>();
+
+	_collisionWorld = std::make_unique<btCollisionWorld>(_collisionDispatcher.get(), _broadphase.get(), _collisionConfiguration.get());
+
+	// _collisionWorld->setDebugDrawer(btIDebugDrawer);
 }
 
 void Level::LoadP3D(const std::string& filename)
