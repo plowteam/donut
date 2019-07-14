@@ -177,7 +177,7 @@ void Game::Run()
 	FreeCamera camera;
 	camera.MoveTo(glm::vec3(230.0f, -19.0f, 150.0f));
 
-	LineRenderer lines(10000);
+	LineRenderer lines(100000);
 	SpriteBatch sprites;
 	GL::ShaderProgram* spriteShader = sprites.GetShader();
 
