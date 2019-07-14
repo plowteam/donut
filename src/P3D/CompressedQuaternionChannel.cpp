@@ -1,6 +1,7 @@
 #include <Core/MemoryStream.h>
 #include <P3D/CompressedQuaternionChannel.h>
 #include <iostream>
+#include <climits>
 
 namespace Donut::P3D
 {

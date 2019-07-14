@@ -53,7 +53,7 @@ if (SDL2_FOUND)
 endif()
 
 # find_package(OpenAL REQUIRED)
-find_package(BULLET REQUIRED COMPONENTS BulletCollision LinearMath)
+find_package(Bullet REQUIRED COMPONENTS BulletCollision LinearMath)
 
 # More Dependencies
 add_subdirectory(thirdparty)
