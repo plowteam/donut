@@ -2,7 +2,7 @@
 
 #include "AnimChannel.h"
 
-#include <MemoryStream.h>
+#include <Core/MemoryStream.h>
 #include <glm/mat4x4.hpp>
 #include <memory>
 #include <string>

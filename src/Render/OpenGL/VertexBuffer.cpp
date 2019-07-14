@@ -1,4 +1,4 @@
-#include <GL/VertexBuffer.h>
+#include <Render/OpenGL/VertexBuffer.h>
 #include <cassert>
 
 namespace Donut::GL

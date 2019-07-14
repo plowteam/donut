@@ -1,4 +1,4 @@
-#include <GL/TextureBuffer.h>
+#include <Render/OpenGL/TextureBuffer.h>
 #include <glad/glad.h>
 
 namespace Donut::GL

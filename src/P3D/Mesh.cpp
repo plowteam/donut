@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-#include <MemoryStream.h>
+#include <Core/MemoryStream.h>
 #include <P3D/Mesh.h>
 #include <iostream>
 

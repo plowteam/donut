@@ -1,4 +1,4 @@
-#include <GL/Texture2D.h>
+#include <Render/OpenGL/Texture2D.h>
 
 namespace Donut::GL
 {

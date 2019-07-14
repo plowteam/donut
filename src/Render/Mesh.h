@@ -1,11 +1,11 @@
 #pragma once
 
-#include <GL/IndexBuffer.h>
-#include <GL/ShaderProgram.h>
-#include <GL/VertexBuffer.h>
+#include <Render/OpenGL/IndexBuffer.h>
+#include <Render/OpenGL/ShaderProgram.h>
+#include <Render/OpenGL/VertexBuffer.h>
+#include <Render/SkinAnimation.h>
 #include <P3D/Mesh.h>
 #include <ResourceManager.h>
-#include <SkinAnimation.h>
 #include <glm/glm.hpp>
 #include <string>
 

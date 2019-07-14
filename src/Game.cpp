@@ -1,9 +1,9 @@
 #include <FreeCamera.h>
 #include <Game.h>
-#include <Input.h>
-#include <LineRenderer.h>
+#include <Input/Input.h>
+#include <Render/LineRenderer.h>
 #include <FreeCamera.h>
-#include <SpriteBatch.h>
+#include <Render/SpriteBatch.h>
 #include <P3D/Texture.h>
 #include <SDL.h>
 #include <Window.h>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <P3D/Shader.h>
-#include <GL/Texture2D.h>
+#include <Render/OpenGL/Texture2D.h>
 #include <map>
 #include <memory>
 #include <string>

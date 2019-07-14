@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ResourceManager.h>
-#include <SkinModel.h>
+#include <Render/SkinModel.h>
 #include <P3D/TextureFont.h>
 #include <Level.h>
 #include <memory>

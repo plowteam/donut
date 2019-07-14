@@ -1,4 +1,4 @@
-#include <MemoryStream.h>
+#include <Core/MemoryStream.h>
 #include <P3D/Animation.h>
 #include <P3D/AnimationGroupList.h>
 #include <iostream>

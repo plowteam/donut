@@ -1,4 +1,4 @@
-#include <GL/ShaderProgram.h>
+#include <Render/OpenGL/ShaderProgram.h>
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>

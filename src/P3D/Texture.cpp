@@ -1,10 +1,10 @@
-#include <MemoryStream.h>
+#include <Core/MemoryStream.h>
 #include <P3D/Texture.h>
 #include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_ONLY_PNG
-#include <stb_image.h>
+#include <ThirdParty/stb_image.h>
 
 namespace Donut::P3D
 {

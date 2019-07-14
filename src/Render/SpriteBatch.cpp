@@ -1,7 +1,7 @@
 #include "SpriteBatch.h"
-#include "GL/Texture2D.h"
-#include "GL/VertexBuffer.h"
-#include "GL/VertexBinding.h"
+#include <Render/OpenGL/Texture2D.h>
+#include <Render/OpenGL/VertexBuffer.h>
+#include <Render/OpenGL/VertexBinding.h>
 
 namespace Donut
 {

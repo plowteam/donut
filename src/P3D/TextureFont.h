@@ -2,7 +2,7 @@
 
 #include <P3D/P3DChunk.h>
 #include <P3D/Texture.h>
-#include <GL/Texture2D.h>
+#include <Render/OpenGL/Texture2D.h>
 
 namespace Donut::P3D
 {

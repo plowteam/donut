@@ -1,11 +1,11 @@
 #pragma once
 
-#include <GL/ShaderProgram.h>
+#include <Render/OpenGL/ShaderProgram.h>
 
 #include <P3D/Intersect.h>
 #include <ResourceManager.h>
-#include <StaticEntity.h>
-#include <WorldSphere.h>
+#include <Render/StaticEntity.h>
+#include <Render/WorldSphere.h>
 #include <glm/glm.hpp>
 #include <map>
 #include <string>

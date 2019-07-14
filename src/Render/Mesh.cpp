@@ -1,6 +1,6 @@
-#include <Mesh.h>
+#include <Render/Mesh.h>
+#include <Render/SkinModel.h>
 #include <vector>
-#include "SkinModel.h"
 
 namespace Donut
 {

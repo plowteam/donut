@@ -1,8 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <GL/Texture2D.h>
-#include <GL/ShaderProgram.h>
+#include <Render/OpenGL/Texture2D.h>
+#include <Render/OpenGL/ShaderProgram.h>
 #include <vector>
 #include <stack>
 #include <map>

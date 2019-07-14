@@ -1,8 +1,8 @@
 #pragma once
 
-#include <GL/VertexBuffer.h>
-#include <GL/VertexBinding.h>
-#include <GL/ShaderProgram.h>
+#include <Render/OpenGL/VertexBuffer.h>
+#include <Render/OpenGL/VertexBinding.h>
+#include <Render/OpenGL/ShaderProgram.h>
 #include <glm/glm.hpp>
 #include <vector>
 

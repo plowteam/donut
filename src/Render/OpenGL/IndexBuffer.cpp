@@ -1,4 +1,4 @@
-#include <GL/IndexBuffer.h>
+#include <Render/OpenGL/IndexBuffer.h>
 #include <cassert>
 
 namespace Donut::GL

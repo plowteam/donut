@@ -1,5 +1,5 @@
 #include <glm/gtx/transform.hpp>
-#include <SkinModel.h>
+#include <Render/SkinModel.h>
 #include <iostream>
 #include <P3D/Texture.h>
 
