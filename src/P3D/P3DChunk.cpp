@@ -65,6 +65,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 		return os << "MultiController";
 	case ChunkType::MultiControllerTracks:
 		return os << "MultiControllerTracks";
+	case ChunkType::History:
+		return os << "History";
 	case ChunkType::Mesh:
 		return os << "Mesh";
 	case ChunkType::PolySkin:
@@ -133,6 +135,10 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 		return os << "BillboardDisplayInfo";
 	case ChunkType::BillboardPerspectiveInfo:
 		return os << "BillboardPerspectiveInfo";
+	case ChunkType::FrontendScreen:
+		return os << "FrontendScreen";
+	case ChunkType::FrontendPage:
+		return os << "FrontendPage";
 	case ChunkType::TextBible:
 		return os << "TextBible";
 	case ChunkType::Texture:
@@ -193,6 +199,26 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 		return os << "Set";
 	case ChunkType::StaticEntity:
 		return os << "StaticEntity";
+	case ChunkType::StaticPhys:
+		return os << "StaticPhys";
+	case ChunkType::DynamicPhys:
+		return os << "DynamicPhys";
+	case ChunkType::Intersect:
+		return os << "Intersect";
+	case ChunkType::WorldSphere:
+		return os << "WorldSphere";
+	case ChunkType::CollisionObject:
+		return os << "CollisionObject";
+	case ChunkType::CollisionVolume:
+		return os << "CollisionVolume";
+	case ChunkType::CollisionCylinder:
+		return os << "CollisionCylinder";
+	case ChunkType::CollisionBoundingBox:
+		return os << "CollisionBoundingBox";
+	case ChunkType::CollisionAxisAlignedBoundingBox:
+		return os << "CollisionAxisAlignedBoundingBox";
+	case ChunkType::CollisionVector:
+		return os << "CollisionVector";
 	case ChunkType::PhysicsObject:
 		return os << "PhysicsObject";
 	case ChunkType::PhysicsInertiaMatrix:
