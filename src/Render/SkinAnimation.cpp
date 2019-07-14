@@ -1,4 +1,4 @@
-#include <SkinAnimation.h>
+#include "SkinAnimation.h"
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 
