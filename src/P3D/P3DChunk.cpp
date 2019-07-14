@@ -165,6 +165,16 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 		return os << "ImageFont";
 	case ChunkType::Scenegraph:
 		return os << "Scenegraph";
+	case ChunkType::ScenegraphRoot:
+		return os << "ScenegraphRoot";
+	case ChunkType::ScenegraphBranch:
+		return os << "ScenegraphBranch";
+	case ChunkType::ScenegraphTransform:
+		return os << "ScenegraphTransform";
+	case ChunkType::ScenegraphDrawable:
+		return os << "ScenegraphDrawable";
+	case ChunkType::ScenegraphSortOrder:
+		return os << "ScenegraphSortOrder";
 	case ChunkType::Animation:
 		return os << "Animation";
 	case ChunkType::AnimationGroup:
@@ -205,6 +215,10 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 		return os << "DynamicPhys";
 	case ChunkType::Intersect:
 		return os << "Intersect";
+	case ChunkType::InstanceList:
+		return os << "InstanceList";
+	case ChunkType::InstancedStaticPhys:
+		return os << "InstancedStaticPhys";
 	case ChunkType::WorldSphere:
 		return os << "WorldSphere";
 	case ChunkType::CollisionObject:
