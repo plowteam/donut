@@ -108,7 +108,7 @@ void Level::LoadP3D(const std::string& filename)
 			_staticEntities.push_back(std::move(model));
 			break;
 		}
-		case P3D::ChunkType::StaticPhys:
+		case P3D::ChunkType::StaticPhysics:
 		{
 			const auto& ent = P3D::StaticPhys::Load(*chunk);
 			// std::cout << "StaticPhys: " << ent->GetName() << "\n";
@@ -117,6 +117,14 @@ void Level::LoadP3D(const std::string& filename)
 			//auto model      = std::make_unique<StaticEntity>(*ent);
 
 			//_staticEntities.push_back(std::move(model));
+			break;
+		}
+		case P3D::ChunkType::InstancedStaticPhysics:
+		{
+			break;
+		}
+		case P3D::ChunkType::DynamicPhysics:
+		{
 			break;
 		}
 		case P3D::ChunkType::Intersect:

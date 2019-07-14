@@ -91,7 +91,7 @@ std::unique_ptr<PrimGroup> PrimGroup::Load(const P3DChunk& chunk)
 			data.ReadBytes(reinterpret_cast<uint8_t*>(matrixPalette.data()), len * sizeof(uint32_t));
 			break;
 		}
-		case ChunkType::ColourList:
+		case ChunkType::ColorList:
 		{
 			uint32_t len = data.Read<uint32_t>();
 
