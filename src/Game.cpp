@@ -1,6 +1,7 @@
 #include <FreeCamera.h>
 #include <Game.h>
 #include <Input/Input.h>
+#include <Core/FpsTimer.h>
 #include <Render/LineRenderer.h>
 #include <FreeCamera.h>
 #include <Render/SpriteBatch.h>
@@ -161,6 +162,8 @@ void Game::Run()
 	uint64_t last    = 0;
 	double deltaTime = 0.0;
 
+	FpsTimer timer;
+
 	FreeCamera camera;
 	camera.MoveTo(glm::vec3(230.0f, -19.0f, 150.0f));
 
@@ -172,10 +175,12 @@ void Game::Run()
 	bool running = true;
 	while (running)
 	{
+
 		last = now;
 		now  = SDL_GetPerformanceCounter();
 
 		deltaTime = ((now - last) / (double)SDL_GetPerformanceFrequency());
+		timer.Update(deltaTime);
 
 		Input::PreEvent();
 
@@ -319,6 +324,12 @@ void Game::Run()
 			std::string s = "Call Mr Plow, that's my name, that name again is Mr Plow!";
 			sprites.DrawText(_textureFontP3D.get(), s, glm::vec2(64 + 3, 128 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 			sprites.DrawText(_textureFontP3D.get(), s, glm::vec2(64, 128), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+
+			int fps = timer.GetFps();
+			std::stringstream ss;
+			ss << fps << " fps";
+			sprites.DrawText(_textureFontP3D.get(), ss.str(), glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+			sprites.DrawText(_textureFontP3D.get(), ss.str(), glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
 		sprites.End(proj);
