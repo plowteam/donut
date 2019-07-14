@@ -19,6 +19,13 @@
 #include <sstream>
 #include <string>
 
+#include <ResourceManager.h>
+#include <Render/LineRenderer.h>
+#include <Render/SkinModel.h>
+#include <P3D/TextureFont.h>
+#include <Level.h>
+#include <Physics/WorldPhysics.h>
+
 namespace Donut
 {
 
@@ -72,9 +79,10 @@ Game::Game(int argc, char** argv)
 		}
 	}
 
-	_lineRenderer = std::make_unique<LineRenderer>(100000);
+	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 
-	_level = std::make_unique<Level>(_lineRenderer.get());
+	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
+	_level = std::make_unique<Level>(_worldPhysics.get());
 
 	_level->LoadP3D("L1_TERRA.p3d");
 
@@ -229,13 +237,7 @@ void Game::Run()
 		_lineRenderer->DrawSphere(glm::vec3(0), 100, 16, 16, glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
 		_lineRenderer->DrawAABBox(glm::vec3(-100.0f), glm::vec3(100.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
-		_level->DebugDraw();
-
-		/*for (auto const& intersect : _level->GetIntersects())
-		{
-			auto const& aabb = intersect->GetAABB();
-			_lineRenderer->DrawAABBox(aabb.GetMin(), aabb.GetMax(), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-		}*/
+		_worldPhysics->DebugDraw();
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));

@@ -1,7 +1,3 @@
-#include <BulletCollision/BroadphaseCollision/btDbvtBroadphase.h>
-#include <BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h>
-#include <BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h>
-#include <BulletCollision/CollisionShapes/btTriangleMesh.h>
 #include <Level.h>
 #include <P3D/Intersect.h>
 #include <P3D/P3DFile.h>
@@ -9,7 +5,10 @@
 #include <P3D/StaticPhys.h>
 #include <P3D/Texture.h>
 #include <P3D/WorldSphere.h>
-#include <glm/gtx/transform.hpp>
+#include <Physics/WorldPhysics.h>
+#include <Render/OpenGL/ShaderProgram.h>
+#include <ResourceManager.h>
+#include <Render/StaticEntity.h>
 #include <iostream>
 
 namespace Donut
@@ -55,20 +54,11 @@ std::string lvlFragmentShader = R"glsl(
 	}
 )glsl";
 
-Level::Level(LineRenderer* renderer)
+Level::Level(WorldPhysics* worldPhysics)
 {
 	_worldShader     = std::make_unique<GL::ShaderProgram>(lvlVertexShader, lvlFragmentShader);
 	_resourceManager = std::make_unique<ResourceManager>();
-
-	_collisionConfiguration = std::make_unique<btDefaultCollisionConfiguration>();
-	_collisionDispatcher    = std::make_unique<btCollisionDispatcher>(_collisionConfiguration.get());
-	_broadphase             = std::make_unique<btDbvtBroadphase>();
-
-	_collisionWorld = std::make_unique<btCollisionWorld>(_collisionDispatcher.get(), _broadphase.get(), _collisionConfiguration.get());
-	_debugDraw      = std::make_unique<BulletDebugDraw>(renderer);
-	_debugDraw->setDebugMode(true);
-
-	_collisionWorld->setDebugDrawer(_debugDraw.get());
+	_worldPhysics    = worldPhysics;
 }
 
 void Level::LoadP3D(const std::string& filename)
@@ -132,36 +122,7 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::Intersect:
 		{
 			auto intersect = P3D::Intersect::Load(*chunk);
-
-			auto verts   = intersect->GetPositions();
-			auto indices = intersect->GetIndices();
-
-			auto vertsCopy = new float[verts.size() * 3];
-			auto idxCopy = new uint32_t[indices.size()];
-
-			// std::copy_n(&verts[0].x, verts.size() * sizeof(glm::vec3), vertsCopy);
-			std::copy(verts.begin(), verts.end(), reinterpret_cast<glm::vec3*>(vertsCopy));
-			std::copy(indices.begin(), indices.end(), idxCopy);
-
-			btIndexedMesh indexedMesh;
-			indexedMesh.m_vertexBase          = reinterpret_cast<const unsigned char*>(vertsCopy);
-			indexedMesh.m_vertexStride = sizeof(glm::vec3);
-			indexedMesh.m_numVertices         = verts.size();
-			indexedMesh.m_triangleIndexBase   = reinterpret_cast<const unsigned char*>(idxCopy);
-			indexedMesh.m_triangleIndexStride = sizeof(uint32_t) * 3;
-			indexedMesh.m_numTriangles        = indices.size() / 3;
-
-			auto meshInterface = new btTriangleIndexVertexArray();
-			meshInterface->addIndexedMesh(indexedMesh, PHY_INTEGER);
-
-			auto trimeshShape = new btBvhTriangleMeshShape(meshInterface, true);
-
-			auto colObj = new btCollisionObject();
-			// colObj->setWorldTransform(btTransform());
-			colObj->setCollisionShape(trimeshShape);
-
-			_collisionWorld->addCollisionObject(colObj);
-			_allocatedCollisionObjects.push_back(colObj);
+			_worldPhysics->AddIntersect(*intersect);
 
 			break;
 		}
@@ -175,11 +136,6 @@ void Level::LoadP3D(const std::string& filename)
 		default: break;
 		}
 	}
-}
-
-void Level::DebugDraw()
-{
-	_collisionWorld->debugDrawWorld();
 }
 
 void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)

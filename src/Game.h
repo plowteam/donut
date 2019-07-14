@@ -1,16 +1,23 @@
 #pragma once
 
-#include <ResourceManager.h>
-#include <Render/LineRenderer.h>
-#include <Render/SkinModel.h>
-#include <P3D/TextureFont.h>
-#include <Level.h>
 #include <memory>
+#include <string>
 
 namespace Donut
 {
 
 class Window;
+class ResourceManager;
+class LineRenderer;
+class SkinModel;
+class Level;
+class WorldPhysics;
+
+namespace P3D
+{
+class P3DFile;
+class TextureFont;
+}
 
 class Game
 {
@@ -39,6 +46,7 @@ class Game
 	std::unique_ptr<SkinModel> _skinModel;
 	std::unique_ptr<LineRenderer> _lineRenderer;
 	std::unique_ptr<Level> _level;
+	std::unique_ptr<WorldPhysics> _worldPhysics;
 	std::unique_ptr<P3D::P3DFile> _animP3D;
 	std::unique_ptr<P3D::P3DFile> _globalP3D;
 	std::unique_ptr<P3D::TextureFont> _textureFontP3D;
