@@ -30,7 +30,7 @@ std::unique_ptr<CollisionObject> CollisionObject::Load(const P3DChunk& chunk)
 
 CollisionBoundingBox CollisionBoundingBox::Load(const P3DChunk& chunk)
 {
-	assert(chunk.IsType(ChunkType::CollisionBoundingBox));
+	assert(chunk.IsType(ChunkType::CollisionOrientedBoundingBox));
 
 	auto const size = glm::make_vec3(reinterpret_cast<const float*>(chunk.GetData().data()));
 

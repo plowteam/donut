@@ -6,7 +6,7 @@ namespace Donut::P3D
 
 std::unique_ptr<StaticPhys> StaticPhys::Load(const P3DChunk& chunk)
 {
-	assert(chunk.IsType(ChunkType::StaticPhys));
+	assert(chunk.IsType(ChunkType::StaticPhysics));
 
 	MemoryStream stream(chunk.GetData());
 
