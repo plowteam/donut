@@ -102,7 +102,7 @@ Game::Game(int argc, char** argv)
 	_level->LoadP3D("l1z7.p3d");
 
 	_camera = std::make_unique<FreeCamera>();
-	_camera->MoveTo(glm::vec3(228.0f, -5.0f, -174.0f));
+	_camera->MoveTo(glm::vec3(228.0f, 5.0f, -174.0f));
 
 	_mouseLocked = false;
 }
@@ -278,8 +278,8 @@ void Game::Run()
 		glm::mat4 projectionMatrix = glm::perspective(
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 10000.0f);
 
-		glm::mat4 viewMatrix = _camera->GetViewMatrix(); //glm::lookAt(_camPos, _lookAt, glm::vec3(0, 1, 0));
-		glm::mat4 mvp        = projectionMatrix * viewMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(-1.0f, 1.0f, -1.0f));
+		glm::mat4 viewMatrix = _camera->GetViewMatrix();
+		glm::mat4 mvp        = projectionMatrix * viewMatrix;
 
 		_lineRenderer->Flush(mvp);
 

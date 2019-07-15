@@ -21,7 +21,7 @@ namespace Donut
 	{
 		if (glm::length2(force) > 0.0f)
 		{
-			Position += (glm::inverse(RotationQuat) * force) * dt;
+			Position -= (glm::inverse(RotationQuat) * force) * dt;
 			UpdateViewMatrix();
 		}
 	}
@@ -38,7 +38,7 @@ namespace Donut
 
 	void FreeCamera::UpdateViewMatrix()
 	{
-		ViewMatrix = glm::toMat4(RotationQuat) * glm::translate(glm::mat4(1.0f), Position);
+		ViewMatrix = glm::toMat4(RotationQuat) * glm::translate(glm::mat4(1.0f), -Position);
 	}
 
 	void FreeCamera::UpdateRotationQuat()
