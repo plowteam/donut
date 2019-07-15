@@ -3,6 +3,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 file(GLOB_RECURSE DONUT_SOURCES "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
 file(GLOB_RECURSE DONUT_HEADERS "${CMAKE_CURRENT_LIST_DIR}/*.h")
 
+# force glm left handedness to be like simsons
+add_definitions(-DGLM_FORCE_LEFT_HANDED)
+
 if (WIN32)
     # Suppress WinMain(), provided by SDL
     add_definitions(-DSDL_MAIN_HANDLED)
