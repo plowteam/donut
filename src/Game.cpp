@@ -336,6 +336,7 @@ void Game::Run()
 
 		sprites.End(proj);
 
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();
 	}
