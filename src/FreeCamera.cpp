@@ -28,9 +28,9 @@ namespace Donut
 
 	void FreeCamera::LookDelta(float x, float y)
 	{
-		Yaw -= x;
+		Yaw += x;
 		Yaw += glm::ceil(-Yaw / 360.0f) * 360.0f;
-		Pitch = glm::clamp(Pitch - y, -90.0f, 90.0f);
+		Pitch = glm::clamp(Pitch + y, -90.0f, 90.0f);
 
 		UpdateRotationQuat();
 		UpdateViewMatrix();

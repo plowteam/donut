@@ -237,8 +237,8 @@ void Game::Run()
 		}
 
 		auto inputForce = glm::vec3(0.0f);
-		if (Input::IsDown(Button::KeyW)) inputForce += glm::vec3(0.0f, 0.0f, 1.0f);
-		if (Input::IsDown(Button::KeyS)) inputForce -= glm::vec3(0.0f, 0.0f, 1.0f);
+		if (Input::IsDown(Button::KeyW)) inputForce -= glm::vec3(0.0f, 0.0f, 1.0f);
+		if (Input::IsDown(Button::KeyS)) inputForce += glm::vec3(0.0f, 0.0f, 1.0f);
 		if (Input::IsDown(Button::KeyA)) inputForce += glm::vec3(1.0f, 0.0f, 0.0f);
 		if (Input::IsDown(Button::KeyD)) inputForce -= glm::vec3(1.0f, 0.0f, 0.0f);
 		if (glm::length2(inputForce) > 0.0f)
