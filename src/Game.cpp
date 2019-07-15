@@ -1,16 +1,22 @@
+#include <Core/FpsTimer.h>
 #include <FreeCamera.h>
 #include <Game.h>
 #include <Input/Input.h>
-#include <Core/FpsTimer.h>
+#include <Level.h>
 #include <P3D/Texture.h>
+#include <P3D/TextureFont.h>
+#include <Physics/WorldPhysics.h>
 #include <Render/LineRenderer.h>
+#include <Render/SkinModel.h>
 #include <Render/SpriteBatch.h>
+#include <ResourceManager.h>
 #include <SDL.h>
 #include <Window.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/transform.hpp>
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
@@ -18,13 +24,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-
-#include <ResourceManager.h>
-#include <Render/LineRenderer.h>
-#include <Render/SkinModel.h>
-#include <P3D/TextureFont.h>
-#include <Level.h>
-#include <Physics/WorldPhysics.h>
 
 namespace Donut
 {
@@ -82,7 +81,7 @@ Game::Game(int argc, char** argv)
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
-	_level = std::make_unique<Level>(_worldPhysics.get());
+	_level        = std::make_unique<Level>(_worldPhysics.get());
 
 	_level->LoadP3D("L1_TERRA.p3d");
 
@@ -101,6 +100,9 @@ Game::Game(int argc, char** argv)
 	_level->LoadP3D("l1z4.p3d");
 	_level->LoadP3D("l1z6.p3d");
 	_level->LoadP3D("l1z7.p3d");
+
+	_camera = std::make_unique<FreeCamera>();
+	_camera->MoveTo(glm::vec3(228.0f, -5.0f, -174.0f));
 
 	_mouseLocked = false;
 }
@@ -164,6 +166,21 @@ void Game::LockMouse(bool lockMouse)
 	Input::ResetMouseDelta();
 }
 
+std::vector<std::tuple<std::string, glm::vec3, std::string>> locations {
+	{ "Simpsons' House", glm::vec3(220, 3.5, -172), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" },
+	{ "Kwik E Mart", glm::vec3(209, 3.6, -285), "l1z2.p3d;l1r1.p3d;l1r2.p3d;" },
+	{ "Church", glm::vec3(193.8, -0.9, -570), "l1r2.p3d;l1z2.p3d;l1z3.p3d;" },
+	{ "Springfield Elementary", glm::vec3(-11, 0.7, -586), "l1z3.p3d;l1r2.p3d;l1r3.p3d;" },
+	{ "Burns' Mansion", glm::vec3(-186, 3.5, -96), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
+	{ "Stonecutters Tunnel", glm::vec3(-405, 2, 60), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
+	{ "Power Plant Interior", glm::vec3(-80, 0.8, 297), "l1r4a.p3d;l1z6.p3d;l1r6.p3d;" },
+	{ "Power Plant Parking Lot", glm::vec3(40, 0, 296), "l1z6.p3d;l1r6.p3d;" },
+	{ "Tomacco", glm::vec3(190, -0.7, 425), "l1r6.p3d;l1z6.p3d;l1z7.p3d;" },
+	{ "Trailer Park", glm::vec3(391, -2.2, 494), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
+	{ "Cletus' House", glm::vec3(333.5, -1.8, 356), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
+	{ "Graveyard", glm::vec3(368, 5.1, 5.4), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" }
+};
+
 std::vector<std::pair<std::string, std::string>> models {
 	{ "homer_m.p3d", "homer_a.p3d" },
 	{ "h_evil_m.p3d", "homer_a.p3d" },
@@ -183,9 +200,6 @@ void Game::Run()
 	double deltaTime = 0.0;
 
 	FpsTimer timer;
-
-	FreeCamera camera;
-	camera.MoveTo(glm::vec3(230.0f, -19.0f, 150.0f));
 
 	SpriteBatch sprites;
 	GL::ShaderProgram* spriteShader = sprites.GetShader();
@@ -219,7 +233,7 @@ void Game::Run()
 
 		if (_mouseLocked)
 		{
-			camera.LookDelta(mouseDeltaX * 0.25f, mouseDeltaY * 0.25f);
+			_camera->LookDelta(mouseDeltaX * 0.25f, mouseDeltaY * 0.25f);
 		}
 
 		auto inputForce = glm::vec3(0.0f);
@@ -231,7 +245,7 @@ void Game::Run()
 		{
 			inputForce = glm::normalize(inputForce);
 			inputForce *= Input::IsDown(Button::KeyLSHIFT) ? 60.0f : 10.0f;
-			camera.Move(inputForce, static_cast<float>(deltaTime));
+			_camera->Move(inputForce, static_cast<float>(deltaTime));
 		}
 
 		_worldPhysics->Update(static_cast<float>(deltaTime));
@@ -241,52 +255,14 @@ void Game::Run()
 		ImGui::NewFrame();
 
 		ImGui::BeginMainMenuBar();
-		for (auto const& model : models)
-		{
-			if (ImGui::Button(model.first.c_str())) LoadModel(model.first, model.second);
-		}
 
-		if (_skinModel != nullptr && !_skinModel->AnimationNames.empty())
-		{
-			if (ImGui::BeginCombo("##combo", _skinModel->AnimationNames[_skinModel->_animIndex].c_str()))
-			{
-				for (int n = 0; n < _skinModel->AnimationNames.size(); n++)
-				{
-					bool is_selected = (_skinModel->_animIndex == n);
-					if (ImGui::Selectable(_skinModel->AnimationNames[n].c_str(), is_selected))
-						_skinModel->_animIndex = n;
-					if (is_selected)
-						ImGui::SetItemDefaultFocus();
-				}
-				ImGui::EndCombo();
-			}
-		}
+		guiTeleportMenu();
+		guiModelMenu();
 
 		ImGui::EndMainMenuBar();
 
 		if (_skinModel != nullptr)
-		{
-			debugDrawP3D(_skinModel->GetP3DFile());
-
-			if (_skinModel->GetAnimP3DFile() != nullptr)
-			{
-				debugDrawP3D(*_skinModel->GetAnimP3DFile());
-			}
-
 			_skinModel->Update(deltaTime);
-		}
-
-		if (_textureFontP3D != nullptr)
-		{
-			ImGui::Begin("Font Textures");
-			for (int i = 0; i < _textureFontP3D->GetNumTextures(); ++i)
-			{
-				auto texture = _textureFontP3D->GetTexture(i);
-				ImGui::Text(_textureFontP3D->GetTextureName(i).c_str());
-				ImGui::Image((void*)texture->GetHandle(), ImVec2(texture->GetWidth(), texture->GetHeight()));
-			}
-			ImGui::End();
-		}
 
 		ImGui::Render();
 
@@ -340,6 +316,65 @@ void Game::Run()
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();
 	}
+}
+
+void Game::guiModelMenu()
+{
+	if (ImGui::BeginMenu("Model"))
+	{
+		for (auto const& model : models)
+		{
+			if (ImGui::MenuItem(model.first.c_str())) LoadModel(model.first, model.second);
+		}
+		ImGui::EndMenu();
+	}
+
+	if (_skinModel != nullptr && !_skinModel->AnimationNames.empty())
+	{
+		ImGui::PushItemWidth(150.0f);
+		if (ImGui::BeginCombo("##combo", _skinModel->AnimationNames[_skinModel->_animIndex].c_str()))
+		{
+			for (int n = 0; n < _skinModel->AnimationNames.size(); n++)
+			{
+				const bool is_selected = (_skinModel->_animIndex == n);
+				if (ImGui::Selectable(_skinModel->AnimationNames[n].c_str(), is_selected))
+					_skinModel->_animIndex = n;
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+	}
+}
+
+void Game::guiTeleportMenu()
+{
+	if (!ImGui::BeginMenu("Warp"))
+		return;
+
+	if (ImGui::BeginMenu("Level 1"))
+	{
+		for (auto const& location : locations)
+		{
+			if (ImGui::MenuItem(std::get<0>(location).c_str()))
+			{
+				const glm::vec3& dest = std::get<1>(location);
+				_worldPhysics->GetCharacterController()->SetPosition(dest);
+				_camera->MoveTo(dest);
+			}
+			if (ImGui::IsItemHovered())
+			{
+				ImGui::BeginTooltip();
+				ImGui::TextUnformatted(glm::to_string(std::get<1>(location)).c_str());
+				ImGui::TextUnformatted(std::get<2>(location).c_str());
+				ImGui::EndTooltip();
+			}
+		}
+
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMenu();
 }
 
 void Game::debugDrawP3D(const P3D::P3DFile& p3d)

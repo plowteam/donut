@@ -12,6 +12,7 @@ class LineRenderer;
 class SkinModel;
 class Level;
 class WorldPhysics;
+class FreeCamera;
 
 namespace P3D
 {
@@ -38,11 +39,14 @@ class Game
 	void LockMouse(bool lockMouse);
 
   private:
+	void guiTeleportMenu();
+	void guiModelMenu();
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
 
 	std::unique_ptr<Window> _window;
 	std::unique_ptr<ResourceManager> _resourceManager;
+	std::unique_ptr<FreeCamera> _camera;
 	std::unique_ptr<SkinModel> _skinModel;
 	std::unique_ptr<LineRenderer> _lineRenderer;
 	std::unique_ptr<Level> _level;
