@@ -9,7 +9,7 @@ namespace Donut
 SkinModel::SkinModel(const std::string& filename):
     _filename(filename),
 	_animTime(0.0f),
-	_animIndex(19)
+	_animIndex(39)
 {
 	_textures = std::map<std::string, std::unique_ptr<GL::Texture2D>>();
 

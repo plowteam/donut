@@ -8,21 +8,25 @@ WorldPhysics::WorldPhysics(LineRenderer* lineRenderer)
 	_collisionConfiguration = new btDefaultCollisionConfiguration();
 	_collisionDispatcher    = new btCollisionDispatcher(_collisionConfiguration);
 	_broadphase             = new btDbvtBroadphase();
+	_constraintSolver       = new btSequentialImpulseConstraintSolver();
 
-	_collisionWorld = new btCollisionWorld(_collisionDispatcher, _broadphase, _collisionConfiguration);
+	_dynamicsWorld  = new btDiscreteDynamicsWorld(_collisionDispatcher, _broadphase, _constraintSolver, _collisionConfiguration);
 
 	_debugDraw = std::make_unique<BulletDebugDraw>(lineRenderer);
-	_debugDraw->setDebugMode(true);
+	//_debugDraw->setDebugMode(true);
 
-	_collisionWorld->setDebugDrawer(_debugDraw.get());
+	_dynamicsWorld->setDebugDrawer(_debugDraw.get());
+	_dynamicsWorld->setGravity(btVector3(0.0f, -1.0f, 0.0f));
+
+	_char = std::make_unique<CharacterController>(this, glm::vec3(glm::vec3(229.0f, 4.5f, -182.0f)));
 }
 
 WorldPhysics::~WorldPhysics()
 {
 	for (auto i = 0; i < _allocatedCollisionObjects.size(); i++)
 	{
-		if (_collisionWorld != nullptr)
-			_collisionWorld->removeCollisionObject(_allocatedCollisionObjects[i]);
+		if (_dynamicsWorld != nullptr)
+			_dynamicsWorld->removeCollisionObject(_allocatedCollisionObjects[i]);
 
 		delete _allocatedCollisionObjects[i];
 	}
@@ -39,16 +43,21 @@ WorldPhysics::~WorldPhysics()
 
 	_allocatedIndexArrays.clear();
 
-	delete _collisionWorld;
+	delete _dynamicsWorld;
+	delete _constraintSolver;
 	delete _collisionConfiguration;
 	delete _collisionDispatcher;
 	delete _broadphase;
 }
 
-void WorldPhysics::DebugDraw() const
+void WorldPhysics::Update(const float dt) const
 {
-	_collisionWorld->debugDrawWorld();
+	_dynamicsWorld->stepSimulation(dt);
+	_dynamicsWorld->debugDrawWorld();
+
+	// _char->Update(_dynamicsWorld, dt);
 }
+
 
 void WorldPhysics::AddIntersect(const P3D::Intersect& intersect)
 {
@@ -72,7 +81,7 @@ void WorldPhysics::AddIntersect(const P3D::Intersect& intersect)
 	auto colObj = new btCollisionObject();
 	colObj->setCollisionShape(trimeshShape);
 
-	_collisionWorld->addCollisionObject(colObj);
+	_dynamicsWorld->addCollisionObject(colObj);
 
 	// add for cleanup
 	_allocatedCollisionObjects.push_back(colObj);

@@ -231,13 +231,10 @@ void Game::Run()
 		{
 			inputForce = glm::normalize(inputForce);
 			inputForce *= Input::IsDown(Button::KeyLSHIFT) ? 60.0f : 10.0f;
-			camera.Move(inputForce, (float)deltaTime);
+			camera.Move(inputForce, static_cast<float>(deltaTime));
 		}
 
-		_lineRenderer->DrawSphere(glm::vec3(0), 100, 16, 16, glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-		_lineRenderer->DrawAABBox(glm::vec3(-100.0f), glm::vec3(100.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-
-		_worldPhysics->DebugDraw();
+		_worldPhysics->Update(static_cast<float>(deltaTime));
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
@@ -313,7 +310,9 @@ void Game::Run()
 		if (_level != nullptr) _level->Draw(GetResourceManager(), mvp);
 
 		// -230.0f, 19.0f, -150.0f
-		mvp = mvp * glm::translate(glm::mat4(1.0f), glm::vec3(229.0f, 3.5f, -180.0f));
+		auto charPos = _worldPhysics->GetCharacterController()->GetPosition() - glm::vec3(0.0, 0.90f, 0.0f);
+
+		mvp = mvp * glm::translate(glm::mat4(1.0f), charPos);
 		mvp = mvp * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
