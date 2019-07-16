@@ -1,15 +1,15 @@
 #pragma once
 
+#include <P3D/Animation.h>
+#include <P3D/P3DFile.h>
+#include <P3D/PolySkin.h>
+#include <P3D/Shader.h>
+#include <P3D/Skeleton.h>
 #include <Render/OpenGL/IndexBuffer.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/OpenGL/TextureBuffer.h>
 #include <Render/OpenGL/VertexBuffer.h>
 #include <Render/SkinAnimation.h>
-#include <P3D/P3DFile.h>
-#include <P3D/PolySkin.h>
-#include <P3D/Skeleton.h>
-#include <P3D/Shader.h>
-#include <P3D/Animation.h>
 #include <ResourceManager.h>
 #include <glm/glm.hpp>
 #include <string>
@@ -44,6 +44,11 @@ class SkinModel
 	P3D::P3DFile* GetAnimP3DFile()
 	{
 		return _animP3D.get();
+	}
+
+	P3D::PolySkin* GetP3DPolySkin()
+	{
+		return _polySkin.get();
 	}
 
 	std::vector<std::string> AnimationNames;

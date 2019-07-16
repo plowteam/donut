@@ -285,8 +285,20 @@ void Game::Run()
 
 		if (_level != nullptr) _level->Draw(GetResourceManager(), mvp);
 
-		// -230.0f, 19.0f, -150.0f
-		auto charPos = _worldPhysics->GetCharacterController()->GetPosition() - glm::vec3(0.0, 0.90f, 0.0f);
+		
+		auto charPos            = _worldPhysics->GetCharacterController()->GetPosition() - glm::vec3(0.0, 0.90f, 0.0f);
+		auto const& boundingBox = _skinModel->GetP3DPolySkin()->GetBoundingBox();
+		auto const& boundingSphere = _skinModel->GetP3DPolySkin()->GetBoundingSphere();
+		_lineRenderer->DrawAABBox(
+		    boundingBox.GetMin() + charPos,
+		    boundingBox.GetMax() + charPos,
+		    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+
+		_lineRenderer->DrawSphere(
+		    boundingSphere.GetCenter() + charPos,
+			boundingSphere.GetRadius(), 16, 16,
+		    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+		
 
 		mvp = mvp * glm::translate(glm::mat4(1.0f), charPos);
 		mvp = mvp * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));

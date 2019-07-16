@@ -39,9 +39,9 @@ CollisionBoundingBox CollisionBoundingBox::Load(const P3DChunk& chunk)
 	assert(children.size() == 4);
 
 	auto const centre = glm::make_vec3(reinterpret_cast<const float*>(children.at(0)->GetData().data()));
-	auto const rotX   = glm::make_vec3(reinterpret_cast<const float*>(children.at(0)->GetData().data()));
-	auto const rotY   = glm::make_vec3(reinterpret_cast<const float*>(children.at(0)->GetData().data()));
-	auto const rotZ   = glm::make_vec3(reinterpret_cast<const float*>(children.at(0)->GetData().data()));
+	auto const rotX   = glm::make_vec3(reinterpret_cast<const float*>(children.at(1)->GetData().data()));
+	auto const rotY   = glm::make_vec3(reinterpret_cast<const float*>(children.at(2)->GetData().data()));
+	auto const rotZ   = glm::make_vec3(reinterpret_cast<const float*>(children.at(3)->GetData().data()));
 
 	return CollisionBoundingBox(size, centre, rotX, rotY, rotZ);
 }

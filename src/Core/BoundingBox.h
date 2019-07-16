@@ -5,14 +5,12 @@
 namespace Donut
 {
 
-class AABB
+class BoundingBox
 {
 public:
-	AABB();
-	AABB(const glm::vec3& min, const glm::vec3& max) : _min(min), _max(max) {}
-	//AABB(const glm::vec3& center, float radius);
+	BoundingBox();
+	BoundingBox(const glm::vec3& min, const glm::vec3& max) : _min(min), _max(max) {}
 
-	//glm::vec3 GetCenter() const;
 	glm::vec3 GetMin() const { return _min; }
 	glm::vec3 GetMax() const { return _max; }
 private:

@@ -1,6 +1,7 @@
 #include <Core/MemoryStream.h>
 #include <P3D/Intersect.h>
 #include <glm/gtc/type_ptr.inl>
+#include "Core/BoundingBox.h"
 
 namespace Donut::P3D
 {
@@ -32,6 +33,6 @@ std::unique_ptr<Intersect> Intersect::Load(const P3DChunk& chunk)
 		max = glm::make_vec3(reinterpret_cast<const float*>(child->GetData().data() + 12));
 	}
 
-	return std::make_unique<Intersect>(positions, indices, normals, AABB(min, max));
+	return std::make_unique<Intersect>(positions, indices, normals, BoundingBox(min, max));
 }
 } // namespace Donut::P3D

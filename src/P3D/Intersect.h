@@ -3,14 +3,14 @@
 #include <P3D/P3DChunk.h>
 #include <memory>
 #include <glm/vec3.hpp>
-#include <AABB.h>
+#include <Core/BoundingBox.h>
 
 namespace Donut::P3D
 {
 class Intersect
 {
 public:
-	Intersect(std::vector<glm::vec3> positions, std::vector<uint32_t> indices, std::vector<glm::vec3> normals, AABB aabb):
+	Intersect(std::vector<glm::vec3> positions, std::vector<uint32_t> indices, std::vector<glm::vec3> normals, BoundingBox aabb):
 	  _positions(std::move(positions)), _indices(std::move(indices)), _normals(std::move(normals)), _aabb(aabb)
 	{
 	}
@@ -20,12 +20,12 @@ public:
 	const std::vector<glm::vec3>& GetPositions() const { return _positions; }
 	const std::vector<uint32_t>& GetIndices() const { return _indices; }
 	const std::vector<glm::vec3>& GetNormals() const { return _normals; }
-	const AABB& GetAABB() const { return _aabb; }
+	const BoundingBox& GetAABB() const { return _aabb; }
 
 private:
 	std::vector<glm::vec3> _positions;
 	std::vector<uint32_t> _indices;
 	std::vector<glm::vec3> _normals;
-	AABB _aabb;
+	BoundingBox _aabb;
 };
 } // namespace Donut::P3D
