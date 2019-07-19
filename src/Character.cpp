@@ -57,6 +57,8 @@ void Character::LoadModel(const std::string& name)
 
 void Character::LoadAnimations(const std::string& name)
 {
+	_animations.clear();
+
 	const std::string animPath = fmt::format("art/chars/{0}_a.p3d", name);
 	//const std::string choPath = fmt::format("art/chars/{0}.cho", name);
 
@@ -126,6 +128,7 @@ void Character::loadSkeleton(const P3D::Skeleton& skeleton)
 
 	_boneBuffer->SetBuffer(_finalMatrices.data(), _finalMatrices.size() * sizeof(glm::mat4));
 
+	_skeletonJoints.clear(); // clear if we had an old skeleton
 	_skeletonJoints.reserve(joints.size());
 	for (auto const& joint : joints)
 		_skeletonJoints.emplace_back(joint->GetName(), joint->GetParent(), joint->GetRestPose());
