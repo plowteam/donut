@@ -1,8 +1,3 @@
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/alext.h>
-#include <AL/efx.h>
-
 #include <Character.h>
 #include <Core/FpsTimer.h>
 #include <FreeCamera.h>
@@ -57,33 +52,34 @@ void Game::TestAudio()
 
 	if (_filesRCF.empty()) return;
 
-	auto rsdStream = _filesRCF[1]->GetFileStream("sound\\music\\muzak.rsd");
+	ALCdevice* device;
+	ALCcontext* context;
 
-	if (rsdStream != nullptr)
-	{
-		auto magic = rsdStream->ReadString(8);
-		auto numChannels = rsdStream->Read<uint32_t>();
-		auto bitsPerChannel = rsdStream->Read<uint32_t>();
-		auto sampleRate = rsdStream->Read<uint32_t>();
+	device = alcOpenDevice(NULL);
+	context = alcCreateContext(device, NULL);
+	alcMakeContextCurrent(context);
 
-		rsdStream->Seek(0x800, Donut::SeekMode::Begin);
-		std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
-		rsdStream->ReadBytes(data.data(), data.size());
+	alGenBuffers(1, &buffer);
+	alGenSources(1, &source);
 
-		ALCdevice* device;
-		ALCcontext* context;
-		ALuint buffer, source;
+	PlayAudio(*_filesRCF[1], "sound\\music\\muzak.rsd");
 
-		device = alcOpenDevice(NULL);
-		context = alcCreateContext(device, NULL);
-		alcMakeContextCurrent(context);
-		alGenBuffers(1, &buffer);
+		//auto magic = rsdStream->ReadString(8);
+		//auto numChannels = rsdStream->Read<uint32_t>();
+		//auto bitsPerChannel = rsdStream->Read<uint32_t>();
+		//auto sampleRate = rsdStream->Read<uint32_t>();
 
-		alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), sampleRate);
-		alGenSources(1, &source);
-		alSourcei(source, AL_BUFFER, buffer);
-		alSourcei(source, AL_LOOPING, AL_TRUE);
-		alSourcePlay(source);
+		//rsdStream->Seek(0x800, Donut::SeekMode::Begin);
+		//std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
+		//rsdStream->ReadBytes(data.data(), data.size());
+
+
+
+		//alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), sampleRate);
+		//alGenSources(1, &source);
+		//alSourcei(source, AL_BUFFER, buffer);
+		//alSourcei(source, AL_LOOPING, AL_TRUE);
+		//alSourcePlay(source);
 
 		//alSourceStop(source);
 		//alDeleteSources(1, &source);
@@ -91,7 +87,35 @@ void Game::TestAudio()
 		//alcMakeContextCurrent(NULL);
 		//alcDestroyContext(context);
 		//alcCloseDevice(device);
+}
+
+void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
+{
+	alSourceStop(source);
+
+	auto rsdStream = file.GetFileStream(filename);
+	if (rsdStream == nullptr) return;
+
+	auto magic = rsdStream->ReadString(8);
+	auto numChannels = rsdStream->Read<uint32_t>();
+	auto bitsPerChannel = rsdStream->Read<uint32_t>();
+	auto sampleRate = rsdStream->Read<uint32_t>();
+
+	rsdStream->Seek(0x800, Donut::SeekMode::Begin);
+	std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
+	rsdStream->ReadBytes(data.data(), data.size());
+
+	if (buffer != 0)
+	{
+		alDeleteBuffers(1, &buffer);
 	}
+
+	alGenBuffers(1, &buffer);
+
+	alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), sampleRate);
+	alSourcei(source, AL_BUFFER, buffer);
+	alSourcei(source, AL_LOOPING, AL_TRUE);
+	alSourcePlay(source);
 }
 
 Game::Game(int argc, char** argv)
@@ -501,7 +525,7 @@ void Game::debugDrawP3D(const P3D::P3DFile& p3d)
 		if (ImGui::TreeNode(&chunk, "%s", name.str().c_str()))
 		{
 			ImGui::TextDisabled("Type ID: %x", static_cast<uint32_t>(chunk.GetType()));
-			ImGui::TextDisabled("Data Size: %ldb", chunk.GetData().size());
+			ImGui::TextDisabled("Data Size: %ldb", chunk.GetData().size());			
 
 			for (auto& child : chunk.GetChildren())
 			{
@@ -530,7 +554,11 @@ void Game::debugDrawRCF()
 		{
 			for (const auto& filename : rcf->GetFilenames())
 			{
-				ImGui::TextDisabled(filename.c_str());
+				if (ImGui::Selectable(filename.c_str()))
+				{
+					std::cout << filename.c_str() << std::endl;
+					PlayAudio(*rcf, filename.c_str());
+				}
 			}
 
 			ImGui::TreePop();

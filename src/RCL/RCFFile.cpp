@@ -57,8 +57,7 @@ namespace Donut::RCL
 
 			uint32_t hash = StringHash(str);
 			_filenameHashes.insert(std::pair<std::string, uint32_t>(str, hash));
-			auto fileType = file.Read<uint32_t>();
-			fileType = fileType;
+			auto date = file.Read<uint32_t>();
 		}
 
 		file.Close();

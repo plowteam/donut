@@ -1,5 +1,10 @@
 #pragma once
 
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/alext.h>
+#include <AL/efx.h>
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -56,6 +61,7 @@ class Game
 	void debugDrawP3D(const P3D::P3DFile&);
 	void debugDrawRCF();
 	void TestAudio();
+	void PlayAudio(RCL::RCFFile& file, const std::string& filename);
 
 	std::unique_ptr<Window> _window;
 	std::unique_ptr<ResourceManager> _resourceManager;
@@ -77,6 +83,8 @@ class Game
 	bool _mouseLocked;
 	int _lockedMousePosX;
 	int _lockedMousePosY;
+
+	ALuint buffer, source;
 };
 
 } // namespace Donut
