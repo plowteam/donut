@@ -30,10 +30,10 @@ namespace Donut::P3D
 
 		static std::unique_ptr<TextureFont> Load(const P3DChunk&);
 
-		inline uint32_t GetNumTextures() const { return _numTextures; }
-		inline GL::Texture2D* GetTexture(size_t index) { return _glTextures[index].get(); }
-		inline std::string GetTextureName(size_t index) { return _texures[index]->GetName(); }
-		inline float GetHeight() const { return _height; }
+		uint32_t GetNumTextures() const { return _numTextures; }
+		GL::Texture2D* GetTexture(std::size_t index) const { return _glTextures[index].get(); }
+		std::string GetTextureName(size_t index) { return _texures[index]->GetName(); }
+		float GetHeight() const { return _height; }
 		bool TryGetGlyph(int32_t id, FontGlyph& glyph) const;
 
 	private:

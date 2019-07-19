@@ -20,20 +20,20 @@ namespace Donut
 
 		void Begin();
 		void End(const glm::mat4& proj);
-		void DrawText(P3D::TextureFont* font, const std::string& text, const glm::vec2& position, const glm::vec4& colour);
+		void DrawText(P3D::TextureFont& font, const std::string& text, const glm::vec2& position, const glm::vec4& colour);
 		void Draw(GL::Texture2D* texture, const glm::vec2& position, float angle, const glm::vec4& colour);
 		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour);
 		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, float angle, const glm::vec4& colour);
 		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& size, const glm::vec4& colour);
 		void Draw9Slice(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec4& margin, const glm::vec4& colour, bool drawCenter = true);
 		void Draw9Slice(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec2& glyphPosition, const glm::vec2& glyphSize, const glm::vec4& margin, const glm::vec4& colour, bool drawCenter = true);
-		inline void EnableClipping(bool clipping) { m_clipping = clipping; }
+		void EnableClipping(bool clipping) { m_clipping = clipping; }
 
-		inline void SetClippingRect(const glm::vec4& clippingRect) { m_clippingRect = clippingRect; }
+		void SetClippingRect(const glm::vec4& clippingRect) { m_clippingRect = clippingRect; }
 
-		inline unsigned int GetDrawCallCount() const { return m_drawCallCount; }
+		unsigned int GetDrawCallCount() const { return m_drawCallCount; }
 
-		GL::ShaderProgram* GetShader();
+		GL::ShaderProgram& GetShader();
 
 	private:
 

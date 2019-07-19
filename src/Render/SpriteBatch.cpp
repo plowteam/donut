@@ -43,33 +43,31 @@ namespace Donut
 
 	std::unique_ptr<GL::ShaderProgram> SpriteBatch::Shader = nullptr;
 
-	GL::ShaderProgram* SpriteBatch::GetShader()
+	GL::ShaderProgram& SpriteBatch::GetShader()
 	{
 		if (Shader == nullptr)
-		{
 			Shader = std::make_unique<GL::ShaderProgram>(SpriteBatchVertSrc, SpriteBatchFragSrc);
-		}
 
-		return Shader.get();
+		return *Shader;
 	}
 
 
-	void SpriteBatch::DrawText(P3D::TextureFont* font, const std::string& text, const glm::vec2& position, const glm::vec4& colour)
+	void SpriteBatch::DrawText(P3D::TextureFont& font, const std::string& text, const glm::vec2& position, const glm::vec4& colour)
 	{
 		P3D::FontGlyph glyph;
 		glm::vec2 curPosition = position;
 
 		for (const char& c : text)
 		{
-			if (!font->TryGetGlyph(c, glyph)) continue;
+			if (!font.TryGetGlyph(c, glyph)) continue;
 
-			GL::Texture2D* glyphTexture = font->GetTexture(glyph.textureId);
+			GL::Texture2D* glyphTexture = font.GetTexture(glyph.textureId);
 
 			Draw(glyphTexture,
 				 curPosition + glm::vec2(glyph.leftBearing),
 				 glm::vec2(glyph.bottomLeftX, 1.0f - glyph.topRightY),
 				 glm::vec2(glyph.topRightX, 1.0f - glyph.bottomLeftY),
-				 glm::vec2(glyph.width, font->GetHeight()),
+				 glm::vec2(glyph.width, font.GetHeight()),
 				 colour);
 
 			curPosition += glm::vec2(glyph.advance, 0);
@@ -482,9 +480,9 @@ namespace Donut
 
 		glDisable(GL_DEPTH_TEST);
 
-		GL::ShaderProgram* shader = GetShader();
-		shader->Bind();
-		shader->SetUniformValue("projMatrix", proj);
+		GL::ShaderProgram& shader = GetShader();
+		shader.Bind();
+		shader.SetUniformValue("projMatrix", proj);
 
 		static const size_t vertSize = 8;
 		static const size_t faceVertCount = 6;
@@ -585,7 +583,7 @@ namespace Donut
 		}
 
 		vertexBinding.Unbind();
-		shader->Unbind();
+		shader.Unbind();
 
 		glEnable(GL_DEPTH_TEST);
 	}

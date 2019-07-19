@@ -28,7 +28,11 @@
 namespace Donut
 {
 
-const std::string kWindowTitle = "donut";
+#if _DEBUG
+const std::string kBuildString = "DEBUG BUILD";
+#else
+const std::string kBuildString = "Release Build";
+#endif
 
 void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
                                 GLsizei length, const GLchar* message, const void* userParam)
@@ -39,8 +43,10 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 
 Game::Game(int argc, char** argv)
 {
+	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
+
 	const int windowWidth = 1280, windowHeight = 1024;
-	_window = std::make_unique<Window>(kWindowTitle, windowWidth, windowHeight);
+	_window = std::make_unique<Window>(windowTitle, windowWidth, windowHeight);
 
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
@@ -311,15 +317,9 @@ void Game::Run()
 
 		if (_textureFontP3D != nullptr)
 		{
-			std::string s = "Call Mr Plow, that's my name, that name again is Mr Plow!";
-			sprites.DrawText(_textureFontP3D.get(), s, glm::vec2(64 + 3, 128 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-			sprites.DrawText(_textureFontP3D.get(), s, glm::vec2(64, 128), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-
-			int fps = timer.GetFps();
-			std::stringstream ss;
-			ss << fps << " fps";
-			sprites.DrawText(_textureFontP3D.get(), ss.str(), glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-			sprites.DrawText(_textureFontP3D.get(), ss.str(), glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+			std::string fps = fmt::format("{0} fps", timer.GetFps());
+			sprites.DrawText(*_textureFontP3D, fps, glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+			sprites.DrawText(*_textureFontP3D, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
 		sprites.End(proj);
