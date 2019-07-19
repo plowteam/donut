@@ -60,6 +60,8 @@ class File
 	std::size_t Size() const;
 	void Flush();
 
+	static std::string ReadAll(const std::filesystem::path& filename);
+
   protected:
 	FILE* _file;
 };

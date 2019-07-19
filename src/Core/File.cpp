@@ -71,4 +71,14 @@ void File::Flush()
 	std::fflush(_file);
 }
 
+std::string File::ReadAll(const std::filesystem::path& filename)
+{
+	const File file(filename, FileMode::Read);
+	const std::size_t size = file.Size();
+
+	char* buffer = new char[size];
+	file.ReadBytes(buffer, size);
+	return std::string(buffer, size);
+}
+
 } // namespace Donut
