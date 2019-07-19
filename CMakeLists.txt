@@ -32,6 +32,11 @@ function(check_submodules_present)
 endfunction()
 check_submodules_present()
 
+# Disable BUILD_SHARED_LIBS on MSVC because its shit
+if (MSVC)
+    set(BUILD_SHARED_LIBS OFF)
+endif()
+
 # Dependencies
 find_package(OpenGL REQUIRED)
 
