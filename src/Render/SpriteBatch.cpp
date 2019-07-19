@@ -56,9 +56,17 @@ namespace Donut
 	{
 		P3D::FontGlyph glyph;
 		glm::vec2 curPosition = position;
+		float fontHeight = font.GetHeight();
 
 		for (const char& c : text)
 		{
+			if (c == '\n')
+			{
+				curPosition.x = position.x;
+				curPosition.y += fontHeight;
+				continue;
+			}
+
 			if (!font.TryGetGlyph(c, glyph)) continue;
 
 			GL::Texture2D* glyphTexture = font.GetTexture(glyph.textureId);
@@ -67,7 +75,7 @@ namespace Donut
 				 curPosition + glm::vec2(glyph.leftBearing),
 				 glm::vec2(glyph.bottomLeftX, 1.0f - glyph.topRightY),
 				 glm::vec2(glyph.topRightX, 1.0f - glyph.bottomLeftY),
-				 glm::vec2(glyph.width, font.GetHeight()),
+				 glm::vec2(glyph.width, fontHeight),
 				 colour);
 
 			curPosition += glm::vec2(glyph.advance, 0);
