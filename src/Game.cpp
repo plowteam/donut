@@ -1,3 +1,8 @@
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/alext.h>
+#include <AL/efx.h>
+
 #include <Character.h>
 #include <Core/FpsTimer.h>
 #include <FreeCamera.h>
@@ -46,6 +51,46 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 	        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 }
 
+void Game::TestAudio()
+{
+	// THIS IS ALL SHIT, PROOF OF CONCEPT!!
+
+	if (_filesRCF.empty()) return;
+
+	auto rsdStream = _filesRCF[1]->GetFileStream("sound\\music\\muzak.rsd");
+
+	if (rsdStream != nullptr)
+	{
+		rsdStream->Seek(16, Donut::SeekMode::Begin);
+		auto samplingRate = rsdStream->Read<uint32_t>();
+
+		std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
+		rsdStream->ReadBytes(data.data(), data.size());
+
+		ALCdevice* device;
+		ALCcontext* context;
+		ALuint buffer, source;
+
+		device = alcOpenDevice(NULL);
+		context = alcCreateContext(device, NULL);
+		alcMakeContextCurrent(context);
+		alGenBuffers(1, &buffer);
+
+		alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), samplingRate);
+		alGenSources(1, &source);
+		alSourcei(source, AL_BUFFER, buffer);
+		alSourcei(source, AL_LOOPING, AL_TRUE);
+		alSourcePlay(source);
+
+		//alSourceStop(source);
+		//alDeleteSources(1, &source);
+		//alDeleteBuffers(1, &buffer);
+		//alcMakeContextCurrent(NULL);
+		//alcDestroyContext(context);
+		//alcCloseDevice(device);
+	}
+}
+
 Game::Game(int argc, char** argv)
 {
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
@@ -66,15 +111,16 @@ Game::Game(int argc, char** argv)
 	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
+
 	std::vector<std::string> rcfFiles
 	{
-		"ambience.rcf",
-		"carsound.rcf",
-		"dialog.rcf",
 		"music00.rcf",
 		"music01.rcf",
 		"music02.rcf",
 		"music03.rcf",
+		"ambience.rcf",
+		"carsound.rcf",
+		"dialog.rcf",
 		"nis.rcf",
 		"scripts.rcf",
 		"soundfx.rcf",
@@ -85,6 +131,9 @@ Game::Game(int argc, char** argv)
 		if (!std::filesystem::exists(filename)) continue;
 		_filesRCF.push_back(std::make_unique<RCL::RCFFile>(filename));
 	}
+
+	TestAudio();
+
 
 	// init sub classes
 	_resourceManager = std::make_unique<ResourceManager>();

@@ -55,6 +55,7 @@ class Game
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
 	void debugDrawRCF();
+	void TestAudio();
 
 	std::unique_ptr<Window> _window;
 	std::unique_ptr<ResourceManager> _resourceManager;

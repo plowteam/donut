@@ -1,8 +1,20 @@
 #include <Core/File.h>
+#include <Core/CRC32.h>
 #include <RCL/RCFFile.h>
 
 namespace Donut::RCL
 {
+	uint32_t StringHash(const std::string &key) {
+		uint32_t hash = 0;
+		for (int i = 0; i < key.size(); i++) {
+			int c = (int)key[i];
+			if (c < 97) c += 32;
+			hash = hash * 0x1F + c;
+		}
+
+		return hash;
+	}
+
 	RCFFile::RCFFile(const std::string& path) :
 		_filename(path)
 	{
@@ -22,22 +34,29 @@ namespace Donut::RCL
 
 		auto numFiles = file.Read<uint32_t>();
 		auto tableOffset = file.Read<uint32_t>();
-		file.Seek(0x8, Donut::FileSeekMode::Current);
-
-		_fileEntries.resize(numFiles);
-		file.ReadBytes(reinterpret_cast<uint8_t*>(_fileEntries.data()), numFiles * sizeof(FileEntry));
-
-		file.Seek(tableOffset, Donut::FileSeekMode::Begin);
-		file.Seek(0x8, Donut::FileSeekMode::Current);
-
-		_filenames.resize(numFiles);
+		auto unknownOffset0 = file.Read<uint32_t>();
+		auto unknownOffset1 = file.Read<uint32_t>();
 
 		for (size_t i = 0; i < numFiles; ++i)
+		{
+			auto fileEntry = file.Read<FileEntry>();
+			_fileEntries.insert(std::pair<uint32_t, FileEntry>(fileEntry.hash, fileEntry));
+		}
+
+		file.Seek(tableOffset, Donut::FileSeekMode::Begin);
+		auto numFileNames = file.Read<uint32_t>();
+		auto unknownOffset2 = file.Read<uint32_t>();
+
+		_filenames.resize(numFileNames);
+
+		for (size_t i = 0; i < numFileNames; ++i)
 		{
 			auto strLen = file.Read<uint32_t>();
 			auto str = file.ReadString(strLen);
 			_filenames[i] = str;
-			_filenameMap.insert(std::pair<std::string, size_t>(str, i));
+
+			uint32_t hash = StringHash(str);
+			_filenameHashes.insert(std::pair<std::string, uint32_t>(str, hash));
 			auto fileType = file.Read<uint32_t>();
 			fileType = fileType;
 		}
@@ -47,22 +66,25 @@ namespace Donut::RCL
 
 	std::unique_ptr<MemoryStream> RCFFile::GetFileStream(const std::string name)
 	{
-		if (_filenameMap.find(name) != _filenameMap.end())
+		if (_filenameHashes.find(name) != _filenameHashes.end())
 		{
-			return GetFileStream(_filenameMap.at(name));
+			return GetFileStream(_filenameHashes.at(name));
 		}
 
 		return nullptr;
 	}
 
-	std::unique_ptr<MemoryStream> RCFFile::GetFileStream(size_t index)
+	std::unique_ptr<MemoryStream> RCFFile::GetFileStream(uint32_t hash)
 	{
-		assert(index < _fileEntries.size());
+		if (_fileEntries.find(hash) == _fileEntries.end())
+		{
+			return nullptr;
+		}
 
 		File file;
 		file.Open(_filename, FileMode::Read);
 
-		const FileEntry& fileEntry = _fileEntries[index];
+		const FileEntry& fileEntry = _fileEntries[hash];
 		file.Seek(fileEntry.offset, Donut::FileSeekMode::Begin);
 		std::vector<uint8_t> data(fileEntry.size);
 		file.ReadBytes(data.data(), fileEntry.size);
