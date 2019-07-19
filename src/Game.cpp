@@ -96,7 +96,7 @@ Game::Game(int argc, char** argv)
 	loadGlobal();
 	LoadModel("homer", "homer");
 
-	_npcCharacter = std::make_unique<Character>();
+	_npcCharacter = std::make_unique<Character>("npc");
 	_npcCharacter->LoadModel("marge");
 	_npcCharacter->LoadAnimations("marge");
 	_npcCharacter->SetPosition(glm::vec3(222.5, 4, -172));
@@ -168,7 +168,7 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 {
 	if (_character != nullptr) _character.reset();
 
-	_character = std::make_unique<Character>();
+	_character = std::make_unique<Character>("pc");
 	_character->LoadModel(name);
 	_character->LoadAnimations(anim);
 	_character->SetPosition(glm::vec3(220, 4, -172));
@@ -216,7 +216,7 @@ std::vector<std::pair<std::string, std::string>> models {
 	{ "h_fat", "homer" },
 	{ "h_undr", "homer" },
 	{ "marge", "marge" },
-	{ "bar", "bart" },
+	{ "bart", "bart" },
 	{ "apu", "apu" },
 	{ "a_amer", "apu" },
 };
@@ -286,7 +286,8 @@ void Game::Run()
 		ImGui::BeginMainMenuBar();
 
 		guiTeleportMenu();
-		guiModelMenu();
+		guiModelMenu(*_character);
+		guiModelMenu(*_npcCharacter);
 
 		ImGui::EndMainMenuBar();
 
@@ -294,6 +295,9 @@ void Game::Run()
 
 		if (_character != nullptr)
 			_character->Update(deltaTime);
+
+		if (_npcCharacter != nullptr)
+			_npcCharacter->Update(deltaTime);
 
 		ImGui::Render();
 
@@ -358,47 +362,48 @@ void Game::Run()
 	}
 }
 
-void Game::guiModelMenu()
+void Game::guiModelMenu(Character& character)
 {
-	if (ImGui::BeginMenu("Model"))
+	ImGui::Begin(fmt::format("Character: {0}", character.GetName()).c_str());
+
+	if (ImGui::BeginCombo("Model", character.GetModelName().c_str()))
 	{
 		for (auto const& model : models)
 		{
-			if (ImGui::MenuItem(model.first.c_str())) LoadModel(model.first, model.second);
-		}
-		ImGui::EndMenu();
-	}
-
-	if (_character != nullptr)
-	{
-		auto const& anims = _character->GetAnimations();
-		if (ImGui::BeginMenu(fmt::format("Animations ({0})", anims.size()).c_str()))
-		{
-			for (auto const& anim : anims)
+			const bool is_selected = character.GetModelName() == model.first;
+			if (ImGui::Selectable(model.first.c_str(), is_selected))
 			{
-				ImGui::MenuItem(anim.first.c_str());
+				character.LoadModel(model.first);
+				character.LoadAnimations(model.second);
 			}
 
-			ImGui::EndMenu();
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
 		}
+
+		ImGui::EndCombo();
 	}
 
-	/*if (_skinModel != nullptr && !_skinModel->AnimationNames.empty())
+	if (ImGui::BeginCombo("Animation", character.GetAnimName().c_str()))
 	{
-		ImGui::PushItemWidth(150.0f);
-		if (ImGui::BeginCombo("##combo", _skinModel->AnimationNames[_skinModel->_animIndex].c_str()))
+		for (auto const& anim : character.GetAnimations())
 		{
-			for (int n = 0; n < _skinModel->AnimationNames.size(); n++)
+			const bool is_selected = character.GetAnimName() == anim.first;
+			if (ImGui::Selectable(anim.first.c_str(), is_selected))
 			{
-				const bool is_selected = (_skinModel->_animIndex == n);
-				if (ImGui::Selectable(_skinModel->AnimationNames[n].c_str(), is_selected))
-					_skinModel->_animIndex = n;
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();
+				character.SetAnimation(anim.first);
 			}
-			ImGui::EndCombo();
+
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
 		}
-	}*/
+
+		ImGui::EndCombo();
+	}
+
+	ImGui::InputFloat3("Position", &character.GetPosition()[0]);
+
+	ImGui::End();
 }
 
 void Game::guiTeleportMenu()

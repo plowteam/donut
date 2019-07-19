@@ -11,14 +11,19 @@
 namespace Donut
 {
 
-Character::Character():
-    _position(glm::vec3(0.0f)), _rotation(glm::quat())
+Character::Character(std::string name):
+    _name(std::move(name)), _position(glm::vec3(0.0f)), _rotation(glm::quat())
 {
-	_skinModel = std::make_unique<SkinModel>();
+	// _skinModel = std::make_unique<SkinModel>();
 }
 
 void Character::LoadModel(const std::string& name)
 {
+	// we need to empty
+	_skinModel.reset(new SkinModel());
+
+	_modelName = name;
+
 	const std::string modelPath = fmt::format("art/chars/{0}_m.p3d", name);
 	const P3D::P3DFile p3d(modelPath);
 
@@ -65,6 +70,9 @@ void Character::LoadAnimations(const std::string& name)
 
 		addAnimation(*P3D::Animation::Load(*chunk));
 	}
+
+	// default to using the first in the map
+	SetAnimation(_animations.begin()->first);
 }
 
 void Character::Draw(const glm::mat4& viewProjection, GL::ShaderProgram& shaderProgram, const ResourceManager& rm)
@@ -89,12 +97,19 @@ void Character::SetAnimation(const std::string& animationName)
 		return;
 
 	_currentAnimation = _animations.at(animationName).get();
-	// updateAnimation(0.0f);
+	_animName         = animationName;
+
+	_animTime = 0.0;
+	updateAnimation(*_currentAnimation, 0.0);
 }
 
 void Character::Update(double deltatime)
 {
 	// update bone buffers
+	_animTime += deltatime;
+
+	if (_currentAnimation != nullptr)
+		updateAnimation(*_currentAnimation, _animTime);
 }
 
 void Character::loadSkeleton(const P3D::Skeleton& skeleton)
@@ -183,6 +198,19 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 	}
 
 	_animations[p3dAnim.GetName()] = std::move(animation);
+}
+
+void Character::updateAnimation(SkinAnimation& animation, double time)
+{
+	time *= animation.GetFrameRate();
+
+	_poseMatrices[0] = glm::mat4(1.0f);
+
+	for (uint32_t jointIndex = 0; jointIndex < _skeletonJoints.size(); ++jointIndex)
+		_poseMatrices[jointIndex] = _poseMatrices[_skeletonJoints[jointIndex].parent] * animation.Evaluate(jointIndex, static_cast<float>(time));
+	for (uint32_t jointIndex = 0; jointIndex < _skeletonJoints.size(); ++jointIndex)
+		_finalMatrices[jointIndex] = _poseMatrices[jointIndex] * glm::inverse(_boneMatrices[jointIndex]);
+	_boneBuffer->SetBuffer(_finalMatrices.data(), _finalMatrices.size() * sizeof(glm::mat4));
 }
 
 } // namespace Donut

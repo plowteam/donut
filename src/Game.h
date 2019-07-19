@@ -51,7 +51,7 @@ class Game
 
   private:
 	void guiTeleportMenu();
-	void guiModelMenu();
+	void guiModelMenu(Character&);
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
 	void debugDrawRCF();
