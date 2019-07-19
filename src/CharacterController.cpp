@@ -6,7 +6,7 @@
 namespace Donut
 {
 CharacterController::CharacterController(WorldPhysics* physics, const glm::vec3& position):
-    _position(position), _worldPhysics(physics)
+    _position(position) // , _worldPhysics(physics)
 {
 	_walkDirection    = glm::vec3(0.0f, 0.0f, 1.0f);
 	_verticalVelocity = 0.0f;

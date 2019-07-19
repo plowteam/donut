@@ -14,7 +14,7 @@ class Skeleton
 
 	static std::unique_ptr<Skeleton> Load(const P3DChunk&);
 
-	std::vector<std::unique_ptr<SkeletonJoint>>& GetJoints() { return _joints; }
+	const std::vector<std::unique_ptr<SkeletonJoint>>& GetJoints() const { return _joints; }
 
   private:
 	std::string _name;

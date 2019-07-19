@@ -1,17 +1,21 @@
+#include <Character.h>
 #include <Core/FpsTimer.h>
 #include <FreeCamera.h>
 #include <Game.h>
 #include <Input/Input.h>
 #include <Level.h>
+#include <P3D/P3DFile.h>
 #include <P3D/Texture.h>
 #include <P3D/TextureFont.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/LineRenderer.h>
+#include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
 #include <Render/SpriteBatch.h>
 #include <ResourceManager.h>
 #include <SDL.h>
 #include <Window.h>
+#include <fmt/format.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -64,24 +68,22 @@ Game::Game(int argc, char** argv)
 	// init sub classes
 	_resourceManager = std::make_unique<ResourceManager>();
 
+	const auto skinVertSrc = File::ReadAll("shaders/skin.vert");
+	const auto skinFragSrc = File::ReadAll("shaders/skin.frag");
+	_skinShaderProgram     = std::make_unique<GL::ShaderProgram>(skinVertSrc, skinFragSrc);
+
 	loadGlobal();
-	LoadModel("homer_m.p3d", "homer_a.p3d");
+	LoadModel("homer", "homer");
+
+	_npcCharacter = std::make_unique<Character>();
+	_npcCharacter->LoadModel("marge");
+	_npcCharacter->LoadAnimations("marge");
+	_npcCharacter->SetPosition(glm::vec3(222.5, 4, -172));
 
 	if (std::filesystem::exists("font0_16.p3d"))
 	{
-		auto p3dFont     = std::make_unique<P3D::P3DFile>("font0_16.p3d");
-		const auto& root = p3dFont->GetRoot();
-		for (const auto& chunk : root.GetChildren())
-		{
-			switch (chunk->GetType())
-			{
-			case P3D::ChunkType::TextureFont:
-			{
-				_textureFontP3D = P3D::TextureFont::Load(*chunk);
-				break;
-			}
-			}
-		}
+		const P3D::P3DFile p3dFont("font0_16.p3d");
+		_textureFontP3D = P3D::TextureFont::Load(*p3dFont.GetRoot().GetChildren().at(0));
 	}
 
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
@@ -143,18 +145,18 @@ void Game::loadGlobal()
 
 void Game::LoadModel(const std::string& name, const std::string& anim)
 {
-	if (_skinModel != nullptr) _skinModel.reset();
+	if (_character != nullptr) _character.reset();
 
-	_skinModel = std::make_unique<SkinModel>(name);
-	_skinModel->LoadAnimations(anim);
+	_character = std::make_unique<Character>();
+	_character->LoadModel(name);
+	_character->LoadAnimations(anim);
+	_character->SetPosition(glm::vec3(220, 4, -172));
 }
 
 void Game::LockMouse(bool lockMouse)
 {
 	if (_mouseLocked == lockMouse)
-	{
 		return;
-	}
 
 	_mouseLocked = lockMouse;
 
@@ -188,14 +190,14 @@ std::vector<std::tuple<std::string, glm::vec3, std::string>> locations {
 };
 
 std::vector<std::pair<std::string, std::string>> models {
-	{ "homer_m.p3d", "homer_a.p3d" },
-	{ "h_evil_m.p3d", "homer_a.p3d" },
-	{ "h_fat_m.p3d", "homer_a.p3d" },
-	{ "h_undr_m.p3d", "homer_a.p3d" },
-	{ "marge_m.p3d", "marge_a.p3d" },
-	{ "bart_m.p3d", "bart_a.p3d" },
-	{ "apu_m.p3d", "apu_a.p3d" },
-	{ "a_amer_m.p3d", "apu_a.p3d" },
+	{ "homer", "homer" },
+	{ "h_evil", "homer" },
+	{ "h_fat", "homer" },
+	{ "h_undr", "homer" },
+	{ "marge", "marge" },
+	{ "bar", "bart" },
+	{ "apu", "apu" },
+	{ "a_amer", "apu" },
 };
 
 void Game::Run()
@@ -208,7 +210,7 @@ void Game::Run()
 	FpsTimer timer;
 
 	SpriteBatch sprites;
-	GL::ShaderProgram* spriteShader = sprites.GetShader();
+	GL::ShaderProgram& spriteShader = sprites.GetShader();
 
 	SDL_Event event;
 	bool running = true;
@@ -267,8 +269,8 @@ void Game::Run()
 
 		ImGui::EndMainMenuBar();
 
-		if (_skinModel != nullptr)
-			_skinModel->Update(deltaTime);
+		if (_character != nullptr)
+			_character->Update(deltaTime);
 
 		ImGui::Render();
 
@@ -284,17 +286,16 @@ void Game::Run()
 		glm::mat4 projectionMatrix = glm::perspective(
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 10000.0f);
 
-		glm::mat4 viewMatrix = _camera->GetViewMatrix();
-		glm::mat4 mvp        = projectionMatrix * viewMatrix;
+		glm::mat4 viewMatrix     = _camera->GetViewMatrix();
+		glm::mat4 viewProjection = projectionMatrix * viewMatrix;
 
-		_lineRenderer->Flush(mvp);
+		_lineRenderer->Flush(viewProjection);
 
-		if (_level != nullptr) _level->Draw(GetResourceManager(), mvp);
+		if (_level != nullptr) _level->Draw(GetResourceManager(), viewProjection);
 
-		
-		auto charPos            = _worldPhysics->GetCharacterController()->GetPosition() - glm::vec3(0.0, 0.90f, 0.0f);
-		auto const& boundingBox = _skinModel->GetP3DPolySkin()->GetBoundingBox();
-		auto const& boundingSphere = _skinModel->GetP3DPolySkin()->GetBoundingSphere();
+		/*auto charPos            = _worldPhysics->GetCharacterController()->GetPosition() - glm::vec3(0.0, 0.90f, 0.0f);
+		auto const& boundingBox = _skinModel->GetBoundingBox();
+		auto const& boundingSphere = _skinModel->GetBoundingSphere();
 		_lineRenderer->DrawAABBox(
 		    boundingBox.GetMin() + charPos,
 		    boundingBox.GetMax() + charPos,
@@ -304,12 +305,16 @@ void Game::Run()
 		    boundingSphere.GetCenter() + charPos,
 			boundingSphere.GetRadius(), 16, 16,
 		    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-		
+		*/
 
-		mvp = mvp * glm::translate(glm::mat4(1.0f), charPos);
-		mvp = mvp * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		// _skinShaderProgram->Bind();
+		// _skinShaderProgram->SetUniformValue("viewProj", mvp);
+		// _skinShaderProgram->SetUniformValue("diffuseTex", 0);
+		// _skinShaderProgram->SetUniformValue("boneBuffer", 1);
+		if (_character != nullptr)
+			_character->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
 
-		if (_skinModel != nullptr) _skinModel->Draw(GetResourceManager(), mvp);
+		_npcCharacter->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
 
 		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 
@@ -341,7 +346,21 @@ void Game::guiModelMenu()
 		ImGui::EndMenu();
 	}
 
-	if (_skinModel != nullptr && !_skinModel->AnimationNames.empty())
+	if (_character != nullptr)
+	{
+		auto const& anims = _character->GetAnimations();
+		if (ImGui::BeginMenu(fmt::format("Animations ({0})", anims.size()).c_str()))
+		{
+			for (auto const& anim : anims)
+			{
+				ImGui::MenuItem(anim.first.c_str());
+			}
+
+			ImGui::EndMenu();
+		}
+	}
+
+	/*if (_skinModel != nullptr && !_skinModel->AnimationNames.empty())
 	{
 		ImGui::PushItemWidth(150.0f);
 		if (ImGui::BeginCombo("##combo", _skinModel->AnimationNames[_skinModel->_animIndex].c_str()))
@@ -356,7 +375,7 @@ void Game::guiModelMenu()
 			}
 			ImGui::EndCombo();
 		}
-	}
+	}*/
 }
 
 void Game::guiTeleportMenu()

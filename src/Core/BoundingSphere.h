@@ -8,7 +8,8 @@ namespace Donut
 class BoundingSphere
 {
   public:
-	BoundingSphere();
+	BoundingSphere():
+	    _center(glm::vec3(0.0f)), _radius(0.0f) {}
 	BoundingSphere(const glm::vec3& center, const float radius):
 	    _center(center), _radius(radius) {}
 

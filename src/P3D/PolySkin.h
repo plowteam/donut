@@ -16,9 +16,9 @@ class PolySkin
 
 	static std::unique_ptr<PolySkin> Load(const P3DChunk&);
 
-	std::string& GetName() { return _name; }
-	std::string& GetSkeletonName() { return _skeletonName; }
-	std::vector<std::unique_ptr<PrimGroup>>& GetPrimGroups() { return _primGroups; }
+	const std::string& GetName() const { return _name; }
+	const std::string& GetSkeletonName() const { return _skeletonName; }
+	const std::vector<std::unique_ptr<PrimGroup>>& GetPrimGroups() const { return _primGroups; }
 
 	const BoundingBox& GetBoundingBox() const { return _boundingBox; }
 	const BoundingSphere& GetBoundingSphere() const { return _boundingSphere; }

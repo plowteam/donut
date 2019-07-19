@@ -31,7 +31,7 @@ endif()
 add_executable(${PROJECT_NAME} ${DONUT_SOURCES} ${DONUT_HEADERS})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 glm glad imgui)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 glm glad imgui fmt::fmt)
 
 if (BULLET_FOUND)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${BULLET_INCLUDE_DIR})
