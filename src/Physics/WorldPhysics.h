@@ -27,8 +27,6 @@ public:
 	void AddIntersect(const P3D::Intersect&);
 
 	btDiscreteDynamicsWorld* GetDynamicsWorld() const { return _dynamicsWorld; }
-	CharacterController* GetCharacterController() const { return _char.get(); }
-
 	
 private:
 	btDiscreteDynamicsWorld* _dynamicsWorld;
@@ -44,7 +42,5 @@ private:
 	std::vector<btCollisionObject*> _allocatedCollisionObjects;
 	std::vector <std::vector<uint32_t>*> _allocatedIndexArrays;
 	std::vector<std::vector<glm::vec3>*> _allocatedVertexArrays;
-
-	std::unique_ptr<CharacterController> _char;
 };
 } // namespace Donut

@@ -51,8 +51,11 @@ class Game
 	void LoadModel(const std::string&, const std::string&);
 
 	ResourceManager& GetResourceManager() { return *_resourceManager; }
+	WorldPhysics& GetWorldPhysics() { return *_worldPhysics; }
 
 	void LockMouse(bool lockMouse);
+
+	static Game& GetInstance() { return *instance; }
 
   private:
 	void guiTeleportMenu();
@@ -85,6 +88,8 @@ class Game
 	int _lockedMousePosY;
 
 	ALuint buffer, source;
+
+	static Game* instance;
 };
 
 } // namespace Donut

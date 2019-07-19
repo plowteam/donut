@@ -6,9 +6,8 @@
 #include <string>
 #include <unordered_map>
 
-// #include <Render/OpenGL/TextureBuffer.h>
-
-#include <P3D/Skeleton.h>
+#include <Core/BoundingBox.h>
+#include "Core/BoundingSphere.h"
 
 namespace Donut
 {
@@ -24,10 +23,11 @@ namespace P3D
 class Animation;
 class PolySkin;
 class Shader;
-// class Skeleton;
+class Skeleton;
 class Texture;
 } // namespace P3D
 
+class CharacterController;
 class SkinModel;
 class SkinAnimation;
 class ResourceManager;
@@ -54,12 +54,15 @@ class Character
 	const std::string& GetName() const { return _name; }
 	const std::string& GetModelName() const { return _modelName; }
 	const std::string& GetAnimName() const { return _animName; }
-	void SetPosition(const glm::vec3& position) { _position = position; }
-	void SetRotation(const glm::quat& rotation) { _rotation = rotation; }
+	void SetPosition(const glm::vec3& position);
+	void SetRotation(const glm::quat& rotation);
 	const glm::vec3& GetPosition() const { return _position; }
-	glm::vec3& GetPosition() { return _position; }
 	const glm::quat& GetRotation() const { return _rotation; }
 	void SetAnimation(const std::string&);
+	CharacterController& GetCharacterController() const { return *_characterController; }
+
+	const BoundingBox& GetBoundingBox() const { return _boundingBox; }
+	const BoundingSphere& GetBoundingSphere() const { return _boundingSphere; }
 
 	void Update(double deltatime);
 	void Draw(const glm::mat4& viewProjection, GL::ShaderProgram&, const ResourceManager&);
@@ -82,15 +85,21 @@ class Character
 
 	glm::vec3 _position;
 	glm::quat _rotation;
-	SkinAnimation* _currentAnimation;
 
-	std::unordered_map<std::string, std::unique_ptr<SkinAnimation>> _animations;
+	BoundingBox _boundingBox;
+	BoundingSphere _boundingSphere;
+
+	std::unique_ptr<CharacterController> _characterController;
+
 	std::unique_ptr<SkinModel> _skinModel;
 	// std::weak_ptr<SkinModel> _skinModel; // use when SkinModels are created as a shared_ptr
 	std::vector<SkeletonJoint> _skeletonJoints;
 	std::unordered_map<std::string, std::unique_ptr<GL::Texture2D>> _textureMap;
 	std::unordered_map<std::string, std::string> _shaderTextureMap;
 
+	// animations / bone buffers
+	std::unordered_map<std::string, std::unique_ptr<SkinAnimation>> _animations;
+	SkinAnimation* _currentAnimation;
 	std::unique_ptr<GL::TextureBuffer> _boneBuffer;
 	std::vector<glm::mat4> _boneMatrices;
 	std::vector<glm::mat4> _poseMatrices;

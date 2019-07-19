@@ -7,8 +7,8 @@
 #include <P3D/P3DFile.h>
 #include <P3D/Texture.h>
 #include <P3D/TextureFont.h>
-#include <RCL/RCFFile.h>
 #include <Physics/WorldPhysics.h>
+#include <RCL/RCFFile.h>
 #include <Render/LineRenderer.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
@@ -33,6 +33,8 @@
 
 namespace Donut
 {
+
+Game* Game::instance = nullptr;
 
 #if _DEBUG
 const std::string kBuildString = "DEBUG BUILD";
@@ -219,6 +221,8 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 
 Game::Game(int argc, char** argv)
 {
+	instance = this; // global static :D
+
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
 
 	const int windowWidth = 1280, windowHeight = 1024;
@@ -237,9 +241,10 @@ Game::Game(int argc, char** argv)
 	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
+	_lineRenderer = std::make_unique<LineRenderer>(1000000);
+	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
 
-	std::vector<std::string> rcfFiles
-	{
+	std::vector<std::string> rcfFiles {
 		"music00.rcf",
 		"music01.rcf",
 		"music02.rcf",
@@ -264,6 +269,32 @@ Game::Game(int argc, char** argv)
 	// init sub classes
 	_resourceManager = std::make_unique<ResourceManager>();
 
+	if (std::filesystem::exists("font0_16.p3d"))
+	{
+		const P3D::P3DFile p3dFont("font0_16.p3d");
+		_textureFontP3D = P3D::TextureFont::Load(*p3dFont.GetRoot().GetChildren().at(0));
+	}
+
+	_level = std::make_unique<Level>(_worldPhysics.get());
+
+	_level->LoadP3D("L1_TERRA.p3d");
+
+	// simpsons house l1z1.p3d;l1r1.p3d;l1r7.p3d;
+	_level->LoadP3D("l1z1.p3d");
+	_level->LoadP3D("l1r1.p3d");
+	_level->LoadP3D("l1r7.p3d");
+
+	// rest of the shit, load the whole world why not!!
+	// _level->LoadP3D("l1r2.p3d");
+	// _level->LoadP3D("l1r3.p3d");
+	// _level->LoadP3D("l1r4a.p3d");
+	// _level->LoadP3D("l1r6.p3d");
+	// _level->LoadP3D("l1z2.p3d");
+	// _level->LoadP3D("l1z3.p3d");
+	// _level->LoadP3D("l1z4.p3d");
+	// _level->LoadP3D("l1z6.p3d");
+	// _level->LoadP3D("l1z7.p3d");
+
 	const auto skinVertSrc = File::ReadAll("shaders/skin.vert");
 	const auto skinFragSrc = File::ReadAll("shaders/skin.frag");
 	_skinShaderProgram     = std::make_unique<GL::ShaderProgram>(skinVertSrc, skinFragSrc);
@@ -275,35 +306,6 @@ Game::Game(int argc, char** argv)
 	_npcCharacter->LoadModel("marge");
 	_npcCharacter->LoadAnimations("marge");
 	_npcCharacter->SetPosition(glm::vec3(222.5, 4, -172));
-
-	if (std::filesystem::exists("font0_16.p3d"))
-	{
-		const P3D::P3DFile p3dFont("font0_16.p3d");
-		_textureFontP3D = P3D::TextureFont::Load(*p3dFont.GetRoot().GetChildren().at(0));
-	}
-
-	_lineRenderer = std::make_unique<LineRenderer>(1000000);
-
-	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
-	_level        = std::make_unique<Level>(_worldPhysics.get());
-
-	_level->LoadP3D("L1_TERRA.p3d");
-
-	// simpsons house l1z1.p3d;l1r1.p3d;l1r7.p3d;
-	_level->LoadP3D("l1z1.p3d");
-	_level->LoadP3D("l1r1.p3d");
-	_level->LoadP3D("l1r7.p3d");
-
-	// rest of the shit, load the whole world why not!!
-	_level->LoadP3D("l1r2.p3d");
-	_level->LoadP3D("l1r3.p3d");
-	_level->LoadP3D("l1r4a.p3d");
-	_level->LoadP3D("l1r6.p3d");
-	_level->LoadP3D("l1z2.p3d");
-	_level->LoadP3D("l1z3.p3d");
-	_level->LoadP3D("l1z4.p3d");
-	_level->LoadP3D("l1z6.p3d");
-	_level->LoadP3D("l1z7.p3d");
 
 	_camera = std::make_unique<FreeCamera>();
 	_camera->MoveTo(glm::vec3(228.0f, 5.0f, -174.0f));
@@ -347,6 +349,9 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 	_character->LoadModel(name);
 	_character->LoadAnimations(anim);
 	_character->SetPosition(glm::vec3(220, 4, -172));
+
+	if (anim == "homer")
+		_character->SetAnimation("hom_loco_walk");
 }
 
 void Game::LockMouse(bool lockMouse)
@@ -495,24 +500,6 @@ void Game::Run()
 
 		if (_level != nullptr) _level->Draw(GetResourceManager(), viewProjection);
 
-		/*auto charPos            = _worldPhysics->GetCharacterController()->GetPosition() - glm::vec3(0.0, 0.90f, 0.0f);
-		auto const& boundingBox = _skinModel->GetBoundingBox();
-		auto const& boundingSphere = _skinModel->GetBoundingSphere();
-		_lineRenderer->DrawAABBox(
-		    boundingBox.GetMin() + charPos,
-		    boundingBox.GetMax() + charPos,
-		    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-
-		_lineRenderer->DrawSphere(
-		    boundingSphere.GetCenter() + charPos,
-			boundingSphere.GetRadius(), 16, 16,
-		    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-		*/
-
-		// _skinShaderProgram->Bind();
-		// _skinShaderProgram->SetUniformValue("viewProj", mvp);
-		// _skinShaderProgram->SetUniformValue("diffuseTex", 0);
-		// _skinShaderProgram->SetUniformValue("boneBuffer", 1);
 		if (_character != nullptr)
 			_character->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
 
@@ -576,7 +563,9 @@ void Game::guiModelMenu(Character& character)
 		ImGui::EndCombo();
 	}
 
-	ImGui::InputFloat3("Position", &character.GetPosition()[0]);
+	glm::vec3 pos = character.GetPosition();
+	if (ImGui::InputFloat3("Position", &pos[0]))
+		character.SetPosition(pos);
 
 	ImGui::End();
 }
@@ -593,7 +582,7 @@ void Game::guiTeleportMenu()
 			if (ImGui::MenuItem(std::get<0>(location).c_str()))
 			{
 				const glm::vec3& dest = std::get<1>(location);
-				_worldPhysics->GetCharacterController()->SetPosition(dest);
+				//_worldPhysics->GetCharacterController()->SetPosition(dest);
 				_camera->MoveTo(dest);
 			}
 			if (ImGui::IsItemHovered())

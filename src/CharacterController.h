@@ -12,6 +12,7 @@ class btDiscreteDynamicsWorld;
 
 namespace Donut
 {
+class Character;
 class WorldPhysics;
 
 /*
@@ -21,14 +22,11 @@ class WorldPhysics;
 class CharacterController: public btCharacterControllerInterface
 {
 public:
-	CharacterController(WorldPhysics* physics, const glm::vec3& );
+
+	CharacterController(Character* character, WorldPhysics* physics);
 	~CharacterController();
 
-	// our own methods
-	void SetPosition(const glm::vec3& position);
-	void SetRotation(const glm::quat& rotation) { _rotation = rotation; }
-	const glm::vec3& GetPosition() const { return _position; }
-	const glm::quat& GetRotation() const { return _rotation; }
+	void UpdateBoundingBox();
 
 	// btActionInterface
 	void updateAction(btCollisionWorld* collisionWorld, btScalar deltaTime) override;
@@ -59,11 +57,12 @@ public:
 	void updateTargetPositionBasedOnCollision(const btVector3& hitNormal,
 	                                          btScalar tangentMag = btScalar(0.0), btScalar normalMag = btScalar(1.0));
 
+	Character* _character;
+	WorldPhysics* _worldPhysics; // should be a weak_ptr to a shared_ptr
+
 	btPairCachingGhostObject* _ghostObject;
 	btConvexShape* _convexShape;
-
 	btManifoldArray _manifoldArray;
-
 
 	glm::vec3 _position;
 	glm::quat _rotation;
@@ -77,9 +76,7 @@ public:
 
 	btVector3 _touchingNormal;
 
-
-
-	std::unique_ptr<btCapsuleShape> _physShape;
+	std::unique_ptr<btConvexShape> _physShape;
 	std::unique_ptr<btPairCachingGhostObject> _physGhostObject;
 };
 }

@@ -1,9 +1,12 @@
 #include <Character.h>
+#include <CharacterController.h>
+#include <Game.h>
 #include <P3D/Animation.h>
 #include <P3D/P3DFile.h>
 #include <P3D/PolySkin.h>
 #include <P3D/Skeleton.h>
 #include <P3D/Texture.h>
+#include <Physics/BulletCast.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
 #include <fmt/format.h>
@@ -14,6 +17,7 @@ namespace Donut
 Character::Character(std::string name):
     _name(std::move(name)), _position(glm::vec3(0.0f)), _rotation(glm::quat())
 {
+	_characterController = std::make_unique<CharacterController>(this, &Game::GetInstance().GetWorldPhysics());
 	// _skinModel = std::make_unique<SkinModel>();
 }
 
@@ -45,14 +49,21 @@ void Character::LoadModel(const std::string& name)
 			break;
 		}
 		case P3D::ChunkType::PolySkin:
-			_skinModel->LoadPolySkin(*P3D::PolySkin::Load(*chunk));
+		{
+			auto const polySkin = P3D::PolySkin::Load(*chunk);
+			_skinModel->LoadPolySkin(*polySkin);
+			_boundingBox = polySkin->GetBoundingBox();
+			_boundingSphere = polySkin->GetBoundingSphere();
 			break;
+		}
 		case P3D::ChunkType::Skeleton:
 			loadSkeleton(*P3D::Skeleton::Load(*chunk));
 			break;
 		default: break;
 		}
 	}
+
+	_characterController->UpdateBoundingBox();
 }
 
 void Character::LoadAnimations(const std::string& name)
@@ -79,7 +90,8 @@ void Character::LoadAnimations(const std::string& name)
 
 void Character::Draw(const glm::mat4& viewProjection, GL::ShaderProgram& shaderProgram, const ResourceManager& rm)
 {
-	const glm::mat4 mvp = glm::translate(viewProjection, _position) * glm::toMat4(_rotation);
+	const auto localPosition = _position - _boundingSphere.GetCenter();
+	const glm::mat4 mvp      = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
 
 	shaderProgram.Bind(); // todo optimize: should already be bound?
 	shaderProgram.SetUniformValue("viewProj", mvp);
@@ -112,6 +124,16 @@ void Character::Update(double deltatime)
 
 	if (_currentAnimation != nullptr)
 		updateAnimation(*_currentAnimation, _animTime);
+}
+
+void Character::SetPosition(const glm::vec3& position)
+{
+	_position = position;
+	_characterController->warp(BulletCast<btVector3>(position));
+}
+void Character::SetRotation(const glm::quat& rotation)
+{
+	_rotation = rotation;
 }
 
 void Character::loadSkeleton(const P3D::Skeleton& skeleton)

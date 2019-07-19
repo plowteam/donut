@@ -1,3 +1,4 @@
+#include <Character.h>
 #include <CharacterController.h>
 #include <Physics/BulletCast.h>
 #include <Physics/WorldPhysics.h>
@@ -5,25 +6,29 @@
 
 namespace Donut
 {
-CharacterController::CharacterController(WorldPhysics* physics, const glm::vec3& position):
-    _position(position) // , _worldPhysics(physics)
+
+CharacterController::CharacterController(Character* character, WorldPhysics* physics):
+    _character(character), _worldPhysics(physics)
 {
-	_walkDirection    = glm::vec3(0.0f, 0.0f, 1.0f);
+	_walkDirection    = glm::vec3(0.0f, 0.0f, 0.0f);
 	_verticalVelocity = 0.0f;
 	_verticalOffset   = 0.0f;
 	_stepHeight       = 0.05;
 
 	btTransform transform;
 	transform.setIdentity();
-	transform.setOrigin(BulletCast<btVector3>(_position));
+	transform.setOrigin(BulletCast<btVector3>(character->GetPosition()));
+	_position       = character->GetPosition();
+	_targetPosition = BulletCast<btVector3>(character->GetPosition());
 
-	_physShape = std::make_unique<btCapsuleShape>(0.4f, 1.10f);
+	_physShape       = std::make_unique<btCapsuleShape>(0.4, 1.10f);
 
 	_physGhostObject = std::make_unique<btPairCachingGhostObject>();
 	_physGhostObject->setWorldTransform(transform);
 	_physGhostObject->setCollisionShape(_physShape.get());
 	_physGhostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
 
+	// probably add these via physics so it's fuckin tracked and freed
 	physics->GetDynamicsWorld()->addCollisionObject(_physGhostObject.get(),
 	                                                btBroadphaseProxy::CharacterFilter,
 	                                                btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::CharacterFilter | btBroadphaseProxy::SensorTrigger);
@@ -33,8 +38,20 @@ CharacterController::CharacterController(WorldPhysics* physics, const glm::vec3&
 
 CharacterController::~CharacterController()
 {
+	if (_worldPhysics == nullptr)
+		return;
+
 	// _worldPhysics->GetDynamicsWorld()->removeAction(this);
 	// _worldPhysics->GetDynamicsWorld()->removeCollisionObject(_physGhostObject.get());
+}
+
+void CharacterController::UpdateBoundingBox()
+{
+	auto const& sphere = _character->GetBoundingSphere();
+
+	_physShape = std::make_unique<btCapsuleShape>(0.4f, sphere.GetRadius());
+
+	_physGhostObject->setCollisionShape(_physShape.get());
 }
 
 void CharacterController::updateAction(btCollisionWorld* collisionWorld, btScalar dt)
@@ -63,6 +80,8 @@ void CharacterController::warp(const btVector3& origin)
 	transform.setOrigin(origin);
 
 	_physGhostObject->setWorldTransform(transform);
+	_position       = BulletCast<glm::vec3>(origin);
+	_targetPosition = origin;
 }
 
 void CharacterController::preStep(btCollisionWorld* collisionWorld)
@@ -99,6 +118,7 @@ void CharacterController::playerStep(btCollisionWorld* collisionWorld, btScalar 
 	_position = BulletCast<glm::vec3>(_targetPosition);
 	transform.setOrigin(BulletCast<btVector3>(_position));
 	_physGhostObject->setWorldTransform(transform);
+	_character->SetPosition(_position);
 }
 
 bool CharacterController::canJump() const
@@ -216,7 +236,7 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 				{
 					if (dist < maxPenetration)
 					{
-						maxPenetration   = dist;
+						maxPenetration  = dist;
 						_touchingNormal = pt.m_normalWorldOnB * directionSign;
 					}
 
@@ -257,10 +277,9 @@ void CharacterController::stepUp(btCollisionWorld* world)
 	_position       = BulletCast<glm::vec3>(_targetPosition);
 }
 
-
 void CharacterController::updateTargetPositionBasedOnCollision(const btVector3& hitNormal,
-                                                            btScalar tangentMag,
-                                                            btScalar normalMag)
+                                                               btScalar tangentMag,
+                                                               btScalar normalMag)
 {
 	btVector3 movementDirection = _targetPosition - BulletCast<btVector3>(_position);
 	btScalar movementLength     = movementDirection.length();
@@ -297,7 +316,7 @@ void CharacterController::stepForwardAndStrafe(btCollisionWorld* collsionWorld, 
 
 	_targetPosition = BulletCast<btVector3>(_position) + walkMove;
 
-		// Check for any contacts and run updateTargetPositionBasedOnCollision if any
+	// Check for any contacts and run updateTargetPositionBasedOnCollision if any
 	int overlappingPairs = _physGhostObject->getOverlappingPairCache()->getNumOverlappingPairs();
 	for (int i = 0; i < overlappingPairs; i++)
 	{
@@ -374,12 +393,6 @@ void CharacterController::stepDown(btCollisionWorld* collisionWorld, btScalar dt
 		_verticalVelocity = 0;
 		_verticalOffset   = 0;
 	}
-}
-
-void CharacterController::SetPosition(const glm::vec3& position)
-{
-	_position = position;
-	warp(BulletCast<btVector3>(position));
 }
 
 } // namespace Donut
