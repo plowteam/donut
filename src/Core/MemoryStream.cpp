@@ -39,7 +39,6 @@ std::string MemoryStream::ReadString(std::size_t length)
 	return ret;
 }
 
-
 std::string MemoryStream::ReadLPString()
 {
 	const auto length = Read<uint8_t>();

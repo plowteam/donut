@@ -7,6 +7,7 @@
 #include <P3D/P3DFile.h>
 #include <P3D/Texture.h>
 #include <P3D/TextureFont.h>
+#include <RCL/RCFFile.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/LineRenderer.h>
 #include <Render/OpenGL/ShaderProgram.h>
@@ -64,6 +65,11 @@ Game::Game(int argc, char** argv)
 	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window),
 	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
+
+	if (std::filesystem::exists("music01.rcf"))
+	{
+		RCL::RCFFile rcf("music01.rcf");
+	}
 
 	// init sub classes
 	_resourceManager = std::make_unique<ResourceManager>();
