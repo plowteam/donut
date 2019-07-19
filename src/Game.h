@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace Donut
 {
@@ -18,6 +19,11 @@ namespace P3D
 {
 class P3DFile;
 class TextureFont;
+}
+
+namespace RCL
+{
+	class RCFFile;
 }
 
 namespace GL
@@ -48,6 +54,7 @@ class Game
 	void guiModelMenu();
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
+	void debugDrawRCF();
 
 	std::unique_ptr<Window> _window;
 	std::unique_ptr<ResourceManager> _resourceManager;
@@ -59,6 +66,7 @@ class Game
 	std::unique_ptr<P3D::P3DFile> _animP3D;
 	std::unique_ptr<P3D::P3DFile> _globalP3D;
 	std::unique_ptr<P3D::TextureFont> _textureFontP3D;
+	std::vector<std::unique_ptr<RCL::RCFFile>> _filesRCF;
 
 	std::unique_ptr<Character> _npcCharacter;
 

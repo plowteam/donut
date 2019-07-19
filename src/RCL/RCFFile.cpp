@@ -35,10 +35,40 @@ namespace Donut::RCL
 		for (size_t i = 0; i < numFiles; ++i)
 		{
 			auto strLen = file.Read<uint32_t>();
-			_filenames[i] = file.ReadString(strLen);
+			auto str = file.ReadString(strLen);
+			_filenames[i] = str;
+			_filenameMap.insert(std::pair<std::string, size_t>(str, i));
 			auto fileType = file.Read<uint32_t>();
+			fileType = fileType;
 		}
 
 		file.Close();
 	}
-} // namespace Donut::P3D
+
+	std::unique_ptr<MemoryStream> RCFFile::GetFileStream(const std::string name)
+	{
+		if (_filenameMap.find(name) != _filenameMap.end())
+		{
+			return GetFileStream(_filenameMap.at(name));
+		}
+
+		return nullptr;
+	}
+
+	std::unique_ptr<MemoryStream> RCFFile::GetFileStream(size_t index)
+	{
+		assert(index < _fileEntries.size());
+
+		File file;
+		file.Open(_filename, FileMode::Read);
+
+		const FileEntry& fileEntry = _fileEntries[index];
+		file.Seek(fileEntry.offset, Donut::FileSeekMode::Begin);
+		std::vector<uint8_t> data(fileEntry.size);
+		file.ReadBytes(data.data(), fileEntry.size);
+		file.Close();
+
+		return std::make_unique<MemoryStream>(std::move(data));
+	}
+
+} // namespace Donut::RCL

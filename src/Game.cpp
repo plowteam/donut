@@ -66,9 +66,24 @@ Game::Game(int argc, char** argv)
 	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
-	if (std::filesystem::exists("music01.rcf"))
+	std::vector<std::string> rcfFiles
 	{
-		RCL::RCFFile rcf("music01.rcf");
+		"ambience.rcf",
+		"carsound.rcf",
+		"dialog.rcf",
+		"music00.rcf",
+		"music01.rcf",
+		"music02.rcf",
+		"music03.rcf",
+		"nis.rcf",
+		"scripts.rcf",
+		"soundfx.rcf",
+	};
+
+	for (const std::string& filename : rcfFiles)
+	{
+		if (!std::filesystem::exists(filename)) continue;
+		_filesRCF.push_back(std::make_unique<RCL::RCFFile>(filename));
 	}
 
 	// init sub classes
@@ -275,6 +290,8 @@ void Game::Run()
 
 		ImGui::EndMainMenuBar();
 
+		debugDrawRCF();
+
 		if (_character != nullptr)
 			_character->Update(deltaTime);
 
@@ -439,6 +456,29 @@ void Game::debugDrawP3D(const P3D::P3DFile& p3d)
 	};
 
 	traverse_chunk(traverse_chunk, p3d.GetRoot());
+
+	ImGui::End();
+}
+
+void Game::debugDrawRCF()
+{
+	if (_filesRCF.empty()) return;
+
+	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
+	ImGui::Begin("RADCORE CEMENT LIBRARY");
+
+	for (const auto& rcf : _filesRCF)
+	{
+		if (ImGui::TreeNode(rcf->GetFileName().c_str()))
+		{
+			for (const auto& filename : rcf->GetFilenames())
+			{
+				ImGui::TextDisabled(filename.c_str());
+			}
+
+			ImGui::TreePop();
+		}
+	}
 
 	ImGui::End();
 }
