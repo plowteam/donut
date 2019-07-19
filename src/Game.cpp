@@ -61,9 +61,12 @@ void Game::TestAudio()
 
 	if (rsdStream != nullptr)
 	{
-		rsdStream->Seek(16, Donut::SeekMode::Begin);
-		auto samplingRate = rsdStream->Read<uint32_t>();
+		auto magic = rsdStream->ReadString(8);
+		auto numChannels = rsdStream->Read<uint32_t>();
+		auto bitsPerChannel = rsdStream->Read<uint32_t>();
+		auto sampleRate = rsdStream->Read<uint32_t>();
 
+		rsdStream->Seek(0x800, Donut::SeekMode::Begin);
 		std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
 		rsdStream->ReadBytes(data.data(), data.size());
 
@@ -76,7 +79,7 @@ void Game::TestAudio()
 		alcMakeContextCurrent(context);
 		alGenBuffers(1, &buffer);
 
-		alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), samplingRate);
+		alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), sampleRate);
 		alGenSources(1, &source);
 		alSourcei(source, AL_BUFFER, buffer);
 		alSourcei(source, AL_LOOPING, AL_TRUE);
