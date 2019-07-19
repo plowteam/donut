@@ -31,7 +31,7 @@ endif()
 add_executable(${PROJECT_NAME} ${DONUT_SOURCES} ${DONUT_HEADERS})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 glm glad imgui fmt::fmt)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 OPENALSOFT glm glad imgui fmt::fmt)
 
 if (BULLET_FOUND)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${BULLET_INCLUDE_DIR})
@@ -62,7 +62,7 @@ endif (WIN32)
 
 source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${DONUT_SOURCES} ${DONUT_HEADERS})
 
-# copy sdl2.dll
+# copy SDL2.dll & soft_oal.dll
 if (MSVC)
 	function(windows_copy_files TARGET SOURCE_DIR DEST_DIR)
 		string(REPLACE "/" "\\\\" SOURCE_DIR ${SOURCE_DIR})
@@ -74,4 +74,5 @@ if (MSVC)
 	endfunction()
 
     windows_copy_files(${PROJECT_NAME} ${SDL2_DLL_DIR} "${CMAKE_BINARY_DIR}/bin/$<CONFIG>/" SDL2.dll)
+    windows_copy_files(${PROJECT_NAME} ${OPENALSOFT_DLL_DIR} "${CMAKE_BINARY_DIR}/bin/$<CONFIG>/" soft_oal.dll)
 endif()

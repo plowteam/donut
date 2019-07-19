@@ -57,7 +57,23 @@ if (SDL2_FOUND)
     target_include_directories(SDL2 INTERFACE "${SDL2_INCLUDE_DIR}")
 endif()
 
-# find_package(OpenAL REQUIRED)
+# Use bundled OpenAL on Windows x86_64
+if (MSVC)
+set(OPENALSOFT_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/openal-soft")
+set(OPENALSOFT_FOUND YES)
+set(OPENALSOFT_INCLUDE_DIR "${OPENALSOFT_PREFIX}/include" CACHE PATH "Path to OpenAL-Soft headers")
+set(OPENALSOFT_LIBRARY "${OPENALSOFT_PREFIX}/libs/Win64/OpenAL32.lib" CACHE PATH "Path to OpenAL-Soft library")
+set(OPENALSOFT_DLL_DIR "${OPENALSOFT_PREFIX}/bin/Win64/" CACHE PATH "Path to soft_oal.dll")
+else()
+find_package(OpenALSoft REQUIRED)
+endif()
+
+if (OPENALSOFT_FOUND)
+    add_library(OPENALSOFT INTERFACE)
+    target_link_libraries(OPENALSOFT INTERFACE "${OPENALSOFT_LIBRARY}")
+    target_include_directories(OPENALSOFT INTERFACE "${OPENALSOFT_INCLUDE_DIR}")
+endif()
+
 find_package(Bullet REQUIRED COMPONENTS BulletCollision_Debug BulletDynamics_Debug LinearMath_Debug)
 
 # More Dependencies
