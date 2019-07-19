@@ -81,4 +81,18 @@ std::string File::ReadAll(const std::filesystem::path& filename)
 	return std::string(buffer, size);
 }
 
+std::string File::ReadString(std::size_t length)
+{
+	std::vector<char> str(length);
+	ReadBytes(reinterpret_cast<uint8_t*>(str.data()), length);
+
+	uint32_t l = 0;
+	for (; l < length; ++l)
+	{
+		if (str[l] == 0) break;
+	}
+
+	return std::string(str.data(), l);
+}
+
 } // namespace Donut

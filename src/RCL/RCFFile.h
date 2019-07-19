@@ -30,7 +30,6 @@ namespace Donut::RCL
 	protected:
 
 		std::string _filename;
-		std::vector<uint8_t> _data;
 		std::vector<FileEntry> _fileEntries;
 		std::vector<std::string> _filenames;
 	};

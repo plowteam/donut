@@ -55,12 +55,22 @@ class File
 		return Read(reinterpret_cast<uint8_t*>(data), length);
 	}
 
+	template <typename T>
+	T Read()
+	{
+		T data;
+		Read(&data);
+		return data;
+	}
+
 	void Seek(std::size_t position, FileSeekMode mode) const;
 	std::size_t Position() const;
 	std::size_t Size() const;
 	void Flush();
 
 	static std::string ReadAll(const std::filesystem::path& filename);
+
+	std::string File::ReadString(std::size_t length);
 
   protected:
 	FILE* _file;
