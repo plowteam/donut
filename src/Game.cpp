@@ -101,6 +101,8 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 	auto bitsPerChannel = rsdStream->Read<uint32_t>();
 	auto sampleRate = rsdStream->Read<uint32_t>();
 
+	std::cout << fmt::format("{0}, channels:{1}, bpc:{2}, samplerate:{3}", magic, numChannels, bitsPerChannel, sampleRate) << std::endl;
+
 	rsdStream->Seek(0x800, Donut::SeekMode::Begin);
 	std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
 	rsdStream->ReadBytes(data.data(), data.size());
@@ -112,7 +114,19 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 
 	alGenBuffers(1, &buffer);
 
-	alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), sampleRate);
+	ALenum format = AL_FORMAT_STEREO16;
+	if (numChannels == 1)
+	{
+		if (bitsPerChannel == 8) format = AL_FORMAT_MONO8;
+		else if (bitsPerChannel == 16) format = AL_FORMAT_MONO16;
+	}
+	else if (numChannels == 2)
+	{
+		if (bitsPerChannel == 8) format = AL_FORMAT_STEREO8;
+		else if (bitsPerChannel == 16) format = AL_FORMAT_STEREO16;
+	}
+
+	alBufferData(buffer, format, data.data(), (ALsizei)data.size(), sampleRate);
 	alSourcei(source, AL_BUFFER, buffer);
 	alSourcei(source, AL_LOOPING, AL_TRUE);
 	alSourcePlay(source);
