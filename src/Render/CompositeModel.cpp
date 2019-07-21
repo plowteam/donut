@@ -103,6 +103,9 @@ namespace Donut
 			const auto& props = drawable->GetProps();
 			for (const auto& prop : props)
 			{
+				const auto& propName = prop->GetName();
+				if (meshNames.find(propName) == meshNames.end()) continue;
+
 				const auto& transform = transforms[prop->GetSkeletonJoint()];
 				_props.push_back(DrawableProp { meshNames[prop->GetName()], transform });
 			}
