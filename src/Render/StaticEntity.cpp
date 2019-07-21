@@ -19,7 +19,7 @@ StaticEntity::StaticEntity(const std::string& name, const P3D::Mesh& mesh, const
 
 void StaticEntity::Draw(const GL::ShaderProgram& shader, const ResourceManager& rm) const
 {
-	_mesh->Draw(shader, rm);
+	_mesh->Draw(rm);
 }
 
 } // namespace Donut

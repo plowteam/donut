@@ -60,6 +60,9 @@ Level::Level(WorldPhysics* worldPhysics)
 	_worldShader     = std::make_unique<GL::ShaderProgram>(lvlVertexShader, lvlFragmentShader);
 	_resourceManager = std::make_unique<ResourceManager>();
 	_worldPhysics    = worldPhysics;
+
+	_compositeDrawable = std::make_unique<CompositeModel>();
+	_compositeDrawable->LoadP3D("art/cars/mrplo_v.p3d");
 }
 
 void Level::LoadP3D(const std::string& filename)
@@ -174,6 +177,8 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 		_worldShader->SetUniformValue("viewProj", viewProj * ent->GetTransform());
 		ent->Draw(*_worldShader, *_resourceManager);
 	}
+	
+	_compositeDrawable->Draw(*_worldShader, viewProj, glm::translate(glm::mat4(1.0f), glm::vec3(220, 4, -160)));
 }
 
 } // namespace Donut

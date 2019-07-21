@@ -14,7 +14,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 void WorldSphere::Draw(const GL::ShaderProgram& shader, const ResourceManager& rm) const
 {
 	for (auto const& mesh : _meshes)
-		mesh->Draw(shader, rm);
+		mesh->Draw(rm);
 }
 
 } // namespace Donut

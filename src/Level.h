@@ -7,6 +7,7 @@
 
 #include <Render/StaticEntity.h>
 #include <Render/WorldSphere.h>
+#include <Render/CompositeModel.h>
 
 namespace Donut
 {
@@ -34,6 +35,8 @@ private:
     std::unique_ptr<WorldSphere> _worldSphere;
 	std::vector<std::unique_ptr<StaticEntity>> _staticEntities;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
+
+	std::unique_ptr<CompositeModel> _compositeDrawable;
 };
 
 } // namespace Donut

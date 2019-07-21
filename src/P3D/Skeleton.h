@@ -9,11 +9,12 @@ namespace Donut::P3D
 class Skeleton
 {
   public:
-	Skeleton(const std::string& name, uint32_t version, uint32_t numJoints, std::vector<std::unique_ptr<SkeletonJoint>> primGroups):
-	    _name(name), _joints(std::move(primGroups)) {}
+	Skeleton(const std::string& name, uint32_t version, uint32_t numJoints, std::vector<std::unique_ptr<SkeletonJoint>> joints):
+	    _name(name), _joints(std::move(joints)) {}
 
 	static std::unique_ptr<Skeleton> Load(const P3DChunk&);
 
+	const std::string& GetName() const { return _name; }
 	const std::vector<std::unique_ptr<SkeletonJoint>>& GetJoints() const { return _joints; }
 
   private:

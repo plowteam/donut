@@ -27,13 +27,14 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 		auto uvs           = prim->GetUV();
 		auto colors        = prim->GetColors();
 		auto indices       = prim->GetIndices();
+		bool hasColors = !colors.empty();
 
 		for (uint32_t i = 0; i < verts.size(); i++)
 		{
 			allVerts.push_back(Vertex {
 			    verts[i],
 			    glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
-				ConvertColor(colors[i]),
+				hasColors ? ConvertColor(colors[i]) : glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
 			});
 		}
 
@@ -88,7 +89,7 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(const GL::ShaderProgram& shader, const ResourceManager& rm)
+void Mesh::Draw(const ResourceManager& rm)
 {
 	glBindVertexArray(_vertexArrayObject);
 

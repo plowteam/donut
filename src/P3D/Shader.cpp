@@ -30,7 +30,10 @@ std::unique_ptr<Shader> Shader::Load(const P3DChunk& chunk)
 		case ChunkType::ShaderTextureParam:
 		{
 			auto paramMagic = data.Read<uint32_t>();
-			texture         = data.ReadLPString();
+			if (paramMagic == 5784916)
+			{
+				texture = data.ReadLPString();
+			}
 			break;
 		}
 		default:
