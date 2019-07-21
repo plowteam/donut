@@ -3,6 +3,7 @@
 #include <P3D/P3DFile.h>
 #include <P3D/StaticEntity.h>
 #include <P3D/StaticPhys.h>
+#include <P3D/InstancedStaticPhys.h>
 #include <P3D/Texture.h>
 #include <P3D/WorldSphere.h>
 #include <Physics/WorldPhysics.h>
@@ -121,6 +122,7 @@ void Level::LoadP3D(const std::string& filename)
 		}
 		case P3D::ChunkType::InstancedStaticPhysics:
 		{
+			const auto& staticPhys = P3D::InstancedStaticPhys::Load(*chunk);
 			break;
 		}
 		case P3D::ChunkType::DynamicPhysics:

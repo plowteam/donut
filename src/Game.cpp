@@ -125,7 +125,7 @@ static void DecodeNibble(int32_t nibble, int32_t& nibbleDecoded, int32_t& stepIn
 	else if (stepIndex > 88) stepIndex = 88;
 }
 
-static void DecodeRADP(MemoryStream& stream, int16_t* outBuffer, int32_t numBlocks, int32_t numSamples, int32_t numChannels)
+static void DecodeRADP(MemoryStream& stream, int16_t* outBuffer, int32_t numBlocks, int32_t numChannels)
 {
 	const size_t blockSize = numChannels * 20;
 	const size_t numBlockSamples = 32;
@@ -189,7 +189,7 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 
 		data.resize(numSamples * sizeof(int16_t));
 
-		DecodeRADP(*rsdStream, (int16_t*)data.data(), numBlocks, numSamples, numChannels);
+		DecodeRADP(*rsdStream, (int16_t*)data.data(), numBlocks, numChannels);
 	}
 
 	if (buffer != 0)
