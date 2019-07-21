@@ -16,6 +16,11 @@ namespace Donut::P3D
 
 		static std::unique_ptr<InstanceList> Load(const P3DChunk&);
 
+		void GetDrawables(std::vector<std::unique_ptr<SceneGraphDrawable>>& drawables)
+		{
+			_sceneGraph->GetDrawables(drawables);
+		}
+
 	private:
 
 		std::unique_ptr<SceneGraph> _sceneGraph;

@@ -67,7 +67,7 @@ namespace Donut::P3D
 			switch (child->GetType())
 			{
 			case ChunkType::ScenegraphTransform:
-				children.push_back(SceneGraphTransform::Load(*child));
+				children.push_back(SceneGraphTransform::Load(*child, glm::mat4(1.0f)));
 				break;
 			default:
 				std::cout << "Unexpected Chunk: " << child->GetType() << "\n";

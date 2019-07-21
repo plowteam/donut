@@ -12,12 +12,16 @@ namespace Donut
 class StaticEntity
 {
   public:
-	StaticEntity(const P3D::StaticEntity&);
+	  StaticEntity(const P3D::StaticEntity&);
+	  StaticEntity(const std::string& name, const P3D::Mesh&, const glm::mat4&);
 
 	void Draw(const GL::ShaderProgram&, const ResourceManager&) const;
+
+	const glm::mat4& GetTransform() const { return _transform; }
   private:
 	std::string _name;
 	std::unique_ptr<Mesh> _mesh;
+	glm::mat4 _transform;
 };
 
 } // namespace Donut

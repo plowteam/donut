@@ -4,7 +4,7 @@
 
 namespace Donut::P3D
 {
-	std::unique_ptr<SceneGraphDrawable> SceneGraphDrawable::Load(const P3DChunk& chunk)
+	std::unique_ptr<SceneGraphDrawable> SceneGraphDrawable::Load(const P3DChunk& chunk, const glm::mat4& transform)
 	{
 		assert(chunk.IsType(ChunkType::ScenegraphDrawable));
 
@@ -23,6 +23,6 @@ namespace Donut::P3D
 			}
 		}
 
-		return std::make_unique<SceneGraphDrawable>(name);
+		return std::make_unique<SceneGraphDrawable>(name, transform);
 	}
 } // namespace Donut::P3D

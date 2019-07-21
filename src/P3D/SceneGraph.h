@@ -19,6 +19,14 @@ namespace Donut::P3D
 
 		static std::unique_ptr<SceneGraphBranch> Load(const P3DChunk&);
 
+		void GetDrawables(std::vector<std::unique_ptr<SceneGraphDrawable>>& drawables)
+		{
+			for (auto& child : _children)
+			{
+				child->GetDrawables(drawables);
+			}
+		}
+
 	private:
 
 		std::vector<std::unique_ptr<SceneGraphTransform>> _children;
@@ -36,6 +44,11 @@ namespace Donut::P3D
 
 		static std::unique_ptr<SceneGraphRoot> Load(const P3DChunk&);
 
+		void GetDrawables(std::vector<std::unique_ptr<SceneGraphDrawable>>& drawables)
+		{
+			_branch->GetDrawables(drawables);
+		}
+
 	private:
 
 		std::unique_ptr<SceneGraphBranch> _branch;
@@ -51,6 +64,11 @@ namespace Donut::P3D
 		}
 
 		static std::unique_ptr<SceneGraph> Load(const P3DChunk&);
+
+		void GetDrawables(std::vector<std::unique_ptr<SceneGraphDrawable>>& drawables)
+		{
+			_root->GetDrawables(drawables);
+		}
 
 	private:
 

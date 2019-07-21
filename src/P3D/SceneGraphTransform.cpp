@@ -4,13 +4,18 @@
 
 namespace Donut::P3D
 {
-	std::unique_ptr<SceneGraphTransform> SceneGraphTransform::Load(const P3DChunk& chunk)
+	std::unique_ptr<SceneGraphTransform> SceneGraphTransform::Load(const P3DChunk& chunk, const glm::mat4& parentTransform)
 	{
 		assert(chunk.IsType(ChunkType::ScenegraphTransform));
 
 		MemoryStream stream(chunk.GetData());
 
 		std::string name = stream.ReadLPString();
+		auto numChildren = stream.Read<uint32_t>();
+
+		glm::mat4 transform;
+		stream.ReadBytes(reinterpret_cast<uint8_t*>(&transform[0][0]), sizeof(glm::mat4));
+		glm::mat4 worldTransform = parentTransform * transform;
 
 		std::vector<std::unique_ptr<SceneGraphTransform>> children;
 		std::vector<std::unique_ptr<SceneGraphDrawable>> drawables;
@@ -20,16 +25,16 @@ namespace Donut::P3D
 			switch (child->GetType())
 			{
 			case ChunkType::ScenegraphTransform:
-				children.push_back(SceneGraphTransform::Load(*child));
+				children.push_back(SceneGraphTransform::Load(*child, worldTransform));
 				break;
 			case ChunkType::ScenegraphDrawable:
-				drawables.push_back(SceneGraphDrawable::Load(*child));
+				drawables.push_back(SceneGraphDrawable::Load(*child, worldTransform));
 				break;
 			default:
 				std::cout << "Unexpected Chunk: " << child->GetType() << "\n";
 			}
 		}
 
-		return std::make_unique<SceneGraphTransform>(std::move(children), std::move(drawables));
+		return std::make_unique<SceneGraphTransform>(transform, worldTransform, std::move(children), std::move(drawables));
 	}
 } // namespace Donut::P3D

@@ -123,6 +123,19 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::InstancedStaticPhysics:
 		{
 			const auto& staticPhys = P3D::InstancedStaticPhys::Load(*chunk);
+			std::vector<std::unique_ptr<P3D::SceneGraphDrawable>> drawables;
+			staticPhys->GetDrawables(drawables);
+
+			for (auto& drawable : drawables)
+			{
+				const auto& meshName = drawable->GetMeshName();
+				const auto& transform = drawable->GetTransform();
+				auto mesh = staticPhys->GetMesh(meshName);
+
+				auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
+				_staticEntities.push_back(std::move(model));
+			}
+
 			break;
 		}
 		case P3D::ChunkType::DynamicPhysics:
@@ -158,6 +171,7 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 
 	for (const auto& ent : _staticEntities)
 	{
+		_worldShader->SetUniformValue("viewProj", viewProj * ent->GetTransform());
 		ent->Draw(*_worldShader, *_resourceManager);
 	}
 }

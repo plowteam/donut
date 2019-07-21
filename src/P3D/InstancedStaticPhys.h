@@ -22,6 +22,24 @@ namespace Donut::P3D
 
 		static std::unique_ptr<InstancedStaticPhys> Load(const P3DChunk&);
 
+		void GetDrawables(std::vector<std::unique_ptr<SceneGraphDrawable>>& drawables)
+		{
+			_instanceList->GetDrawables(drawables);
+		}
+
+		Mesh* GetMesh(const std::string& name)
+		{
+			for (auto& mesh : _meshes)
+			{
+				if (mesh->GetName() != name) continue;
+				return mesh.get();
+			}
+
+			return nullptr;
+		}
+
+		const std::string& GetName() const { return _name; }
+
 	private:
 
 		std::string _name;
