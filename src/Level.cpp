@@ -10,6 +10,7 @@
 #include <Render/OpenGL/ShaderProgram.h>
 #include <ResourceManager.h>
 #include <Render/StaticEntity.h>
+#include <array>
 #include <iostream>
 
 namespace Donut
@@ -61,8 +62,23 @@ Level::Level(WorldPhysics* worldPhysics)
 	_resourceManager = std::make_unique<ResourceManager>();
 	_worldPhysics    = worldPhysics;
 
-	_compositeDrawable = std::make_unique<CompositeModel>();
-	_compositeDrawable->LoadP3D("art/cars/mrplo_v.p3d");
+	std::array<std::string, 7> carFiles
+	{
+		"art/cars/mrplo_v.p3d",
+		"art/cars/carhom_v.p3d",
+		"art/cars/krust_v.p3d",
+		"art/cars/cDuff.p3d",
+		"art/cars/bart_v.p3d",
+		"art/cars/snake_v.p3d",
+		"art/cars/wiggu_v.p3d",
+	};
+
+	for (const auto& carFile : carFiles)
+	{
+		auto car = std::make_unique<CompositeModel>();
+		car->LoadP3D(carFile);
+		_cars.push_back(std::move(car));
+	}
 }
 
 void Level::LoadP3D(const std::string& filename)
@@ -177,8 +193,13 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 		_worldShader->SetUniformValue("viewProj", viewProj * ent->GetTransform());
 		ent->Draw(*_worldShader, *_resourceManager);
 	}
-	
-	_compositeDrawable->Draw(*_worldShader, viewProj, glm::translate(glm::mat4(1.0f), glm::vec3(220, 4.1f, -160)));
+
+	float offset = 0.0f;
+	for (const auto& car : _cars)
+	{
+		car->Draw(*_worldShader, viewProj, glm::translate(glm::mat4(1.0f), glm::vec3(220 + offset, 4.6f, -160)));
+		offset += 3.0f;
+	}
 }
 
 } // namespace Donut

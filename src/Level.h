@@ -36,7 +36,7 @@ private:
 	std::vector<std::unique_ptr<StaticEntity>> _staticEntities;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
 
-	std::unique_ptr<CompositeModel> _compositeDrawable;
+	std::vector<std::unique_ptr<CompositeModel>> _cars;
 };
 
 } // namespace Donut
