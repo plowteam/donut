@@ -1,30 +1,35 @@
 # donut
 
-simsons hit and run engine
+donut is an open source reimplementation of The Simpsons: Hit & Run.
 
-# building
+# Building
 
-clone using: `git clone --recursive https://github.com/plowteam/donut.git`
-or if using desktop client make sure you do: `git submodule update --init --recursive`
+Clone the code using: `git clone --recursive https://github.com/plowteam/donut.git`
 
-## windows
+## Windows
 
-* download [vs2019](https://visualstudio.microsoft.com/downloads/) (vs2017 or higher is fine)
-* download [cmake](https://cmake.org/download/)
-* open cmake gui and point it to `donut` folder, then set build directory to `donut/build`
-* set `BULLET_ROOT` to the bullet directory
-* press configure & generate
-* open project in vs2019 and build
+* Install [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
+* Install [CMake](https://cmake.org/download/)
+* Open CMake GUI and point it to `donut` folder, set build directory to `donut/build`
+* Set `BULLET_ROOT` to the Bullet directory, everything else is automatically set.
+* Press Configure, Generate, Open Project and then build.
 
-### building bullet
+### Building Bullet
 
-* download [bullet](https://github.com/bulletphysics/bullet3)
-* build it using cmake or premake, w/e, just make sure `USE_MSVC_RUNTIME_LIBRARY_DLL` is enabled
+* Download [Bullet](https://github.com/bulletphysics/bullet3)
+* Build using CMake or Premake, making sure `USE_MSVC_RUNTIME_LIBRARY_DLL` is enabled.
 
-## linux
+## Linux
+
+First you'll need to install the following dependencies to build donut:
 
 ```bash
-apt install build-essential libsdl2-dev cmake libglm-dev libbullet-dev
+apt install build-essential libsdl2-dev cmake libglm-dev libbullet-dev libopenal-dev
+```
+
+Then to build run CMake in a build directory:
+
+```bash
 mkdir build && cd build
 cmake ../
 make
