@@ -16,6 +16,9 @@ namespace Donut::P3D
 
 		static std::unique_ptr<CompositeDrawableProp> Load(const P3DChunk&);
 
+		const std::string& GetName() const { return _name; }
+		uint32_t GetSkeletonJoint() const { return _skeletonJoint; }
+
 	private:
 
 		std::string _name;
@@ -26,16 +29,20 @@ namespace Donut::P3D
 	{
 	public:
 
-		CompositeDrawablePropList(std::vector<std::unique_ptr<CompositeDrawableProp>> props) :
+		using Props = std::vector<std::unique_ptr<CompositeDrawableProp>>;
+
+		CompositeDrawablePropList(Props props) :
 			_props(std::move(props))
 		{
 		}
 
 		static std::unique_ptr<CompositeDrawablePropList> Load(const P3DChunk&);
 
+		const Props& GetProps() const { return _props; }
+
 	private:
 
-		std::vector<std::unique_ptr<CompositeDrawableProp>> _props;
+		Props _props;
 	};
 
 	class CompositeDrawable
@@ -53,6 +60,10 @@ namespace Donut::P3D
 		}
 
 		static std::unique_ptr<CompositeDrawable> Load(const P3DChunk&);
+
+		const std::string& GetName() const { return _name; }
+		const std::string& GetSkeletonName() const { return _skeletonName; }
+		const CompositeDrawablePropList::Props& GetProps() const { return _propList->GetProps(); }
 
 	private:
 

@@ -41,7 +41,7 @@ namespace Donut::P3D
 		MemoryStream stream(chunk.GetData());
 
 		auto numElements = stream.Read<uint32_t>();
-		std::vector<std::unique_ptr<CompositeDrawableProp>> props;
+		CompositeDrawablePropList::Props props;
 
 		for (auto const& child : chunk.GetChildren())
 		{
