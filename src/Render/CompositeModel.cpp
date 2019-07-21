@@ -52,8 +52,8 @@ namespace Donut
 					}
 
 					const auto& skeletonName = skeleton->GetName();
-					skeletons.insert({ skeletonName, std::move(skeleton) });
 					jointTransforms.insert({ skeletonName, std::move(transforms) });
+					skeletons.insert({ skeletonName, std::move(skeleton) });
 
 					break;
 				}

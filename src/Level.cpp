@@ -178,7 +178,7 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 		ent->Draw(*_worldShader, *_resourceManager);
 	}
 	
-	_compositeDrawable->Draw(*_worldShader, viewProj, glm::translate(glm::mat4(1.0f), glm::vec3(220, 4, -160)));
+	_compositeDrawable->Draw(*_worldShader, viewProj, glm::translate(glm::mat4(1.0f), glm::vec3(220, 4.1f, -160)));
 }
 
 } // namespace Donut

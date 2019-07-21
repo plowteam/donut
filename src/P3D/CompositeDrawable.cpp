@@ -65,6 +65,7 @@ namespace Donut::P3D
 		MemoryStream stream(chunk.GetData());
 
 		auto name = stream.ReadLPString();
+		auto isTrans = stream.Read<uint32_t>();
 		auto skeletonJoint = stream.Read<uint32_t>();
 
 		for (auto const& child : chunk.GetChildren())
