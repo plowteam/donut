@@ -7,11 +7,6 @@
 
 namespace Donut::RCL
 {
-	enum class FileTypes : uint32_t
-	{
-		RSD = 0x3F1341B4,
-	};
-
 	struct FileEntry
 	{
 		uint32_t hash;
@@ -25,14 +20,10 @@ namespace Donut::RCL
 
 		RCFFile(const std::string& file);
 
-		const std::string& GetFileName() const
-		{
-			return _filename;
-		}
-
 		std::unique_ptr<MemoryStream> GetFileStream(const std::string name);
 		std::unique_ptr<MemoryStream> GetFileStream(uint32_t hash);
 
+		const std::string& GetFileName() const { return _filename; }
 		const std::vector<std::string>& GetFilenames() const { return _filenames; }
 
 	protected:

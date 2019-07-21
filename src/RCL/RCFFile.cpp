@@ -1,5 +1,4 @@
 #include <Core/File.h>
-#include <Core/CRC32.h>
 #include <RCL/RCFFile.h>
 
 namespace Donut::RCL
