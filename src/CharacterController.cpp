@@ -21,7 +21,7 @@ CharacterController::CharacterController(Character* character, WorldPhysics* phy
 	_position       = character->GetPosition();
 	_targetPosition = BulletCast<btVector3>(character->GetPosition());
 
-	_physShape       = std::make_unique<btCapsuleShape>(0.4, 1.10f);
+	_physShape       = std::make_unique<btCapsuleShape>(0.4, 0.95f);
 
 	_physGhostObject = std::make_unique<btPairCachingGhostObject>();
 	_physGhostObject->setWorldTransform(transform);
@@ -43,15 +43,6 @@ CharacterController::~CharacterController()
 
 	// _worldPhysics->GetDynamicsWorld()->removeAction(this);
 	// _worldPhysics->GetDynamicsWorld()->removeCollisionObject(_physGhostObject.get());
-}
-
-void CharacterController::UpdateBoundingBox()
-{
-	auto const& sphere = _character->GetBoundingSphere();
-
-	_physShape = std::make_unique<btCapsuleShape>(0.4f, sphere.GetRadius());
-
-	_physGhostObject->setCollisionShape(_physShape.get());
 }
 
 void CharacterController::updateAction(btCollisionWorld* collisionWorld, btScalar dt)

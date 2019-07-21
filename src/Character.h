@@ -61,9 +61,6 @@ class Character
 	void SetAnimation(const std::string&);
 	CharacterController& GetCharacterController() const { return *_characterController; }
 
-	const BoundingBox& GetBoundingBox() const { return _boundingBox; }
-	const BoundingSphere& GetBoundingSphere() const { return _boundingSphere; }
-
 	void Update(double deltatime);
 	void Draw(const glm::mat4& viewProjection, GL::ShaderProgram&, const ResourceManager&);
 
@@ -85,9 +82,6 @@ class Character
 
 	glm::vec3 _position;
 	glm::quat _rotation;
-
-	BoundingBox _boundingBox;
-	BoundingSphere _boundingSphere;
 
 	std::unique_ptr<CharacterController> _characterController;
 

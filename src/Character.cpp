@@ -52,8 +52,6 @@ void Character::LoadModel(const std::string& name)
 		{
 			auto const polySkin = P3D::PolySkin::Load(*chunk);
 			_skinModel->LoadPolySkin(*polySkin);
-			_boundingBox = polySkin->GetBoundingBox();
-			_boundingSphere = polySkin->GetBoundingSphere();
 			break;
 		}
 		case P3D::ChunkType::Skeleton:
@@ -62,8 +60,6 @@ void Character::LoadModel(const std::string& name)
 		default: break;
 		}
 	}
-
-	_characterController->UpdateBoundingBox();
 }
 
 void Character::LoadAnimations(const std::string& name)
@@ -90,7 +86,7 @@ void Character::LoadAnimations(const std::string& name)
 
 void Character::Draw(const glm::mat4& viewProjection, GL::ShaderProgram& shaderProgram, const ResourceManager& rm)
 {
-	const auto localPosition = _position - _boundingSphere.GetCenter();
+	const auto localPosition = _position - glm::vec3(0.0f, _characterController->GetShape().getHalfHeight() * 2, 0.0f);
 	const glm::mat4 mvp      = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
 
 	shaderProgram.Bind(); // todo optimize: should already be bound?

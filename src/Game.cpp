@@ -302,11 +302,6 @@ Game::Game(int argc, char** argv)
 	loadGlobal();
 	LoadModel("homer", "homer");
 
-	_npcCharacter = std::make_unique<Character>("npc");
-	_npcCharacter->LoadModel("marge");
-	_npcCharacter->LoadAnimations("marge");
-	_npcCharacter->SetPosition(glm::vec3(222.5, 4, -172));
-
 	_camera = std::make_unique<FreeCamera>();
 	_camera->MoveTo(glm::vec3(228.0f, 5.0f, -174.0f));
 
@@ -467,7 +462,6 @@ void Game::Run()
 
 		guiTeleportMenu();
 		guiModelMenu(*_character);
-		guiModelMenu(*_npcCharacter);
 
 		ImGui::EndMainMenuBar();
 
@@ -475,9 +469,6 @@ void Game::Run()
 
 		if (_character != nullptr)
 			_character->Update(deltaTime);
-
-		if (_npcCharacter != nullptr)
-			_npcCharacter->Update(deltaTime);
 
 		ImGui::Render();
 
@@ -502,8 +493,6 @@ void Game::Run()
 
 		if (_character != nullptr)
 			_character->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
-
-		_npcCharacter->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
 
 		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 

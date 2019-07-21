@@ -26,8 +26,6 @@ public:
 	CharacterController(Character* character, WorldPhysics* physics);
 	~CharacterController();
 
-	void UpdateBoundingBox();
-
 	// btActionInterface
 	void updateAction(btCollisionWorld* collisionWorld, btScalar deltaTime) override;
 	void debugDraw(btIDebugDraw* debugDrawer) override;
@@ -43,6 +41,8 @@ public:
 	void jump(const btVector3& dir) override;
 	bool onGround() const override;
 	void setUpInterpolate(bool) override;
+
+	const btCapsuleShape& GetShape() const { return *_physShape; }
 
   private:
 	btVector3 computeReflectionDirection(const btVector3& direction, const btVector3& normal);
@@ -76,7 +76,7 @@ public:
 
 	btVector3 _touchingNormal;
 
-	std::unique_ptr<btConvexShape> _physShape;
+	std::unique_ptr<btCapsuleShape> _physShape;
 	std::unique_ptr<btPairCachingGhostObject> _physGhostObject;
 };
 }
