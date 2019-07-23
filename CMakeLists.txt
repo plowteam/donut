@@ -13,9 +13,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Output binaries to bin/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
+# disable in-source builds
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+
 # Project Options
 if (WIN32)
-    option(USE_DEBUG_CONSOLE "whether a debug console should be enabled for debug builds, if false debug output is redirected to Visual Studio output" ON)
+    option(DONUT_USE_DEBUG_CONSOLE "whether a debug console should be enabled for debug builds, if false debug output is redirected to Visual Studio output" ON)
+    option(DONUT_DOWNLOAD_SDL2 "Downloads precompiled SDL2 binaries and uses those." ON)
+    option(DONUT_DOWNLOAD_OPENALSOFT "Downloads precompiled OpenAL-Soft binaries and uses those." ON)
 endif()
 
 # Check that all Git submodules are present
@@ -40,15 +46,21 @@ endif()
 # Dependencies
 find_package(OpenGL REQUIRED)
 
-# Use bundled SDL2 on Windows x86_64
-if (MSVC)
-    set(SDL2_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL2-2.0.8")
+include(DownloadLibrary)
+
+# Download precompiled SDL2 on Windows x86_64
+if (DONUT_DOWNLOAD_SDL2 AND MSVC)
+    set(SDL2_VERSION "2.0.8")
+
+    download_library(http://libsdl.org/release/SDL2-devel-${SDL2_VERSION}-VC.zip "SDL2-${SDL2_VERSION}" SDL2_PREFIX)
+
+    # set(SDL2_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL2-2.0.8")
     set(SDL2_FOUND YES)
     set(SDL2_INCLUDE_DIR "${SDL2_PREFIX}/include" CACHE PATH "Path to SDL2 headers")
     set(SDL2_LIBRARY "${SDL2_PREFIX}/lib/x64/SDL2.lib" CACHE PATH "Path to SDL2 library")
     set(SDL2_DLL_DIR "${SDL2_PREFIX}/lib/x64/" CACHE PATH "Path to SDL2.dll")
 else ()
-find_package(SDL2 REQUIRED)
+    find_package(SDL2 REQUIRED)
 endif()
 
 if (SDL2_FOUND)
@@ -57,15 +69,18 @@ if (SDL2_FOUND)
     target_include_directories(SDL2 INTERFACE "${SDL2_INCLUDE_DIR}")
 endif()
 
-# Use bundled OpenAL on Windows x86_64
-if (MSVC)
-set(OPENALSOFT_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/openal-soft")
-set(OPENALSOFT_FOUND YES)
-set(OPENALSOFT_INCLUDE_DIR "${OPENALSOFT_PREFIX}/include" CACHE PATH "Path to OpenAL-Soft headers")
-set(OPENALSOFT_LIBRARY "${OPENALSOFT_PREFIX}/libs/Win64/OpenAL32.lib" CACHE PATH "Path to OpenAL-Soft library")
-set(OPENALSOFT_DLL_DIR "${OPENALSOFT_PREFIX}/bin/Win64/" CACHE PATH "Path to soft_oal.dll")
+# Download precompiled OpenAL on Windows x86_64
+if (DONUT_DOWNLOAD_OPENALSOFT AND MSVC)
+    set(OPENALSOFT_VERSION "1.19.1")
+
+    download_library(https://kcat.strangesoft.net/openal-binaries/openal-soft-${OPENALSOFT_VERSION}-bin.zip "openal-soft-${OPENALSOFT_VERSION}-bin" OPENALSOFT_PREFIX)
+
+    set(OPENALSOFT_FOUND YES)
+    set(OPENALSOFT_INCLUDE_DIR "${OPENALSOFT_PREFIX}/include" CACHE PATH "Path to OpenAL-Soft headers")
+    set(OPENALSOFT_LIBRARY "${OPENALSOFT_PREFIX}/libs/Win64/OpenAL32.lib" CACHE PATH "Path to OpenAL-Soft library")
+    set(OPENALSOFT_DLL_DIR "${OPENALSOFT_PREFIX}/bin/Win64/" CACHE PATH "Path to soft_oal.dll")
 else()
-find_package(OpenALSoft REQUIRED)
+    find_package(OpenALSoft REQUIRED)
 endif()
 
 if (OPENALSOFT_FOUND)
