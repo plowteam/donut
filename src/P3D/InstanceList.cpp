@@ -18,7 +18,7 @@ namespace Donut::P3D
 		{
 			switch (child->GetType())
 			{
-			case ChunkType::Scenegraph:
+			case ChunkType::SceneGraph:
 				sceneGraph = SceneGraph::Load(*child);
 				break;
 			default:

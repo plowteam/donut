@@ -6,7 +6,7 @@ namespace Donut::P3D
 {
 	std::unique_ptr<SceneGraphTransform> SceneGraphTransform::Load(const P3DChunk& chunk, const glm::mat4& parentTransform)
 	{
-		assert(chunk.IsType(ChunkType::ScenegraphTransform));
+		assert(chunk.IsType(ChunkType::SceneGraphTransform));
 
 		MemoryStream stream(chunk.GetData());
 
@@ -24,10 +24,10 @@ namespace Donut::P3D
 		{
 			switch (child->GetType())
 			{
-			case ChunkType::ScenegraphTransform:
+			case ChunkType::SceneGraphTransform:
 				children.push_back(SceneGraphTransform::Load(*child, worldTransform));
 				break;
-			case ChunkType::ScenegraphDrawable:
+			case ChunkType::SceneGraphDrawable:
 				drawables.push_back(SceneGraphDrawable::Load(*child, worldTransform));
 				break;
 			default:

@@ -217,22 +217,22 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "TextureFont";
 		case ChunkType::FontGlyphs:
 			return os << "FontGlyphs";
-		case ChunkType::Scenegraph:
-			return os << "Scenegraph";
-		case ChunkType::ScenegraphRoot:
-			return os << "ScenegraphRoot";
-		case ChunkType::ScenegraphBranch:
-			return os << "ScenegraphBranch";
-		case ChunkType::ScenegraphTransform:
-			return os << "ScenegraphTransform";
-		case ChunkType::ScenegraphVisibility:
-			return os << "ScenegraphVisibility";
-		case ChunkType::ScenegraphDrawable:
-			return os << "ScenegraphDrawable";
-		case ChunkType::ScenegraphLightGroup:
-			return os << "ScenegraphLightGroup";
-		case ChunkType::ScenegraphSortOrder:
-			return os << "ScenegraphSortOrder";
+		case ChunkType::SceneGraph:
+			return os << "SceneGraph";
+		case ChunkType::SceneGraphRoot:
+			return os << "SceneGraphRoot";
+		case ChunkType::SceneGraphBranch:
+			return os << "SceneGraphBranch";
+		case ChunkType::SceneGraphTransform:
+			return os << "SceneGraphTransform";
+		case ChunkType::SceneGraphVisibility:
+			return os << "SceneGraphVisibility";
+		case ChunkType::SceneGraphDrawable:
+			return os << "SceneGraphDrawable";
+		case ChunkType::SceneGraphLightGroup:
+			return os << "SceneGraphLightGroup";
+		case ChunkType::SceneGraphSortOrder:
+			return os << "SceneGraphSortOrder";
 		case ChunkType::Animation:
 			return os << "Animation";
 		case ChunkType::AnimationGroup:

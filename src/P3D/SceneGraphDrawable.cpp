@@ -6,7 +6,7 @@ namespace Donut::P3D
 {
 	std::unique_ptr<SceneGraphDrawable> SceneGraphDrawable::Load(const P3DChunk& chunk, const glm::mat4& transform)
 	{
-		assert(chunk.IsType(ChunkType::ScenegraphDrawable));
+		assert(chunk.IsType(ChunkType::SceneGraphDrawable));
 
 		MemoryStream stream(chunk.GetData());
 
@@ -16,7 +16,7 @@ namespace Donut::P3D
 		{
 			switch (child->GetType())
 			{
-			case ChunkType::ScenegraphSortOrder:
+			case ChunkType::SceneGraphSortOrder:
 				break;
 			default:
 				std::cout << "Unexpected Chunk: " << child->GetType() << "\n";

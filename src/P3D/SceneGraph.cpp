@@ -6,7 +6,7 @@ namespace Donut::P3D
 {
 	std::unique_ptr<SceneGraph> SceneGraph::Load(const P3DChunk& chunk)
 	{
-		assert(chunk.IsType(ChunkType::Scenegraph));
+		assert(chunk.IsType(ChunkType::SceneGraph));
 
 		MemoryStream stream(chunk.GetData());
 
@@ -18,7 +18,7 @@ namespace Donut::P3D
 		{
 			switch (child->GetType())
 			{
-			case ChunkType::ScenegraphRoot:
+			case ChunkType::SceneGraphRoot:
 				root = SceneGraphRoot::Load(*child);
 				break;
 			default:
@@ -31,7 +31,7 @@ namespace Donut::P3D
 
 	std::unique_ptr<SceneGraphRoot> SceneGraphRoot::Load(const P3DChunk& chunk)
 	{
-		assert(chunk.IsType(ChunkType::ScenegraphRoot));
+		assert(chunk.IsType(ChunkType::SceneGraphRoot));
 
 		MemoryStream stream(chunk.GetData());
 
@@ -41,7 +41,7 @@ namespace Donut::P3D
 		{
 			switch (child->GetType())
 			{
-			case ChunkType::ScenegraphBranch:
+			case ChunkType::SceneGraphBranch:
 				branch = SceneGraphBranch::Load(*child);
 				break;
 			default:
@@ -54,7 +54,7 @@ namespace Donut::P3D
 
 	std::unique_ptr<SceneGraphBranch> SceneGraphBranch::Load(const P3DChunk& chunk)
 	{
-		assert(chunk.IsType(ChunkType::ScenegraphBranch));
+		assert(chunk.IsType(ChunkType::SceneGraphBranch));
 
 		MemoryStream stream(chunk.GetData());
 
@@ -66,7 +66,7 @@ namespace Donut::P3D
 		{
 			switch (child->GetType())
 			{
-			case ChunkType::ScenegraphTransform:
+			case ChunkType::SceneGraphTransform:
 				children.push_back(SceneGraphTransform::Load(*child, glm::mat4(1.0f)));
 				break;
 			default:
