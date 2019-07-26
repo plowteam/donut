@@ -46,4 +46,4 @@ prebuilt
 *.out
 *.app
 
-!/dev/p3dcppgen*
+!/dev/p3dcppgen/
