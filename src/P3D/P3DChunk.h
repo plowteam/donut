@@ -101,14 +101,14 @@ enum class ChunkType : uint32_t
 	ExpressionMixer = 0x21002,
 	TextureFont = 0x22000,
 	FontGlyphs = 0x22001,
-	Scenegraph = 0x120100,
-	ScenegraphRoot = 0x120101,
-	ScenegraphBranch = 0x120102,
-	ScenegraphTransform = 0x120103,
-	ScenegraphVisibility = 0x120104,
-	ScenegraphDrawable = 0x120107,
-	ScenegraphLightGroup = 0x120109,
-	ScenegraphSortOrder = 0x12010A,
+	SceneGraph = 0x120100,
+	SceneGraphRoot = 0x120101,
+	SceneGraphBranch = 0x120102,
+	SceneGraphTransform = 0x120103,
+	SceneGraphVisibility = 0x120104,
+	SceneGraphDrawable = 0x120107,
+	SceneGraphLightGroup = 0x120109,
+	SceneGraphSortOrder = 0x12010A,
 	Animation = 0x121000,
 	AnimationGroup = 0x121001,
 	AnimationGroupList = 0x121002,
@@ -220,6 +220,20 @@ class P3DChunk
 	ChunkType _type;
 	std::vector<uint8_t> _data;
 	std::vector<std::unique_ptr<P3DChunk>> _children;
+};
+
+struct FontGlyph
+{
+	uint32_t textureId;
+	float bottomLeftX;
+	float bottomLeftY;
+	float topRightX;
+	float topRightY;
+	float leftBearing;
+	float rightBearing;
+	float width;
+	float advance;
+	int32_t id;
 };
 
 } // namespace Donut::P3D

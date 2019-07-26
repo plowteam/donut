@@ -45,3 +45,5 @@ prebuilt
 *.exe
 *.out
 *.app
+
+!/dev/p3dcppgen*

@@ -1,0 +1,288 @@
+﻿{
+  "Animation": {
+    "version": "u32",
+    "name": "string",
+    "type": "string[4]",
+    "numFrames": "float",
+    "frameRate": "float",
+    "looping": "u32",
+    "groupList": "child AnimationGroupList"
+  },
+
+  "AnimationGroupList": {
+    "version": "u32",
+    "numGroups": "u32",
+    "groups": "children AnimationGroup"
+  },
+
+  "AnimationGroup": {
+    "version": "u32",
+    "name": "string",
+    "groupId": "u32",
+    "numChannels": "u32",
+    "vector2Channel": "child Vector2Channel",
+    "vector3Channel": "child Vector3Channel",
+    "quaternionChannel": "child QuaternionChannel",
+    "compressedQuaternionChannel": "child CompressedQuaternionChannel"
+  },
+
+  "Vector2Channel": {
+    "version": "u32",
+    "param": "string[4]",
+    "mapping": "u16",
+    "constants": "vec3",
+    "numFrames": "u32",
+    "frames": "buffer<u16>",
+    "values": "buffer<vec2>"
+  },
+
+  "Vector3Channel": {
+    "version": "u32",
+    "param": "string[4]",
+    "numFrames": "u32",
+    "frames": "buffer<u16>",
+    "values": "buffer<vec3>"
+  },
+
+  "QuaternionChannel": {
+    "version": "u32",
+    "param": "string[4]",
+    "numFrames": "u32",
+    "frames": "buffer<u16>",
+    "values": "buffer<quat>"
+  },
+
+  "CompressedQuaternionChannel": {
+    "version": "u32",
+    "param": "string[4]",
+    "numFrames": "u32",
+    "frames": "buffer<u16>",
+    "values": "buffer<u64>"
+  },
+
+  "Mesh": {
+    "name": "string",
+    "version": "u32",
+    "numPrimGroups": "u32",
+    "primitiveGroups": "children PrimitiveGroup"
+  },
+
+  "PolySkin": {
+    "name": "string",
+    "version": "u32",
+    "skeletonName": "string",
+    "numPrimGroups": "u32",
+    "primitiveGroups": "children PrimitiveGroup",
+    "boundingBox": "child BoundingBox",
+    "boundingSphere": "child BoundingSphere"
+  },
+
+  "BoundingBox": {
+    "min": "vec3",
+    "max": "vec3"
+  },
+
+  "BoundingSphere": {
+    "centre": "vec3",
+    "radius": "float"
+  },
+
+  "PrimitiveGroup": {
+    "version": "u32",
+    "shaderName": "string",
+    "primType": "u32",
+    "hasDataFlags": "u32",
+    "numVerts": "u32",
+    "numIndices": "u32",
+    "numMatrices": "u32",
+    "vertices": "buffer<vec3> PositionList",
+    "indices": "buffer<u32> IndexList",
+    "normals": "buffer<vec3> NormalList",
+    "uvs": "buffers<vec2> UVList",
+    "matrixList": "buffer<u8> MatrixList",
+    "weightList": "buffer<vec3> WeightList",
+    "matrixPalette": "buffer<u32> MatrixPalette",
+    "colors": "buffer<u32> ColorList"
+  },
+
+  "Skeleton": {
+    "name": "string",
+    "version": "u32",
+    "numJoints": "u32",
+    "joints": "children SkeletonJoint"
+  },
+
+  "SkeletonJoint": {
+    "name": "string",
+    "parent": "u32",
+    "dof": "s32",
+    "freeAxis": "s32",
+    "primaryAxis": "s32",
+    "secondaryAxis": "s32",
+    "twistAxis": "s32",
+    "restPose": "mat4"
+  },
+
+  "StaticEntity": {
+    "name": "string",
+    "version": "u32",
+    "renderOrder": "u32",
+    "mesh": "child Mesh"
+  },
+
+  "StaticPhysics": {
+    "name": "string"
+  },
+
+  "InstancedStaticPhysics": {
+    "name": "string",
+    "meshes": "children Mesh",
+    "instanceList": "child InstanceList"
+  },
+
+  "InstanceList": {
+    "name": "string",
+    "sceneGraph": "child SceneGraph"
+  },
+
+  "SceneGraph": {
+    "name": "string",
+    "root": "child SceneGraphRoot"
+  },
+
+  "SceneGraphRoot": {
+    "branch": "child SceneGraphBranch"
+  },
+
+  "SceneGraphBranch": {
+    "name": "string",
+    "numChildren": "u32",
+    "transform": "mat4",
+    "children": "children SceneGraphTransform",
+    "drawables": "children SceneGraphDrawable"
+  },
+
+  "SceneGraphTransform": {
+    "name": "string",
+    "children": "children SceneGraphTransform"
+  },
+
+  "SceneGraphDrawable": {
+    "name": "string",
+    "sortOrder": "child<float> SceneGraphSortOrder"
+  },
+
+  "Shader": {
+    "name": "string",
+    "version": "u32",
+    "pddiShaderName": "string",
+    "isTrans": "u32",
+    "vertexNeeds": "u32",
+    "vertexMask": "u32",
+    "numParams": "u32",
+    "textureParams": "children ShaderTextureParam"
+  },
+
+  "ShaderTextureParam": {
+    "key": "string[4]",
+    "value": "string"
+  },
+
+  "CompositeDrawable": {
+    "name": "string",
+    "skeletonName": "string",
+    "propList": "child CompositeDrawablePropList"
+  },
+
+  "CompositeDrawablePropList": {
+    "numElements": "u32",
+    "props": "children CompositeDrawableProp"
+  },
+
+  "CompositeDrawableProp": {
+    "name": "string",
+    "isTrans": "u32",
+    "skeletonJoint": "u32"
+  },
+
+  "Intersect": {
+    "indices": "buffer<u32>",
+    "positions": "buffer<vec3>",
+    "normals": "buffer<vec3>",
+    "bounds": "child BoundingBox"
+  },
+
+  "WorldSphere": {
+    "name": "string",
+    "version": "u32",
+    "meshCount": "u32",
+    "billboardCount": "u32",
+    "meshes": "children Mesh"
+  },
+
+  "BillboardQuad": {
+    "version": "u32",
+    "name": "string",
+    "mode": "string[4]",
+    "translation": "vec3",
+    "color": "u32",
+    "uv0": "vec2",
+    "uv1": "vec2",
+    "uv2": "vec2",
+    "uv3": "vec2",
+    "width": "float",
+    "height": "float",
+    "distance": "float",
+    "uvOffset": "vec2"
+  },
+
+  "BillboardQuadGroup": {
+    "version": "u32",
+    "name": "string",
+    "shader": "string",
+    "zTest": "u32",
+    "zWrite": "u32",
+    "fog": "u32",
+    "quadCount": "u32",
+    "quads": "children BillboardQuad"
+  },
+
+  "Texture": {
+    "name": "string",
+    "version": "u32",
+    "width": "u32",
+    "height": "u32",
+    "bpp": "u32",
+    "alphaDepth": "u32",
+    "numMipMaps": "u32",
+    "textureType": "u32",
+    "usage": "u32",
+    "priority": "u32",
+    "image": "child Image"
+  },
+
+  "Image": {
+    "name": "string",
+    "version": "u32",
+    "width": "u32",
+    "height": "u32",
+    "bpp": "u32",
+    "palettized": "u32",
+    "hasAlpha": "u32",
+    "format": "u32",
+    "data": "buffer<u8> ImageData"
+  },
+
+  "TextureFont": {
+    "version": "u32",
+    "name": "string",
+    "shader": "string",
+    "size": "float",
+    "width": "float",
+    "height": "float",
+    "baseLine": "float",
+    "numTextures": "u32",
+    "textures": "children Texture",
+    "glyphs": "buffer<FontGlyph> FontGlyphs"
+  }
+}
