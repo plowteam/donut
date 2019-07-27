@@ -264,23 +264,20 @@ namespace Donut::P3D
             {
                 case ChunkType::PositionList:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _vertices.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_vertices.data()), length * sizeof(glm::vec3));
+                        _vertices.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_vertices.data()), _vertices.size() * sizeof(glm::vec3));
                         break;
                     }
                 case ChunkType::IndexList:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _indices.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), length * sizeof(uint32_t));
+                        _indices.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
                         break;
                     }
                 case ChunkType::NormalList:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _normals.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), length * sizeof(glm::vec3));
+                        _normals.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(glm::vec3));
                         break;
                     }
                 case ChunkType::UVList:
@@ -294,30 +291,26 @@ namespace Donut::P3D
                     }
                 case ChunkType::MatrixList:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _matrixList.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixList.data()), length * sizeof(uint32_t));
+                        _matrixList.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixList.data()), _matrixList.size() * sizeof(uint32_t));
                         break;
                     }
                 case ChunkType::WeightList:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _weightList.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), length * sizeof(glm::vec3));
+                        _weightList.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), _weightList.size() * sizeof(glm::vec3));
                         break;
                     }
                 case ChunkType::MatrixPalette:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _matrixPalette.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixPalette.data()), length * sizeof(uint32_t));
+                        _matrixPalette.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixPalette.data()), _matrixPalette.size() * sizeof(uint32_t));
                         break;
                     }
                 case ChunkType::ColorList:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _colors.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), length * sizeof(uint32_t));
+                        _colors.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
                         break;
                     }
                 default:
@@ -809,9 +802,8 @@ namespace Donut::P3D
             {
                 case ChunkType::ImageData:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _data.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_data.data()), length * sizeof(uint8_t));
+                        _data.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_data.data()), _data.size() * sizeof(uint8_t));
                         break;
                     }
                 default:
@@ -847,9 +839,8 @@ namespace Donut::P3D
                     }
                 case ChunkType::FontGlyphs:
                     {
-                        uint32_t length = data.Read<uint32_t>();
-                        _glyphs.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), length * sizeof(FontGlyph));
+                        _glyphs.resize(stream.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), _glyphs.size() * sizeof(FontGlyph));
                         break;
                     }
                 default:
