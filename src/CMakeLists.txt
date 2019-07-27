@@ -50,11 +50,11 @@ endif()
 
 
 if (WIN32)
-	if (USE_DEBUG_CONSOLE)
+	if (DONUT_USE_DEBUG_CONSOLE)
 		set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
 		set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
 		set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
-	else (USE_DEBUG_CONSOLE)
+	else (DONUT_USE_DEBUG_CONSOLE)
 		# Turn off debug console, debug output will be written to visual studio output instead
 		set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
 		set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS")
