@@ -421,10 +421,12 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "CollisionSphere";
 		case ChunkType::CollisionCylinder:
 			return os << "CollisionCylinder";
-		case ChunkType::CollisionOrientedBoundingBox:
-			return os << "CollisionOrientedBoundingBox";
-		case ChunkType::CollisionAxisAlignedBoundingBox:
-			return os << "CollisionAxisAlignedBoundingBox";
+		case ChunkType::CollisionOBBoxVolume:
+			return os << "CollisionOBBoxVolume";
+		case ChunkType::CollisionWallVolume:
+			return os << "CollisionWallVolume";
+		case ChunkType::CollisionBBoxVolume:
+			return os << "CollisionBBoxVolume";
 		case ChunkType::CollisionVector:
 			return os << "CollisionVector";
 		case ChunkType::CollisionVolumeOwner:
