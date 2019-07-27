@@ -1,5 +1,5 @@
 #include <Render/SkinModel.h>
-#include <P3D/PolySkin.h>
+#include <P3D/p3d.generated.h>
 
 namespace Donut
 {
@@ -12,13 +12,13 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 	std::vector<uint32_t> indices;
 	std::size_t vertOffset = 0, idxOffset = 0;
 
-	for (auto const& prim : polySkin.GetPrimGroups())
+	for (auto const& prim : polySkin.GetPrimitiveGroups())
 	{
-		const auto primVerts         = prim->GetVerticies();
-		const auto primUV            = prim->GetUV();
+		const auto primVerts         = prim->GetVertices();
+		const auto primUV            = prim->GetUvs(0);
 		const auto primNormals       = prim->GetNormals();
 		const auto primIndices       = prim->GetIndices();
-		const auto primWeights       = prim->GetWeights();
+		const auto primWeights       = prim->GetWeightList();
 		const auto primMatrixList    = prim->GetMatrixList();
 		const auto primMatrixPalette = prim->GetMatrixPalette();
 
@@ -28,11 +28,22 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 
 		for (uint32_t i = 0; i < primVerts.size(); i++)
 		{
-			const auto boneIndices = primHasBoneIndices ? glm::ivec3(
-			                                                  primMatrixPalette[primMatrixList[(i * 4) + 3]],
-			                                                  primMatrixPalette[primMatrixList[(i * 4) + 2]],
-			                                                  primMatrixPalette[primMatrixList[(i * 4) + 1]])
-			                                            : glm::ivec3(0.0);
+			auto boneIndices = glm::ivec3(0.0);
+
+			if (primHasBoneIndices)
+			{
+				const auto m = primMatrixList[i];
+				auto i0 = (m >> 24) & 0xFF;
+				auto i1 = (m >> 16) & 0xFF;
+				auto i2 = (m >> 8) & 0xFF;
+				auto i3 = m & 0xFF;
+
+				boneIndices = glm::ivec3(
+					primMatrixPalette[i0],
+					primMatrixPalette[i1],
+					primMatrixPalette[i2]);
+			}
+
 			const auto weight = primHasWeights ? primWeights[i] : glm::vec3(1, 0, 0);
 			const auto uv     = glm::vec2(primUV[i].x, 1.0f - primUV[i].y); // turn that frown upside down :)
 
@@ -44,12 +55,12 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 			indices.emplace_back(idx + static_cast<uint32_t>(vertOffset));
 
 		GLenum mode = GL_TRIANGLE_STRIP;
-		switch (prim->GetPrimitiveType())
+		switch ((P3D::PrimitiveType)prim->GetPrimType())
 		{
-		case P3D::PrimGroup::PrimitiveType::TriangleStrip: mode = GL_TRIANGLE_STRIP; break;
-		case P3D::PrimGroup::PrimitiveType::TriangleList: mode = GL_TRIANGLES; break;
-		case P3D::PrimGroup::PrimitiveType::LineStrip: mode = GL_LINE_STRIP; break;
-		case P3D::PrimGroup::PrimitiveType::LineList: mode = GL_LINES; break;
+		case P3D::PrimitiveType::TriangleStrip: mode = GL_TRIANGLE_STRIP; break;
+		case P3D::PrimitiveType::TriangleList: mode = GL_TRIANGLES; break;
+		case P3D::PrimitiveType::LineStrip: mode = GL_LINE_STRIP; break;
+		case P3D::PrimitiveType::LineList: mode = GL_LINES; break;
 		}
 		_primGroups.emplace_back(mode, prim->GetShaderName(), idxOffset, primIndices.size());
 

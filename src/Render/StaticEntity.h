@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Render/Mesh.h>
-#include <P3D/StaticEntity.h>
+#include <P3D/p3d.generated.h>
 #include <ResourceManager.h>
 #include <string>
 

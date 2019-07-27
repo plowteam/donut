@@ -1,6 +1,5 @@
 #pragma once
 
-#include <P3D/P3DChunk.h>
 #include <Core/MemoryStream.h>
 #include <string>
 #include <map>

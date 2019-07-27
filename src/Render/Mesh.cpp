@@ -21,10 +21,10 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 
 	size_t vertOffset = 0;
 	size_t idxOffset = 0;
-	for (auto const& prim : mesh.GetPrimGroups())
+	for (auto const& prim : mesh.GetPrimitiveGroups())
 	{
-		auto verts         = prim->GetVerticies();
-		auto uvs           = prim->GetUV();
+		auto verts         = prim->GetVertices();
+		auto uvs           = prim->GetUvs(0);
 		auto colors        = prim->GetColors();
 		auto indices       = prim->GetIndices();
 		bool hasColors = !colors.empty();
@@ -46,18 +46,18 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 		vertOffset += verts.size();
 
 		GLenum mode = GL_TRIANGLE_STRIP;
-		switch (prim->GetPrimitiveType())
+		switch ((P3D::PrimitiveType)prim->GetPrimType())
 		{
-		case P3D::PrimGroup::PrimitiveType::TriangleStrip:
+		case P3D::PrimitiveType::TriangleStrip:
 			mode = GL_TRIANGLE_STRIP;
 			break;
-		case P3D::PrimGroup::PrimitiveType::TriangleList:
+		case P3D::PrimitiveType::TriangleList:
 			mode = GL_TRIANGLES;
 			break;
-		case P3D::PrimGroup::PrimitiveType::LineStrip:
+		case P3D::PrimitiveType::LineStrip:
 			mode = GL_LINE_STRIP;
 			break;
-		case P3D::PrimGroup::PrimitiveType::LineList:
+		case P3D::PrimitiveType::LineList:
 			mode = GL_LINES;
 			break;
 		}

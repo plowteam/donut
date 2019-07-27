@@ -4,7 +4,7 @@
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/OpenGL/VertexBuffer.h>
 #include <Render/SkinAnimation.h>
-#include <P3D/Mesh.h>
+#include <P3D/p3d.generated.h>
 #include <ResourceManager.h>
 #include <glm/glm.hpp>
 #include <string>

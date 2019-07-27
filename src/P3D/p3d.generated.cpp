@@ -118,9 +118,9 @@ namespace Donut::P3D
         _mapping = stream.Read<uint16_t>();
         _constants = stream.Read<glm::vec3>();
         _numFrames = stream.Read<uint32_t>();
-        _frames.resize(stream.Read<uint32_t>());
+        _frames.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(stream.Read<uint32_t>());
+        _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec2));
     }
 
@@ -132,9 +132,9 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _param = stream.ReadString(4);
         _numFrames = stream.Read<uint32_t>();
-        _frames.resize(stream.Read<uint32_t>());
+        _frames.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(stream.Read<uint32_t>());
+        _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec3));
     }
 
@@ -146,9 +146,9 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _param = stream.ReadString(4);
         _numFrames = stream.Read<uint32_t>();
-        _frames.resize(stream.Read<uint32_t>());
+        _frames.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(stream.Read<uint32_t>());
+        _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::quat));
     }
 
@@ -160,9 +160,9 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _param = stream.ReadString(4);
         _numFrames = stream.Read<uint32_t>();
-        _frames.resize(stream.Read<uint32_t>());
+        _frames.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(stream.Read<uint32_t>());
+        _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(uint64_t));
     }
 
@@ -296,7 +296,7 @@ namespace Donut::P3D
                     {
                         uint32_t length = data.Read<uint32_t>();
                         _matrixList.resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixList.data()), length * sizeof(uint8_t));
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixList.data()), length * sizeof(uint32_t));
                         break;
                     }
                 case ChunkType::WeightList:
@@ -495,6 +495,28 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::SceneGraphTransform:
+                    {
+                        _children.push_back(std::make_unique<SceneGraphTransform>(*child));
+                        break;
+                    }
+                default:
+                    std::cout << "[SceneGraphBranch] Unexpected Chunk: " << child->GetType() << "\n";
+            }
+        }
+    }
+
+    SceneGraphTransform::SceneGraphTransform(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::SceneGraphTransform));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
         _numChildren = stream.Read<uint32_t>();
         _transform = stream.Read<glm::mat4>();
 
@@ -510,28 +532,6 @@ namespace Donut::P3D
                 case ChunkType::SceneGraphDrawable:
                     {
                         _drawables.push_back(std::make_unique<SceneGraphDrawable>(*child));
-                        break;
-                    }
-                default:
-                    std::cout << "[SceneGraphBranch] Unexpected Chunk: " << child->GetType() << "\n";
-            }
-        }
-    }
-
-    SceneGraphTransform::SceneGraphTransform(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SceneGraphTransform));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SceneGraphTransform:
-                    {
-                        _children.push_back(std::make_unique<SceneGraphTransform>(*child));
                         break;
                     }
                 default:

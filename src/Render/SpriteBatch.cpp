@@ -2,6 +2,7 @@
 #include <Render/OpenGL/Texture2D.h>
 #include <Render/OpenGL/VertexBuffer.h>
 #include <Render/OpenGL/VertexBinding.h>
+#include <Render/Font.h>
 
 namespace Donut
 {
@@ -52,11 +53,13 @@ namespace Donut
 	}
 
 
-	void SpriteBatch::DrawText(P3D::TextureFont& font, const std::string& text, const glm::vec2& position, const glm::vec4& colour)
+	void SpriteBatch::DrawText(const Font* font, const std::string& text, const glm::vec2& position, const glm::vec4& colour)
 	{
-		P3D::FontGlyph glyph;
+		if (font == nullptr) return;
+
+		Font::Glyph glyph;
 		glm::vec2 curPosition = position;
-		float fontHeight = font.GetHeight();
+		float fontHeight = font->GetHeight();
 
 		for (const char& c : text)
 		{
@@ -67,9 +70,9 @@ namespace Donut
 				continue;
 			}
 
-			if (!font.TryGetGlyph(c, glyph)) continue;
+			if (!font->TryGetGlyph(c, glyph)) continue;
 
-			GL::Texture2D* glyphTexture = font.GetTexture(glyph.textureId);
+			GL::Texture2D* glyphTexture = font->GetTexture(glyph.textureId);
 
 			Draw(glyphTexture,
 				 curPosition + glm::vec2(glyph.leftBearing),

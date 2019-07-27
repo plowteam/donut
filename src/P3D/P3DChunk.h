@@ -1,12 +1,12 @@
 #pragma once
 
 #include <Core/File.h>
+#include <glm/mat4x4.hpp>
 #include <memory>
 #include <vector>
 
 namespace Donut::P3D
 {
-
 enum class ChunkType : uint32_t
 {
 	Camera = 0x2200,
@@ -234,6 +234,40 @@ struct FontGlyph
 	float width;
 	float advance;
 	int32_t id;
+};
+
+enum class PrimitiveType : uint32_t
+{
+	TriangleList,
+	TriangleStrip,
+	LineList,
+	LineStrip,
+};
+
+struct ImageData
+{
+	int width;
+	int height;
+	int comp;
+	std::vector<uint8_t> data;
+
+	static ImageData Decode(const std::vector<uint8_t>& data);
+};
+
+struct P3DUtil
+{
+	static void GetDrawables(
+		const std::unique_ptr<class InstanceList>&,
+		std::vector<class SceneGraphDrawable*>&,
+		std::vector<glm::mat4>&);
+
+	static void GetDrawables(
+		const std::unique_ptr<class SceneGraphTransform>&,
+		std::vector<class SceneGraphDrawable*>&,
+		std::vector<glm::mat4>&,
+		const glm::mat4&);
+
+	static std::string GetShaderTexture(const std::unique_ptr<class Shader>&);
 };
 
 } // namespace Donut::P3D

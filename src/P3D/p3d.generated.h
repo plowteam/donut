@@ -1,3 +1,5 @@
+#pragma once
+
 /*+---------------------------------------------------+
   |    _____        /--------------------------\\     |
   |   /     \\      |                            |    |
@@ -66,6 +68,8 @@ namespace Donut::P3D
 
         Animation(const P3DChunk&);
 
+        static std::unique_ptr<Animation> Load(const P3DChunk& chunk) { return std::make_unique<Animation>(chunk); }
+
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetName() const { return _name; }
         const std::string& GetType() const { return _type; }
@@ -92,6 +96,8 @@ namespace Donut::P3D
 
         AnimationGroupList(const P3DChunk&);
 
+        static std::unique_ptr<AnimationGroupList> Load(const P3DChunk& chunk) { return std::make_unique<AnimationGroupList>(chunk); }
+
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetNumGroups() const { return _numGroups; }
         const std::vector<std::unique_ptr<AnimationGroup>>& GetGroups() const { return _groups; }
@@ -109,6 +115,8 @@ namespace Donut::P3D
     public:
 
         AnimationGroup(const P3DChunk&);
+
+        static std::unique_ptr<AnimationGroup> Load(const P3DChunk& chunk) { return std::make_unique<AnimationGroup>(chunk); }
 
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetName() const { return _name; }
@@ -138,6 +146,8 @@ namespace Donut::P3D
 
         Vector2Channel(const P3DChunk&);
 
+        static std::unique_ptr<Vector2Channel> Load(const P3DChunk& chunk) { return std::make_unique<Vector2Channel>(chunk); }
+
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetParam() const { return _param; }
         const uint16_t& GetMapping() const { return _mapping; }
@@ -164,6 +174,8 @@ namespace Donut::P3D
 
         Vector3Channel(const P3DChunk&);
 
+        static std::unique_ptr<Vector3Channel> Load(const P3DChunk& chunk) { return std::make_unique<Vector3Channel>(chunk); }
+
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetParam() const { return _param; }
         const uint32_t& GetNumFrames() const { return _numFrames; }
@@ -185,6 +197,8 @@ namespace Donut::P3D
     public:
 
         QuaternionChannel(const P3DChunk&);
+
+        static std::unique_ptr<QuaternionChannel> Load(const P3DChunk& chunk) { return std::make_unique<QuaternionChannel>(chunk); }
 
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetParam() const { return _param; }
@@ -208,6 +222,8 @@ namespace Donut::P3D
 
         CompressedQuaternionChannel(const P3DChunk&);
 
+        static std::unique_ptr<CompressedQuaternionChannel> Load(const P3DChunk& chunk) { return std::make_unique<CompressedQuaternionChannel>(chunk); }
+
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetParam() const { return _param; }
         const uint32_t& GetNumFrames() const { return _numFrames; }
@@ -230,6 +246,8 @@ namespace Donut::P3D
 
         Mesh(const P3DChunk&);
 
+        static std::unique_ptr<Mesh> Load(const P3DChunk& chunk) { return std::make_unique<Mesh>(chunk); }
+
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetNumPrimGroups() const { return _numPrimGroups; }
@@ -249,6 +267,8 @@ namespace Donut::P3D
     public:
 
         PolySkin(const P3DChunk&);
+
+        static std::unique_ptr<PolySkin> Load(const P3DChunk& chunk) { return std::make_unique<PolySkin>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
@@ -276,6 +296,8 @@ namespace Donut::P3D
 
         BoundingBox(const P3DChunk&);
 
+        static std::unique_ptr<BoundingBox> Load(const P3DChunk& chunk) { return std::make_unique<BoundingBox>(chunk); }
+
         const glm::vec3& GetMin() const { return _min; }
         const glm::vec3& GetMax() const { return _max; }
 
@@ -291,6 +313,8 @@ namespace Donut::P3D
     public:
 
         BoundingSphere(const P3DChunk&);
+
+        static std::unique_ptr<BoundingSphere> Load(const P3DChunk& chunk) { return std::make_unique<BoundingSphere>(chunk); }
 
         const glm::vec3& GetCentre() const { return _centre; }
         const float& GetRadius() const { return _radius; }
@@ -308,6 +332,8 @@ namespace Donut::P3D
 
         PrimitiveGroup(const P3DChunk&);
 
+        static std::unique_ptr<PrimitiveGroup> Load(const P3DChunk& chunk) { return std::make_unique<PrimitiveGroup>(chunk); }
+
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetShaderName() const { return _shaderName; }
         const uint32_t& GetPrimType() const { return _primType; }
@@ -319,7 +345,7 @@ namespace Donut::P3D
         const std::vector<uint32_t>& GetIndices() const { return _indices; }
         const std::vector<glm::vec3>& GetNormals() const { return _normals; }
         const std::vector<glm::vec2>& GetUvs(size_t index) const { return _uvs.at(index); }
-        const std::vector<uint8_t>& GetMatrixList() const { return _matrixList; }
+        const std::vector<uint32_t>& GetMatrixList() const { return _matrixList; }
         const std::vector<glm::vec3>& GetWeightList() const { return _weightList; }
         const std::vector<uint32_t>& GetMatrixPalette() const { return _matrixPalette; }
         const std::vector<uint32_t>& GetColors() const { return _colors; }
@@ -337,7 +363,7 @@ namespace Donut::P3D
         std::vector<uint32_t> _indices;
         std::vector<glm::vec3> _normals;
         std::vector<std::vector<glm::vec2>> _uvs;
-        std::vector<uint8_t> _matrixList;
+        std::vector<uint32_t> _matrixList;
         std::vector<glm::vec3> _weightList;
         std::vector<uint32_t> _matrixPalette;
         std::vector<uint32_t> _colors;
@@ -349,6 +375,8 @@ namespace Donut::P3D
     public:
 
         Skeleton(const P3DChunk&);
+
+        static std::unique_ptr<Skeleton> Load(const P3DChunk& chunk) { return std::make_unique<Skeleton>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
@@ -369,6 +397,8 @@ namespace Donut::P3D
     public:
 
         SkeletonJoint(const P3DChunk&);
+
+        static std::unique_ptr<SkeletonJoint> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJoint>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetParent() const { return _parent; }
@@ -398,6 +428,8 @@ namespace Donut::P3D
 
         StaticEntity(const P3DChunk&);
 
+        static std::unique_ptr<StaticEntity> Load(const P3DChunk& chunk) { return std::make_unique<StaticEntity>(chunk); }
+
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetRenderOrder() const { return _renderOrder; }
@@ -418,6 +450,8 @@ namespace Donut::P3D
 
         StaticPhysics(const P3DChunk&);
 
+        static std::unique_ptr<StaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<StaticPhysics>(chunk); }
+
         const std::string& GetName() const { return _name; }
 
     private:
@@ -431,6 +465,8 @@ namespace Donut::P3D
     public:
 
         InstancedStaticPhysics(const P3DChunk&);
+
+        static std::unique_ptr<InstancedStaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<InstancedStaticPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
@@ -450,6 +486,8 @@ namespace Donut::P3D
 
         InstanceList(const P3DChunk&);
 
+        static std::unique_ptr<InstanceList> Load(const P3DChunk& chunk) { return std::make_unique<InstanceList>(chunk); }
+
         const std::string& GetName() const { return _name; }
         const std::unique_ptr<SceneGraph>& GetSceneGraph() const { return _sceneGraph; }
 
@@ -465,6 +503,8 @@ namespace Donut::P3D
     public:
 
         SceneGraph(const P3DChunk&);
+
+        static std::unique_ptr<SceneGraph> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraph>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const std::unique_ptr<SceneGraphRoot>& GetRoot() const { return _root; }
@@ -482,6 +522,8 @@ namespace Donut::P3D
 
         SceneGraphRoot(const P3DChunk&);
 
+        static std::unique_ptr<SceneGraphRoot> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphRoot>(chunk); }
+
         const std::unique_ptr<SceneGraphBranch>& GetBranch() const { return _branch; }
 
     private:
@@ -495,6 +537,26 @@ namespace Donut::P3D
     public:
 
         SceneGraphBranch(const P3DChunk&);
+
+        static std::unique_ptr<SceneGraphBranch> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphBranch>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
+
+    private:
+
+        std::string _name;
+        std::vector<std::unique_ptr<SceneGraphTransform>> _children;
+
+    };
+
+    class SceneGraphTransform
+    {
+    public:
+
+        SceneGraphTransform(const P3DChunk&);
+
+        static std::unique_ptr<SceneGraphTransform> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphTransform>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetNumChildren() const { return _numChildren; }
@@ -512,27 +574,13 @@ namespace Donut::P3D
 
     };
 
-    class SceneGraphTransform
-    {
-    public:
-
-        SceneGraphTransform(const P3DChunk&);
-
-        const std::string& GetName() const { return _name; }
-        const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
-
-    private:
-
-        std::string _name;
-        std::vector<std::unique_ptr<SceneGraphTransform>> _children;
-
-    };
-
     class SceneGraphDrawable
     {
     public:
 
         SceneGraphDrawable(const P3DChunk&);
+
+        static std::unique_ptr<SceneGraphDrawable> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphDrawable>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const float& GetSortOrder() const { return _sortOrder; }
@@ -549,6 +597,8 @@ namespace Donut::P3D
     public:
 
         Shader(const P3DChunk&);
+
+        static std::unique_ptr<Shader> Load(const P3DChunk& chunk) { return std::make_unique<Shader>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
@@ -578,6 +628,8 @@ namespace Donut::P3D
 
         ShaderTextureParam(const P3DChunk&);
 
+        static std::unique_ptr<ShaderTextureParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderTextureParam>(chunk); }
+
         const std::string& GetKey() const { return _key; }
         const std::string& GetValue() const { return _value; }
 
@@ -593,6 +645,8 @@ namespace Donut::P3D
     public:
 
         CompositeDrawable(const P3DChunk&);
+
+        static std::unique_ptr<CompositeDrawable> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawable>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const std::string& GetSkeletonName() const { return _skeletonName; }
@@ -612,6 +666,8 @@ namespace Donut::P3D
 
         CompositeDrawablePropList(const P3DChunk&);
 
+        static std::unique_ptr<CompositeDrawablePropList> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawablePropList>(chunk); }
+
         const uint32_t& GetNumElements() const { return _numElements; }
         const std::vector<std::unique_ptr<CompositeDrawableProp>>& GetProps() const { return _props; }
 
@@ -627,6 +683,8 @@ namespace Donut::P3D
     public:
 
         CompositeDrawableProp(const P3DChunk&);
+
+        static std::unique_ptr<CompositeDrawableProp> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableProp>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetIsTrans() const { return _isTrans; }
@@ -645,6 +703,8 @@ namespace Donut::P3D
     public:
 
         Intersect(const P3DChunk&);
+
+        static std::unique_ptr<Intersect> Load(const P3DChunk& chunk) { return std::make_unique<Intersect>(chunk); }
 
         const std::vector<uint32_t>& GetIndices() const { return _indices; }
         const std::vector<glm::vec3>& GetPositions() const { return _positions; }
@@ -665,6 +725,8 @@ namespace Donut::P3D
     public:
 
         WorldSphere(const P3DChunk&);
+
+        static std::unique_ptr<WorldSphere> Load(const P3DChunk& chunk) { return std::make_unique<WorldSphere>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
@@ -687,6 +749,8 @@ namespace Donut::P3D
     public:
 
         BillboardQuad(const P3DChunk&);
+
+        static std::unique_ptr<BillboardQuad> Load(const P3DChunk& chunk) { return std::make_unique<BillboardQuad>(chunk); }
 
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetName() const { return _name; }
@@ -726,6 +790,8 @@ namespace Donut::P3D
 
         BillboardQuadGroup(const P3DChunk&);
 
+        static std::unique_ptr<BillboardQuadGroup> Load(const P3DChunk& chunk) { return std::make_unique<BillboardQuadGroup>(chunk); }
+
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetName() const { return _name; }
         const std::string& GetShader() const { return _shader; }
@@ -753,6 +819,8 @@ namespace Donut::P3D
     public:
 
         Texture(const P3DChunk&);
+
+        static std::unique_ptr<Texture> Load(const P3DChunk& chunk) { return std::make_unique<Texture>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
@@ -788,6 +856,8 @@ namespace Donut::P3D
 
         Image(const P3DChunk&);
 
+        static std::unique_ptr<Image> Load(const P3DChunk& chunk) { return std::make_unique<Image>(chunk); }
+
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetWidth() const { return _width; }
@@ -817,6 +887,8 @@ namespace Donut::P3D
     public:
 
         TextureFont(const P3DChunk&);
+
+        static std::unique_ptr<TextureFont> Load(const P3DChunk& chunk) { return std::make_unique<TextureFont>(chunk); }
 
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetName() const { return _name; }

@@ -1,11 +1,6 @@
 #include <Level.h>
-#include <P3D/Intersect.h>
+#include <P3D/p3d.generated.h>
 #include <P3D/P3DFile.h>
-#include <P3D/StaticEntity.h>
-#include <P3D/StaticPhys.h>
-#include <P3D/InstancedStaticPhys.h>
-#include <P3D/Texture.h>
-#include <P3D/WorldSphere.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <ResourceManager.h>
@@ -108,7 +103,7 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::Texture:
 		{
 			auto texture = P3D::Texture::Load(*chunk);
-			auto texdata = texture->GetData();
+			auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
 
 			std::unique_ptr<GL::Texture2D> tex;
 			if (texdata.comp == 4)
@@ -130,7 +125,7 @@ void Level::LoadP3D(const std::string& filename)
 		}
 		case P3D::ChunkType::StaticPhysics:
 		{
-			const auto& ent = P3D::StaticPhys::Load(*chunk);
+			const auto& ent = P3D::StaticPhysics::Load(*chunk);
 			// std::cout << "StaticPhys: " << ent->GetName() << "\n";
 			// std::cout << "\tCollisionObject: " << ent->GetCollisionObject().GetName() << "\n";
 
@@ -141,15 +136,25 @@ void Level::LoadP3D(const std::string& filename)
 		}
 		case P3D::ChunkType::InstancedStaticPhysics:
 		{
-			const auto& staticPhys = P3D::InstancedStaticPhys::Load(*chunk);
-			std::vector<std::unique_ptr<P3D::SceneGraphDrawable>> drawables;
-			staticPhys->GetDrawables(drawables);
+			const auto& staticPhys = P3D::InstancedStaticPhysics::Load(*chunk);
+			std::vector<P3D::SceneGraphDrawable*> drawables;
+			std::vector<glm::mat4> transforms;
+			P3D::P3DUtil::GetDrawables(staticPhys->GetInstanceList(), drawables, transforms);
 
-			for (auto& drawable : drawables)
+			const auto& meshes = staticPhys->GetMeshes();
+			std::map<std::string, size_t> meshesNameIndex;
+			for (const auto& mesh : meshes)
 			{
-				const auto& meshName = drawable->GetMeshName();
-				const auto& transform = drawable->GetTransform();
-				auto mesh = staticPhys->GetMesh(meshName);
+				meshesNameIndex.insert({ mesh->GetName(), meshesNameIndex.size() });
+			}
+
+			for (size_t i = 0; i < drawables.size(); ++i)
+			{
+				const auto& drawable = drawables.at(i);
+				const auto& transform = transforms.at(i);
+
+				const auto& meshName = drawable->GetName();
+				const auto& mesh = meshes.at(meshesNameIndex.at(meshName));
 
 				auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
 				_staticEntities.push_back(std::move(model));

@@ -1,7 +1,69 @@
 #include <P3D/P3DChunk.h>
+#include <P3D/p3d.generated.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#define STBI_ONLY_PNG
+#include <ThirdParty/stb_image.h>
 
 namespace Donut::P3D
 {
+	// just does png for now
+	ImageData ImageData::Decode(const std::vector<uint8_t>& data)
+	{
+		ImageData ret;
+		uint8_t* image = stbi_load_from_memory(data.data(), (std::int32_t)data.size(), &ret.width, &ret.height, &ret.comp, 0);
+		ret.data = std::vector<uint8_t>(image, image + (ret.width * ret.height * ret.comp));
+		stbi_image_free(image);
+
+		return ret;
+	}
+
+	void P3DUtil::GetDrawables(
+		const std::unique_ptr<InstanceList>& instanceList,
+		std::vector<SceneGraphDrawable*>& drawables,
+		std::vector<glm::mat4>& transforms)
+	{
+		if (!instanceList) return;
+
+		const auto& sceneGraph = instanceList->GetSceneGraph();
+		if (!sceneGraph) return;
+		const auto& sceneGraphRoot = sceneGraph->GetRoot();
+		if (!sceneGraphRoot) return;
+		const auto& sceneGraphBranch = sceneGraphRoot->GetBranch();
+		if (!sceneGraphBranch) return;
+
+		for (const auto& child : sceneGraphBranch->GetChildren())
+		{
+			GetDrawables(child, drawables, transforms, glm::mat4(1.0f));
+		}
+	}
+
+	void P3DUtil::GetDrawables(
+		const std::unique_ptr<SceneGraphTransform>& transform,
+		std::vector<SceneGraphDrawable*>& drawables,
+		std::vector<glm::mat4>& transforms,
+		const glm::mat4& parentTransform)
+	{
+		if (!transform) return;
+
+		const auto worldTransform = parentTransform * transform->GetTransform();
+
+		for (const auto& drawable : transform->GetDrawables())
+		{
+			drawables.push_back(drawable.get());
+			transforms.push_back(worldTransform);
+		}
+
+		for (const auto& child : transform->GetChildren())
+		{
+			GetDrawables(child, drawables, transforms, worldTransform);
+		}
+	}
+
+	std::string P3DUtil::GetShaderTexture(const std::unique_ptr<Shader>& shader)
+	{
+		return shader->GetTextureParams()[0]->GetValue();
+	}
 
 P3DChunk::P3DChunk(const std::vector<uint8_t>& chunk)
 {

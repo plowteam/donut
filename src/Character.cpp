@@ -1,11 +1,8 @@
 #include <Character.h>
 #include <CharacterController.h>
 #include <Game.h>
-#include <P3D/Animation.h>
+#include <P3D/p3d.generated.h>
 #include <P3D/P3DFile.h>
-#include <P3D/PolySkin.h>
-#include <P3D/Skeleton.h>
-#include <P3D/Texture.h>
 #include <Physics/BulletCast.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
@@ -38,13 +35,13 @@ void Character::LoadModel(const std::string& name)
 		case P3D::ChunkType::Shader:
 		{
 			const auto shader                    = P3D::Shader::Load(*chunk);
-			_shaderTextureMap[shader->GetName()] = shader->GetTexture();
+			_shaderTextureMap[shader->GetName()] = P3D::P3DUtil::GetShaderTexture(shader);
 			break;
 		}
 		case P3D::ChunkType::Texture:
 		{
 			auto texture                    = P3D::Texture::Load(*chunk);
-			auto texdata                    = texture->GetData();
+			auto texdata                    = P3D::ImageData::Decode(texture->GetImage()->GetData());
 			_textureMap[texture->GetName()] = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
 			break;
 		}
@@ -154,14 +151,21 @@ void Character::loadSkeleton(const P3D::Skeleton& skeleton)
 
 void Character::addAnimation(const P3D::Animation& p3dAnim)
 {
-	const auto animGroupList = p3dAnim.GetGroupList();
-	if (animGroupList == nullptr) return;
+	const auto& animGroupList = p3dAnim.GetGroupList();
+	if (!animGroupList) return;
 
 	auto animation = std::make_unique<SkinAnimation>(
 	    p3dAnim.GetName(),
 	    p3dAnim.GetNumFrames() / p3dAnim.GetFrameRate(),
 	    static_cast<int32_t>(p3dAnim.GetNumFrames()),
 	    p3dAnim.GetFrameRate());
+
+	const auto& groups = animGroupList->GetGroups();
+	std::map<std::string, size_t> groupNameIndex;
+	for (const auto& group : groups)
+	{
+		groupNameIndex.insert({ group->GetName(), groupNameIndex.size() });
+	}
 
 	for (auto const& joint : _skeletonJoints)
 	{
@@ -171,20 +175,20 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 		const auto& jointTranslation = jointRestPose[3];
 		const auto& jointRotation    = glm::quat_cast(jointRestPose);
 
-		const auto animGroup = animGroupList->GetGroup(joint.name);
-		if (animGroup == nullptr)
+		if (groupNameIndex.find(joint.name) == groupNameIndex.end())
 		{
 			track->AddTranslationKey(0, jointTranslation);
 			track->AddRotationKey(0, jointRotation);
 		}
 		else
 		{
-			const auto vector2Channel              = animGroup->GetVector2Channel();
-			const auto vector3Channel              = animGroup->GetVector3Channel();
-			const auto quaternionChannel           = animGroup->GetQuaternionChannel();
-			const auto compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannel();
+			const auto& animGroup = groups.at(groupNameIndex.at(joint.name));
+			const auto& vector2Channel              = animGroup->GetVector2Channel();
+			const auto& vector3Channel              = animGroup->GetVector3Channel();
+			const auto& quaternionChannel           = animGroup->GetQuaternionChannel();
+			const auto& compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannel();
 
-			if (vector3Channel != nullptr)
+			if (vector3Channel)
 			{
 				const auto& frames = vector3Channel->GetFrames();
 				const auto& values = vector3Channel->GetValues();
@@ -199,14 +203,20 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 				track->AddTranslationKey(0, jointTranslation);
 			}
 
-			if (compressedQuaternionChannel != nullptr)
+			if (compressedQuaternionChannel)
 			{
 				const auto& frames = compressedQuaternionChannel->GetFrames();
 				const auto& values = compressedQuaternionChannel->GetValues();
 
 				for (std::size_t i = 0; i < compressedQuaternionChannel->GetNumFrames(); ++i)
 				{
-					track->AddRotationKey(frames[i], values[i]);
+					const uint64_t& value = values[i];
+					float z = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
+					float y = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
+					float x = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
+					float w = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
+
+					track->AddRotationKey(frames[i], glm::quat(w, x, y, z));
 				}
 			}
 			else

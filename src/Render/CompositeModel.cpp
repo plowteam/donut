@@ -1,10 +1,6 @@
 #include <Render/CompositeModel.h>
 #include <P3D/P3DFile.h>
-#include <P3D/CompositeDrawable.h>
-#include <P3D/Skeleton.h>
-#include <P3D/Mesh.h>
-#include <P3D/Texture.h>
-#include <P3D/Shader.h>
+#include <P3D/p3d.generated.h>
 #include <iostream>
 
 namespace Donut
@@ -73,7 +69,7 @@ namespace Donut
 				case P3D::ChunkType::Texture:
 				{
 					auto texture = P3D::Texture::Load(*chunk);
-					auto texdata = texture->GetData();
+					auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
 
 					std::unique_ptr<GL::Texture2D> tex;
 					if (texdata.comp == 4)
@@ -99,8 +95,14 @@ namespace Donut
 
 		for (const auto& drawable : drawables)
 		{
+			const auto& propList = drawable->GetPropList();
+			if (!propList) continue;
+
+			const auto& props = propList->GetProps();
+			if (props.empty()) continue;
+
 			const auto& transforms = jointTransforms[drawable->GetSkeletonName()];
-			const auto& props = drawable->GetProps();
+
 			for (const auto& prop : props)
 			{
 				const auto& propName = prop->GetName();

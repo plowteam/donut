@@ -18,6 +18,11 @@ void ResourceManager::AddShader(const std::string& name, std::unique_ptr<P3D::Sh
 	_shaders[name] = std::move(shader);
 }
 
+void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> font)
+{
+	_fonts[name] = std::move(font);
+}
+
 const GL::Texture2D& ResourceManager::GetTexture(const std::string& name) const
 {
 	if (_textures.find(name) == _textures.end())
@@ -28,13 +33,23 @@ const GL::Texture2D& ResourceManager::GetTexture(const std::string& name) const
 	return *_textures.at(name);
 }
 
+const Font* ResourceManager::GetFont(const std::string& name) const
+{
+	if (_fonts.find(name) == _fonts.end())
+	{
+		return nullptr;
+	}
+
+	return _fonts.at(name).get();
+}
+
 const GL::Texture2D& ResourceManager::GetShaderTexture(const std::string& name) const
 {
 	if (_shaders.find(name) == _shaders.end())
 		return *_errorTexture;
 
 	auto const& shader = _shaders.at(name);
-	auto const& texture = shader->GetTexture();
+	auto const& texture = P3D::P3DUtil::GetShaderTexture(shader);
 
 	if (_textures.find(texture) == _textures.end())
 		return *_errorTexture;

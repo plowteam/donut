@@ -5,8 +5,7 @@
 #include <Input/Input.h>
 #include <Level.h>
 #include <P3D/P3DFile.h>
-#include <P3D/Texture.h>
-#include <P3D/TextureFont.h>
+#include <P3D/p3d.generated.h>
 #include <Physics/WorldPhysics.h>
 #include <RCL/RCFFile.h>
 #include <Render/LineRenderer.h>
@@ -184,7 +183,7 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 	}
 	else if (magic == "RSD4RADP")
 	{
-		uint32_t encodedLength = rsdStream->Size() - rsdStream->Position();
+		uint32_t encodedLength = (uint32_t)(rsdStream->Size() - rsdStream->Position());
 		uint32_t encodedBlockSize = numChannels * 20;
 		uint32_t numBlocks = encodedLength / encodedBlockSize;
 		uint32_t numSamples = (numBlocks / numChannels) * 32;
@@ -273,6 +272,9 @@ Game::Game(int argc, char** argv)
 	{
 		const P3D::P3DFile p3dFont("font0_16.p3d");
 		_textureFontP3D = P3D::TextureFont::Load(*p3dFont.GetRoot().GetChildren().at(0));
+
+		auto font = std::make_unique<Font>(*_textureFontP3D);
+		_resourceManager->AddFont(_textureFontP3D->GetName(), std::move(font));
 	}
 
 	_level = std::make_unique<Level>(_worldPhysics.get());
@@ -329,7 +331,7 @@ void Game::loadGlobal()
 		if (chunk->GetType() != P3D::ChunkType::Texture) continue;
 
 		auto texture = P3D::Texture::Load(*chunk);
-		auto texdata = texture->GetData();
+		auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
 
 		auto tex2d = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
 		_resourceManager->AddTexture(texture->GetName(), std::move(tex2d));
@@ -501,8 +503,9 @@ void Game::Run()
 		if (_textureFontP3D != nullptr)
 		{
 			std::string fps = fmt::format("{0} fps", timer.GetFps());
-			sprites.DrawText(*_textureFontP3D, fps, glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-			sprites.DrawText(*_textureFontP3D, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+			auto font = _resourceManager->GetFont("boulder_16");
+			sprites.DrawText(font, fps, glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
 		sprites.End(proj);

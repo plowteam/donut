@@ -32,32 +32,32 @@
     "mapping": "u16",
     "constants": "vec3",
     "numFrames": "u32",
-    "frames": "buffer<u16>",
-    "values": "buffer<vec2>"
+    "frames": "buffer<u16[numFrames]>",
+    "values": "buffer<vec2[numFrames]>"
   },
 
   "Vector3Channel": {
     "version": "u32",
     "param": "string[4]",
     "numFrames": "u32",
-    "frames": "buffer<u16>",
-    "values": "buffer<vec3>"
+    "frames": "buffer<u16[numFrames]>",
+    "values": "buffer<vec3[numFrames]>"
   },
 
   "QuaternionChannel": {
     "version": "u32",
     "param": "string[4]",
     "numFrames": "u32",
-    "frames": "buffer<u16>",
-    "values": "buffer<quat>"
+    "frames": "buffer<u16[numFrames]>",
+    "values": "buffer<quat[numFrames]>"
   },
 
   "CompressedQuaternionChannel": {
     "version": "u32",
     "param": "string[4]",
     "numFrames": "u32",
-    "frames": "buffer<u16>",
-    "values": "buffer<u64>"
+    "frames": "buffer<u16[numFrames]>",
+    "values": "buffer<u64[numFrames]>"
   },
 
   "Mesh": {
@@ -99,7 +99,7 @@
     "indices": "buffer<u32> IndexList",
     "normals": "buffer<vec3> NormalList",
     "uvs": "buffers<vec2> UVList",
-    "matrixList": "buffer<u8> MatrixList",
+    "matrixList": "buffer<u32> MatrixList",
     "weightList": "buffer<vec3> WeightList",
     "matrixPalette": "buffer<u32> MatrixPalette",
     "colors": "buffer<u32> ColorList"
@@ -156,15 +156,15 @@
 
   "SceneGraphBranch": {
     "name": "string",
-    "numChildren": "u32",
-    "transform": "mat4",
-    "children": "children SceneGraphTransform",
-    "drawables": "children SceneGraphDrawable"
+    "children": "children SceneGraphTransform",  
   },
 
   "SceneGraphTransform": {
     "name": "string",
-    "children": "children SceneGraphTransform"
+    "numChildren": "u32",
+    "transform": "mat4",
+    "children": "children SceneGraphTransform",
+    "drawables": "children SceneGraphDrawable"
   },
 
   "SceneGraphDrawable": {
