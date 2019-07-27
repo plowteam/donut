@@ -23,6 +23,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <map>
 
 namespace Donut::P3D
 {
@@ -106,13 +107,13 @@ namespace Donut::P3D
 
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetNumGroups() const { return _numGroups; }
-        const std::vector<std::unique_ptr<AnimationGroup>>& GetGroups() const { return _groups; }
+        AnimationGroup* GetGroupsValue(const std::string& key) const { auto it = _groups.find(key); return (it != _groups.end()) ? it->second.get() : nullptr; }
 
     private:
 
         uint32_t _version;
         uint32_t _numGroups;
-        std::vector<std::unique_ptr<AnimationGroup>> _groups;
+        std::map<std::string, std::unique_ptr<AnimationGroup>> _groups;
 
     };
 

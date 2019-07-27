@@ -12,7 +12,7 @@
   "AnimationGroupList": {
     "version": "u32",
     "numGroups": "u32",
-    "groups": "children AnimationGroup"
+    "groups": "dictionary<string name> AnimationGroup"
   },
 
   "AnimationGroup": {

@@ -59,7 +59,8 @@ namespace Donut::P3D
             {
                 case ChunkType::AnimationGroup:
                     {
-                        _groups.push_back(std::make_unique<AnimationGroup>(*child));
+                        auto value = std::make_unique<AnimationGroup>(*child);
+                        _groups.insert({ value->GetName(), std::move(value) });
                         break;
                     }
                 default:
