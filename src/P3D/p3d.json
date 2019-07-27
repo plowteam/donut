@@ -156,7 +156,7 @@
 
   "SceneGraphBranch": {
     "name": "string",
-    "children": "children SceneGraphTransform",  
+    "children": "children SceneGraphTransform"
   },
 
   "SceneGraphTransform": {
@@ -284,5 +284,59 @@
     "numTextures": "u32",
     "textures": "children Texture",
     "glyphs": "buffer<FontGlyph> FontGlyphs"
+  },
+
+  "Sprite": {
+    "imageCount": "u32",
+    "name": "string",
+    "shader": "string",
+    "nativeWidth": "u32",
+    "nativeHeight": "u32",
+    "width": "u32",
+    "height": "u32",
+    "blitBorder": "u32",
+    "images": "children Image"
+  },
+
+  "FrontendScreen": {
+    "name": "string",
+    "version": "u32",
+    "numPages": "u32",
+    "pageNames": "buffer<string[numPages]>"
+  },
+
+  "FrontendProject": {
+    "name": "string",
+    "version": "u32",
+    "resX": "u32",
+    "resY": "u32",
+    "platform": "string",
+    "pagePath": "string",
+    "resourcePath": "string",
+    "screenPath": "string",
+    "pages": "children FrontendPage"
+  },
+
+  "FrontendPage": {
+    "name": "string",
+    "version": "u32",
+    "resX": "u32",
+    "resY": "u32",
+    "layers": "children FrontendLayer"
+  },
+
+  "FrontendLayer": {
+    "name": "string",
+    "version": "u32",
+    "visible": "u32",
+    "editable": "u32",
+    "alpha": "u32"
+  },
+
+  "FrontendGroup": {
+    "name": "string",
+    "version": "u32",
+    "alpha": "u32",
+    "children": "children FrontendGroup"
   }
 }

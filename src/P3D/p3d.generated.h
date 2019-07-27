@@ -61,6 +61,12 @@ namespace Donut::P3D
 	class Texture;
 	class Image;
 	class TextureFont;
+	class Sprite;
+	class FrontendScreen;
+	class FrontendProject;
+	class FrontendPage;
+	class FrontendLayer;
+	class FrontendGroup;
 
     class Animation
     {
@@ -913,6 +919,162 @@ namespace Donut::P3D
         uint32_t _numTextures;
         std::vector<std::unique_ptr<Texture>> _textures;
         std::vector<FontGlyph> _glyphs;
+
+    };
+
+    class Sprite
+    {
+    public:
+
+        Sprite(const P3DChunk&);
+
+        static std::unique_ptr<Sprite> Load(const P3DChunk& chunk) { return std::make_unique<Sprite>(chunk); }
+
+        const uint32_t& GetImageCount() const { return _imageCount; }
+        const std::string& GetName() const { return _name; }
+        const std::string& GetShader() const { return _shader; }
+        const uint32_t& GetNativeWidth() const { return _nativeWidth; }
+        const uint32_t& GetNativeHeight() const { return _nativeHeight; }
+        const uint32_t& GetWidth() const { return _width; }
+        const uint32_t& GetHeight() const { return _height; }
+        const uint32_t& GetBlitBorder() const { return _blitBorder; }
+        const std::vector<std::unique_ptr<Image>>& GetImages() const { return _images; }
+
+    private:
+
+        uint32_t _imageCount;
+        std::string _name;
+        std::string _shader;
+        uint32_t _nativeWidth;
+        uint32_t _nativeHeight;
+        uint32_t _width;
+        uint32_t _height;
+        uint32_t _blitBorder;
+        std::vector<std::unique_ptr<Image>> _images;
+
+    };
+
+    class FrontendScreen
+    {
+    public:
+
+        FrontendScreen(const P3DChunk&);
+
+        static std::unique_ptr<FrontendScreen> Load(const P3DChunk& chunk) { return std::make_unique<FrontendScreen>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetNumPages() const { return _numPages; }
+        const std::vector<std::string>& GetPageNames() const { return _pageNames; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        uint32_t _numPages;
+        std::vector<std::string> _pageNames;
+
+    };
+
+    class FrontendProject
+    {
+    public:
+
+        FrontendProject(const P3DChunk&);
+
+        static std::unique_ptr<FrontendProject> Load(const P3DChunk& chunk) { return std::make_unique<FrontendProject>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetResX() const { return _resX; }
+        const uint32_t& GetResY() const { return _resY; }
+        const std::string& GetPlatform() const { return _platform; }
+        const std::string& GetPagePath() const { return _pagePath; }
+        const std::string& GetResourcePath() const { return _resourcePath; }
+        const std::string& GetScreenPath() const { return _screenPath; }
+        const std::vector<std::unique_ptr<FrontendPage>>& GetPages() const { return _pages; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        uint32_t _resX;
+        uint32_t _resY;
+        std::string _platform;
+        std::string _pagePath;
+        std::string _resourcePath;
+        std::string _screenPath;
+        std::vector<std::unique_ptr<FrontendPage>> _pages;
+
+    };
+
+    class FrontendPage
+    {
+    public:
+
+        FrontendPage(const P3DChunk&);
+
+        static std::unique_ptr<FrontendPage> Load(const P3DChunk& chunk) { return std::make_unique<FrontendPage>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetResX() const { return _resX; }
+        const uint32_t& GetResY() const { return _resY; }
+        const std::vector<std::unique_ptr<FrontendLayer>>& GetLayers() const { return _layers; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        uint32_t _resX;
+        uint32_t _resY;
+        std::vector<std::unique_ptr<FrontendLayer>> _layers;
+
+    };
+
+    class FrontendLayer
+    {
+    public:
+
+        FrontendLayer(const P3DChunk&);
+
+        static std::unique_ptr<FrontendLayer> Load(const P3DChunk& chunk) { return std::make_unique<FrontendLayer>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetVisible() const { return _visible; }
+        const uint32_t& GetEditable() const { return _editable; }
+        const uint32_t& GetAlpha() const { return _alpha; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        uint32_t _visible;
+        uint32_t _editable;
+        uint32_t _alpha;
+
+    };
+
+    class FrontendGroup
+    {
+    public:
+
+        FrontendGroup(const P3DChunk&);
+
+        static std::unique_ptr<FrontendGroup> Load(const P3DChunk& chunk) { return std::make_unique<FrontendGroup>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetAlpha() const { return _alpha; }
+        const std::vector<std::unique_ptr<FrontendGroup>>& GetChildren() const { return _children; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        uint32_t _alpha;
+        std::vector<std::unique_ptr<FrontendGroup>> _children;
 
     };
 }

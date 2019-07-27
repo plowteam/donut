@@ -848,4 +848,138 @@ namespace Donut::P3D
             }
         }
     }
+
+    Sprite::Sprite(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Sprite));
+
+        MemoryStream stream(chunk.GetData());
+        _imageCount = stream.Read<uint32_t>();
+        _name = stream.ReadLPString();
+        _shader = stream.ReadLPString();
+        _nativeWidth = stream.Read<uint32_t>();
+        _nativeHeight = stream.Read<uint32_t>();
+        _width = stream.Read<uint32_t>();
+        _height = stream.Read<uint32_t>();
+        _blitBorder = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::Image:
+                    {
+                        _images.push_back(std::make_unique<Image>(*child));
+                        break;
+                    }
+                default:
+                    std::cout << "[Sprite] Unexpected Chunk: " << child->GetType() << "\n";
+            }
+        }
+    }
+
+    FrontendScreen::FrontendScreen(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendScreen));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _numPages = stream.Read<uint32_t>();
+        _pageNames.resize(_numPages);
+        for (size_t i = 0; i < _pageNames.size(); ++i)
+        {
+            _pageNames[i] = stream.ReadLPString();
+        }
+    }
+
+    FrontendProject::FrontendProject(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendProject));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _resX = stream.Read<uint32_t>();
+        _resY = stream.Read<uint32_t>();
+        _platform = stream.ReadLPString();
+        _pagePath = stream.ReadLPString();
+        _resourcePath = stream.ReadLPString();
+        _screenPath = stream.ReadLPString();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::FrontendPage:
+                    {
+                        _pages.push_back(std::make_unique<FrontendPage>(*child));
+                        break;
+                    }
+                default:
+                    std::cout << "[FrontendProject] Unexpected Chunk: " << child->GetType() << "\n";
+            }
+        }
+    }
+
+    FrontendPage::FrontendPage(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendPage));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _resX = stream.Read<uint32_t>();
+        _resY = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::FrontendLayer:
+                    {
+                        _layers.push_back(std::make_unique<FrontendLayer>(*child));
+                        break;
+                    }
+                default:
+                    std::cout << "[FrontendPage] Unexpected Chunk: " << child->GetType() << "\n";
+            }
+        }
+    }
+
+    FrontendLayer::FrontendLayer(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendLayer));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _visible = stream.Read<uint32_t>();
+        _editable = stream.Read<uint32_t>();
+        _alpha = stream.Read<uint32_t>();
+    }
+
+    FrontendGroup::FrontendGroup(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendGroup));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _alpha = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::FrontendGroup:
+                    {
+                        _children.push_back(std::make_unique<FrontendGroup>(*child));
+                        break;
+                    }
+                default:
+                    std::cout << "[FrontendGroup] Unexpected Chunk: " << child->GetType() << "\n";
+            }
+        }
+    }
 }
