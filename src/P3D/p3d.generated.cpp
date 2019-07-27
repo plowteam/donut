@@ -40,7 +40,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Animation] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -63,7 +63,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[AnimationGroupList] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -103,7 +103,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[AnimationGroup] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -185,7 +185,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Mesh] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -220,7 +220,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[PolySkin] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -314,7 +314,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[PrimitiveGroup] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -338,7 +338,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Skeleton] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -377,7 +377,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[StaticEntity] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -412,7 +412,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[InstancedStaticPhysics] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -434,7 +434,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[InstanceList] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -456,7 +456,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[SceneGraph] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -477,7 +477,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[SceneGraphRoot] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -499,7 +499,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[SceneGraphBranch] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -528,7 +528,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[SceneGraphTransform] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -552,7 +552,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[SceneGraphDrawable] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -580,7 +580,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Shader] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -612,7 +612,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[CompositeDrawable] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -634,7 +634,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[CompositeDrawablePropList] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -671,7 +671,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Intersect] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -696,7 +696,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[WorldSphere] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -744,7 +744,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[BillboardQuadGroup] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -775,7 +775,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Texture] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -807,7 +807,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Image] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -844,7 +844,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[TextureFont] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -873,7 +873,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[Sprite] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -917,7 +917,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[FrontendProject] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -942,7 +942,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[FrontendPage] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
@@ -978,7 +978,7 @@ namespace Donut::P3D
                         break;
                     }
                 default:
-                    std::cout << "[FrontendGroup] Unexpected Chunk: " << child->GetType() << "\n";
+                    break;
             }
         }
     }
