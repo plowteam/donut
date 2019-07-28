@@ -1068,4 +1068,36 @@ namespace Donut::P3D
             }
         }
     }
+
+    Locator2::Locator2(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Locator2));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _type = stream.Read<uint32_t>();
+        _dataSize = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::TriggerVolume:
+                    {
+                        _triggers.push_back(std::make_unique<TriggerVolume>(*child));
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    TriggerVolume::TriggerVolume(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::TriggerVolume));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+    }
 }

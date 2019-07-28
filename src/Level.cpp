@@ -91,6 +91,8 @@ void Level::LoadP3D(const std::string& filename)
 
 	std::cout << "Loading level: " << filename << "\n";
 
+	std::vector<std::unique_ptr<P3D::Locator2>> locators;
+
 	const auto p3d = P3D::P3DFile(filename);
 
 	const auto& root = p3d.GetRoot();
@@ -228,6 +230,11 @@ void Level::LoadP3D(const std::string& filename)
 			auto worldSphere = P3D::WorldSphere::Load(*chunk);
 			std::cout << "world sphere: " << worldSphere->GetName() << " has " << worldSphere->GetMeshes().size() << " meshes\n";
 			_worldSphere = std::make_unique<WorldSphere>(*worldSphere);
+			break;
+		}
+		case P3D::ChunkType::Locator2:
+		{
+			locators.push_back(std::move(P3D::Locator2::Load(*chunk)));
 			break;
 		}
 		default: break;

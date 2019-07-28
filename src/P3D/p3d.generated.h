@@ -71,6 +71,8 @@ namespace Donut::P3D
 	class FrontendPage;
 	class FrontendLayer;
 	class FrontendGroup;
+	class Locator2;
+	class TriggerVolume;
 
     class Animation
     {
@@ -1141,6 +1143,44 @@ namespace Donut::P3D
         uint32_t _version;
         uint32_t _alpha;
         std::vector<std::unique_ptr<FrontendGroup>> _children;
+
+    };
+
+    class Locator2
+    {
+    public:
+
+        Locator2(const P3DChunk&);
+
+        static std::unique_ptr<Locator2> Load(const P3DChunk& chunk) { return std::make_unique<Locator2>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetType() const { return _type; }
+        const uint32_t& GetDataSize() const { return _dataSize; }
+        const std::vector<std::unique_ptr<TriggerVolume>>& GetTriggers() const { return _triggers; }
+
+    private:
+
+        std::string _name;
+        uint32_t _type;
+        uint32_t _dataSize;
+        std::vector<std::unique_ptr<TriggerVolume>> _triggers;
+
+    };
+
+    class TriggerVolume
+    {
+    public:
+
+        TriggerVolume(const P3DChunk&);
+
+        static std::unique_ptr<TriggerVolume> Load(const P3DChunk& chunk) { return std::make_unique<TriggerVolume>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+
+    private:
+
+        std::string _name;
 
     };
 }

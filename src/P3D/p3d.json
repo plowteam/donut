@@ -357,5 +357,16 @@
     "version": "u32",
     "alpha": "u32",
     "children": "children FrontendGroup"
+  },
+
+  "Locator2": {
+    "name": "string",
+    "type": "u32",
+    "dataSize": "u32",
+    "triggers": "children TriggerVolume"
+  },
+
+  "TriggerVolume": {
+    "name": "string"
   }
 }
