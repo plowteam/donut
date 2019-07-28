@@ -160,6 +160,13 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 	    static_cast<int32_t>(p3dAnim.GetNumFrames()),
 	    p3dAnim.GetFrameRate());
 
+	const auto& groups = animGroupList->GetGroups();
+	std::map<std::string, size_t> groupNameIndex;
+	for (const auto& group : groups)
+	{
+		groupNameIndex.insert({ group->GetName(), groupNameIndex.size() });
+	}
+
 	for (auto const& joint : _skeletonJoints)
 	{
 		auto track = std::make_unique<SkinAnimation::Track>(joint.name);
@@ -167,15 +174,15 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 		const auto& jointRestPose    = joint.restPose;
 		const auto& jointTranslation = jointRestPose[3];
 		const auto& jointRotation    = glm::quat_cast(jointRestPose);
-		const auto& animGroup = animGroupList->GetGroupsValue(joint.name);
 
-		if (!animGroup)
+		if (groupNameIndex.find(joint.name) == groupNameIndex.end())
 		{
 			track->AddTranslationKey(0, jointTranslation);
 			track->AddRotationKey(0, jointRotation);
 		}
 		else
-		{	
+		{
+			const auto& animGroup = groups.at(groupNameIndex.at(joint.name));
 			const auto& vector2Channel              = animGroup->GetVector2Channel();
 			const auto& vector3Channel              = animGroup->GetVector3Channel();
 			const auto& quaternionChannel           = animGroup->GetQuaternionChannel();

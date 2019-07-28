@@ -59,8 +59,7 @@ namespace Donut::P3D
             {
                 case ChunkType::AnimationGroup:
                     {
-                        auto value = std::make_unique<AnimationGroup>(*child);
-                        _groups.insert({ value->GetName(), std::move(value) });
+                        _groups.push_back(std::make_unique<AnimationGroup>(*child));
                         break;
                     }
                 default:
@@ -394,6 +393,33 @@ namespace Donut::P3D
     InstancedStaticPhysics::InstancedStaticPhysics(const P3DChunk& chunk)
     {
         assert(chunk.IsType(ChunkType::InstancedStaticPhysics));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::Mesh:
+                    {
+                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        break;
+                    }
+                case ChunkType::InstanceList:
+                    {
+                        _instanceList = std::make_unique<InstanceList>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    DynamicPhysics::DynamicPhysics(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::DynamicPhysics));
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();

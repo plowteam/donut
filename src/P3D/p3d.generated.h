@@ -44,6 +44,7 @@ namespace Donut::P3D
 	class StaticEntity;
 	class StaticPhysics;
 	class InstancedStaticPhysics;
+	class DynamicPhysics;
 	class InstanceList;
 	class SceneGraph;
 	class SceneGraphRoot;
@@ -107,13 +108,13 @@ namespace Donut::P3D
 
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetNumGroups() const { return _numGroups; }
-        AnimationGroup* GetGroupsValue(const std::string& key) const { auto it = _groups.find(key); return (it != _groups.end()) ? it->second.get() : nullptr; }
+        const std::vector<std::unique_ptr<AnimationGroup>>& GetGroups() const { return _groups; }
 
     private:
 
         uint32_t _version;
         uint32_t _numGroups;
-        std::map<std::string, std::unique_ptr<AnimationGroup>> _groups;
+        std::vector<std::unique_ptr<AnimationGroup>> _groups;
 
     };
 
@@ -474,6 +475,26 @@ namespace Donut::P3D
         InstancedStaticPhysics(const P3DChunk&);
 
         static std::unique_ptr<InstancedStaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<InstancedStaticPhysics>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
+
+    private:
+
+        std::string _name;
+        std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::unique_ptr<InstanceList> _instanceList;
+
+    };
+
+    class DynamicPhysics
+    {
+    public:
+
+        DynamicPhysics(const P3DChunk&);
+
+        static std::unique_ptr<DynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<DynamicPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }

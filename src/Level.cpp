@@ -164,6 +164,30 @@ void Level::LoadP3D(const std::string& filename)
 		}
 		case P3D::ChunkType::DynamicPhysics:
 		{
+			const auto& dynaPhys = P3D::DynamicPhysics::Load(*chunk);
+			std::vector<P3D::SceneGraphDrawable*> drawables;
+			std::vector<glm::mat4> transforms;
+			P3D::P3DUtil::GetDrawables(dynaPhys->GetInstanceList(), drawables, transforms);
+
+			const auto& meshes = dynaPhys->GetMeshes();
+			std::map<std::string, size_t> meshesNameIndex;
+			for (const auto& mesh : meshes)
+			{
+				meshesNameIndex.insert({ mesh->GetName(), meshesNameIndex.size() });
+			}
+
+			for (size_t i = 0; i < drawables.size(); ++i)
+			{
+				const auto& drawable = drawables.at(i);
+				const auto& transform = transforms.at(i);
+
+				const auto& meshName = drawable->GetName();
+				const auto& mesh = meshes.at(meshesNameIndex.at(meshName));
+
+				auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
+				_staticEntities.push_back(std::move(model));
+			}
+
 			break;
 		}
 		case P3D::ChunkType::Intersect:

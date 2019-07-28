@@ -12,7 +12,7 @@
   "AnimationGroupList": {
     "version": "u32",
     "numGroups": "u32",
-    "groups": "dictionary<string name> AnimationGroup"
+    "groups": "children AnimationGroup"
   },
 
   "AnimationGroup": {
@@ -135,6 +135,12 @@
   },
 
   "InstancedStaticPhysics": {
+    "name": "string",
+    "meshes": "children Mesh",
+    "instanceList": "child InstanceList"
+  },
+
+  "DynamicPhysics": {
     "name": "string",
     "meshes": "children Mesh",
     "instanceList": "child InstanceList"
