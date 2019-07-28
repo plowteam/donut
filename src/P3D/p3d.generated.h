@@ -548,6 +548,7 @@ namespace Donut::P3D
         const std::vector<std::unique_ptr<CompositeDrawable>>& GetCompositeDrawables() const { return _compositeDrawables; }
         const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
 
     private:
 
@@ -555,6 +556,7 @@ namespace Donut::P3D
         std::vector<std::unique_ptr<CompositeDrawable>> _compositeDrawables;
         std::vector<std::unique_ptr<Skeleton>> _skeletons;
         std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::vector<std::unique_ptr<Animation>> _animations;
 
     };
 

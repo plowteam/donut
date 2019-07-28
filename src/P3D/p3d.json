@@ -156,7 +156,8 @@
     "name": "string",
     "compositeDrawables": "children CompositeDrawable",
     "skeletons": "children Skeleton",
-    "meshes": "children Mesh"
+    "meshes": "children Mesh",
+    "animations": "children Animation"
   },
 
   "InstanceList": {

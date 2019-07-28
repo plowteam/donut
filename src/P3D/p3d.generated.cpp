@@ -501,6 +501,11 @@ namespace Donut::P3D
                         _meshes.push_back(std::make_unique<Mesh>(*child));
                         break;
                     }
+                case ChunkType::Animation:
+                    {
+                        _animations.push_back(std::make_unique<Animation>(*child));
+                        break;
+                    }
                 default:
                     break;
             }

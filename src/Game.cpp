@@ -104,7 +104,7 @@ public:
 
 						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
 						{
-							forwardTrack->AddTranslationKey(frames[i], values[i]);
+							forwardTrack->AddDirectionKey(frames[i], glm::normalize(values[i]));
 						}
 					}
 
@@ -115,7 +115,7 @@ public:
 
 						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
 						{
-							upTrack->AddTranslationKey(frames[i], values[i]);
+							upTrack->AddDirectionKey(frames[i], glm::normalize(values[i]));
 						}
 					}
 
@@ -159,9 +159,13 @@ public:
 	glm::mat4 Update(double dt)
 	{
 		const auto& trans = _trans->Evaluate(0, (float)_time);
-		const auto& forward = _forward->Evaluate(0, (float)_time);
-		const auto& up = _up->Evaluate(0, (float)_time);
-		auto lookAt = glm::inverse(glm::quatLookAt(glm::vec3(forward[3]), glm::vec3(up[3])));
+		const auto& forward = _forward->EvaluateDirection(0, (float)_time);
+		const auto& up = glm::vec3(0, 1, 0);// _up->EvaluateDirection(0, (float)_time);
+		const auto& right = glm::normalize(glm::cross(up, forward));
+		glm::mat3 rotation(right.x, up.x, forward.x, right.y, up.y, forward.y, right.z, up.z, forward.z);
+		auto lookAt = glm::quat_cast(rotation);
+
+		lookAt = glm::inverse(glm::quatLookAt(forward, up));
 
 		_time += dt;
 
@@ -619,7 +623,7 @@ void Game::Run()
 		glm::mat4 projectionMatrix = glm::perspective(
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 10000.0f);
 
-		glm::mat4 viewMatrix = _camera->GetViewMatrix(); // cameraTransform
+		glm::mat4 viewMatrix = _camera->GetViewMatrix();
 		glm::mat4 viewProjection = projectionMatrix * viewMatrix;
 
 		_lineRenderer->Flush(viewProjection);
