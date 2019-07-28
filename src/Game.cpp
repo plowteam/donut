@@ -48,6 +48,56 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 	        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 }
 
+class AnimCamera
+{
+public:
+
+	AnimCamera(const P3D::P3DChunk& chunk)
+	{
+		for (const auto& child : chunk.GetChildren())
+		{
+			switch (child->GetType())
+			{
+			case P3D::ChunkType::Animation:
+			{
+				auto animation = P3D::Animation::Load(*child);
+				break;
+			}
+			case P3D::ChunkType::Camera:
+			{
+				auto camera = P3D::Camera::Load(*child);
+				break;
+			}
+			case P3D::ChunkType::MultiController:
+			{
+				auto multiController = P3D::MultiController::Load(*child);
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+
+	static std::unique_ptr<AnimCamera> LoadP3D(const std::string& filename)
+	{
+		if (!std::filesystem::exists(filename))
+		{
+			std::cout << "AnimCamera not found: " << filename << "\n";
+			return nullptr;
+		}
+
+		std::cout << "Loading AnimCamera: " << filename << "\n";
+
+		const auto p3d = P3D::P3DFile(filename);
+		return std::make_unique<AnimCamera>(p3d.GetRoot());
+	}
+
+private:
+
+	std::unique_ptr<SkinAnimation> _anim;
+};
+
 void Game::TestAudio()
 {
 	// THIS IS ALL SHIT, PROOF OF CONCEPT!!
@@ -239,6 +289,8 @@ Game::Game(int argc, char** argv)
 	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window),
 	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
+
+	auto c = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");
 
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());

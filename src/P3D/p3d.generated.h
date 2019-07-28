@@ -74,6 +74,9 @@ namespace Donut::P3D
 	class FrontendImageResource;
 	class Locator2;
 	class TriggerVolume;
+	class Camera;
+	class MultiController;
+	class MultiControllerTracks;
 
     class Animation
     {
@@ -1209,5 +1212,77 @@ namespace Donut::P3D
 
         std::string _name;
 
+    };
+
+    class Camera
+    {
+    public:
+
+        Camera(const P3DChunk&);
+
+        static std::unique_ptr<Camera> Load(const P3DChunk& chunk) { return std::make_unique<Camera>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const float& GetFov() const { return _fov; }
+        const float& GetAspectRatio() const { return _aspectRatio; }
+        const float& GetNearClip() const { return _nearClip; }
+        const float& GetFarClip() const { return _farClip; }
+        const glm::vec3& GetPosition() const { return _position; }
+        const glm::vec3& GetForward() const { return _forward; }
+        const glm::vec3& GetUp() const { return _up; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        float _fov;
+        float _aspectRatio;
+        float _nearClip;
+        float _farClip;
+        glm::vec3 _position;
+        glm::vec3 _forward;
+        glm::vec3 _up;
+
+    };
+
+    class MultiController
+    {
+    public:
+
+        MultiController(const P3DChunk&);
+
+        static std::unique_ptr<MultiController> Load(const P3DChunk& chunk) { return std::make_unique<MultiController>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const float& GetLength() const { return _length; }
+        const float& GetFrameRate() const { return _frameRate; }
+        const uint32_t& GetNumTracks() const { return _numTracks; }
+        const std::unique_ptr<MultiControllerTracks>& GetTracks() const { return _tracks; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        float _length;
+        float _frameRate;
+        uint32_t _numTracks;
+        std::unique_ptr<MultiControllerTracks> _tracks;
+
+    };
+
+    class MultiControllerTracks
+    {
+    public:
+
+        MultiControllerTracks(const P3DChunk&);
+
+        static std::unique_ptr<MultiControllerTracks> Load(const P3DChunk& chunk) { return std::make_unique<MultiControllerTracks>(chunk); }
+
+        
+    private:
+
+        
     };
 }

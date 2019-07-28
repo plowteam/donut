@@ -1134,4 +1134,53 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
     }
+
+    Camera::Camera(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Camera));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _fov = stream.Read<float>();
+        _aspectRatio = stream.Read<float>();
+        _nearClip = stream.Read<float>();
+        _farClip = stream.Read<float>();
+        _position = stream.Read<glm::vec3>();
+        _forward = stream.Read<glm::vec3>();
+        _up = stream.Read<glm::vec3>();
+    }
+
+    MultiController::MultiController(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::MultiController));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _length = stream.Read<float>();
+        _frameRate = stream.Read<float>();
+        _numTracks = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::MultiControllerTracks:
+                    {
+                        _tracks = std::make_unique<MultiControllerTracks>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    MultiControllerTracks::MultiControllerTracks(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::MultiControllerTracks));
+
+        MemoryStream stream(chunk.GetData());
+            }
 }

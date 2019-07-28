@@ -377,5 +377,29 @@
 
   "TriggerVolume": {
     "name": "string"
+  },
+
+  "Camera": {
+    "name": "string",
+    "version": "u32",
+    "fov": "float",
+    "aspectRatio": "float",
+    "nearClip": "float",
+    "farClip": "float",
+    "position": "vec3",
+    "forward": "vec3",
+    "up": "vec3"
+  },
+
+  "MultiController": {
+    "name": "string",
+    "version": "u32",
+    "length": "float",
+    "frameRate": "float",
+    "numTracks": "u32",
+    "tracks": "child MultiControllerTracks"
+  },
+
+  "MultiControllerTracks": {
   }
 }
