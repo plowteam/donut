@@ -73,7 +73,7 @@ Level::Level(WorldPhysics* worldPhysics)
 	{	
 		if (auto car = CompositeModel::LoadP3D(carFile, _resourceManager))
 		{
-			auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(220 + offset, 4.6f, -160));
+			auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(240 + offset, 4.6f, -160));
 			car->SetTransform(transform);
 			_compositeModels.push_back(std::move(car));
 			offset += 3.0f;

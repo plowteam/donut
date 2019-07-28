@@ -15,7 +15,7 @@ WorldPhysics::WorldPhysics(LineRenderer* lineRenderer)
 	_debugDraw = std::make_unique<BulletDebugDraw>(lineRenderer);
 	_debugDraw->setDebugMode(true);
 
-	_dynamicsWorld->setDebugDrawer(_debugDraw.get());
+	//_dynamicsWorld->setDebugDrawer(_debugDraw.get());
 	_dynamicsWorld->setGravity(btVector3(0.0f, -1.0f, 0.0f));
 
 	// _char = std::make_unique<CharacterController>(this, glm::vec3(glm::vec3(229.0f, 4.5f, -182.0f)));

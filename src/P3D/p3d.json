@@ -20,10 +20,10 @@
     "name": "string",
     "groupId": "u32",
     "numChannels": "u32",
-    "vector2Channel": "child Vector2Channel",
-    "vector3Channel": "child Vector3Channel",
-    "quaternionChannel": "child QuaternionChannel",
-    "compressedQuaternionChannel": "child CompressedQuaternionChannel"
+    "vector2Channels": "dictionary<string param> Vector2Channel",
+    "vector3Channels": "dictionary<string param> Vector3Channel",
+    "quaternionChannels": "dictionary<string param> QuaternionChannel",
+    "compressedQuaternionChannels": "dictionary<string param> CompressedQuaternionChannel"
   },
 
   "Vector2Channel": {

@@ -84,22 +84,26 @@ namespace Donut::P3D
             {
                 case ChunkType::Vector2Channel:
                     {
-                        _vector2Channel = std::make_unique<Vector2Channel>(*child);
+                        auto value = std::make_unique<Vector2Channel>(*child);
+                        _vector2Channels.insert({ value->GetParam(), std::move(value) });
                         break;
                     }
                 case ChunkType::Vector3Channel:
                     {
-                        _vector3Channel = std::make_unique<Vector3Channel>(*child);
+                        auto value = std::make_unique<Vector3Channel>(*child);
+                        _vector3Channels.insert({ value->GetParam(), std::move(value) });
                         break;
                     }
                 case ChunkType::QuaternionChannel:
                     {
-                        _quaternionChannel = std::make_unique<QuaternionChannel>(*child);
+                        auto value = std::make_unique<QuaternionChannel>(*child);
+                        _quaternionChannels.insert({ value->GetParam(), std::move(value) });
                         break;
                     }
                 case ChunkType::CompressedQuaternionChannel:
                     {
-                        _compressedQuaternionChannel = std::make_unique<CompressedQuaternionChannel>(*child);
+                        auto value = std::make_unique<CompressedQuaternionChannel>(*child);
+                        _compressedQuaternionChannels.insert({ value->GetParam(), std::move(value) });
                         break;
                     }
                 default:

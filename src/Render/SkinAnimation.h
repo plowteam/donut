@@ -145,7 +145,6 @@ public:
 		void AddTranslationKey(float time, const glm::vec3& value) { _translationKeys.AddTranslationKey(time, value); }
 		void AddRotationKey(float time, const glm::quat& value) { _rotationKeys.AddRotationKey(time, value); }
 
-		glm::mat4 restPose;
 	private:
 		std::string _name;
 		ValueKeyCurve<glm::vec3> _translationKeys;

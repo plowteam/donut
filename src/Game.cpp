@@ -52,7 +52,8 @@ class AnimCamera
 {
 public:
 
-	AnimCamera(const P3D::P3DChunk& chunk)
+	AnimCamera(const P3D::P3DChunk& chunk) :
+		_time(0.0)
 	{
 		for (const auto& child : chunk.GetChildren())
 		{
@@ -61,6 +62,68 @@ public:
 			case P3D::ChunkType::Animation:
 			{
 				auto animation = P3D::Animation::Load(*child);
+				_trans = std::make_unique<SkinAnimation>(
+					animation->GetName(),
+					animation->GetNumFrames() / animation->GetFrameRate(),
+					static_cast<int32_t>(animation->GetNumFrames()),
+					animation->GetFrameRate());
+
+				_forward = std::make_unique<SkinAnimation>(
+					animation->GetName(),
+					animation->GetNumFrames() / animation->GetFrameRate(),
+					static_cast<int32_t>(animation->GetNumFrames()),
+					animation->GetFrameRate());
+
+				_up = std::make_unique<SkinAnimation>(
+					animation->GetName(),
+					animation->GetNumFrames() / animation->GetFrameRate(),
+					static_cast<int32_t>(animation->GetNumFrames()),
+					animation->GetFrameRate());
+
+				for (auto const& group : animation->GetGroupList()->GetGroups())
+				{
+					auto transTrack = std::make_unique<SkinAnimation::Track>(group->GetName());
+					auto forwardTrack = std::make_unique<SkinAnimation::Track>(group->GetName());
+					auto upTrack = std::make_unique<SkinAnimation::Track>(group->GetName());
+
+					if (const auto& vector3Channel = group->GetVector3ChannelsValue("TRAN"))
+					{
+						const auto& frames = vector3Channel->GetFrames();
+						const auto& values = vector3Channel->GetValues();
+
+						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
+						{
+							transTrack->AddTranslationKey(frames[i], values[i]);
+						}
+					}
+
+					if (const auto& vector3Channel = group->GetVector3ChannelsValue("LOOK"))
+					{
+						const auto& frames = vector3Channel->GetFrames();
+						const auto& values = vector3Channel->GetValues();
+
+						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
+						{
+							forwardTrack->AddTranslationKey(frames[i], values[i]);
+						}
+					}
+
+					if (const auto& vector3Channel = group->GetVector3ChannelsValue("UP"))
+					{
+						const auto& frames = vector3Channel->GetFrames();
+						const auto& values = vector3Channel->GetValues();
+
+						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
+						{
+							upTrack->AddTranslationKey(frames[i], values[i]);
+						}
+					}
+
+					_trans->AddTrack(transTrack);
+					_forward->AddTrack(forwardTrack);
+					_up->AddTrack(upTrack);
+				}
+
 				break;
 			}
 			case P3D::ChunkType::Camera:
@@ -93,9 +156,24 @@ public:
 		return std::make_unique<AnimCamera>(p3d.GetRoot());
 	}
 
+	glm::mat4 Update(double dt)
+	{
+		const auto& trans = _trans->Evaluate(0, (float)_time);
+		const auto& forward = _forward->Evaluate(0, (float)_time);
+		const auto& up = _up->Evaluate(0, (float)_time);
+		auto lookAt = glm::inverse(glm::quatLookAt(glm::vec3(forward[3]), glm::vec3(up[3])));
+
+		_time += dt;
+
+		return glm::toMat4(lookAt) * glm::translate(glm::mat4(1.0f), -glm::vec3(trans[3]));
+	}
+
 private:
 
-	std::unique_ptr<SkinAnimation> _anim;
+	double _time;
+	std::unique_ptr<SkinAnimation> _trans;
+	std::unique_ptr<SkinAnimation> _forward;
+	std::unique_ptr<SkinAnimation> _up;
 };
 
 void Game::TestAudio()
@@ -114,7 +192,7 @@ void Game::TestAudio()
 	alGenBuffers(1, &buffer);
 	alGenSources(1, &source);
 
-	PlayAudio(*_filesRCF[1], "sound\\music\\muzak.rsd");
+	PlayAudio(*_filesRCF[3], "sound\\music\\homer\\tuba_060.rsd");
 
 		//auto magic = rsdStream->ReadString(8);
 		//auto numChannels = rsdStream->Read<uint32_t>();
@@ -290,8 +368,6 @@ Game::Game(int argc, char** argv)
 	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
-	auto c = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");
-
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
 
@@ -462,6 +538,8 @@ void Game::Run()
 	SpriteBatch sprites;
 	GL::ShaderProgram& spriteShader = sprites.GetShader();
 
+	auto animCamera = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");
+
 	SDL_Event event;
 	bool running = true;
 	while (running)
@@ -506,6 +584,9 @@ void Game::Run()
 			_camera->Move(inputForce, static_cast<float>(deltaTime));
 		}
 
+		auto cameraTransform = animCamera->Update(deltaTime * 35.0);
+		//_camera->MoveTo(cameraTransform[3]);
+
 		_worldPhysics->Update(static_cast<float>(deltaTime));
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -538,7 +619,7 @@ void Game::Run()
 		glm::mat4 projectionMatrix = glm::perspective(
 		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 10000.0f);
 
-		glm::mat4 viewMatrix     = _camera->GetViewMatrix();
+		glm::mat4 viewMatrix = _camera->GetViewMatrix(); // cameraTransform
 		glm::mat4 viewProjection = projectionMatrix * viewMatrix;
 
 		_lineRenderer->Flush(viewProjection);

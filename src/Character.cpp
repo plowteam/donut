@@ -183,10 +183,10 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 		else
 		{
 			const auto& animGroup = groups.at(groupNameIndex.at(joint.name));
-			const auto& vector2Channel              = animGroup->GetVector2Channel();
-			const auto& vector3Channel              = animGroup->GetVector3Channel();
-			const auto& quaternionChannel           = animGroup->GetQuaternionChannel();
-			const auto& compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannel();
+			const auto& vector2Channel              = animGroup->GetVector2ChannelsValue("TRAN");
+			const auto& vector3Channel              = animGroup->GetVector3ChannelsValue("TRAN");
+			const auto& quaternionChannel           = animGroup->GetQuaternionChannelsValue("ROT");
+			const auto& compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannelsValue("ROT");
 
 			if (vector3Channel)
 			{

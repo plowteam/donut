@@ -138,10 +138,10 @@ namespace Donut::P3D
         const std::string& GetName() const { return _name; }
         const uint32_t& GetGroupId() const { return _groupId; }
         const uint32_t& GetNumChannels() const { return _numChannels; }
-        const std::unique_ptr<Vector2Channel>& GetVector2Channel() const { return _vector2Channel; }
-        const std::unique_ptr<Vector3Channel>& GetVector3Channel() const { return _vector3Channel; }
-        const std::unique_ptr<QuaternionChannel>& GetQuaternionChannel() const { return _quaternionChannel; }
-        const std::unique_ptr<CompressedQuaternionChannel>& GetCompressedQuaternionChannel() const { return _compressedQuaternionChannel; }
+        Vector2Channel* GetVector2ChannelsValue(const std::string& key) const { auto it = _vector2Channels.find(key); return (it != _vector2Channels.end()) ? it->second.get() : nullptr; }
+        Vector3Channel* GetVector3ChannelsValue(const std::string& key) const { auto it = _vector3Channels.find(key); return (it != _vector3Channels.end()) ? it->second.get() : nullptr; }
+        QuaternionChannel* GetQuaternionChannelsValue(const std::string& key) const { auto it = _quaternionChannels.find(key); return (it != _quaternionChannels.end()) ? it->second.get() : nullptr; }
+        CompressedQuaternionChannel* GetCompressedQuaternionChannelsValue(const std::string& key) const { auto it = _compressedQuaternionChannels.find(key); return (it != _compressedQuaternionChannels.end()) ? it->second.get() : nullptr; }
 
     private:
 
@@ -149,10 +149,10 @@ namespace Donut::P3D
         std::string _name;
         uint32_t _groupId;
         uint32_t _numChannels;
-        std::unique_ptr<Vector2Channel> _vector2Channel;
-        std::unique_ptr<Vector3Channel> _vector3Channel;
-        std::unique_ptr<QuaternionChannel> _quaternionChannel;
-        std::unique_ptr<CompressedQuaternionChannel> _compressedQuaternionChannel;
+        std::map<std::string, std::unique_ptr<Vector2Channel>> _vector2Channels;
+        std::map<std::string, std::unique_ptr<Vector3Channel>> _vector3Channels;
+        std::map<std::string, std::unique_ptr<QuaternionChannel>> _quaternionChannels;
+        std::map<std::string, std::unique_ptr<CompressedQuaternionChannel>> _compressedQuaternionChannels;
 
     };
 
