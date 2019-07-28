@@ -1,5 +1,7 @@
 # donut
 
+![](https://files.facepunch.com/Layla/2019/July/28/donut2.gif)
+
 donut is an open source reimplementation of The Simpsons: Hit & Run.
 
 # Building
