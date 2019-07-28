@@ -1,4 +1,4 @@
-﻿{
+{
   "Animation": {
     "version": "u32",
     "name": "string",
@@ -402,5 +402,72 @@
   },
 
   "MultiControllerTracks": {
+  },
+
+  "CollisionObject": {
+    "name": "string",
+    "version": "u32",
+    "materialName": "string",
+    "numSubObjects": "u32",
+    "numVolumeOwners": "u32",
+    "volumeOwners": "children CollisionVolumeOwner",
+    "volume": "child CollisionVolume",
+    "attribute": "child CollisionObjectAttribute"
+  },
+
+  "CollisionVolume": {
+    "objectRefIndex": "u32",
+    "ownerIndex": "s32",
+    "numSubVolumes": "u32",
+    "subVolumes": "children CollisionVolume",
+    "bBox": "child CollisionBBoxVolume",
+    "obBox": "child CollisionOBBoxVolume",
+    "sphere": "child CollisionSphere",
+    "cylinder": "child CollisionCylinder"
+  },
+
+  "CollisionSphere": {
+    "radius":  "float"
+  },
+
+  "CollisionCylinder": {
+    "radius": "float",
+    "length": "float",
+    "flatEnd": "u16",
+    "vectors": "children<vec3> CollisionVector"
+  },
+
+  "CollisionOBBoxVolume": {
+    "halfExtents": "vec3",
+    "vectors": "children<vec3> CollisionVector"
+  },
+
+  "CollisionBBoxVolume": {
+    "nothing": "u32"
+  },
+
+  "CollisionVector": {
+    "value": "vec3"
+  },
+
+  "CollisionVolumeOwner": {
+    "numNames": "u32",
+    "names": "children CollisionVolumeOwnerName"
+  },
+
+  "CollisionVolumeOwnerName": {
+    "name": "string"
+  },
+
+  "CollisionObjectAttribute": {
+    "static": "u16",
+    "defaultArea": "u32",
+    "canRoll": "u16",
+    "canSlide": "u16",
+    "canSpin": "u16",
+    "canBounce": "u16",
+    "unknown1": "u32",
+    "unknown2": "u32",
+    "unknown3": "u32"
   }
 }
