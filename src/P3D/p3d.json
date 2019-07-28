@@ -333,7 +333,8 @@
     "pagePath": "string",
     "resourcePath": "string",
     "screenPath": "string",
-    "pages": "children FrontendPage"
+    "pages": "children FrontendPage",
+    "screens": "children FrontendScreen"
   },
 
   "FrontendPage": {
@@ -341,7 +342,8 @@
     "version": "u32",
     "resX": "u32",
     "resY": "u32",
-    "layers": "children FrontendLayer"
+    "layers": "children FrontendLayer",
+    "imageResources": "children FrontendImageResource"
   },
 
   "FrontendLayer": {
@@ -349,7 +351,8 @@
     "version": "u32",
     "visible": "u32",
     "editable": "u32",
-    "alpha": "u32"
+    "alpha": "u32",
+    "groups": "children FrontendGroup"
   },
 
   "FrontendGroup": {
@@ -357,6 +360,12 @@
     "version": "u32",
     "alpha": "u32",
     "children": "children FrontendGroup"
+  },
+
+  "FrontendImageResource": {
+    "name": "string",
+    "version": "u32",
+    "filepath": "string"
   },
 
   "Locator2": {

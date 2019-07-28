@@ -85,7 +85,7 @@ enum class ChunkType : uint32_t
 	FrontendStringHardCoded = 0x1800C,
 	FrontendTextBible = 0x1800D,
 	FrontendLanguage = 0x1800E,
-	FrontEndImageResource = 0x18100,
+	FrontendImageResource = 0x18100,
 	FrontendObjectResource = 0x18101,
 	FrontendTextStyleResource = 0x18104,
 	FrontendTextBibleResource = 0x18105,

@@ -1002,6 +1002,11 @@ namespace Donut::P3D
                         _pages.push_back(std::make_unique<FrontendPage>(*child));
                         break;
                     }
+                case ChunkType::FrontendScreen:
+                    {
+                        _screens.push_back(std::make_unique<FrontendScreen>(*child));
+                        break;
+                    }
                 default:
                     break;
             }
@@ -1027,6 +1032,11 @@ namespace Donut::P3D
                         _layers.push_back(std::make_unique<FrontendLayer>(*child));
                         break;
                     }
+                case ChunkType::FrontendImageResource:
+                    {
+                        _imageResources.push_back(std::make_unique<FrontendImageResource>(*child));
+                        break;
+                    }
                 default:
                     break;
             }
@@ -1043,6 +1053,20 @@ namespace Donut::P3D
         _visible = stream.Read<uint32_t>();
         _editable = stream.Read<uint32_t>();
         _alpha = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::FrontendGroup:
+                    {
+                        _groups.push_back(std::make_unique<FrontendGroup>(*child));
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
     }
 
     FrontendGroup::FrontendGroup(const P3DChunk& chunk)
@@ -1067,6 +1091,16 @@ namespace Donut::P3D
                     break;
             }
         }
+    }
+
+    FrontendImageResource::FrontendImageResource(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendImageResource));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _filepath = stream.ReadLPString();
     }
 
     Locator2::Locator2(const P3DChunk& chunk)

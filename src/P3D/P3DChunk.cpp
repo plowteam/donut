@@ -242,8 +242,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "FrontendTextBible";
 		case ChunkType::FrontendLanguage:
 			return os << "FrontendLanguage";
-		case ChunkType::FrontEndImageResource:
-			return os << "FrontEndImageResource";
+		case ChunkType::FrontendImageResource:
+			return os << "FrontendImageResource";
 		case ChunkType::FrontendObjectResource:
 			return os << "FrontendObjectResource";
 		case ChunkType::FrontendTextStyleResource:

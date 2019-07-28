@@ -71,6 +71,7 @@ namespace Donut::P3D
 	class FrontendPage;
 	class FrontendLayer;
 	class FrontendGroup;
+	class FrontendImageResource;
 	class Locator2;
 	class TriggerVolume;
 
@@ -1061,6 +1062,7 @@ namespace Donut::P3D
         const std::string& GetResourcePath() const { return _resourcePath; }
         const std::string& GetScreenPath() const { return _screenPath; }
         const std::vector<std::unique_ptr<FrontendPage>>& GetPages() const { return _pages; }
+        const std::vector<std::unique_ptr<FrontendScreen>>& GetScreens() const { return _screens; }
 
     private:
 
@@ -1073,6 +1075,7 @@ namespace Donut::P3D
         std::string _resourcePath;
         std::string _screenPath;
         std::vector<std::unique_ptr<FrontendPage>> _pages;
+        std::vector<std::unique_ptr<FrontendScreen>> _screens;
 
     };
 
@@ -1089,6 +1092,7 @@ namespace Donut::P3D
         const uint32_t& GetResX() const { return _resX; }
         const uint32_t& GetResY() const { return _resY; }
         const std::vector<std::unique_ptr<FrontendLayer>>& GetLayers() const { return _layers; }
+        const std::vector<std::unique_ptr<FrontendImageResource>>& GetImageResources() const { return _imageResources; }
 
     private:
 
@@ -1097,6 +1101,7 @@ namespace Donut::P3D
         uint32_t _resX;
         uint32_t _resY;
         std::vector<std::unique_ptr<FrontendLayer>> _layers;
+        std::vector<std::unique_ptr<FrontendImageResource>> _imageResources;
 
     };
 
@@ -1113,6 +1118,7 @@ namespace Donut::P3D
         const uint32_t& GetVisible() const { return _visible; }
         const uint32_t& GetEditable() const { return _editable; }
         const uint32_t& GetAlpha() const { return _alpha; }
+        const std::vector<std::unique_ptr<FrontendGroup>>& GetGroups() const { return _groups; }
 
     private:
 
@@ -1121,6 +1127,7 @@ namespace Donut::P3D
         uint32_t _visible;
         uint32_t _editable;
         uint32_t _alpha;
+        std::vector<std::unique_ptr<FrontendGroup>> _groups;
 
     };
 
@@ -1143,6 +1150,26 @@ namespace Donut::P3D
         uint32_t _version;
         uint32_t _alpha;
         std::vector<std::unique_ptr<FrontendGroup>> _children;
+
+    };
+
+    class FrontendImageResource
+    {
+    public:
+
+        FrontendImageResource(const P3DChunk&);
+
+        static std::unique_ptr<FrontendImageResource> Load(const P3DChunk& chunk) { return std::make_unique<FrontendImageResource>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const std::string& GetFilepath() const { return _filepath; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        std::string _filepath;
 
     };
 
