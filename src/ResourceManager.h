@@ -10,6 +10,18 @@
 
 namespace Donut
 {
+	class Shader
+	{
+	public:
+
+		Shader(const P3D::Shader&);
+
+		std::string GetTextureParam() const { return _textureParams.at("TEX"); }
+
+	private:
+
+		std::map<std::string, std::string> _textureParams;
+	};
 
 class ResourceManager
 {
@@ -17,7 +29,7 @@ class ResourceManager
 	ResourceManager();
 
 	void AddTexture(const std::string& name, std::unique_ptr<GL::Texture2D> texture);
-	void AddShader(const std::string& name, std::unique_ptr<P3D::Shader> shader);
+	void AddShader(const std::string& name, std::unique_ptr<Shader> shader);
 	void AddFont(const std::string& name, std::unique_ptr<Font> font);
 
 	const GL::Texture2D& GetTexture(const std::string& name) const;
@@ -25,13 +37,13 @@ class ResourceManager
 	const Font* GetFont(const std::string& name) const;
 
 	const std::map<std::string, std::unique_ptr<GL::Texture2D>>& GetTextures() const { return _textures; }
-	const std::map<std::string, std::unique_ptr<P3D::Shader>>& GetShaders() const { return _shaders; }
+	const std::map<std::string, std::unique_ptr<Shader>>& GetShaders() const { return _shaders; }
 	const std::map<std::string, std::unique_ptr<Font>>& GetFonts() const { return _fonts; }
 
   protected:
 	std::unique_ptr<GL::Texture2D> _errorTexture;
 	std::map<std::string, std::unique_ptr<GL::Texture2D>> _textures;
-	std::map<std::string, std::unique_ptr<P3D::Shader>> _shaders;
+	std::map<std::string, std::unique_ptr<Shader>> _shaders;
 	std::map<std::string, std::unique_ptr<Font>> _fonts;
 };
 

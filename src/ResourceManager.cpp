@@ -2,6 +2,15 @@
 
 namespace Donut
 {
+Shader::Shader(const P3D::Shader& shader)
+{
+	const auto& textureParams = shader.GetTextureParams();
+	for (const auto& textureParam : textureParams)
+	{
+		_textureParams.insert({ textureParam->GetKey(), textureParam->GetValue() });
+	}
+}
+
 ResourceManager::ResourceManager()
 {
 	constexpr GLuint errorTextureData[] = { 0xFFFF00FF, 0xFF000000, 0xFF000000, 0xFFFF00FF };
@@ -13,7 +22,7 @@ void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<GL::Te
 	_textures[name] = std::move(texture);
 }
 
-void ResourceManager::AddShader(const std::string& name, std::unique_ptr<P3D::Shader> shader)
+void ResourceManager::AddShader(const std::string& name, std::unique_ptr<Shader> shader)
 {
 	_shaders[name] = std::move(shader);
 }
@@ -49,7 +58,7 @@ const GL::Texture2D& ResourceManager::GetShaderTexture(const std::string& name) 
 		return *_errorTexture;
 
 	auto const& shader = _shaders.at(name);
-	auto const& texture = P3D::P3DUtil::GetShaderTexture(shader);
+	auto const& texture = shader->GetTextureParam();
 
 	if (_textures.find(texture) == _textures.end())
 		return *_errorTexture;

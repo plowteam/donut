@@ -60,11 +60,6 @@ namespace Donut::P3D
 		}
 	}
 
-	std::string P3DUtil::GetShaderTexture(const std::unique_ptr<Shader>& shader)
-	{
-		return shader->GetTextureParams()[0]->GetValue();
-	}
-
 P3DChunk::P3DChunk(const std::vector<uint8_t>& chunk)
 {
 	// minimum size of a chunk

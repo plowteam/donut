@@ -35,7 +35,7 @@ void Character::LoadModel(const std::string& name)
 		case P3D::ChunkType::Shader:
 		{
 			const auto shader                    = P3D::Shader::Load(*chunk);
-			_shaderTextureMap[shader->GetName()] = P3D::P3DUtil::GetShaderTexture(shader);
+			_shaderTextureMap[shader->GetName()] = Shader(*shader).GetTextureParam();
 			break;
 		}
 		case P3D::ChunkType::Texture:

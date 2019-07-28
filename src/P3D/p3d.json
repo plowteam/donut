@@ -146,6 +146,19 @@
     "instanceList": "child InstanceList"
   },
 
+  "AnimDynamicPhysics": {
+    "name": "string",
+    "animObjectWrapper": "child AnimObjectWrapper",
+    "instanceList": "child InstanceList"
+  },
+
+  "AnimObjectWrapper": {
+    "name": "string",
+    "compositeDrawables": "children CompositeDrawable",
+    "skeletons": "children Skeleton",
+    "meshes": "children Mesh"
+  },
+
   "InstanceList": {
     "name": "string",
     "sceneGraph": "child SceneGraph"

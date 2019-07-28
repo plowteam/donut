@@ -45,6 +45,8 @@ namespace Donut::P3D
 	class StaticPhysics;
 	class InstancedStaticPhysics;
 	class DynamicPhysics;
+	class AnimDynamicPhysics;
+	class AnimObjectWrapper;
 	class InstanceList;
 	class SceneGraph;
 	class SceneGraphRoot;
@@ -505,6 +507,48 @@ namespace Donut::P3D
         std::string _name;
         std::vector<std::unique_ptr<Mesh>> _meshes;
         std::unique_ptr<InstanceList> _instanceList;
+
+    };
+
+    class AnimDynamicPhysics
+    {
+    public:
+
+        AnimDynamicPhysics(const P3DChunk&);
+
+        static std::unique_ptr<AnimDynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<AnimDynamicPhysics>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const std::unique_ptr<AnimObjectWrapper>& GetAnimObjectWrapper() const { return _animObjectWrapper; }
+        const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
+
+    private:
+
+        std::string _name;
+        std::unique_ptr<AnimObjectWrapper> _animObjectWrapper;
+        std::unique_ptr<InstanceList> _instanceList;
+
+    };
+
+    class AnimObjectWrapper
+    {
+    public:
+
+        AnimObjectWrapper(const P3DChunk&);
+
+        static std::unique_ptr<AnimObjectWrapper> Load(const P3DChunk& chunk) { return std::make_unique<AnimObjectWrapper>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const std::vector<std::unique_ptr<CompositeDrawable>>& GetCompositeDrawables() const { return _compositeDrawables; }
+        const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
+        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+
+    private:
+
+        std::string _name;
+        std::vector<std::unique_ptr<CompositeDrawable>> _compositeDrawables;
+        std::vector<std::unique_ptr<Skeleton>> _skeletons;
+        std::vector<std::unique_ptr<Mesh>> _meshes;
 
     };
 

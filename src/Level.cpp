@@ -68,11 +68,16 @@ Level::Level(WorldPhysics* worldPhysics)
 		"art/cars/wiggu_v.p3d",
 	};
 
+	float offset = 0.0f;
 	for (const auto& carFile : carFiles)
-	{
-		auto car = std::make_unique<CompositeModel>();
-		car->LoadP3D(carFile);
-		_cars.push_back(std::move(car));
+	{	
+		if (auto car = CompositeModel::LoadP3D(carFile, _resourceManager))
+		{
+			auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(220 + offset, 4.6f, -160));
+			car->SetTransform(transform);
+			_compositeModels.push_back(std::move(car));
+			offset += 3.0f;
+		}
 	}
 }
 
@@ -97,7 +102,7 @@ void Level::LoadP3D(const std::string& filename)
 		{
 			auto shader                   = P3D::Shader::Load(*chunk);
 			const std::string shader_name = shader->GetName();
-			_resourceManager->AddShader(shader_name, std::move(shader));
+			_resourceManager->AddShader(shader_name, std::make_unique<Shader>(*shader));
 			break;
 		}
 		case P3D::ChunkType::Texture:
@@ -190,6 +195,27 @@ void Level::LoadP3D(const std::string& filename)
 
 			break;
 		}
+		case P3D::ChunkType::AnimDynamicPhysics:
+		{
+			const auto& dynaPhys = P3D::AnimDynamicPhysics::Load(*chunk);
+			std::vector<P3D::SceneGraphDrawable*> drawables;
+			std::vector<glm::mat4> transforms;
+			P3D::P3DUtil::GetDrawables(dynaPhys->GetInstanceList(), drawables, transforms);
+
+			const auto& animObjectWrapper = dynaPhys->GetAnimObjectWrapper();
+
+			for (size_t i = 0; i < drawables.size(); ++i)
+			{
+				const auto& drawable = drawables.at(i);
+				const auto& transform = transforms.at(i);
+
+				auto compositeModel = std::make_unique<CompositeModel>(CompositeModel_AnimObjectWrapper(*animObjectWrapper), _resourceManager);
+				compositeModel->SetTransform(transform);
+				_compositeModels.push_back(std::move(compositeModel));
+			}
+
+			break;
+		}
 		case P3D::ChunkType::Intersect:
 		{
 			auto intersect = P3D::Intersect::Load(*chunk);
@@ -223,11 +249,9 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 		ent->Draw(*_worldShader, *_resourceManager);
 	}
 
-	float offset = 0.0f;
-	for (const auto& car : _cars)
+	for (const auto& compositeModel : _compositeModels)
 	{
-		car->Draw(*_worldShader, viewProj, glm::translate(glm::mat4(1.0f), glm::vec3(220 + offset, 4.6f, -160)));
-		offset += 3.0f;
+		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform());
 	}
 }
 

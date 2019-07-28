@@ -444,6 +444,65 @@ namespace Donut::P3D
         }
     }
 
+    AnimDynamicPhysics::AnimDynamicPhysics(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::AnimDynamicPhysics));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::AnimObjectWrapper:
+                    {
+                        _animObjectWrapper = std::make_unique<AnimObjectWrapper>(*child);
+                        break;
+                    }
+                case ChunkType::InstanceList:
+                    {
+                        _instanceList = std::make_unique<InstanceList>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    AnimObjectWrapper::AnimObjectWrapper(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::AnimObjectWrapper));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::CompositeDrawable:
+                    {
+                        _compositeDrawables.push_back(std::make_unique<CompositeDrawable>(*child));
+                        break;
+                    }
+                case ChunkType::Skeleton:
+                    {
+                        _skeletons.push_back(std::make_unique<Skeleton>(*child));
+                        break;
+                    }
+                case ChunkType::Mesh:
+                    {
+                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
     InstanceList::InstanceList(const P3DChunk& chunk)
     {
         assert(chunk.IsType(ChunkType::InstanceList));
