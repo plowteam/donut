@@ -70,7 +70,7 @@ class File
 
 	static std::string ReadAll(const std::filesystem::path& filename);
 
-	std::string File::ReadString(std::size_t length);
+	std::string ReadString(std::size_t length);
 
   protected:
 	FILE* _file;
