@@ -4,6 +4,7 @@
 #include <Physics/WorldPhysics.h>
 
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
+#include <Physics/BulletFenceShape.h>
 
 namespace Donut
 {
@@ -186,20 +187,23 @@ void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 
 void WorldPhysics::AddP3DFence(const P3D::Fence& fence)
 {
-	glm::vec3 start = fence.GetStart();
-	glm::vec3 end   = fence.GetEnd();
+	BulletFenceShape* shape = new BulletFenceShape(
+		BulletCast<btVector3>(fence.GetStart()),
+		BulletCast<btVector3>(fence.GetEnd()),
+		BulletCast<btVector3>(fence.GetNormal())
+	);
 
 	btTransform worldTransform;
 	worldTransform.setIdentity();
 	//worldTransform.setOrigin(BulletCast<btVector3>(center));
 
-	//auto colObj = new btCollisionObject();
-	//colObj->setCollisionShape(bulletShape);
-	//colObj->setWorldTransform(worldTransform);
+	auto colObj = new btCollisionObject();
+	colObj->setCollisionShape(shape);
+	colObj->setWorldTransform(worldTransform);
 
-	// _dynamicsWorld->addCollisionObject(colObj);
+	_dynamicsWorld->addCollisionObject(colObj);
 
-	// _allocatedCollisionObjects.push_back(colObj);
+	_allocatedCollisionObjects.push_back(colObj);
 }
 
 } // namespace Donut
