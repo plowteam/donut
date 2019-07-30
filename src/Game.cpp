@@ -606,12 +606,21 @@ void Game::Run()
 
 		debugDrawRCF();
 
+		ImGuiIO& io = ImGui::GetIO();
+		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 8.0f, io.DisplaySize.y - 8.0f), ImGuiCond_Always, ImVec2(1.0f, 1.0f));
+		ImGui::SetNextWindowBgAlpha(0.35f);
+		if (ImGui::Begin("Camera position overlay", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
+		{
+			auto const& camPos = _camera->GetPosition();
+			ImGui::Text("Camera Position: (%.1f,%.1f, %.1f)", camPos.x, camPos.y, camPos.z);
+		}
+		ImGui::End();
+
 		if (_character != nullptr)
 			_character->Update(deltaTime);
 
 		ImGui::Render();
 
-		ImGuiIO& io = ImGui::GetIO();
 		glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
@@ -626,12 +635,12 @@ void Game::Run()
 		glm::mat4 viewMatrix = _camera->GetViewMatrix();
 		glm::mat4 viewProjection = projectionMatrix * viewMatrix;
 
-		_lineRenderer->Flush(viewProjection);
-
 		if (_level != nullptr) _level->Draw(GetResourceManager(), viewProjection);
 
 		if (_character != nullptr)
 			_character->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
+
+		_lineRenderer->Flush(viewProjection);
 
 		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 
