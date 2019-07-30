@@ -3,6 +3,7 @@
 #include <FreeCamera.h>
 #include <Game.h>
 #include <Input/Input.h>
+#include <Commands.h>
 #include <Level.h>
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
@@ -358,6 +359,8 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 Game::Game(int argc, char** argv)
 {
 	instance = this; // global static :D
+
+	Commands::Run("AddTeleportDest", "\"Simpsons' House\", 220, 3.5, -172, \"l1z1.p3d;l1r1.p3d;l1r7.p3d;\"");
 
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
 
