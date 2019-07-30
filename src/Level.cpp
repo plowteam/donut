@@ -1,10 +1,10 @@
 #include <Level.h>
-#include <P3D/p3d.generated.h>
 #include <P3D/P3DFile.h>
+#include <P3D/p3d.generated.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/OpenGL/ShaderProgram.h>
-#include <ResourceManager.h>
 #include <Render/StaticEntity.h>
+#include <ResourceManager.h>
 #include <array>
 #include <iostream>
 
@@ -57,8 +57,7 @@ Level::Level(WorldPhysics* worldPhysics)
 	_resourceManager = std::make_unique<ResourceManager>();
 	_worldPhysics    = worldPhysics;
 
-	std::array<std::string, 7> carFiles
-	{
+	std::array<std::string, 7> carFiles {
 		"art/cars/mrplo_v.p3d",
 		"art/cars/carhom_v.p3d",
 		"art/cars/krust_v.p3d",
@@ -70,7 +69,7 @@ Level::Level(WorldPhysics* worldPhysics)
 
 	float offset = 0.0f;
 	for (const auto& carFile : carFiles)
-	{	
+	{
 		if (auto car = CompositeModel::LoadP3D(carFile, _resourceManager))
 		{
 			auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(240 + offset, 4.6f, -160));
@@ -134,11 +133,12 @@ void Level::LoadP3D(const std::string& filename)
 		{
 			const auto& ent = P3D::StaticPhysics::Load(*chunk);
 			// std::cout << "StaticPhys: " << ent->GetName() << "\n";
-			// std::cout << "\tCollisionObject: " << ent->GetCollisionObject().GetName() << "\n";
+			// std::cout << "\tCollisionObject: " << ent->GetCollisionObject()->GetName() << "\n";
 
-			//auto model      = std::make_unique<StaticEntity>(*ent);
+			auto const& volume = ent->GetCollisionObject()->GetVolume();
+			if (volume != nullptr)
+				_worldPhysics->AddCollisionVolume(*volume);
 
-			//_staticEntities.push_back(std::move(model));
 			break;
 		}
 		case P3D::ChunkType::InstancedStaticPhysics:
@@ -157,11 +157,11 @@ void Level::LoadP3D(const std::string& filename)
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
-				const auto& drawable = drawables.at(i);
+				const auto& drawable  = drawables.at(i);
 				const auto& transform = transforms.at(i);
 
 				const auto& meshName = drawable->GetName();
-				const auto& mesh = meshes.at(meshesNameIndex.at(meshName));
+				const auto& mesh     = meshes.at(meshesNameIndex.at(meshName));
 
 				auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
 				_staticEntities.push_back(std::move(model));
@@ -185,11 +185,11 @@ void Level::LoadP3D(const std::string& filename)
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
-				const auto& drawable = drawables.at(i);
+				const auto& drawable  = drawables.at(i);
 				const auto& transform = transforms.at(i);
 
 				const auto& meshName = drawable->GetName();
-				const auto& mesh = meshes.at(meshesNameIndex.at(meshName));
+				const auto& mesh     = meshes.at(meshesNameIndex.at(meshName));
 
 				auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
 				_staticEntities.push_back(std::move(model));
@@ -208,7 +208,7 @@ void Level::LoadP3D(const std::string& filename)
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
-				const auto& drawable = drawables.at(i);
+				const auto& drawable  = drawables.at(i);
 				const auto& transform = transforms.at(i);
 
 				auto compositeModel = std::make_unique<CompositeModel>(CompositeModel_AnimObjectWrapper(*animObjectWrapper), _resourceManager);

@@ -392,6 +392,20 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::CollisionObject:
+                    {
+                        _collisionObject = std::make_unique<CollisionObject>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
     }
 
     InstancedStaticPhysics::InstancedStaticPhysics(const P3DChunk& chunk)
@@ -1192,4 +1206,220 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
             }
+
+    CollisionObject::CollisionObject(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionObject));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _materialName = stream.ReadLPString();
+        _numSubObjects = stream.Read<uint32_t>();
+        _numVolumeOwners = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::CollisionVolumeOwner:
+                    {
+                        _volumeOwners.push_back(std::make_unique<CollisionVolumeOwner>(*child));
+                        break;
+                    }
+                case ChunkType::CollisionVolume:
+                    {
+                        _volume = std::make_unique<CollisionVolume>(*child);
+                        break;
+                    }
+                case ChunkType::CollisionObjectAttribute:
+                    {
+                        _attribute = std::make_unique<CollisionObjectAttribute>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    CollisionVolume::CollisionVolume(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionVolume));
+
+        MemoryStream stream(chunk.GetData());
+        _objectRefIndex = stream.Read<uint32_t>();
+        _ownerIndex = stream.Read<int32_t>();
+        _numSubVolumes = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::CollisionVolume:
+                    {
+                        _subVolumes.push_back(std::make_unique<CollisionVolume>(*child));
+                        break;
+                    }
+                case ChunkType::CollisionBBoxVolume:
+                    {
+                        _bBox = std::make_unique<CollisionBBoxVolume>(*child);
+                        break;
+                    }
+                case ChunkType::CollisionOBBoxVolume:
+                    {
+                        _obBox = std::make_unique<CollisionOBBoxVolume>(*child);
+                        break;
+                    }
+                case ChunkType::CollisionSphere:
+                    {
+                        _sphere = std::make_unique<CollisionSphere>(*child);
+                        break;
+                    }
+                case ChunkType::CollisionCylinder:
+                    {
+                        _cylinder = std::make_unique<CollisionCylinder>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    CollisionSphere::CollisionSphere(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionSphere));
+
+        MemoryStream stream(chunk.GetData());
+        _radius = stream.Read<float>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            MemoryStream data(child->GetData());
+
+            switch (child->GetType())
+            {
+                case ChunkType::CollisionVector:
+                    {
+                        _vectors.push_back(data.Read<glm::vec3>());
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    CollisionCylinder::CollisionCylinder(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionCylinder));
+
+        MemoryStream stream(chunk.GetData());
+        _radius = stream.Read<float>();
+        _length = stream.Read<float>();
+        _flatEnd = stream.Read<uint16_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            MemoryStream data(child->GetData());
+
+            switch (child->GetType())
+            {
+                case ChunkType::CollisionVector:
+                    {
+                        _vectors.push_back(data.Read<glm::vec3>());
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    CollisionOBBoxVolume::CollisionOBBoxVolume(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionOBBoxVolume));
+
+        MemoryStream stream(chunk.GetData());
+        _halfExtents = stream.Read<glm::vec3>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            MemoryStream data(child->GetData());
+
+            switch (child->GetType())
+            {
+                case ChunkType::CollisionVector:
+                    {
+                        _vectors.push_back(data.Read<glm::vec3>());
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    CollisionBBoxVolume::CollisionBBoxVolume(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionBBoxVolume));
+
+        MemoryStream stream(chunk.GetData());
+        _nothing = stream.Read<uint32_t>();
+    }
+
+    CollisionVector::CollisionVector(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionVector));
+
+        MemoryStream stream(chunk.GetData());
+        _value = stream.Read<glm::vec3>();
+    }
+
+    CollisionVolumeOwner::CollisionVolumeOwner(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionVolumeOwner));
+
+        MemoryStream stream(chunk.GetData());
+        _numNames = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::CollisionVolumeOwnerName:
+                    {
+                        _names.push_back(std::make_unique<CollisionVolumeOwnerName>(*child));
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    CollisionVolumeOwnerName::CollisionVolumeOwnerName(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionVolumeOwnerName));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+    }
+
+    CollisionObjectAttribute::CollisionObjectAttribute(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CollisionObjectAttribute));
+
+        MemoryStream stream(chunk.GetData());
+        _static = stream.Read<uint16_t>();
+        _defaultArea = stream.Read<uint32_t>();
+        _canRoll = stream.Read<uint16_t>();
+        _canSlide = stream.Read<uint16_t>();
+        _canSpin = stream.Read<uint16_t>();
+        _canBounce = stream.Read<uint16_t>();
+        _unknown1 = stream.Read<uint32_t>();
+        _unknown2 = stream.Read<uint32_t>();
+        _unknown3 = stream.Read<uint32_t>();
+    }
 }

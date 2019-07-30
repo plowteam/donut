@@ -14,6 +14,10 @@ class LineRenderer;
 namespace P3D
 {
 class Intersect;
+class CollisionOBBoxVolume;
+class CollisionSphere;
+class CollisionCylinder;
+class CollisionVolume;
 };
 
 class WorldPhysics
@@ -25,6 +29,10 @@ public:
 	void Update(float dt) const;
 
 	void AddIntersect(const P3D::Intersect&);
+	void AddCollisionVolume(const P3D::CollisionVolume&);
+	void AddP3DOBBoxVolume(const P3D::CollisionOBBoxVolume&);
+	void AddP3DSphere(const P3D::CollisionSphere&);
+	void AddP3DCylinder(const P3D::CollisionCylinder&);
 
 	btDiscreteDynamicsWorld* GetDynamicsWorld() const { return _dynamicsWorld; }
 	

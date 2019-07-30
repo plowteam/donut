@@ -77,6 +77,16 @@ namespace Donut::P3D
 	class Camera;
 	class MultiController;
 	class MultiControllerTracks;
+	class CollisionObject;
+	class CollisionVolume;
+	class CollisionSphere;
+	class CollisionCylinder;
+	class CollisionOBBoxVolume;
+	class CollisionBBoxVolume;
+	class CollisionVector;
+	class CollisionVolumeOwner;
+	class CollisionVolumeOwnerName;
+	class CollisionObjectAttribute;
 
     class Animation
     {
@@ -469,10 +479,12 @@ namespace Donut::P3D
         static std::unique_ptr<StaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<StaticPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const std::unique_ptr<CollisionObject>& GetCollisionObject() const { return _collisionObject; }
 
     private:
 
         std::string _name;
+        std::unique_ptr<CollisionObject> _collisionObject;
 
     };
 
@@ -1286,5 +1298,221 @@ namespace Donut::P3D
     private:
 
         
+    };
+
+    class CollisionObject
+    {
+    public:
+
+        CollisionObject(const P3DChunk&);
+
+        static std::unique_ptr<CollisionObject> Load(const P3DChunk& chunk) { return std::make_unique<CollisionObject>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const std::string& GetMaterialName() const { return _materialName; }
+        const uint32_t& GetNumSubObjects() const { return _numSubObjects; }
+        const uint32_t& GetNumVolumeOwners() const { return _numVolumeOwners; }
+        const std::vector<std::unique_ptr<CollisionVolumeOwner>>& GetVolumeOwners() const { return _volumeOwners; }
+        const std::unique_ptr<CollisionVolume>& GetVolume() const { return _volume; }
+        const std::unique_ptr<CollisionObjectAttribute>& GetAttribute() const { return _attribute; }
+
+    private:
+
+        std::string _name;
+        uint32_t _version;
+        std::string _materialName;
+        uint32_t _numSubObjects;
+        uint32_t _numVolumeOwners;
+        std::vector<std::unique_ptr<CollisionVolumeOwner>> _volumeOwners;
+        std::unique_ptr<CollisionVolume> _volume;
+        std::unique_ptr<CollisionObjectAttribute> _attribute;
+
+    };
+
+    class CollisionVolume
+    {
+    public:
+
+        CollisionVolume(const P3DChunk&);
+
+        static std::unique_ptr<CollisionVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVolume>(chunk); }
+
+        const uint32_t& GetObjectRefIndex() const { return _objectRefIndex; }
+        const int32_t& GetOwnerIndex() const { return _ownerIndex; }
+        const uint32_t& GetNumSubVolumes() const { return _numSubVolumes; }
+        const std::vector<std::unique_ptr<CollisionVolume>>& GetSubVolumes() const { return _subVolumes; }
+        const std::unique_ptr<CollisionBBoxVolume>& GetBBox() const { return _bBox; }
+        const std::unique_ptr<CollisionOBBoxVolume>& GetObBox() const { return _obBox; }
+        const std::unique_ptr<CollisionSphere>& GetSphere() const { return _sphere; }
+        const std::unique_ptr<CollisionCylinder>& GetCylinder() const { return _cylinder; }
+
+    private:
+
+        uint32_t _objectRefIndex;
+        int32_t _ownerIndex;
+        uint32_t _numSubVolumes;
+        std::vector<std::unique_ptr<CollisionVolume>> _subVolumes;
+        std::unique_ptr<CollisionBBoxVolume> _bBox;
+        std::unique_ptr<CollisionOBBoxVolume> _obBox;
+        std::unique_ptr<CollisionSphere> _sphere;
+        std::unique_ptr<CollisionCylinder> _cylinder;
+
+    };
+
+    class CollisionSphere
+    {
+    public:
+
+        CollisionSphere(const P3DChunk&);
+
+        static std::unique_ptr<CollisionSphere> Load(const P3DChunk& chunk) { return std::make_unique<CollisionSphere>(chunk); }
+
+        const float& GetRadius() const { return _radius; }
+        const std::vector<glm::vec3>& GetVectors() const { return _vectors; }
+
+    private:
+
+        float _radius;
+        std::vector<glm::vec3> _vectors;
+
+    };
+
+    class CollisionCylinder
+    {
+    public:
+
+        CollisionCylinder(const P3DChunk&);
+
+        static std::unique_ptr<CollisionCylinder> Load(const P3DChunk& chunk) { return std::make_unique<CollisionCylinder>(chunk); }
+
+        const float& GetRadius() const { return _radius; }
+        const float& GetLength() const { return _length; }
+        const uint16_t& GetFlatEnd() const { return _flatEnd; }
+        const std::vector<glm::vec3>& GetVectors() const { return _vectors; }
+
+    private:
+
+        float _radius;
+        float _length;
+        uint16_t _flatEnd;
+        std::vector<glm::vec3> _vectors;
+
+    };
+
+    class CollisionOBBoxVolume
+    {
+    public:
+
+        CollisionOBBoxVolume(const P3DChunk&);
+
+        static std::unique_ptr<CollisionOBBoxVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionOBBoxVolume>(chunk); }
+
+        const glm::vec3& GetHalfExtents() const { return _halfExtents; }
+        const std::vector<glm::vec3>& GetVectors() const { return _vectors; }
+
+    private:
+
+        glm::vec3 _halfExtents;
+        std::vector<glm::vec3> _vectors;
+
+    };
+
+    class CollisionBBoxVolume
+    {
+    public:
+
+        CollisionBBoxVolume(const P3DChunk&);
+
+        static std::unique_ptr<CollisionBBoxVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionBBoxVolume>(chunk); }
+
+        const uint32_t& GetNothing() const { return _nothing; }
+
+    private:
+
+        uint32_t _nothing;
+
+    };
+
+    class CollisionVector
+    {
+    public:
+
+        CollisionVector(const P3DChunk&);
+
+        static std::unique_ptr<CollisionVector> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVector>(chunk); }
+
+        const glm::vec3& GetValue() const { return _value; }
+
+    private:
+
+        glm::vec3 _value;
+
+    };
+
+    class CollisionVolumeOwner
+    {
+    public:
+
+        CollisionVolumeOwner(const P3DChunk&);
+
+        static std::unique_ptr<CollisionVolumeOwner> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVolumeOwner>(chunk); }
+
+        const uint32_t& GetNumNames() const { return _numNames; }
+        const std::vector<std::unique_ptr<CollisionVolumeOwnerName>>& GetNames() const { return _names; }
+
+    private:
+
+        uint32_t _numNames;
+        std::vector<std::unique_ptr<CollisionVolumeOwnerName>> _names;
+
+    };
+
+    class CollisionVolumeOwnerName
+    {
+    public:
+
+        CollisionVolumeOwnerName(const P3DChunk&);
+
+        static std::unique_ptr<CollisionVolumeOwnerName> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVolumeOwnerName>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+
+    private:
+
+        std::string _name;
+
+    };
+
+    class CollisionObjectAttribute
+    {
+    public:
+
+        CollisionObjectAttribute(const P3DChunk&);
+
+        static std::unique_ptr<CollisionObjectAttribute> Load(const P3DChunk& chunk) { return std::make_unique<CollisionObjectAttribute>(chunk); }
+
+        const uint16_t& GetStatic() const { return _static; }
+        const uint32_t& GetDefaultArea() const { return _defaultArea; }
+        const uint16_t& GetCanRoll() const { return _canRoll; }
+        const uint16_t& GetCanSlide() const { return _canSlide; }
+        const uint16_t& GetCanSpin() const { return _canSpin; }
+        const uint16_t& GetCanBounce() const { return _canBounce; }
+        const uint32_t& GetUnknown1() const { return _unknown1; }
+        const uint32_t& GetUnknown2() const { return _unknown2; }
+        const uint32_t& GetUnknown3() const { return _unknown3; }
+
+    private:
+
+        uint16_t _static;
+        uint32_t _defaultArea;
+        uint16_t _canRoll;
+        uint16_t _canSlide;
+        uint16_t _canSpin;
+        uint16_t _canBounce;
+        uint32_t _unknown1;
+        uint32_t _unknown2;
+        uint32_t _unknown3;
+
     };
 }

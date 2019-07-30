@@ -131,7 +131,8 @@
   },
 
   "StaticPhysics": {
-    "name": "string"
+    "name": "string",
+    "collisionObject": "child CollisionObject"
   },
 
   "InstancedStaticPhysics": {
@@ -427,7 +428,8 @@
   },
 
   "CollisionSphere": {
-    "radius":  "float"
+    "radius": "float",
+    "vectors": "children<vec3> CollisionVector"
   },
 
   "CollisionCylinder": {
