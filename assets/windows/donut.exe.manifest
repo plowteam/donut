@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+    <assemblyIdentity type="win32" name="donut" version="1.0.0.0"/>
+    <description>donut</description>
+    <application xmlns="urn:schemas-microsoft-com:asm.v3">
+        <windowsSettings xmlns:ws="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
+            <ws:dpiAware>True</ws:dpiAware>
+        </windowsSettings>
+    </application>
+</assembly>

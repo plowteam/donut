@@ -3,6 +3,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 file(GLOB_RECURSE DONUT_SOURCES "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
 file(GLOB_RECURSE DONUT_HEADERS "${CMAKE_CURRENT_LIST_DIR}/*.h")
 
+set(DONUT_RC ${CMAKE_SOURCE_DIR}/assets/windows/donut.rc)
+set(DONUT_MANIFEST ${CMAKE_SOURCE_DIR}/assets/windows/donut.exe.manifest)
+
 # force glm left handedness to be like simsons
 add_definitions(-DGLM_FORCE_LEFT_HANDED)
 
@@ -34,7 +37,7 @@ if (WIN32)
 	endif()
 endif()
 
-add_executable(${PROJECT_NAME} ${DONUT_SOURCES} ${DONUT_HEADERS})
+add_executable(${PROJECT_NAME} ${DONUT_SOURCES} ${DONUT_HEADERS} ${DONUT_RC} ${DONUT_MANIFEST})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 OPENAL glm glad imgui fmt::fmt)
