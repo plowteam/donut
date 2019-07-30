@@ -60,6 +60,7 @@ class Game
   private:
 	void guiTeleportMenu();
 	void guiModelMenu(Character&);
+	void guiDebugMenu();
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
 	void debugDrawRCF();

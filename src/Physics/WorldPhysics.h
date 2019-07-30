@@ -21,6 +21,19 @@ class CollisionVolume;
 class Fence;
 };
 
+enum class PhysicsDebugDrawMode
+{
+	NoDebug = 0,
+	DrawWireframe = (1 << 0),
+	DrawAABB = (1 << 1),
+	DrawFeaturesText = (1 << 2),
+	DrawContactPoints = (1 << 3),
+	DrawText = (1 << 6),
+	FastWireframe  = (1 << 13),
+	DrawNormals    = (1 << 14),
+	DrawFrames     = (1 << 15)
+};
+
 class WorldPhysics
 {
 public:
@@ -37,7 +50,10 @@ public:
 	void AddP3DFence(const P3D::Fence&);
 
 	btDiscreteDynamicsWorld* GetDynamicsWorld() const { return _dynamicsWorld; }
-	
+
+	void SetDebugDrawMode(PhysicsDebugDrawMode mode) const { _debugDraw->setDebugMode((int)mode); }
+	PhysicsDebugDrawMode GetDebugDrawMode() const {return (PhysicsDebugDrawMode)_debugDraw->getDebugMode(); }
+
 private:
 	btDiscreteDynamicsWorld* _dynamicsWorld;
 

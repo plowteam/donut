@@ -15,6 +15,7 @@
 #include <ResourceManager.h>
 #include <SDL.h>
 #include <Window.h>
+#include <array>
 #include <fmt/format.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -28,7 +29,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <array>
 
 namespace Donut
 {
@@ -601,6 +601,7 @@ void Game::Run()
 
 		guiTeleportMenu();
 		guiModelMenu(*_character);
+		guiDebugMenu();
 
 		ImGui::EndMainMenuBar();
 
@@ -731,6 +732,32 @@ void Game::guiTeleportMenu()
 				ImGui::EndTooltip();
 			}
 		}
+
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMenu();
+}
+
+void Game::guiDebugMenu()
+{
+	if (!ImGui::BeginMenu("Debug"))
+		return;
+
+	if (ImGui::BeginMenu("Physics"))
+	{
+		PhysicsDebugDrawMode mode = _worldPhysics->GetDebugDrawMode();
+
+		ImGui::CheckboxFlags("Draw Wireframe", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawWireframe);
+		ImGui::CheckboxFlags("Draw AABB", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawAABB);
+		ImGui::CheckboxFlags("Draw Features Text", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawFeaturesText);
+		ImGui::CheckboxFlags("Draw Contact Points", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawContactPoints);
+		ImGui::CheckboxFlags("Draw Text", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawText);
+		ImGui::CheckboxFlags("Fast Wireframe", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::FastWireframe);
+		ImGui::CheckboxFlags("Draw Normals", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawNormals);
+		ImGui::CheckboxFlags("Draw Frames", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawFrames);
+
+		_worldPhysics->SetDebugDrawMode(mode);
 
 		ImGui::EndMenu();
 	}

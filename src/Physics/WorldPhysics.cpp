@@ -1,5 +1,6 @@
 #include <P3D/p3d.generated.h>
 #include <Physics/BulletCast.h>
+#include <Physics/BulletDebugDraw.h>
 #include <Physics/WorldPhysics.h>
 
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
@@ -16,7 +17,7 @@ WorldPhysics::WorldPhysics(LineRenderer* lineRenderer)
 	_dynamicsWorld = new btDiscreteDynamicsWorld(_collisionDispatcher, _broadphase, _constraintSolver, _collisionConfiguration);
 
 	_debugDraw = std::make_unique<BulletDebugDraw>(lineRenderer);
-	_debugDraw->setDebugMode(true);
+	_debugDraw->setDebugMode(btIDebugDraw::DBG_NoDebug);
 
 	_dynamicsWorld->setDebugDrawer(_debugDraw.get());
 	_dynamicsWorld->setGravity(btVector3(0.0f, -1.0f, 0.0f));
