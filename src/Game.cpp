@@ -394,7 +394,7 @@ Game::Game(int argc, char** argv)
 		_filesRCF.push_back(std::make_unique<RCL::RCFFile>(filename));
 	}
 
-	TestAudio();
+	// TestAudio();
 
 
 	// init sub classes
