@@ -336,8 +336,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "VectorOffsetList";
 		case ChunkType::VertexAnimKeyFrame:
 			return os << "VertexAnimKeyFrame";
-		case ChunkType::Fence2:
-			return os << "Fence2";
+		case ChunkType::Fence:
+			return os << "Fence";
 		case ChunkType::RoadSegment:
 			return os << "RoadSegment";
 		case ChunkType::Road:
@@ -388,8 +388,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "TreeNode";
 		case ChunkType::TreeNode2:
 			return os << "TreeNode2";
-		case ChunkType::Fence:
-			return os << "Fence";
+		case ChunkType::FenceWrapper:
+			return os << "FenceWrapper";
 		case ChunkType::AnimCollision:
 			return os << "AnimCollision";
 		case ChunkType::InstancedStaticEntity:

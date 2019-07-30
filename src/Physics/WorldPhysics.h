@@ -18,6 +18,7 @@ class CollisionOBBoxVolume;
 class CollisionSphere;
 class CollisionCylinder;
 class CollisionVolume;
+class Fence;
 };
 
 class WorldPhysics
@@ -33,6 +34,7 @@ public:
 	void AddP3DOBBoxVolume(const P3D::CollisionOBBoxVolume&);
 	void AddP3DSphere(const P3D::CollisionSphere&);
 	void AddP3DCylinder(const P3D::CollisionCylinder&);
+	void AddP3DFence(const P3D::Fence&);
 
 	btDiscreteDynamicsWorld* GetDynamicsWorld() const { return _dynamicsWorld; }
 	

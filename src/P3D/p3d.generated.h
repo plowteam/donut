@@ -87,6 +87,8 @@ namespace Donut::P3D
 	class CollisionVolumeOwner;
 	class CollisionVolumeOwnerName;
 	class CollisionObjectAttribute;
+	class FenceWrapper;
+	class Fence;
 
     class Animation
     {
@@ -1513,6 +1515,42 @@ namespace Donut::P3D
         uint32_t _unknown1;
         uint32_t _unknown2;
         uint32_t _unknown3;
+
+    };
+
+    class FenceWrapper
+    {
+    public:
+
+        FenceWrapper(const P3DChunk&);
+
+        static std::unique_ptr<FenceWrapper> Load(const P3DChunk& chunk) { return std::make_unique<FenceWrapper>(chunk); }
+
+        const std::unique_ptr<Fence>& GetFence() const { return _fence; }
+
+    private:
+
+        std::unique_ptr<Fence> _fence;
+
+    };
+
+    class Fence
+    {
+    public:
+
+        Fence(const P3DChunk&);
+
+        static std::unique_ptr<Fence> Load(const P3DChunk& chunk) { return std::make_unique<Fence>(chunk); }
+
+        const glm::vec3& GetStart() const { return _start; }
+        const glm::vec3& GetEnd() const { return _end; }
+        const glm::vec3& GetNormal() const { return _normal; }
+
+    private:
+
+        glm::vec3 _start;
+        glm::vec3 _end;
+        glm::vec3 _normal;
 
     };
 }

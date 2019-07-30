@@ -237,6 +237,11 @@ void Level::LoadP3D(const std::string& filename)
 			locators.push_back(std::move(P3D::Locator2::Load(*chunk)));
 			break;
 		}
+		case P3D::ChunkType::FenceWrapper:
+		{
+			auto const& fence = P3D::FenceWrapper::Load(*chunk);
+			_worldPhysics->AddP3DFence(*fence->GetFence());
+		}
 		default: break;
 		}
 	}

@@ -1422,4 +1422,35 @@ namespace Donut::P3D
         _unknown2 = stream.Read<uint32_t>();
         _unknown3 = stream.Read<uint32_t>();
     }
+
+    FenceWrapper::FenceWrapper(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FenceWrapper));
+
+        MemoryStream stream(chunk.GetData());
+        
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::Fence:
+                    {
+                        _fence = std::make_unique<Fence>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    Fence::Fence(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Fence));
+
+        MemoryStream stream(chunk.GetData());
+        _start = stream.Read<glm::vec3>();
+        _end = stream.Read<glm::vec3>();
+        _normal = stream.Read<glm::vec3>();
+    }
 }
