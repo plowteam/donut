@@ -187,18 +187,27 @@ void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 
 void WorldPhysics::AddP3DFence(const P3D::Fence& fence)
 {
-	BulletFenceShape* shape = new BulletFenceShape(
-		BulletCast<btVector3>(fence.GetStart()),
-		BulletCast<btVector3>(fence.GetEnd()),
-		BulletCast<btVector3>(fence.GetNormal())
-	);
+	glm::vec3 start = fence.GetStart();
+	glm::vec3 end   = fence.GetEnd();
+	glm::vec3 n      = fence.GetNormal();
+	glm::vec3 center = end + (start - end)*0.5f;
+
+	float length = glm::distance(start, end);
+
+	// tall box, little thick
+	btVector3 boxHalfExtents(length / 2, 50.0f, .1f);
+
+	auto box = new btBoxShape(boxHalfExtents);
+
+	float angle = atan2f(n.x, n.z); // atan2(z,x)
 
 	btTransform worldTransform;
 	worldTransform.setIdentity();
-	//worldTransform.setOrigin(BulletCast<btVector3>(center));
+	worldTransform.setOrigin(BulletCast<btVector3>(center));
+	worldTransform.setRotation(btQuaternion(0, 1 * sinf(angle / 2), 0, cos(angle / 2)));
 
 	auto colObj = new btCollisionObject();
-	colObj->setCollisionShape(shape);
+	colObj->setCollisionShape(box);
 	colObj->setWorldTransform(worldTransform);
 
 	_dynamicsWorld->addCollisionObject(colObj);

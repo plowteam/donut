@@ -20,7 +20,18 @@ void BulletFenceShape::getAabb(const btTransform& t, btVector3& aabbMin, btVecto
 
 void BulletFenceShape::processAllTriangles(btTriangleCallback* callback, const btVector3& aabbMin, const btVector3& aabbMax) const
 {
-	
+	btVector3 triangle[3];
+	triangle[0] = m_start + btVector3(0, 100.0f, 0);
+	triangle[1] = m_start - btVector3(0, 100.0f, 0);
+	triangle[2] = m_end - btVector3(0, 100.0f, 0);
+
+	callback->processTriangle(triangle, 0, 0);
+
+	triangle[0] = m_start + btVector3(0, 100.0f, 0);
+	triangle[1] = m_end + btVector3(0, 100.0f, 0);
+	triangle[2] = m_end - btVector3(0, 100.0f, 0);
+
+	callback->processTriangle(triangle, 0, 1);
 }
 
 void BulletFenceShape::calculateLocalInertia(btScalar mass, btVector3& inertia) const
