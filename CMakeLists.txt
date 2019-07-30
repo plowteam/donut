@@ -71,22 +71,22 @@ endif()
 
 # Download precompiled OpenAL on Windows x86_64
 if (DONUT_DOWNLOAD_OPENALSOFT AND MSVC)
-    set(OPENALSOFT_VERSION "1.19.1")
+    set(OPENAL_VERSION "1.19.1")
 
-    download_library(https://kcat.strangesoft.net/openal-binaries/openal-soft-${OPENALSOFT_VERSION}-bin.zip "openal-soft-${OPENALSOFT_VERSION}-bin" OPENALSOFT_PREFIX)
+    download_library(https://kcat.strangesoft.net/openal-binaries/openal-soft-${OPENAL_VERSION}-bin.zip "openal-soft-${OPENAL_VERSION}-bin" OPENAL_PREFIX)
 
-    set(OPENALSOFT_FOUND YES)
-    set(OPENALSOFT_INCLUDE_DIR "${OPENALSOFT_PREFIX}/include" CACHE PATH "Path to OpenAL-Soft headers")
-    set(OPENALSOFT_LIBRARY "${OPENALSOFT_PREFIX}/libs/Win64/OpenAL32.lib" CACHE PATH "Path to OpenAL-Soft library")
-    set(OPENALSOFT_DLL_DIR "${OPENALSOFT_PREFIX}/bin/Win64/" CACHE PATH "Path to soft_oal.dll")
+    set(OPENAL_FOUND YES)
+    set(OPENAL_INCLUDE_DIR "${OPENAL_PREFIX}/include" CACHE PATH "Path to OpenAL-Soft headers")
+    set(OPENAL_LIBRARY "${OPENAL_PREFIX}/libs/Win64/OpenAL32.lib" CACHE PATH "Path to OpenAL-Soft library")
+    set(OPENAL_DLL_DIR "${OPENAL_PREFIX}/bin/Win64/" CACHE PATH "Path to soft_oal.dll")
 else()
-    find_package(OpenALSoft REQUIRED)
+    find_package(OpenAL REQUIRED)
 endif()
 
-if (OPENALSOFT_FOUND)
-    add_library(OPENALSOFT INTERFACE)
-    target_link_libraries(OPENALSOFT INTERFACE "${OPENALSOFT_LIBRARY}")
-    target_include_directories(OPENALSOFT INTERFACE "${OPENALSOFT_INCLUDE_DIR}")
+if (OPENAL_FOUND)
+    add_library(OPENAL INTERFACE)
+    target_link_libraries(OPENAL INTERFACE "${OPENAL_LIBRARY}")
+    target_include_directories(OPENAL INTERFACE "${OPENAL_INCLUDE_DIR}")
 endif()
 
 find_package(Bullet REQUIRED COMPONENTS BulletCollision_Debug BulletDynamics_Debug LinearMath_Debug)
