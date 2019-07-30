@@ -6,6 +6,8 @@
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
 #include <Physics/BulletFenceShape.h>
 
+#include <glm/gtx/quaternion.hpp>
+
 namespace Donut
 {
 WorldPhysics::WorldPhysics(LineRenderer* lineRenderer)
@@ -169,15 +171,21 @@ void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 {
 	const float radius = cylinder.GetRadius();
 	const float halfLength = cylinder.GetLength();
+	const glm::quat rotation = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), cylinder.GetVectors()[1]);
 
-	const auto bulletCylinder = new btCylinderShape(btVector3(radius, halfLength, radius));
+	btConvexShape* shape = nullptr;
+	if (cylinder.GetFlatEnd() == 1)
+		shape = new btCylinderShape(btVector3(radius, halfLength, radius));
+	else
+		shape = new btCapsuleShape(radius, halfLength * 2);
 
 	btTransform worldTransform;
 	worldTransform.setIdentity();
 	worldTransform.setOrigin(BulletCast<btVector3>(cylinder.GetVectors()[0]));
+	worldTransform.setRotation(BulletCast<btQuaternion>(rotation));
 
 	auto colObj = new btCollisionObject();
-	colObj->setCollisionShape(bulletCylinder);
+	colObj->setCollisionShape(shape);
 	colObj->setWorldTransform(worldTransform);
 
 	_dynamicsWorld->addCollisionObject(colObj);
@@ -189,22 +197,22 @@ void WorldPhysics::AddP3DFence(const P3D::Fence& fence)
 {
 	glm::vec3 start = fence.GetStart();
 	glm::vec3 end   = fence.GetEnd();
-	glm::vec3 n      = fence.GetNormal();
+	glm::vec3 normal      = fence.GetNormal();
 	glm::vec3 center = end + (start - end)*0.5f;
 
-	float length = glm::distance(start, end);
+	const float length = glm::distance(start, end);
+	const glm::quat rotation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), normal);
 
-	// tall box, little thick
-	btVector3 boxHalfExtents(length / 2, 50.0f, .1f);
+	// tall box, very little thickness, might turn into a plane if possible
+	const btVector3 boxHalfExtents(length / 2, 50.0f, .0125f);
 
 	auto box = new btBoxShape(boxHalfExtents);
-
-	float angle = atan2f(n.x, n.z); // atan2(z,x)
+	const float angle = atan2f(normal.x, normal.z);
 
 	btTransform worldTransform;
 	worldTransform.setIdentity();
 	worldTransform.setOrigin(BulletCast<btVector3>(center));
-	worldTransform.setRotation(btQuaternion(0, 1 * sinf(angle / 2), 0, cos(angle / 2)));
+	worldTransform.setRotation(BulletCast<btQuaternion>(rotation));
 
 	auto colObj = new btCollisionObject();
 	colObj->setCollisionShape(box);
