@@ -258,7 +258,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -283,7 +283,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -313,7 +313,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -346,7 +346,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -374,7 +374,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -398,7 +398,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -421,7 +421,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -445,7 +445,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -469,7 +469,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -494,7 +494,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -519,7 +519,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -543,7 +543,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -569,7 +569,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -594,7 +594,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -617,7 +617,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -640,7 +640,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -663,7 +663,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -686,7 +686,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -712,7 +712,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -738,7 +738,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -762,7 +762,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -786,7 +786,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -809,7 +809,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -834,7 +834,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -860,7 +860,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -884,7 +884,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -907,7 +907,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -931,7 +931,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -958,7 +958,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -987,7 +987,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1014,7 +1014,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1038,7 +1038,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1062,7 +1062,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1086,7 +1086,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1113,7 +1113,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1140,7 +1140,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1163,7 +1163,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1186,7 +1186,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1209,7 +1209,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1234,7 +1234,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1259,7 +1259,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1282,7 +1282,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1305,7 +1305,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1328,7 +1328,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1351,7 +1351,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1376,7 +1376,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1401,7 +1401,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1424,7 +1424,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1451,7 +1451,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1478,7 +1478,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1501,7 +1501,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1524,7 +1524,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1548,7 +1548,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1572,7 +1572,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1595,7 +1595,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1618,7 +1618,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1643,7 +1643,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1668,7 +1668,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1691,7 +1691,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1717,7 +1717,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1744,7 +1744,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1770,7 +1770,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1795,7 +1795,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1818,7 +1818,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1848,7 +1848,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1879,7 +1879,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1905,7 +1905,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1931,7 +1931,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1960,7 +1960,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -1989,7 +1989,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2013,7 +2013,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2038,7 +2038,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2063,7 +2063,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2086,7 +2086,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2110,7 +2110,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2134,7 +2134,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2158,7 +2158,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2184,7 +2184,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2214,7 +2214,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2248,7 +2248,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2278,7 +2278,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2302,7 +2302,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2325,7 +2325,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2348,7 +2348,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2371,7 +2371,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2395,7 +2395,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2420,7 +2420,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2444,7 +2444,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2467,7 +2467,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2490,7 +2490,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2513,7 +2513,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2536,7 +2536,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2559,7 +2559,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2582,7 +2582,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2609,7 +2609,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2638,7 +2638,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2663,7 +2663,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2689,7 +2689,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2717,7 +2717,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2742,7 +2742,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2766,7 +2766,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2791,7 +2791,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2815,7 +2815,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2839,7 +2839,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2863,7 +2863,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2887,7 +2887,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2912,7 +2912,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2936,7 +2936,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2959,7 +2959,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -2982,7 +2982,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3008,7 +3008,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3036,7 +3036,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3061,7 +3061,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3084,7 +3084,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3109,7 +3109,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3134,7 +3134,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3157,7 +3157,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3180,7 +3180,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3205,7 +3205,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3231,7 +3231,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3255,7 +3255,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3278,7 +3278,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3305,7 +3305,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3332,7 +3332,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3356,7 +3356,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3380,7 +3380,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3403,7 +3403,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3426,7 +3426,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3449,7 +3449,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3472,7 +3472,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3495,7 +3495,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3518,7 +3518,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3545,7 +3545,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3572,7 +3572,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3595,7 +3595,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3618,7 +3618,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3642,7 +3642,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3670,7 +3670,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3697,7 +3697,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3720,7 +3720,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3743,7 +3743,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3767,7 +3767,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3791,7 +3791,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3814,7 +3814,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3837,7 +3837,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3861,7 +3861,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3885,7 +3885,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3908,7 +3908,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3935,7 +3935,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3965,7 +3965,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -3992,7 +3992,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4017,7 +4017,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4042,7 +4042,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4067,7 +4067,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4094,7 +4094,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4122,7 +4122,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4147,7 +4147,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4170,7 +4170,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4193,7 +4193,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4216,7 +4216,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4239,7 +4239,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4262,7 +4262,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4285,7 +4285,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4308,7 +4308,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4331,7 +4331,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4354,7 +4354,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4377,7 +4377,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4400,7 +4400,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4423,7 +4423,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4446,7 +4446,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4469,7 +4469,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4492,7 +4492,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4515,7 +4515,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4538,7 +4538,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4561,7 +4561,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4584,7 +4584,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4607,7 +4607,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4630,7 +4630,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4653,7 +4653,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4676,7 +4676,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4699,7 +4699,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4722,7 +4722,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4745,7 +4745,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4768,7 +4768,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4791,7 +4791,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4814,7 +4814,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4837,7 +4837,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4860,7 +4860,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4883,7 +4883,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4906,7 +4906,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4936,7 +4936,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4966,7 +4966,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -4989,7 +4989,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5012,7 +5012,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5035,7 +5035,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5058,7 +5058,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5081,7 +5081,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5104,7 +5104,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5127,7 +5127,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5150,7 +5150,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5173,7 +5173,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5196,7 +5196,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5221,7 +5221,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5250,7 +5250,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5280,7 +5280,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5313,7 +5313,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5343,7 +5343,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5367,7 +5367,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5392,7 +5392,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5416,7 +5416,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5439,7 +5439,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5462,7 +5462,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5486,7 +5486,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5510,7 +5510,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5533,7 +5533,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5556,7 +5556,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5579,7 +5579,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5603,7 +5603,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5628,7 +5628,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5654,7 +5654,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5681,7 +5681,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5706,7 +5706,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5729,7 +5729,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5752,7 +5752,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5775,7 +5775,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5800,7 +5800,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5825,7 +5825,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5850,7 +5850,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5875,7 +5875,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5898,7 +5898,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5921,7 +5921,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5945,7 +5945,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5969,7 +5969,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -5992,7 +5992,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6016,7 +6016,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6041,7 +6041,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6065,7 +6065,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6088,7 +6088,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6112,7 +6112,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6140,7 +6140,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6171,7 +6171,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6202,7 +6202,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6231,7 +6231,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)
@@ -6257,7 +6257,7 @@ namespace Donut
         size_t length = params.length();
         for (size_t i = 0; i < length; ++i)
         {
-            if (!ScriptParser::SkipWhitespace(params[i], i, length, paramIndex)) return false;
+            if (!ScriptParser::SkipWhitespace(&params[0], i, length, paramIndex)) return false;
             if (i == length) break;
 
             switch (paramIndex)

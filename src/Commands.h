@@ -84,11 +84,16 @@ namespace Donut
 				{
 					commandsRun++;
 				}
+				else
+				{
+					Run(name, params);
+					commandsRun = commandsRun;
+				}
 
 				lines.push_back(line);
 			}
 
-			std::cout << fmt::format("Successfully run {0} commands out of {1}", commandsRun, lines.size());
+			std::cout << fmt::format("Successfully run {0} commands out of {1}", commandsRun, lines.size()) << std::endl;
 
 			file.Close();
 		}
@@ -125,7 +130,7 @@ namespace Donut
 				value.push_back(c);
 			}
 
-			return false;
+			return !open;
 		}
 
 		static bool TryReadInt(const char* data, size_t length, int32_t& value, size_t& pos)
@@ -135,7 +140,7 @@ namespace Donut
 
 			for (size_t i = 0; i < length; ++i, ++pos)
 			{
-				char c = data[i];;
+				char c = data[i];
 				if (c == ' ')
 				{
 					if (begin) break;
@@ -167,7 +172,7 @@ namespace Donut
 
 			for (size_t i = 0; i < length; ++i, ++pos)
 			{
-				char c = data[i];;
+				char c = data[i];
 				if (c == ' ')
 				{
 					if (begin) break;
@@ -185,6 +190,7 @@ namespace Donut
 							hasDecimal = true;
 						}
 					}
+					else if (c == '.') hasDecimal = true;
 					else if (c != '-') return false;
 				}
 
@@ -199,11 +205,22 @@ namespace Donut
 			return true;
 		}
 
-		static bool SkipWhitespace(char c, size_t& pos, size_t length, size_t paramIndex)
+		static bool SkipWhitespace(const char* data, size_t& pos, size_t length, size_t paramIndex)
 		{
-			if (c == ' ') pos++;
-			else if (c == ',' && pos < length - 1) pos++;
-			else if (paramIndex > 0) return false;
+			while (pos < length - 1)
+			{
+				auto c = data[pos];
+				if (c == ' ')
+				{
+					pos++; continue;
+				}
+				else if (c == ',' && pos < length - 1)
+				{
+					pos++; return true;
+				}
+				else return true;
+			}
+
 			return true;
 		}
 	};
