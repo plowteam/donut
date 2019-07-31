@@ -66,14 +66,19 @@ class File
 	void Seek(std::size_t position, FileSeekMode mode) const;
 	std::size_t Position() const;
 	std::size_t Size() const;
+	bool IsEOF() const;
+
 	void Flush();
 
 	static std::string ReadAll(const std::filesystem::path& filename);
 
 	std::string ReadString(std::size_t length);
 
+	std::string ReadLine();
+
   protected:
 	FILE* _file;
+	std::size_t _size;
 };
 
 } // namespace Donut

@@ -8,10 +8,10 @@ namespace Donut
 {
 
 File::File():
-    _file(nullptr) {}
+    _file(nullptr), _size(0) {}
 
 File::File(const std::filesystem::path& path, FileMode mode):
-    _file(nullptr)
+    _file(nullptr), _size(0)
 {
 	Open(path, mode);
 }
@@ -31,7 +31,18 @@ void File::Open(const std::filesystem::path& path, FileMode mode)
 	_file = std::fopen(path.c_str(), "rb");
 #endif
 
-	if (_file == nullptr) throw std::runtime_error("fopen failed");
+	if (_file == nullptr)
+	{
+		throw std::runtime_error("fopen failed");
+	}
+	else
+	{
+		std::size_t origPos = Position();
+		Seek(0, FileSeekMode::End);
+
+		_size = Position();
+		Seek(origPos, FileSeekMode::Begin);
+	}
 }
 
 void File::Close()
@@ -56,14 +67,13 @@ std::size_t File::Position() const
 std::size_t File::Size() const
 {
 	assert(_file != nullptr);
+	return _size;
+}
 
-	std::size_t origPos = Position();
-	Seek(0, FileSeekMode::End);
-
-	std::size_t size = Position();
-	Seek(origPos, FileSeekMode::Begin);
-
-	return size;
+bool File::IsEOF() const
+{
+	assert(_file != nullptr);
+	return std::feof(_file);
 }
 
 void File::Flush()
@@ -94,6 +104,21 @@ std::string File::ReadString(std::size_t length)
 	}
 
 	return std::string(str.data(), l);
+}
+
+std::string File::ReadLine()
+{
+	std::string line;
+	for (size_t i = 0; i < _size; ++i)
+	{
+		auto c = Read<char>();
+		if (c == '\r') continue;
+		if (c == '\n') return line;
+
+		line.push_back(c);
+	}
+
+	return line;
 }
 
 } // namespace Donut

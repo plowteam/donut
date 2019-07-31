@@ -360,7 +360,8 @@ Game::Game(int argc, char** argv)
 {
 	instance = this; // global static :D
 
-	Commands::Run("AddTeleportDest", "\"Simpsons' House\", 220, 3.5, -172, \"l1z1.p3d;l1r1.p3d;l1r7.p3d;\"");
+	//Commands::RunScript("scripts/missions/level01/level.mfk");
+	//Commands::Run("AddTeleportDest", "\"Simpsons' House\", 220, 3.5, -172, \"l1z1.p3d;l1r1.p3d;l1r7.p3d;\"");
 
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
 
