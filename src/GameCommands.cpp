@@ -1,8 +1,26 @@
 #include "GameCommands.h"
+#include <iostream>
+#include <fmt/format.h>
 
 namespace Donut
 {
-	void GameCommands::LoadP3DFile(const std::string& param0, const std::string& param1 /*= ""*/) {}
+	void GameCommands::HelloWorld()
+	{
+		std::cout << "hellooooooooooo new york!!!!\n";
+	}
+
+	void GameCommands::LoadP3DFile(const std::string& param0, const std::string& param1 /*= ""*/)
+	{
+		if (param1.empty())
+		{
+			//std::cout << fmt::format("LoadP3DFile({0})\n", param0);
+		}
+		else
+		{
+			//std::cout << fmt::format("LoadP3DFile({0}, {1})\n", param0, param1);
+		}
+	}
+
 	void GameCommands::SetParticleTexture(int32_t param0, const std::string& param1) {}
 	void GameCommands::BindReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, int32_t param4, int32_t param5 /*= 0*/, const std::string& param6 /*= ""*/) {}
 	void GameCommands::SetCarAttributes(const std::string& param0, float param1, float param2, float param3, float param4) {}

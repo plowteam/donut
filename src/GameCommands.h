@@ -11,6 +11,7 @@ namespace Donut
 		GameCommands() = delete;
 		~GameCommands() = delete;
 
+		static void HelloWorld();
 		static void LoadP3DFile(const std::string&, const std::string& = "");
 		static void SetParticleTexture(int32_t, const std::string&);
 		static void BindReward(const std::string&, const std::string&, const std::string&, const std::string&, int32_t, int32_t = 0, const std::string& = "");

@@ -1,9 +1,8 @@
-#include <Commands.h>
-#include <iostream>
-#include <fmt/format.h>
+#include "Commands.h"
 
 namespace Donut
 {
+    static void Impl_HelloWorld() { GameCommands::HelloWorld(); }
     static void Impl_LoadP3DFile(const std::string& param0, const std::string& param1 = "") { GameCommands::LoadP3DFile(param0, param1); }
     static void Impl_SetParticleTexture(int32_t param0, const std::string& param1) { GameCommands::SetParticleTexture(param0, param1); }
     static void Impl_BindReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, int32_t param4, int32_t param5 = 0, const std::string& param6 = "") { GameCommands::BindReward(param0, param1, param2, param3, param4, param5, param6); }
@@ -251,641 +250,652 @@ namespace Donut
     static void Impl_SetCharacterPosition(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::SetCharacterPosition(param0, param1, param2); }
     static void Impl_ResetCharacter(const std::string& param0, const std::string& param1) { GameCommands::ResetCharacter(param0, param1); }
 
-    static bool Command_LoadP3DFile(const std::string& params)
+    static bool Command_HelloWorld(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        if (!line.empty()) return false;
 
-        size_t numParams = splits.size();
-        if (numParams < 1) return false;
-
-        Impl_LoadP3DFile(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_HelloWorld();
         return true;
     }
 
-    static bool Command_SetParticleTexture(const std::string& params)
+    static bool Command_LoadP3DFile(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
+        if (numParams < 1) return false;
+
+        Impl_LoadP3DFile(params[0], (numParams > 1) ? params[1] : "");
+        return true;
+    }
+
+    static bool Command_SetParticleTexture(const std::string& line)
+    {
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
+
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
-        Impl_SetParticleTexture(param0, splits[1]);
+        Impl_SetParticleTexture(param0, params[1]);
         return true;
     }
 
-    static bool Command_BindReward(const std::string& params)
+    static bool Command_BindReward(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 7)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 7)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
         int32_t param4;
-        if (!Commands::StringToInt(splits[4], param4)) return false;
+        if (!Commands::StringToInt(params[4], param4)) return false;
         int32_t param5 = 0;
         if (numParams > 5)
-            if (!Commands::StringToInt(splits[5], param5)) return false;
+            if (!Commands::StringToInt(params[5], param5)) return false;
 
-        Impl_BindReward(splits[0], splits[1], splits[2], splits[3], param4, param5, (numParams > 6) ? splits[6] : "");
+        Impl_BindReward(params[0], params[1], params[2], params[3], param4, param5, (numParams > 6) ? params[6] : "");
         return true;
     }
 
-    static bool Command_SetCarAttributes(const std::string& params)
+    static bool Command_SetCarAttributes(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
         float param1;
-        if (!Commands::StringToFloat(splits[1], param1)) return false;
+        if (!Commands::StringToFloat(params[1], param1)) return false;
         float param2;
-        if (!Commands::StringToFloat(splits[2], param2)) return false;
+        if (!Commands::StringToFloat(params[2], param2)) return false;
         float param3;
-        if (!Commands::StringToFloat(splits[3], param3)) return false;
+        if (!Commands::StringToFloat(params[3], param3)) return false;
         float param4;
-        if (!Commands::StringToFloat(splits[4], param4)) return false;
+        if (!Commands::StringToFloat(params[4], param4)) return false;
 
-        Impl_SetCarAttributes(splits[0], param1, param2, param3, param4);
+        Impl_SetCarAttributes(params[0], param1, param2, param3, param4);
         return true;
     }
 
-    static bool Command_SetTotalGags(const std::string& params)
+    static bool Command_SetTotalGags(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
         Impl_SetTotalGags(param0, param1);
         return true;
     }
 
-    static bool Command_SelectMission(const std::string& params)
+    static bool Command_SelectMission(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SelectMission(splits[0]);
+        Impl_SelectMission(params[0]);
         return true;
     }
 
-    static bool Command_SetMissionResetPlayerInCar(const std::string& params)
+    static bool Command_SetMissionResetPlayerInCar(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetMissionResetPlayerInCar(splits[0]);
+        Impl_SetMissionResetPlayerInCar(params[0]);
         return true;
     }
 
-    static bool Command_SetDynaLoadData(const std::string& params)
+    static bool Command_SetDynaLoadData(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetDynaLoadData(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_SetDynaLoadData(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_UsePedGroup(const std::string& params)
+    static bool Command_UsePedGroup(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_UsePedGroup(param0);
         return true;
     }
 
-    static bool Command_AddStage(const std::string& params)
+    static bool Command_AddStage(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
-        Impl_AddStage((numParams > 0) ? splits[0] : "", (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "");
+        Impl_AddStage((numParams > 0) ? params[0] : "", (numParams > 1) ? params[1] : "", (numParams > 2) ? params[2] : "");
         return true;
     }
 
-    static bool Command_SetPresentationBitmap(const std::string& params)
+    static bool Command_SetPresentationBitmap(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetPresentationBitmap(splits[0]);
+        Impl_SetPresentationBitmap(params[0]);
         return true;
     }
 
-    static bool Command_SetStageMessageIndex(const std::string& params)
+    static bool Command_SetStageMessageIndex(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
-        Impl_SetStageMessageIndex(param0, (numParams > 1) ? splits[1] : "");
+        Impl_SetStageMessageIndex(param0, (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_AddObjective(const std::string& params)
+    static bool Command_AddObjective(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddObjective(splits[0], (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "");
+        Impl_AddObjective(params[0], (numParams > 1) ? params[1] : "", (numParams > 2) ? params[2] : "");
         return true;
     }
 
-    static bool Command_SetObjTargetVehicle(const std::string& params)
+    static bool Command_SetObjTargetVehicle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetObjTargetVehicle(splits[0]);
+        Impl_SetObjTargetVehicle(params[0]);
         return true;
     }
 
-    static bool Command_CloseObjective(const std::string& params)
+    static bool Command_CloseObjective(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_CloseObjective(param0);
         return true;
     }
 
-    static bool Command_CloseStage(const std::string& params)
+    static bool Command_CloseStage(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_CloseStage(param0);
         return true;
     }
 
-    static bool Command_RESET_TO_HERE(const std::string& params)
+    static bool Command_RESET_TO_HERE(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_RESET_TO_HERE(param0);
         return true;
     }
 
-    static bool Command_SetHUDIcon(const std::string& params)
+    static bool Command_SetHUDIcon(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetHUDIcon(splits[0]);
+        Impl_SetHUDIcon(params[0]);
         return true;
     }
 
-    static bool Command_AddCollectible(const std::string& params)
+    static bool Command_AddCollectible(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddCollectible(splits[0], (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "", (numParams > 3) ? splits[3] : "");
+        Impl_AddCollectible(params[0], (numParams > 1) ? params[1] : "", (numParams > 2) ? params[2] : "", (numParams > 3) ? params[3] : "");
         return true;
     }
 
-    static bool Command_SetStageTime(const std::string& params)
+    static bool Command_SetStageTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetStageTime(param0);
         return true;
     }
 
-    static bool Command_AddCondition(const std::string& params)
+    static bool Command_AddCondition(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddCondition(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_AddCondition(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_CloseCondition(const std::string& params)
+    static bool Command_CloseCondition(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_CloseCondition(param0);
         return true;
     }
 
-    static bool Command_ShowStageComplete(const std::string& params)
+    static bool Command_ShowStageComplete(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_ShowStageComplete(param0);
         return true;
     }
 
-    static bool Command_AddNPC(const std::string& params)
+    static bool Command_AddNPC(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddNPC(splits[0], splits[1], (numParams > 2) ? splits[2] : "");
+        Impl_AddNPC(params[0], params[1], (numParams > 2) ? params[2] : "");
         return true;
     }
 
-    static bool Command_SetDestination(const std::string& params)
+    static bool Command_SetDestination(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetDestination(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_SetDestination(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_SetCollectibleEffect(const std::string& params)
+    static bool Command_SetCollectibleEffect(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetCollectibleEffect(splits[0]);
+        Impl_SetCollectibleEffect(params[0]);
         return true;
     }
 
-    static bool Command_AddStageTime(const std::string& params)
+    static bool Command_AddStageTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_AddStageTime(param0);
         return true;
     }
 
-    static bool Command_AddObjectiveNPCWaypoint(const std::string& params)
+    static bool Command_AddObjectiveNPCWaypoint(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddObjectiveNPCWaypoint(splits[0], splits[1]);
+        Impl_AddObjectiveNPCWaypoint(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetTalkToTarget(const std::string& params)
+    static bool Command_SetTalkToTarget(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param1 = 0;
         if (numParams > 1)
-            if (!Commands::StringToInt(splits[1], param1)) return false;
+            if (!Commands::StringToInt(params[1], param1)) return false;
         float param2 = 0.0f;
         if (numParams > 2)
-            if (!Commands::StringToFloat(splits[2], param2)) return false;
+            if (!Commands::StringToFloat(params[2], param2)) return false;
 
-        Impl_SetTalkToTarget(splits[0], param1, param2, (numParams > 3) ? splits[3] : "");
+        Impl_SetTalkToTarget(params[0], param1, param2, (numParams > 3) ? params[3] : "");
         return true;
     }
 
-    static bool Command_SetDialogueInfo(const std::string& params)
+    static bool Command_SetDialogueInfo(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 4) return false;
 
         int32_t param3;
-        if (!Commands::StringToInt(splits[3], param3)) return false;
+        if (!Commands::StringToInt(params[3], param3)) return false;
 
-        Impl_SetDialogueInfo(splits[0], splits[1], splits[2], param3);
+        Impl_SetDialogueInfo(params[0], params[1], params[2], param3);
         return true;
     }
 
-    static bool Command_SetCamBestSide(const std::string& params)
+    static bool Command_SetCamBestSide(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetCamBestSide(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_SetCamBestSide(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_CloseMission(const std::string& params)
+    static bool Command_CloseMission(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_CloseMission(param0);
         return true;
     }
 
-    static bool Command_PlacePlayerCar(const std::string& params)
+    static bool Command_PlacePlayerCar(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_PlacePlayerCar(splits[0], splits[1]);
+        Impl_PlacePlayerCar(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetMaxTraffic(const std::string& params)
+    static bool Command_SetMaxTraffic(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetMaxTraffic(param0);
         return true;
     }
 
-    static bool Command_AddStageVehicle(const std::string& params)
+    static bool Command_AddStageVehicle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 4) return false;
 
-        Impl_AddStageVehicle(splits[0], splits[1], splits[2], splits[3], (numParams > 4) ? splits[4] : "");
+        Impl_AddStageVehicle(params[0], params[1], params[2], params[3], (numParams > 4) ? params[4] : "");
         return true;
     }
 
-    static bool Command_AddStageWaypoint(const std::string& params)
+    static bool Command_AddStageWaypoint(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddStageWaypoint(splits[0]);
+        Impl_AddStageWaypoint(params[0]);
         return true;
     }
 
-    static bool Command_SetRaceLaps(const std::string& params)
+    static bool Command_SetRaceLaps(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetRaceLaps(param0);
         return true;
     }
 
-    static bool Command_SetDemoLoopTime(const std::string& params)
+    static bool Command_SetDemoLoopTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int64_t param0;
-        if (!Commands::StringToInt64(splits[0], param0)) return false;
+        if (!Commands::StringToInt64(params[0], param0)) return false;
 
         Impl_SetDemoLoopTime(param0);
         return true;
     }
 
-    static bool Command_AddStageMusicChange(const std::string& params)
+    static bool Command_AddStageMusicChange(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_AddStageMusicChange(param0);
         return true;
     }
 
-    static bool Command_LoadDisposableCar(const std::string& params)
+    static bool Command_LoadDisposableCar(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_LoadDisposableCar(splits[0], splits[1], splits[2]);
+        Impl_LoadDisposableCar(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_AddMission(const std::string& params)
+    static bool Command_AddMission(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddMission(splits[0]);
+        Impl_AddMission(params[0]);
         return true;
     }
 
-    static bool Command_ClearGagBindings(const std::string& params)
+    static bool Command_ClearGagBindings(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_ClearGagBindings(param0);
         return true;
     }
 
-    static bool Command_GagBegin(const std::string& params)
+    static bool Command_GagBegin(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_GagBegin(splits[0]);
+        Impl_GagBegin(params[0]);
         return true;
     }
 
-    static bool Command_GagSetInterior(const std::string& params)
+    static bool Command_GagSetInterior(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_GagSetInterior(splits[0]);
+        Impl_GagSetInterior(params[0]);
         return true;
     }
 
-    static bool Command_GagSetCycle(const std::string& params)
+    static bool Command_GagSetCycle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_GagSetCycle(splits[0]);
+        Impl_GagSetCycle(params[0]);
         return true;
     }
 
-    static bool Command_GagSetPosition(const std::string& params)
+    static bool Command_GagSetPosition(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         switch (numParams)
         {
             case 1:
             {
-                Impl_GagSetPosition(splits[0]);
+                Impl_GagSetPosition(params[0]);
                 return true;
             }
             case 3:
             {
-                float param0; if (!Commands::StringToFloat(splits[0], param0)) return false;
-                float param1; if (!Commands::StringToFloat(splits[1], param1)) return false;
-                float param2; if (!Commands::StringToFloat(splits[2], param2)) return false;
+                float param0;
+                if (!Commands::StringToFloat(params[0], param0)) return false;
+                float param1;
+                if (!Commands::StringToFloat(params[1], param1)) return false;
+                float param2;
+                if (!Commands::StringToFloat(params[2], param2)) return false;
 
                 Impl_GagSetPosition(param0, param1, param2);
                 return true;
@@ -895,56 +905,61 @@ namespace Donut
         return false;
     }
 
-    static bool Command_GagSetRandom(const std::string& params)
+    static bool Command_GagSetRandom(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GagSetRandom(param0);
         return true;
     }
 
-    static bool Command_GagSetSound(const std::string& params)
+    static bool Command_GagSetSound(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_GagSetSound(splits[0]);
+        Impl_GagSetSound(params[0]);
         return true;
     }
 
-    static bool Command_GagSetTrigger(const std::string& params)
+    static bool Command_GagSetTrigger(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         switch (numParams)
         {
             case 3:
             {
-                float param2; if (!Commands::StringToFloat(splits[2], param2)) return false;
+                float param2;
+                if (!Commands::StringToFloat(params[2], param2)) return false;
 
-                Impl_GagSetTrigger(splits[0], splits[1], param2);
+                Impl_GagSetTrigger(params[0], params[1], param2);
                 return true;
             }
             case 5:
             {
-                float param1; if (!Commands::StringToFloat(splits[1], param1)) return false;
-                float param2; if (!Commands::StringToFloat(splits[2], param2)) return false;
-                float param3; if (!Commands::StringToFloat(splits[3], param3)) return false;
-                float param4; if (!Commands::StringToFloat(splits[4], param4)) return false;
+                float param1;
+                if (!Commands::StringToFloat(params[1], param1)) return false;
+                float param2;
+                if (!Commands::StringToFloat(params[2], param2)) return false;
+                float param3;
+                if (!Commands::StringToFloat(params[3], param3)) return false;
+                float param4;
+                if (!Commands::StringToFloat(params[4], param4)) return false;
 
-                Impl_GagSetTrigger(splits[0], param1, param2, param3, param4);
+                Impl_GagSetTrigger(params[0], param1, param2, param3, param4);
                 return true;
             }
         }
@@ -952,2683 +967,2684 @@ namespace Donut
         return false;
     }
 
-    static bool Command_GagEnd(const std::string& params)
+    static bool Command_GagEnd(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GagEnd(param0);
         return true;
     }
 
-    static bool Command_GagSetSparkle(const std::string& params)
+    static bool Command_GagSetSparkle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GagSetSparkle(param0);
         return true;
     }
 
-    static bool Command_GagSetPersist(const std::string& params)
+    static bool Command_GagSetPersist(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GagSetPersist(param0);
         return true;
     }
 
-    static bool Command_GagSetCoins(const std::string& params)
+    static bool Command_GagSetCoins(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
         float param1;
-        if (!Commands::StringToFloat(splits[1], param1)) return false;
+        if (!Commands::StringToFloat(params[1], param1)) return false;
 
         Impl_GagSetCoins(param0, param1);
         return true;
     }
 
-    static bool Command_GagSetAnimCollision(const std::string& params)
+    static bool Command_GagSetAnimCollision(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GagSetAnimCollision(param0);
         return true;
     }
 
-    static bool Command_GagSetIntro(const std::string& params)
+    static bool Command_GagSetIntro(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GagSetIntro(param0);
         return true;
     }
 
-    static bool Command_GagSetOutro(const std::string& params)
+    static bool Command_GagSetOutro(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GagSetOutro(param0);
         return true;
     }
 
-    static bool Command_GagSetCameraShake(const std::string& params)
+    static bool Command_GagSetCameraShake(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
         float param2;
-        if (!Commands::StringToFloat(splits[2], param2)) return false;
+        if (!Commands::StringToFloat(params[2], param2)) return false;
 
         Impl_GagSetCameraShake(param0, param1, param2);
         return true;
     }
 
-    static bool Command_GagPlayFMV(const std::string& params)
+    static bool Command_GagPlayFMV(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_GagPlayFMV(splits[0]);
+        Impl_GagPlayFMV(params[0]);
         return true;
     }
 
-    static bool Command_EnableTutorialMode(const std::string& params)
+    static bool Command_EnableTutorialMode(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_EnableTutorialMode(splits[0]);
+        Impl_EnableTutorialMode(params[0]);
         return true;
     }
 
-    static bool Command_InitLevelPlayerVehicle(const std::string& params)
+    static bool Command_InitLevelPlayerVehicle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_InitLevelPlayerVehicle(splits[0], splits[1], splits[2], (numParams > 3) ? splits[3] : "");
+        Impl_InitLevelPlayerVehicle(params[0], params[1], params[2], (numParams > 3) ? params[3] : "");
         return true;
     }
 
-    static bool Command_AddCharacter(const std::string& params)
+    static bool Command_AddCharacter(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddCharacter(splits[0], splits[1]);
+        Impl_AddCharacter(params[0], params[1]);
         return true;
     }
 
-    static bool Command_CreateChaseManager(const std::string& params)
+    static bool Command_CreateChaseManager(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
         int32_t param2;
-        if (!Commands::StringToInt(splits[2], param2)) return false;
+        if (!Commands::StringToInt(params[2], param2)) return false;
 
-        Impl_CreateChaseManager(splits[0], splits[1], param2);
+        Impl_CreateChaseManager(params[0], params[1], param2);
         return true;
     }
 
-    static bool Command_SetHitAndRunDecay(const std::string& params)
+    static bool Command_SetHitAndRunDecay(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetHitAndRunDecay(param0);
         return true;
     }
 
-    static bool Command_SetNumChaseCars(const std::string& params)
+    static bool Command_SetNumChaseCars(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetNumChaseCars(splits[0]);
+        Impl_SetNumChaseCars(params[0]);
         return true;
     }
 
-    static bool Command_AddNPCCharacterBonusMission(const std::string& params)
+    static bool Command_AddNPCCharacterBonusMission(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 8)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 8)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 7) return false;
 
         int32_t param6;
-        if (!Commands::StringToInt(splits[6], param6)) return false;
+        if (!Commands::StringToInt(params[6], param6)) return false;
 
-        Impl_AddNPCCharacterBonusMission(splits[0], splits[1], splits[2], splits[3], splits[4], splits[5], param6, (numParams > 7) ? splits[7] : "");
+        Impl_AddNPCCharacterBonusMission(params[0], params[1], params[2], params[3], params[4], params[5], param6, (numParams > 7) ? params[7] : "");
         return true;
     }
 
-    static bool Command_AddBonusMissionNPCWaypoint(const std::string& params)
+    static bool Command_AddBonusMissionNPCWaypoint(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddBonusMissionNPCWaypoint(splits[0], splits[1]);
+        Impl_AddBonusMissionNPCWaypoint(params[0], params[1]);
         return true;
     }
 
-    static bool Command_AddAmbientCharacter(const std::string& params)
+    static bool Command_AddAmbientCharacter(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
         float param2;
-        if (!Commands::StringToFloat(splits[2], param2)) return false;
+        if (!Commands::StringToFloat(params[2], param2)) return false;
 
-        Impl_AddAmbientCharacter(splits[0], splits[1], param2);
+        Impl_AddAmbientCharacter(params[0], params[1], param2);
         return true;
     }
 
-    static bool Command_AddAmbientNPCWaypoint(const std::string& params)
+    static bool Command_AddAmbientNPCWaypoint(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddAmbientNPCWaypoint(splits[0], splits[1]);
+        Impl_AddAmbientNPCWaypoint(params[0], params[1]);
         return true;
     }
 
-    static bool Command_AddPurchaseCarReward(const std::string& params)
+    static bool Command_AddPurchaseCarReward(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 6)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 6)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 6) return false;
 
         float param4;
-        if (!Commands::StringToFloat(splits[4], param4)) return false;
+        if (!Commands::StringToFloat(params[4], param4)) return false;
 
-        Impl_AddPurchaseCarReward(splits[0], splits[1], splits[2], splits[3], param4, splits[5]);
+        Impl_AddPurchaseCarReward(params[0], params[1], params[2], params[3], param4, params[5]);
         return true;
     }
 
-    static bool Command_AddPurchaseCarNPCWaypoint(const std::string& params)
+    static bool Command_AddPurchaseCarNPCWaypoint(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddPurchaseCarNPCWaypoint(splits[0], splits[1]);
+        Impl_AddPurchaseCarNPCWaypoint(params[0], params[1]);
         return true;
     }
 
-    static bool Command_CreateTrafficGroup(const std::string& params)
+    static bool Command_CreateTrafficGroup(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_CreateTrafficGroup(param0);
         return true;
     }
 
-    static bool Command_AddTrafficModel(const std::string& params)
+    static bool Command_AddTrafficModel(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
         int32_t param2 = 0;
         if (numParams > 2)
-            if (!Commands::StringToInt(splits[2], param2)) return false;
+            if (!Commands::StringToInt(params[2], param2)) return false;
 
-        Impl_AddTrafficModel(splits[0], param1, param2);
+        Impl_AddTrafficModel(params[0], param1, param2);
         return true;
     }
 
-    static bool Command_CloseTrafficGroup(const std::string& params)
+    static bool Command_CloseTrafficGroup(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_CloseTrafficGroup(param0);
         return true;
     }
 
-    static bool Command_CreatePedGroup(const std::string& params)
+    static bool Command_CreatePedGroup(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_CreatePedGroup(param0);
         return true;
     }
 
-    static bool Command_AddPed(const std::string& params)
+    static bool Command_AddPed(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
-        Impl_AddPed(splits[0], param1);
+        Impl_AddPed(params[0], param1);
         return true;
     }
 
-    static bool Command_ClosePedGroup(const std::string& params)
+    static bool Command_ClosePedGroup(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_ClosePedGroup(param0);
         return true;
     }
 
-    static bool Command_PreallocateActors(const std::string& params)
+    static bool Command_PreallocateActors(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_PreallocateActors(splits[0], splits[1]);
+        Impl_PreallocateActors(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetProjectileStats(const std::string& params)
+    static bool Command_SetProjectileStats(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_SetProjectileStats(splits[0], splits[1], splits[2]);
+        Impl_SetProjectileStats(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_AddSpawnPointByLocatorScript(const std::string& params)
+    static bool Command_AddSpawnPointByLocatorScript(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 6)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 6)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 6) return false;
 
-        Impl_AddSpawnPointByLocatorScript(splits[0], splits[1], splits[2], splits[3], splits[4], splits[5]);
+        Impl_AddSpawnPointByLocatorScript(params[0], params[1], params[2], params[3], params[4], params[5]);
         return true;
     }
 
-    static bool Command_AddBehaviour(const std::string& params)
+    static bool Command_AddBehaviour(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 7)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 7)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_AddBehaviour(splits[0], splits[1], splits[2], (numParams > 3) ? splits[3] : "", (numParams > 4) ? splits[4] : "", (numParams > 5) ? splits[5] : "", (numParams > 6) ? splits[6] : "");
+        Impl_AddBehaviour(params[0], params[1], params[2], (numParams > 3) ? params[3] : "", (numParams > 4) ? params[4] : "", (numParams > 5) ? params[5] : "", (numParams > 6) ? params[6] : "");
         return true;
     }
 
-    static bool Command_SetActorRotationSpeed(const std::string& params)
+    static bool Command_SetActorRotationSpeed(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetActorRotationSpeed(splits[0], splits[1]);
+        Impl_SetActorRotationSpeed(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetAnimatedCameraName(const std::string& params)
+    static bool Command_SetAnimatedCameraName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetAnimatedCameraName(splits[0]);
+        Impl_SetAnimatedCameraName(params[0]);
         return true;
     }
 
-    static bool Command_SetAnimCamMulticontName(const std::string& params)
+    static bool Command_SetAnimCamMulticontName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetAnimCamMulticontName(splits[0]);
+        Impl_SetAnimCamMulticontName(params[0]);
         return true;
     }
 
-    static bool Command_SetCoinFee(const std::string& params)
+    static bool Command_SetCoinFee(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetCoinFee(param0);
         return true;
     }
 
-    static bool Command_PutMFPlayerInCar(const std::string& params)
+    static bool Command_PutMFPlayerInCar(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_PutMFPlayerInCar(param0);
         return true;
     }
 
-    static bool Command_StartCountdown(const std::string& params)
+    static bool Command_StartCountdown(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_StartCountdown(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_StartCountdown(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_AddToCountdownSequence(const std::string& params)
+    static bool Command_AddToCountdownSequence(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
-        Impl_AddToCountdownSequence(splits[0], param1);
+        Impl_AddToCountdownSequence(params[0], param1);
         return true;
     }
 
-    static bool Command_UseElapsedTime(const std::string& params)
+    static bool Command_UseElapsedTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_UseElapsedTime(param0);
         return true;
     }
 
-    static bool Command_SetRaceEnteryFee(const std::string& params)
+    static bool Command_SetRaceEnteryFee(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetRaceEnteryFee(param0);
         return true;
     }
 
-    static bool Command_SetParTime(const std::string& params)
+    static bool Command_SetParTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetParTime(param0);
         return true;
     }
 
-    static bool Command_SetCondMinHealth(const std::string& params)
+    static bool Command_SetCondMinHealth(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetCondMinHealth(param0);
         return true;
     }
 
-    static bool Command_SetCondTargetVehicle(const std::string& params)
+    static bool Command_SetCondTargetVehicle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetCondTargetVehicle(splits[0]);
+        Impl_SetCondTargetVehicle(params[0]);
         return true;
     }
 
-    static bool Command_SetCondTime(const std::string& params)
+    static bool Command_SetCondTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetCondTime(param0);
         return true;
     }
 
-    static bool Command_AddBonusMission(const std::string& params)
+    static bool Command_AddBonusMission(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddBonusMission(splits[0]);
+        Impl_AddBonusMission(params[0]);
         return true;
     }
 
-    static bool Command_AddTeleportDest(const std::string& params)
+    static bool Command_AddTeleportDest(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
         float param1;
-        if (!Commands::StringToFloat(splits[1], param1)) return false;
+        if (!Commands::StringToFloat(params[1], param1)) return false;
         float param2;
-        if (!Commands::StringToFloat(splits[2], param2)) return false;
+        if (!Commands::StringToFloat(params[2], param2)) return false;
         float param3;
-        if (!Commands::StringToFloat(splits[3], param3)) return false;
+        if (!Commands::StringToFloat(params[3], param3)) return false;
 
-        Impl_AddTeleportDest(splits[0], param1, param2, param3, splits[4]);
+        Impl_AddTeleportDest(params[0], param1, param2, param3, params[4]);
         return true;
     }
 
-    static bool Command_AddVehicleSelectInfo(const std::string& params)
+    static bool Command_AddVehicleSelectInfo(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_AddVehicleSelectInfo(splits[0], splits[1], splits[2]);
+        Impl_AddVehicleSelectInfo(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_SuppressDriver(const std::string& params)
+    static bool Command_SuppressDriver(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SuppressDriver(splits[0]);
+        Impl_SuppressDriver(params[0]);
         return true;
     }
 
-    static bool Command_SetBonusMissionDialoguePos(const std::string& params)
+    static bool Command_SetBonusMissionDialoguePos(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 4) return false;
 
-        Impl_SetBonusMissionDialoguePos(splits[0], splits[1], splits[2], splits[3]);
+        Impl_SetBonusMissionDialoguePos(params[0], params[1], params[2], params[3]);
         return true;
     }
 
-    static bool Command_SetConversationCam(const std::string& params)
+    static bool Command_SetConversationCam(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
-        Impl_SetConversationCam(param0, splits[1], (numParams > 2) ? splits[2] : "");
+        Impl_SetConversationCam(param0, params[1], (numParams > 2) ? params[2] : "");
         return true;
     }
 
-    static bool Command_ClearAmbientAnimations(const std::string& params)
+    static bool Command_ClearAmbientAnimations(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_ClearAmbientAnimations(splits[0]);
+        Impl_ClearAmbientAnimations(params[0]);
         return true;
     }
 
-    static bool Command_AddAmbientNpcAnimation(const std::string& params)
+    static bool Command_AddAmbientNpcAnimation(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddAmbientNpcAnimation(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_AddAmbientNpcAnimation(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_AddAmbientPcAnimation(const std::string& params)
+    static bool Command_AddAmbientPcAnimation(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddAmbientPcAnimation(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_AddAmbientPcAnimation(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_SetCoinDrawable(const std::string& params)
+    static bool Command_SetCoinDrawable(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetCoinDrawable(splits[0]);
+        Impl_SetCoinDrawable(params[0]);
         return true;
     }
 
-    static bool Command_AmbientAnimationRandomize(const std::string& params)
+    static bool Command_AmbientAnimationRandomize(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
         Impl_AmbientAnimationRandomize(param0, param1);
         return true;
     }
 
-    static bool Command_TurnGotoDialogOff(const std::string& params)
+    static bool Command_TurnGotoDialogOff(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_TurnGotoDialogOff(param0);
         return true;
     }
 
-    static bool Command_SetCompletionDialog(const std::string& params)
+    static bool Command_SetCompletionDialog(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetCompletionDialog(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_SetCompletionDialog(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_SetMissionResetPlayerOutCar(const std::string& params)
+    static bool Command_SetMissionResetPlayerOutCar(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetMissionResetPlayerOutCar(splits[0], splits[1]);
+        Impl_SetMissionResetPlayerOutCar(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetMissionStartCameraName(const std::string& params)
+    static bool Command_SetMissionStartCameraName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetMissionStartCameraName(splits[0]);
+        Impl_SetMissionStartCameraName(params[0]);
         return true;
     }
 
-    static bool Command_SetMissionStartMulticontName(const std::string& params)
+    static bool Command_SetMissionStartMulticontName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetMissionStartMulticontName(splits[0]);
+        Impl_SetMissionStartMulticontName(params[0]);
         return true;
     }
 
-    static bool Command_SetInitialWalk(const std::string& params)
+    static bool Command_SetInitialWalk(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetInitialWalk(splits[0]);
+        Impl_SetInitialWalk(params[0]);
         return true;
     }
 
-    static bool Command_SetDialoguePositions(const std::string& params)
+    static bool Command_SetDialoguePositions(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
         int32_t param3 = 0;
         if (numParams > 3)
-            if (!Commands::StringToInt(splits[3], param3)) return false;
+            if (!Commands::StringToInt(params[3], param3)) return false;
 
-        Impl_SetDialoguePositions(splits[0], splits[1], splits[2], param3);
+        Impl_SetDialoguePositions(params[0], params[1], params[2], param3);
         return true;
     }
 
-    static bool Command_ActivateVehicle(const std::string& params)
+    static bool Command_ActivateVehicle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_ActivateVehicle(splits[0], splits[1], splits[2]);
+        Impl_ActivateVehicle(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_SetStageMusicAlwaysOn(const std::string& params)
+    static bool Command_SetStageMusicAlwaysOn(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetStageMusicAlwaysOn(param0);
         return true;
     }
 
-    static bool Command_SetNumValidFailureHints(const std::string& params)
+    static bool Command_SetNumValidFailureHints(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetNumValidFailureHints(param0);
         return true;
     }
 
-    static bool Command_SetVehicleAIParams(const std::string& params)
+    static bool Command_SetVehicleAIParams(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
         int32_t param2;
-        if (!Commands::StringToInt(splits[2], param2)) return false;
+        if (!Commands::StringToInt(params[2], param2)) return false;
 
-        Impl_SetVehicleAIParams(splits[0], param1, param2);
+        Impl_SetVehicleAIParams(params[0], param1, param2);
         return true;
     }
 
-    static bool Command_StageStartMusicEvent(const std::string& params)
+    static bool Command_StageStartMusicEvent(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_StageStartMusicEvent(splits[0]);
+        Impl_StageStartMusicEvent(params[0]);
         return true;
     }
 
-    static bool Command_AllowMissionAbort(const std::string& params)
+    static bool Command_AllowMissionAbort(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AllowMissionAbort(splits[0]);
+        Impl_AllowMissionAbort(params[0]);
         return true;
     }
 
-    static bool Command_MustActionTrigger(const std::string& params)
+    static bool Command_MustActionTrigger(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_MustActionTrigger(param0);
         return true;
     }
 
-    static bool Command_SetStageAITargetCatchupParams(const std::string& params)
+    static bool Command_SetStageAITargetCatchupParams(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
         int32_t param2;
-        if (!Commands::StringToInt(splits[2], param2)) return false;
+        if (!Commands::StringToInt(params[2], param2)) return false;
 
-        Impl_SetStageAITargetCatchupParams(splits[0], param1, param2);
+        Impl_SetStageAITargetCatchupParams(params[0], param1, param2);
         return true;
     }
 
-    static bool Command_SetFollowDistances(const std::string& params)
+    static bool Command_SetFollowDistances(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
         Impl_SetFollowDistances(param0, param1);
         return true;
     }
 
-    static bool Command_SetFadeOut(const std::string& params)
+    static bool Command_SetFadeOut(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetFadeOut(param0);
         return true;
     }
 
-    static bool Command_StayInBlack(const std::string& params)
+    static bool Command_StayInBlack(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_StayInBlack(param0);
         return true;
     }
 
-    static bool Command_AddStageCharacter(const std::string& params)
+    static bool Command_AddStageCharacter(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
-        Impl_AddStageCharacter(splits[0], splits[1], splits[2], splits[3], splits[4]);
+        Impl_AddStageCharacter(params[0], params[1], params[2], params[3], params[4]);
         return true;
     }
 
-    static bool Command_SetDurationTime(const std::string& params)
+    static bool Command_SetDurationTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetDurationTime(param0);
         return true;
     }
 
-    static bool Command_SetFMVInfo(const std::string& params)
+    static bool Command_SetFMVInfo(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetFMVInfo(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_SetFMVInfo(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_SetForcedCar(const std::string& params)
+    static bool Command_SetForcedCar(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetForcedCar(param0);
         return true;
     }
 
-    static bool Command_SwapInDefaultCar(const std::string& params)
+    static bool Command_SwapInDefaultCar(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SwapInDefaultCar(param0);
         return true;
     }
 
-    static bool Command_SetSwapDefaultCarLocator(const std::string& params)
+    static bool Command_SetSwapDefaultCarLocator(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetSwapDefaultCarLocator(splits[0]);
+        Impl_SetSwapDefaultCarLocator(params[0]);
         return true;
     }
 
-    static bool Command_SetSwapForcedCarLocator(const std::string& params)
+    static bool Command_SetSwapForcedCarLocator(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetSwapForcedCarLocator(splits[0]);
+        Impl_SetSwapForcedCarLocator(params[0]);
         return true;
     }
 
-    static bool Command_SetSwapPlayerLocator(const std::string& params)
+    static bool Command_SetSwapPlayerLocator(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetSwapPlayerLocator(splits[0]);
+        Impl_SetSwapPlayerLocator(params[0]);
         return true;
     }
 
-    static bool Command_StreetRacePropsLoad(const std::string& params)
+    static bool Command_StreetRacePropsLoad(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_StreetRacePropsLoad(splits[0]);
+        Impl_StreetRacePropsLoad(params[0]);
         return true;
     }
 
-    static bool Command_StreetRacePropsUnload(const std::string& params)
+    static bool Command_StreetRacePropsUnload(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_StreetRacePropsUnload(splits[0]);
+        Impl_StreetRacePropsUnload(params[0]);
         return true;
     }
 
-    static bool Command_SetStageAIRaceCatchupParams(const std::string& params)
+    static bool Command_SetStageAIRaceCatchupParams(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
         float param2;
-        if (!Commands::StringToFloat(splits[2], param2)) return false;
+        if (!Commands::StringToFloat(params[2], param2)) return false;
         float param3;
-        if (!Commands::StringToFloat(splits[3], param3)) return false;
+        if (!Commands::StringToFloat(params[3], param3)) return false;
         float param4;
-        if (!Commands::StringToFloat(splits[4], param4)) return false;
+        if (!Commands::StringToFloat(params[4], param4)) return false;
 
-        Impl_SetStageAIRaceCatchupParams(splits[0], param1, param2, param3, param4);
+        Impl_SetStageAIRaceCatchupParams(params[0], param1, param2, param3, param4);
         return true;
     }
 
-    static bool Command_DisableHitAndRun(const std::string& params)
+    static bool Command_DisableHitAndRun(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_DisableHitAndRun(param0);
         return true;
     }
 
-    static bool Command_NoTrafficForStage(const std::string& params)
+    static bool Command_NoTrafficForStage(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_NoTrafficForStage(param0);
         return true;
     }
 
-    static bool Command_SetConditionPosition(const std::string& params)
+    static bool Command_SetConditionPosition(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetConditionPosition(param0);
         return true;
     }
 
-    static bool Command_AddSafeZone(const std::string& params)
+    static bool Command_AddSafeZone(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
-        Impl_AddSafeZone(splits[0], param1);
+        Impl_AddSafeZone(params[0], param1);
         return true;
     }
 
-    static bool Command_AddGagBinding(const std::string& params)
+    static bool Command_AddGagBinding(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
         int32_t param3;
-        if (!Commands::StringToInt(splits[3], param3)) return false;
+        if (!Commands::StringToInt(params[3], param3)) return false;
 
-        Impl_AddGagBinding(splits[0], splits[1], splits[2], param3, splits[4]);
+        Impl_AddGagBinding(params[0], params[1], params[2], param3, params[4]);
         return true;
     }
 
-    static bool Command_SetPostLevelFMV(const std::string& params)
+    static bool Command_SetPostLevelFMV(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetPostLevelFMV(splits[0]);
+        Impl_SetPostLevelFMV(params[0]);
         return true;
     }
 
-    static bool Command_SetHitNRun(const std::string& params)
+    static bool Command_SetHitNRun(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetHitNRun(param0);
         return true;
     }
 
-    static bool Command_SetObjDistance(const std::string& params)
+    static bool Command_SetObjDistance(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetObjDistance(param0);
         return true;
     }
 
-    static bool Command_SetMusicState(const std::string& params)
+    static bool Command_SetMusicState(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetMusicState(splits[0], splits[1]);
+        Impl_SetMusicState(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetIrisWipe(const std::string& params)
+    static bool Command_SetIrisWipe(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetIrisWipe(param0);
         return true;
     }
 
-    static bool Command_RemoveDriver(const std::string& params)
+    static bool Command_RemoveDriver(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_RemoveDriver(splits[0]);
+        Impl_RemoveDriver(params[0]);
         return true;
     }
 
-    static bool Command_RemoveNPC(const std::string& params)
+    static bool Command_RemoveNPC(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_RemoveNPC(splits[0]);
+        Impl_RemoveNPC(params[0]);
         return true;
     }
 
-    static bool Command_AddDriver(const std::string& params)
+    static bool Command_AddDriver(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddDriver(splits[0], splits[1]);
+        Impl_AddDriver(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetCharacterToHide(const std::string& params)
+    static bool Command_SetCharacterToHide(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetCharacterToHide(splits[0]);
+        Impl_SetCharacterToHide(params[0]);
         return true;
     }
 
-    static bool Command_SetLevelOver(const std::string& params)
+    static bool Command_SetLevelOver(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetLevelOver(param0);
         return true;
     }
 
-    static bool Command_GagCheckCollCards(const std::string& params)
+    static bool Command_GagCheckCollCards(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
-        Impl_GagCheckCollCards(splits[0], splits[1], splits[2], splits[3], splits[4]);
+        Impl_GagCheckCollCards(params[0], params[1], params[2], params[3], params[4]);
         return true;
     }
 
-    static bool Command_GagCheckMovie(const std::string& params)
+    static bool Command_GagCheckMovie(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 4) return false;
 
-        Impl_GagCheckMovie(splits[0], splits[1], splits[2], splits[3]);
+        Impl_GagCheckMovie(params[0], params[1], params[2], params[3]);
         return true;
     }
 
-    static bool Command_GagSetSoundLoadDistances(const std::string& params)
+    static bool Command_GagSetSoundLoadDistances(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
         Impl_GagSetSoundLoadDistances(param0, param1);
         return true;
     }
 
-    static bool Command_BindCollectibleTo(const std::string& params)
+    static bool Command_BindCollectibleTo(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
         int32_t param1;
-        if (!Commands::StringToInt(splits[1], param1)) return false;
+        if (!Commands::StringToInt(params[1], param1)) return false;
 
         Impl_BindCollectibleTo(param0, param1);
         return true;
     }
 
-    static bool Command_AddShield(const std::string& params)
+    static bool Command_AddShield(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AddShield(splits[0], splits[1]);
+        Impl_AddShield(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetStatepropShadow(const std::string& params)
+    static bool Command_SetStatepropShadow(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetStatepropShadow(splits[0], splits[1]);
+        Impl_SetStatepropShadow(params[0], params[1]);
         return true;
     }
 
-    static bool Command_AddFlyingActorByLocator(const std::string& params)
+    static bool Command_AddFlyingActorByLocator(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 4) return false;
 
-        Impl_AddFlyingActorByLocator(splits[0], splits[1], splits[2], splits[3]);
+        Impl_AddFlyingActorByLocator(params[0], params[1], params[2], params[3]);
         return true;
     }
 
-    static bool Command_AddCollectibleStateProp(const std::string& params)
+    static bool Command_AddCollectibleStateProp(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
         int32_t param2;
-        if (!Commands::StringToInt(splits[2], param2)) return false;
+        if (!Commands::StringToInt(params[2], param2)) return false;
 
-        Impl_AddCollectibleStateProp(splits[0], splits[1], param2);
+        Impl_AddCollectibleStateProp(params[0], params[1], param2);
         return true;
     }
 
-    static bool Command_SetPickupTarget(const std::string& params)
+    static bool Command_SetPickupTarget(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetPickupTarget(splits[0]);
+        Impl_SetPickupTarget(params[0]);
         return true;
     }
 
-    static bool Command_SetObjTargetBoss(const std::string& params)
+    static bool Command_SetObjTargetBoss(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetObjTargetBoss(splits[0]);
+        Impl_SetObjTargetBoss(params[0]);
         return true;
     }
 
-    static bool Command_AllowRockOut(const std::string& params)
+    static bool Command_AllowRockOut(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_AllowRockOut(param0);
         return true;
     }
 
-    static bool Command_ShowHUD(const std::string& params)
+    static bool Command_ShowHUD(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_ShowHUD(splits[0]);
+        Impl_ShowHUD(params[0]);
         return true;
     }
 
-    static bool Command_SetGameOver(const std::string& params)
+    static bool Command_SetGameOver(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetGameOver(param0);
         return true;
     }
 
-    static bool Command_GoToPsScreenWhenDone(const std::string& params)
+    static bool Command_GoToPsScreenWhenDone(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
         int32_t param0 = 0;
         if (numParams > 0)
-            if (!Commands::StringToInt(splits[0], param0)) return false;
+            if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_GoToPsScreenWhenDone(param0);
         return true;
     }
 
-    static bool Command_SetMass(const std::string& params)
+    static bool Command_SetMass(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetMass(param0);
         return true;
     }
 
-    static bool Command_SetGasScale(const std::string& params)
+    static bool Command_SetGasScale(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetGasScale(param0);
         return true;
     }
 
-    static bool Command_SetSlipGasScale(const std::string& params)
+    static bool Command_SetSlipGasScale(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetSlipGasScale(param0);
         return true;
     }
 
-    static bool Command_SetBrakeScale(const std::string& params)
+    static bool Command_SetBrakeScale(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetBrakeScale(param0);
         return true;
     }
 
-    static bool Command_SetTopSpeedKmh(const std::string& params)
+    static bool Command_SetTopSpeedKmh(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetTopSpeedKmh(param0);
         return true;
     }
 
-    static bool Command_SetMaxWheelTurnAngle(const std::string& params)
+    static bool Command_SetMaxWheelTurnAngle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetMaxWheelTurnAngle(param0);
         return true;
     }
 
-    static bool Command_SetHighSpeedSteeringDrop(const std::string& params)
+    static bool Command_SetHighSpeedSteeringDrop(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetHighSpeedSteeringDrop(param0);
         return true;
     }
 
-    static bool Command_SetTireGrip(const std::string& params)
+    static bool Command_SetTireGrip(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetTireGrip(param0);
         return true;
     }
 
-    static bool Command_SetNormalSteering(const std::string& params)
+    static bool Command_SetNormalSteering(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetNormalSteering(param0);
         return true;
     }
 
-    static bool Command_SetSlipSteering(const std::string& params)
+    static bool Command_SetSlipSteering(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetSlipSteering(param0);
         return true;
     }
 
-    static bool Command_SetEBrakeEffect(const std::string& params)
+    static bool Command_SetEBrakeEffect(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetEBrakeEffect(param0);
         return true;
     }
 
-    static bool Command_SetSlipSteeringNoEBrake(const std::string& params)
+    static bool Command_SetSlipSteeringNoEBrake(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetSlipSteeringNoEBrake(param0);
         return true;
     }
 
-    static bool Command_SetSlipEffectNoEBrake(const std::string& params)
+    static bool Command_SetSlipEffectNoEBrake(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetSlipEffectNoEBrake(param0);
         return true;
     }
 
-    static bool Command_SetCMOffsetX(const std::string& params)
+    static bool Command_SetCMOffsetX(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetCMOffsetX(param0);
         return true;
     }
 
-    static bool Command_SetCMOffsetY(const std::string& params)
+    static bool Command_SetCMOffsetY(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetCMOffsetY(param0);
         return true;
     }
 
-    static bool Command_SetCMOffsetZ(const std::string& params)
+    static bool Command_SetCMOffsetZ(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetCMOffsetZ(param0);
         return true;
     }
 
-    static bool Command_SetSuspensionLimit(const std::string& params)
+    static bool Command_SetSuspensionLimit(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetSuspensionLimit(param0);
         return true;
     }
 
-    static bool Command_SetSpringK(const std::string& params)
+    static bool Command_SetSpringK(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetSpringK(param0);
         return true;
     }
 
-    static bool Command_SetDamperC(const std::string& params)
+    static bool Command_SetDamperC(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetDamperC(param0);
         return true;
     }
 
-    static bool Command_SetSuspensionYOffset(const std::string& params)
+    static bool Command_SetSuspensionYOffset(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetSuspensionYOffset(param0);
         return true;
     }
 
-    static bool Command_SetHitPoints(const std::string& params)
+    static bool Command_SetHitPoints(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetHitPoints(param0);
         return true;
     }
 
-    static bool Command_SetBurnoutRange(const std::string& params)
+    static bool Command_SetBurnoutRange(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetBurnoutRange(param0);
         return true;
     }
 
-    static bool Command_SetMaxSpeedBurstTime(const std::string& params)
+    static bool Command_SetMaxSpeedBurstTime(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetMaxSpeedBurstTime(param0);
         return true;
     }
 
-    static bool Command_SetDonutTorque(const std::string& params)
+    static bool Command_SetDonutTorque(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetDonutTorque(param0);
         return true;
     }
 
-    static bool Command_SetWeebleOffset(const std::string& params)
+    static bool Command_SetWeebleOffset(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetWeebleOffset(param0);
         return true;
     }
 
-    static bool Command_SetWheelieRange(const std::string& params)
+    static bool Command_SetWheelieRange(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetWheelieRange(param0);
         return true;
     }
 
-    static bool Command_SetWheelieOffsetY(const std::string& params)
+    static bool Command_SetWheelieOffsetY(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetWheelieOffsetY(param0);
         return true;
     }
 
-    static bool Command_SetWheelieOffsetZ(const std::string& params)
+    static bool Command_SetWheelieOffsetZ(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetWheelieOffsetZ(param0);
         return true;
     }
 
-    static bool Command_SetShadowAdjustments(const std::string& params)
+    static bool Command_SetShadowAdjustments(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 8)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 8)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 8) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
         float param1;
-        if (!Commands::StringToFloat(splits[1], param1)) return false;
+        if (!Commands::StringToFloat(params[1], param1)) return false;
         float param2;
-        if (!Commands::StringToFloat(splits[2], param2)) return false;
+        if (!Commands::StringToFloat(params[2], param2)) return false;
         float param3;
-        if (!Commands::StringToFloat(splits[3], param3)) return false;
+        if (!Commands::StringToFloat(params[3], param3)) return false;
         float param4;
-        if (!Commands::StringToFloat(splits[4], param4)) return false;
+        if (!Commands::StringToFloat(params[4], param4)) return false;
         float param5;
-        if (!Commands::StringToFloat(splits[5], param5)) return false;
+        if (!Commands::StringToFloat(params[5], param5)) return false;
         float param6;
-        if (!Commands::StringToFloat(splits[6], param6)) return false;
+        if (!Commands::StringToFloat(params[6], param6)) return false;
         float param7;
-        if (!Commands::StringToFloat(splits[7], param7)) return false;
+        if (!Commands::StringToFloat(params[7], param7)) return false;
 
         Impl_SetShadowAdjustments(param0, param1, param2, param3, param4, param5, param6, param7);
         return true;
     }
 
-    static bool Command_SetCharactersVisible(const std::string& params)
+    static bool Command_SetCharactersVisible(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetCharactersVisible(param0);
         return true;
     }
 
-    static bool Command_SetIrisTransition(const std::string& params)
+    static bool Command_SetIrisTransition(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetIrisTransition(param0);
         return true;
     }
 
-    static bool Command_SetCharacterScale(const std::string& params)
+    static bool Command_SetCharacterScale(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetCharacterScale(param0);
         return true;
     }
 
-    static bool Command_SetGamblingOdds(const std::string& params)
+    static bool Command_SetGamblingOdds(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetGamblingOdds(param0);
         return true;
     }
 
-    static bool Command_SetDriver(const std::string& params)
+    static bool Command_SetDriver(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetDriver(splits[0]);
+        Impl_SetDriver(params[0]);
         return true;
     }
 
-    static bool Command_SetHasDoors(const std::string& params)
+    static bool Command_SetHasDoors(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetHasDoors(param0);
         return true;
     }
 
-    static bool Command_SetShininess(const std::string& params)
+    static bool Command_SetShininess(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetShininess(param0);
         return true;
     }
 
-    static bool Command_SetHighRoof(const std::string& params)
+    static bool Command_SetHighRoof(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetHighRoof(param0);
         return true;
     }
 
-    static bool Command_SetHighSpeedGasScale(const std::string& params)
+    static bool Command_SetHighSpeedGasScale(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetHighSpeedGasScale(param0);
         return true;
     }
 
-    static bool Command_SetGasScaleSpeedThreshold(const std::string& params)
+    static bool Command_SetGasScaleSpeedThreshold(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         float param0;
-        if (!Commands::StringToFloat(splits[0], param0)) return false;
+        if (!Commands::StringToFloat(params[0], param0)) return false;
 
         Impl_SetGasScaleSpeedThreshold(param0);
         return true;
     }
 
-    static bool Command_SetAllowSeatSlide(const std::string& params)
+    static bool Command_SetAllowSeatSlide(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
         int32_t param0;
-        if (!Commands::StringToInt(splits[0], param0)) return false;
+        if (!Commands::StringToInt(params[0], param0)) return false;
 
         Impl_SetAllowSeatSlide(param0);
         return true;
     }
 
-    static bool Command_ClearVehicleSelectInfo(const std::string& params)
+    static bool Command_ClearVehicleSelectInfo(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_ClearVehicleSelectInfo(splits[0], (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "");
+        Impl_ClearVehicleSelectInfo(params[0], (numParams > 1) ? params[1] : "", (numParams > 2) ? params[2] : "");
         return true;
     }
 
-    static bool Command_AddFlyingActor(const std::string& params)
+    static bool Command_AddFlyingActor(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
-        Impl_AddFlyingActor(splits[0], splits[1], splits[2], splits[3], splits[4]);
+        Impl_AddFlyingActor(params[0], params[1], params[2], params[3], params[4]);
         return true;
     }
 
-    static bool Command_SetCollisionAttributes(const std::string& params)
+    static bool Command_SetCollisionAttributes(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 4)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 4)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 4) return false;
 
-        Impl_SetCollisionAttributes(splits[0], splits[1], splits[2], splits[3]);
+        Impl_SetCollisionAttributes(params[0], params[1], params[2], params[3]);
         return true;
     }
 
-    static bool Command_AddSpawnPoint(const std::string& params)
+    static bool Command_AddSpawnPoint(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 8)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 8)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 8) return false;
 
-        Impl_AddSpawnPoint(splits[0], splits[1], splits[2], splits[3], splits[4], splits[5], splits[6], splits[7]);
+        Impl_AddSpawnPoint(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7]);
         return true;
     }
 
-    static bool Command_GagSetWeight(const std::string& params)
+    static bool Command_GagSetWeight(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_GagSetWeight(splits[0]);
+        Impl_GagSetWeight(params[0]);
         return true;
     }
 
-    static bool Command_GagSetLoadDistances(const std::string& params)
+    static bool Command_GagSetLoadDistances(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_GagSetLoadDistances(splits[0], splits[1]);
+        Impl_GagSetLoadDistances(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetTotalWasps(const std::string& params)
+    static bool Command_SetTotalWasps(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetTotalWasps(splits[0], splits[1]);
+        Impl_SetTotalWasps(params[0], params[1]);
         return true;
     }
 
-    static bool Command_AddGlobalProp(const std::string& params)
+    static bool Command_AddGlobalProp(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddGlobalProp(splits[0]);
+        Impl_AddGlobalProp(params[0]);
         return true;
     }
 
-    static bool Command_EnableHitAndRun(const std::string& params)
+    static bool Command_EnableHitAndRun(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
-        Impl_EnableHitAndRun((numParams > 0) ? splits[0] : "");
+        Impl_EnableHitAndRun((numParams > 0) ? params[0] : "");
         return true;
     }
 
-    static bool Command_SetHitAndRunMeter(const std::string& params)
+    static bool Command_SetHitAndRunMeter(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetHitAndRunMeter(splits[0]);
+        Impl_SetHitAndRunMeter(params[0]);
         return true;
     }
 
-    static bool Command_SetChaseSpawnRate(const std::string& params)
+    static bool Command_SetChaseSpawnRate(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetChaseSpawnRate(splits[0], splits[1]);
+        Impl_SetChaseSpawnRate(params[0], params[1]);
         return true;
     }
 
-    static bool Command_KillAllChaseAI(const std::string& params)
+    static bool Command_KillAllChaseAI(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_KillAllChaseAI(splits[0]);
+        Impl_KillAllChaseAI(params[0]);
         return true;
     }
 
-    static bool Command_ResetHitAndRun(const std::string& params)
+    static bool Command_ResetHitAndRun(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
-        Impl_ResetHitAndRun((numParams > 0) ? splits[0] : "");
+        Impl_ResetHitAndRun((numParams > 0) ? params[0] : "");
         return true;
     }
 
-    static bool Command_SetHitAndRunDecayInterior(const std::string& params)
+    static bool Command_SetHitAndRunDecayInterior(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetHitAndRunDecayInterior(splits[0]);
+        Impl_SetHitAndRunDecayInterior(params[0]);
         return true;
     }
 
-    static bool Command_SetMissionNameIndex(const std::string& params)
+    static bool Command_SetMissionNameIndex(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetMissionNameIndex(splits[0]);
+        Impl_SetMissionNameIndex(params[0]);
         return true;
     }
 
-    static bool Command_AddBonusObjective(const std::string& params)
+    static bool Command_AddBonusObjective(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_AddBonusObjective(splits[0], (numParams > 1) ? splits[1] : "");
+        Impl_AddBonusObjective(params[0], (numParams > 1) ? params[1] : "");
         return true;
     }
 
-    static bool Command_AttachStatePropCollectible(const std::string& params)
+    static bool Command_AttachStatePropCollectible(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_AttachStatePropCollectible(splits[0], splits[1]);
+        Impl_AttachStatePropCollectible(params[0], params[1]);
         return true;
     }
 
-    static bool Command_MoveStageVehicle(const std::string& params)
+    static bool Command_MoveStageVehicle(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_MoveStageVehicle(splits[0], splits[1], splits[2]);
+        Impl_MoveStageVehicle(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_SetStageCamera(const std::string& params)
+    static bool Command_SetStageCamera(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_SetStageCamera(splits[0], splits[1], splits[2]);
+        Impl_SetStageCamera(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_SetBonusMissionStart(const std::string& params)
+    static bool Command_SetBonusMissionStart(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
-        Impl_SetBonusMissionStart((numParams > 0) ? splits[0] : "");
+        Impl_SetBonusMissionStart((numParams > 0) ? params[0] : "");
         return true;
     }
 
-    static bool Command_PlacePlayerAtLocatorName(const std::string& params)
+    static bool Command_PlacePlayerAtLocatorName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_PlacePlayerAtLocatorName(splits[0]);
+        Impl_PlacePlayerAtLocatorName(params[0]);
         return true;
     }
 
-    static bool Command_msPlacePlayerCarAtLocatorName(const std::string& params)
+    static bool Command_msPlacePlayerCarAtLocatorName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_msPlacePlayerCarAtLocatorName(splits[0]);
+        Impl_msPlacePlayerCarAtLocatorName(params[0]);
         return true;
     }
 
-    static bool Command_ClearTrafficForStage(const std::string& params)
+    static bool Command_ClearTrafficForStage(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
-        Impl_ClearTrafficForStage((numParams > 0) ? splits[0] : "");
+        Impl_ClearTrafficForStage((numParams > 0) ? params[0] : "");
         return true;
     }
 
-    static bool Command_SetStageAIEvadeCatchupParams(const std::string& params)
+    static bool Command_SetStageAIEvadeCatchupParams(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_SetStageAIEvadeCatchupParams(splits[0], splits[1], splits[2]);
+        Impl_SetStageAIEvadeCatchupParams(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_AllowUserDump(const std::string& params)
+    static bool Command_AllowUserDump(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
 
-        Impl_AllowUserDump((numParams > 0) ? splits[0] : "");
+        Impl_AllowUserDump((numParams > 0) ? params[0] : "");
         return true;
     }
 
-    static bool Command_SetVehicleToLoad(const std::string& params)
+    static bool Command_SetVehicleToLoad(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_SetVehicleToLoad(splits[0], splits[1], splits[2]);
+        Impl_SetVehicleToLoad(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_SetConversationCamName(const std::string& params)
+    static bool Command_SetConversationCamName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetConversationCamName(splits[0]);
+        Impl_SetConversationCamName(params[0]);
         return true;
     }
 
-    static bool Command_SetConversationCamPcName(const std::string& params)
+    static bool Command_SetConversationCamPcName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetConversationCamPcName(splits[0]);
+        Impl_SetConversationCamPcName(params[0]);
         return true;
     }
 
-    static bool Command_SetConversationCamNpcName(const std::string& params)
+    static bool Command_SetConversationCamNpcName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetConversationCamNpcName(splits[0]);
+        Impl_SetConversationCamNpcName(params[0]);
         return true;
     }
 
-    static bool Command_SetConversationCamDistance(const std::string& params)
+    static bool Command_SetConversationCamDistance(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetConversationCamDistance(splits[0], splits[1]);
+        Impl_SetConversationCamDistance(params[0], params[1]);
         return true;
     }
 
-    static bool Command_CharacterIsChild(const std::string& params)
+    static bool Command_CharacterIsChild(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_CharacterIsChild(splits[0]);
+        Impl_CharacterIsChild(params[0]);
         return true;
     }
 
-    static bool Command_SetCarStartCamera(const std::string& params)
+    static bool Command_SetCarStartCamera(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_SetCarStartCamera(splits[0]);
+        Impl_SetCarStartCamera(params[0]);
         return true;
     }
 
-    static bool Command_SetPlayerCarName(const std::string& params)
+    static bool Command_SetPlayerCarName(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetPlayerCarName(splits[0], splits[1]);
+        Impl_SetPlayerCarName(params[0], params[1]);
         return true;
     }
 
-    static bool Command_SetRespawnRate(const std::string& params)
+    static bool Command_SetRespawnRate(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_SetRespawnRate(splits[0], splits[1]);
+        Impl_SetRespawnRate(params[0], params[1]);
         return true;
     }
 
-    static bool Command_ActivateTrigger(const std::string& params)
+    static bool Command_ActivateTrigger(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_ActivateTrigger(splits[0]);
+        Impl_ActivateTrigger(params[0]);
         return true;
     }
 
-    static bool Command_DeactivateTrigger(const std::string& params)
+    static bool Command_DeactivateTrigger(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 1)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 1)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 1) return false;
 
-        Impl_DeactivateTrigger(splits[0]);
+        Impl_DeactivateTrigger(params[0]);
         return true;
     }
 
-    static bool Command_CreateAnimPhysObject(const std::string& params)
+    static bool Command_CreateAnimPhysObject(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_CreateAnimPhysObject(splits[0], splits[1]);
+        Impl_CreateAnimPhysObject(params[0], params[1]);
         return true;
     }
 
-    static bool Command_CreateActionEventTrigger(const std::string& params)
+    static bool Command_CreateActionEventTrigger(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
-        Impl_CreateActionEventTrigger(splits[0], splits[1], splits[2], splits[3], splits[4]);
+        Impl_CreateActionEventTrigger(params[0], params[1], params[2], params[3], params[4]);
         return true;
     }
 
-    static bool Command_LinkActionToObjectJoint(const std::string& params)
+    static bool Command_LinkActionToObjectJoint(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
-        Impl_LinkActionToObjectJoint(splits[0], splits[1], splits[2], splits[3], splits[4]);
+        Impl_LinkActionToObjectJoint(params[0], params[1], params[2], params[3], params[4]);
         return true;
     }
 
-    static bool Command_LinkActionToObject(const std::string& params)
+    static bool Command_LinkActionToObject(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 5)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 5)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 5) return false;
 
-        Impl_LinkActionToObject(splits[0], splits[1], splits[2], splits[3], splits[4]);
+        Impl_LinkActionToObject(params[0], params[1], params[2], params[3], params[4]);
         return true;
     }
 
-    static bool Command_SetCharacterPosition(const std::string& params)
+    static bool Command_SetCharacterPosition(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 3)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 3)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 3) return false;
 
-        Impl_SetCharacterPosition(splits[0], splits[1], splits[2]);
+        Impl_SetCharacterPosition(params[0], params[1], params[2]);
         return true;
     }
 
-    static bool Command_ResetCharacter(const std::string& params)
+    static bool Command_ResetCharacter(const std::string& line)
     {
-        std::vector<std::string> splits;
-        if (!Commands::SplitParams(params, splits, 2)) return false;
+        std::vector<std::string> params;
+        if (!Commands::SplitParams(line, params, 2)) return false;
 
-        size_t numParams = splits.size();
+        size_t numParams = params.size();
         if (numParams < 2) return false;
 
-        Impl_ResetCharacter(splits[0], splits[1]);
+        Impl_ResetCharacter(params[0], params[1]);
         return true;
     }
 
     std::unordered_map<std::string, Command> Commands::_namedCommands =
     {
+        { "HelloWorld", Command { &Command_HelloWorld, "hellooooooooooo new york!!!!" } },
         { "LoadP3DFile", Command { &Command_LoadP3DFile, "None" } },
         { "SetParticleTexture", Command { &Command_SetParticleTexture, "None" } },
         { "BindReward", Command { &Command_BindReward, "None" } },

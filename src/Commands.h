@@ -103,6 +103,35 @@ namespace Donut
             return true;
         }
 
+		static bool RunLine(std::string line)
+		{
+			if (line.empty() || std::all_of(line.begin(), line.end(), isspace)) return false;
+
+			trim(line);
+			if (line[0] == '/') return false;
+
+			std::size_t commentPos = line.find_first_of("//");
+			if (commentPos != std::string::npos)
+			{
+				line = line.substr(0, commentPos);
+				trim(line);
+			}
+
+			std::size_t end = line.rfind(");");
+			if (end == std::string::npos) return false;
+			std::size_t start = line.find_first_of("(");
+			if (start == std::string::npos) return false;
+
+			auto name = line.substr(0, start);
+			trim(name);
+
+			auto count = (end - 1) - start;
+			auto params = count > 0 ? line.substr(start + 1, count) : "";
+			if (count > 0) trim(params);
+
+			return Run(name, params);
+		}
+
         static bool RunScript(const std::string& filename)
         {
             if (!std::filesystem::exists(filename))
@@ -114,55 +143,12 @@ namespace Donut
             File file;
             file.Open(filename, FileMode::Read);
 
-            std::unordered_map<std::string, std::string> functions;
-            std::vector<std::string> lines;
-            int32_t commandsRun = 0;
-
             while (file.Position() < file.Size())
             {
-                auto line = file.ReadLine();
-                if (line.empty() || std::all_of(line.begin(), line.end(), isspace)) continue;
-
-                trim(line);
-                if (line[0] == '/') continue;
-
-				std::size_t commentPos = line.find_first_of("//");
-				if (commentPos != -1)
-				{
-					line = line.substr(0, commentPos);
-					trim(line);
-				}
-
-				std::size_t end = line.find_last_of(");");
-                if (end == -1) continue;
-                std::size_t start = line.find_first_of("(");
-                if (start == -1) continue;
-
-                auto name = line.substr(0, start);
-                trim(name);
-
-                auto params = line.substr(start + 1, (end - start) - 2);
-                trim(params);
-
-                if (Run(name, params))
-                {
-                    commandsRun++;
-                }
-
-                lines.push_back(line);
+				RunLine(file.ReadLine());
             }
 
 			file.Close();
-
-            if (commandsRun != lines.size())
-            {
-                std::cout << fmt::format("{0} has {1} failed commands", filename, lines.size() - commandsRun) << std::endl;
-				return false;
-            }
-            else
-            {
-                //std::cout << fmt::format("Successfully run {0} commands out of {1}", commandsRun, lines.size()) << std::endl;
-            }
 
             return true;
         }
