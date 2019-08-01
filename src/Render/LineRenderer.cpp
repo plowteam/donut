@@ -52,7 +52,7 @@ namespace Donut
 		};
 
 		m_vertexBinding = std::make_unique<GL::VertexBinding>();
-		m_vertexBinding->Create(vertexLayout, 2, *m_vertexBuffer.get());
+		m_vertexBinding->Create(vertexLayout, 2, *m_vertexBuffer);
 
 		_shader = std::make_unique<GL::ShaderProgram>(VertSrc, FragSrc);
 	}
