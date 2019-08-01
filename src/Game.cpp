@@ -195,7 +195,7 @@ void Game::TestAudio()
 	alGenBuffers(1, &buffer);
 	alGenSources(1, &source);
 
-	PlayAudio(*_filesRCF[3], "sound\\music\\homer\\tuba_060.rsd");
+	//PlayAudio(*_filesRCF[3], "sound\\music\\homer\\tuba_060.rsd");
 
 	//auto magic = rsdStream->ReadString(8);
 	//auto numChannels = rsdStream->Read<uint32_t>();
@@ -360,7 +360,23 @@ Game::Game(int argc, char** argv)
 {
 	instance = this; // global static :D
 
-	Commands::Run("AddTeleportDest", "\"Simpsons' House\", 220, 3.5, -172, \"l1z1.p3d;l1r1.p3d;l1r7.p3d;\"");
+	size_t scripts = 0;
+	size_t scriptsRun = 0;
+	for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
+	{
+		const auto& path = entry.path();
+		const auto& extension = path.extension().string();
+		if (extension != ".con" && extension != ".mfk") continue;
+
+		if (Commands::RunScript(path.string()))
+		{
+			scriptsRun++;
+		}
+
+		scripts++;
+	}
+
+	std::cout << fmt::format("Successfully run {0} scripts out of {1}", scriptsRun, scripts) << std::endl;
 
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
 
@@ -407,7 +423,7 @@ Game::Game(int argc, char** argv)
 		_filesRCF.push_back(std::make_unique<RCL::RCFFile>(filename));
 	}
 
-	// TestAudio();
+	TestAudio();
 
 	// init sub classes
 	_resourceManager = std::make_unique<ResourceManager>();
