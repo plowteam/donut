@@ -380,6 +380,11 @@ Game::Game(int argc, char** argv)
 	                             static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
+	//const float dpi_scale = 2.0f;
+	//ImGuiIO& io = ImGui::GetIO();
+	//ImGui::GetStyle().ScaleAllSizes(dpi_scale);
+    //io.FontGlobalScale = dpi_scale;
+
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
 
