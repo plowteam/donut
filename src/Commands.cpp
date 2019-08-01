@@ -260,10 +260,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_LoadP3DFile(param0, param1);
+        Impl_LoadP3DFile(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -278,9 +275,8 @@ namespace Donut
 
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
-        const auto& param1 = splits[1];
 
-        Impl_SetParticleTexture(param0, param1);
+        Impl_SetParticleTexture(param0, splits[1]);
         return true;
     }
 
@@ -293,18 +289,13 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
         int32_t param4;
         if (!Commands::StringToInt(splits[4], param4)) return false;
         int32_t param5 = 0;
         if (numParams > 5)
             if (!Commands::StringToInt(splits[5], param5)) return false;
-        const auto& param6 = (numParams > 6) ? splits[6] : "";
 
-        Impl_BindReward(param0, param1, param2, param3, param4, param5, param6);
+        Impl_BindReward(splits[0], splits[1], splits[2], splits[3], param4, param5, (numParams > 6) ? splits[6] : "");
         return true;
     }
 
@@ -317,7 +308,6 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
         float param1;
         if (!Commands::StringToFloat(splits[1], param1)) return false;
         float param2;
@@ -327,7 +317,7 @@ namespace Donut
         float param4;
         if (!Commands::StringToFloat(splits[4], param4)) return false;
 
-        Impl_SetCarAttributes(param0, param1, param2, param3, param4);
+        Impl_SetCarAttributes(splits[0], param1, param2, param3, param4);
         return true;
     }
 
@@ -358,9 +348,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SelectMission(param0);
+        Impl_SelectMission(splits[0]);
         return true;
     }
 
@@ -373,9 +361,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetMissionResetPlayerInCar(param0);
+        Impl_SetMissionResetPlayerInCar(splits[0]);
         return true;
     }
 
@@ -388,10 +374,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_SetDynaLoadData(param0, param1);
+        Impl_SetDynaLoadData(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -419,11 +402,7 @@ namespace Donut
 
         size_t numParams = splits.size();
 
-        const auto& param0 = (numParams > 0) ? splits[0] : "";
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-        const auto& param2 = (numParams > 2) ? splits[2] : "";
-
-        Impl_AddStage(param0, param1, param2);
+        Impl_AddStage((numParams > 0) ? splits[0] : "", (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "");
         return true;
     }
 
@@ -436,9 +415,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetPresentationBitmap(param0);
+        Impl_SetPresentationBitmap(splits[0]);
         return true;
     }
 
@@ -453,9 +430,8 @@ namespace Donut
 
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        Impl_SetStageMessageIndex(param0, param1);
+        Impl_SetStageMessageIndex(param0, (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -468,11 +444,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-        const auto& param2 = (numParams > 2) ? splits[2] : "";
-
-        Impl_AddObjective(param0, param1, param2);
+        Impl_AddObjective(splits[0], (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "");
         return true;
     }
 
@@ -485,9 +457,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetObjTargetVehicle(param0);
+        Impl_SetObjTargetVehicle(splits[0]);
         return true;
     }
 
@@ -548,9 +518,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetHUDIcon(param0);
+        Impl_SetHUDIcon(splits[0]);
         return true;
     }
 
@@ -563,12 +531,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-        const auto& param2 = (numParams > 2) ? splits[2] : "";
-        const auto& param3 = (numParams > 3) ? splits[3] : "";
-
-        Impl_AddCollectible(param0, param1, param2, param3);
+        Impl_AddCollectible(splits[0], (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "", (numParams > 3) ? splits[3] : "");
         return true;
     }
 
@@ -597,10 +560,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_AddCondition(param0, param1);
+        Impl_AddCondition(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -645,11 +605,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = (numParams > 2) ? splits[2] : "";
-
-        Impl_AddNPC(param0, param1, param2);
+        Impl_AddNPC(splits[0], splits[1], (numParams > 2) ? splits[2] : "");
         return true;
     }
 
@@ -662,10 +618,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_SetDestination(param0, param1);
+        Impl_SetDestination(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -678,9 +631,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetCollectibleEffect(param0);
+        Impl_SetCollectibleEffect(splits[0]);
         return true;
     }
 
@@ -709,10 +660,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AddObjectiveNPCWaypoint(param0, param1);
+        Impl_AddObjectiveNPCWaypoint(splits[0], splits[1]);
         return true;
     }
 
@@ -725,16 +673,14 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1 = 0;
         if (numParams > 1)
             if (!Commands::StringToInt(splits[1], param1)) return false;
         float param2 = 0.0f;
         if (numParams > 2)
             if (!Commands::StringToFloat(splits[2], param2)) return false;
-        const auto& param3 = (numParams > 3) ? splits[3] : "";
 
-        Impl_SetTalkToTarget(param0, param1, param2, param3);
+        Impl_SetTalkToTarget(splits[0], param1, param2, (numParams > 3) ? splits[3] : "");
         return true;
     }
 
@@ -747,13 +693,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 4) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
         int32_t param3;
         if (!Commands::StringToInt(splits[3], param3)) return false;
 
-        Impl_SetDialogueInfo(param0, param1, param2, param3);
+        Impl_SetDialogueInfo(splits[0], splits[1], splits[2], param3);
         return true;
     }
 
@@ -766,10 +709,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_SetCamBestSide(param0, param1);
+        Impl_SetCamBestSide(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -798,10 +738,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_PlacePlayerCar(param0, param1);
+        Impl_PlacePlayerCar(splits[0], splits[1]);
         return true;
     }
 
@@ -830,13 +767,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 4) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = (numParams > 4) ? splits[4] : "";
-
-        Impl_AddStageVehicle(param0, param1, param2, param3, param4);
+        Impl_AddStageVehicle(splits[0], splits[1], splits[2], splits[3], (numParams > 4) ? splits[4] : "");
         return true;
     }
 
@@ -849,9 +780,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_AddStageWaypoint(param0);
+        Impl_AddStageWaypoint(splits[0]);
         return true;
     }
 
@@ -912,11 +841,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_LoadDisposableCar(param0, param1, param2);
+        Impl_LoadDisposableCar(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -929,9 +854,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_AddMission(param0);
+        Impl_AddMission(splits[0]);
         return true;
     }
 
@@ -960,9 +883,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_GagBegin(param0);
+        Impl_GagBegin(splits[0]);
         return true;
     }
 
@@ -975,9 +896,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_GagSetInterior(param0);
+        Impl_GagSetInterior(splits[0]);
         return true;
     }
 
@@ -990,9 +909,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_GagSetCycle(param0);
+        Impl_GagSetCycle(splits[0]);
         return true;
     }
 
@@ -1051,9 +968,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_GagSetSound(param0);
+        Impl_GagSetSound(splits[0]);
         return true;
     }
 
@@ -1234,9 +1149,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_GagPlayFMV(param0);
+        Impl_GagPlayFMV(splits[0]);
         return true;
     }
 
@@ -1249,9 +1162,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_EnableTutorialMode(param0);
+        Impl_EnableTutorialMode(splits[0]);
         return true;
     }
 
@@ -1264,12 +1175,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = (numParams > 3) ? splits[3] : "";
-
-        Impl_InitLevelPlayerVehicle(param0, param1, param2, param3);
+        Impl_InitLevelPlayerVehicle(splits[0], splits[1], splits[2], (numParams > 3) ? splits[3] : "");
         return true;
     }
 
@@ -1282,10 +1188,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AddCharacter(param0, param1);
+        Impl_AddCharacter(splits[0], splits[1]);
         return true;
     }
 
@@ -1298,12 +1201,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        Impl_CreateChaseManager(param0, param1, param2);
+        Impl_CreateChaseManager(splits[0], splits[1], param2);
         return true;
     }
 
@@ -1332,9 +1233,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetNumChaseCars(param0);
+        Impl_SetNumChaseCars(splits[0]);
         return true;
     }
 
@@ -1347,17 +1246,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 7) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-        const auto& param5 = splits[5];
         int32_t param6;
         if (!Commands::StringToInt(splits[6], param6)) return false;
-        const auto& param7 = (numParams > 7) ? splits[7] : "";
 
-        Impl_AddNPCCharacterBonusMission(param0, param1, param2, param3, param4, param5, param6, param7);
+        Impl_AddNPCCharacterBonusMission(splits[0], splits[1], splits[2], splits[3], splits[4], splits[5], param6, (numParams > 7) ? splits[7] : "");
         return true;
     }
 
@@ -1370,10 +1262,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AddBonusMissionNPCWaypoint(param0, param1);
+        Impl_AddBonusMissionNPCWaypoint(splits[0], splits[1]);
         return true;
     }
 
@@ -1386,12 +1275,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
         float param2;
         if (!Commands::StringToFloat(splits[2], param2)) return false;
 
-        Impl_AddAmbientCharacter(param0, param1, param2);
+        Impl_AddAmbientCharacter(splits[0], splits[1], param2);
         return true;
     }
 
@@ -1404,10 +1291,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AddAmbientNPCWaypoint(param0, param1);
+        Impl_AddAmbientNPCWaypoint(splits[0], splits[1]);
         return true;
     }
 
@@ -1420,15 +1304,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 6) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
         float param4;
         if (!Commands::StringToFloat(splits[4], param4)) return false;
-        const auto& param5 = splits[5];
 
-        Impl_AddPurchaseCarReward(param0, param1, param2, param3, param4, param5);
+        Impl_AddPurchaseCarReward(splits[0], splits[1], splits[2], splits[3], param4, splits[5]);
         return true;
     }
 
@@ -1441,10 +1320,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AddPurchaseCarNPCWaypoint(param0, param1);
+        Impl_AddPurchaseCarNPCWaypoint(splits[0], splits[1]);
         return true;
     }
 
@@ -1473,14 +1349,13 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
         int32_t param2 = 0;
         if (numParams > 2)
             if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        Impl_AddTrafficModel(param0, param1, param2);
+        Impl_AddTrafficModel(splits[0], param1, param2);
         return true;
     }
 
@@ -1525,11 +1400,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        Impl_AddPed(param0, param1);
+        Impl_AddPed(splits[0], param1);
         return true;
     }
 
@@ -1558,10 +1432,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_PreallocateActors(param0, param1);
+        Impl_PreallocateActors(splits[0], splits[1]);
         return true;
     }
 
@@ -1574,11 +1445,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_SetProjectileStats(param0, param1, param2);
+        Impl_SetProjectileStats(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -1591,14 +1458,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 6) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-        const auto& param5 = splits[5];
-
-        Impl_AddSpawnPointByLocatorScript(param0, param1, param2, param3, param4, param5);
+        Impl_AddSpawnPointByLocatorScript(splits[0], splits[1], splits[2], splits[3], splits[4], splits[5]);
         return true;
     }
 
@@ -1611,15 +1471,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = (numParams > 3) ? splits[3] : "";
-        const auto& param4 = (numParams > 4) ? splits[4] : "";
-        const auto& param5 = (numParams > 5) ? splits[5] : "";
-        const auto& param6 = (numParams > 6) ? splits[6] : "";
-
-        Impl_AddBehaviour(param0, param1, param2, param3, param4, param5, param6);
+        Impl_AddBehaviour(splits[0], splits[1], splits[2], (numParams > 3) ? splits[3] : "", (numParams > 4) ? splits[4] : "", (numParams > 5) ? splits[5] : "", (numParams > 6) ? splits[6] : "");
         return true;
     }
 
@@ -1632,10 +1484,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetActorRotationSpeed(param0, param1);
+        Impl_SetActorRotationSpeed(splits[0], splits[1]);
         return true;
     }
 
@@ -1648,9 +1497,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetAnimatedCameraName(param0);
+        Impl_SetAnimatedCameraName(splits[0]);
         return true;
     }
 
@@ -1663,9 +1510,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetAnimCamMulticontName(param0);
+        Impl_SetAnimCamMulticontName(splits[0]);
         return true;
     }
 
@@ -1710,10 +1555,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_StartCountdown(param0, param1);
+        Impl_StartCountdown(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -1726,11 +1568,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        Impl_AddToCountdownSequence(param0, param1);
+        Impl_AddToCountdownSequence(splits[0], param1);
         return true;
     }
 
@@ -1807,9 +1648,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetCondTargetVehicle(param0);
+        Impl_SetCondTargetVehicle(splits[0]);
         return true;
     }
 
@@ -1838,9 +1677,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_AddBonusMission(param0);
+        Impl_AddBonusMission(splits[0]);
         return true;
     }
 
@@ -1853,16 +1690,14 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
         float param1;
         if (!Commands::StringToFloat(splits[1], param1)) return false;
         float param2;
         if (!Commands::StringToFloat(splits[2], param2)) return false;
         float param3;
         if (!Commands::StringToFloat(splits[3], param3)) return false;
-        const auto& param4 = splits[4];
 
-        Impl_AddTeleportDest(param0, param1, param2, param3, param4);
+        Impl_AddTeleportDest(splits[0], param1, param2, param3, splits[4]);
         return true;
     }
 
@@ -1875,11 +1710,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_AddVehicleSelectInfo(param0, param1, param2);
+        Impl_AddVehicleSelectInfo(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -1892,9 +1723,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SuppressDriver(param0);
+        Impl_SuppressDriver(splits[0]);
         return true;
     }
 
@@ -1907,12 +1736,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 4) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-
-        Impl_SetBonusMissionDialoguePos(param0, param1, param2, param3);
+        Impl_SetBonusMissionDialoguePos(splits[0], splits[1], splits[2], splits[3]);
         return true;
     }
 
@@ -1927,10 +1751,8 @@ namespace Donut
 
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
-        const auto& param1 = splits[1];
-        const auto& param2 = (numParams > 2) ? splits[2] : "";
 
-        Impl_SetConversationCam(param0, param1, param2);
+        Impl_SetConversationCam(param0, splits[1], (numParams > 2) ? splits[2] : "");
         return true;
     }
 
@@ -1943,9 +1765,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_ClearAmbientAnimations(param0);
+        Impl_ClearAmbientAnimations(splits[0]);
         return true;
     }
 
@@ -1958,10 +1778,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_AddAmbientNpcAnimation(param0, param1);
+        Impl_AddAmbientNpcAnimation(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -1974,10 +1791,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_AddAmbientPcAnimation(param0, param1);
+        Impl_AddAmbientPcAnimation(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -1990,9 +1804,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetCoinDrawable(param0);
+        Impl_SetCoinDrawable(splits[0]);
         return true;
     }
 
@@ -2039,10 +1851,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_SetCompletionDialog(param0, param1);
+        Impl_SetCompletionDialog(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -2055,10 +1864,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetMissionResetPlayerOutCar(param0, param1);
+        Impl_SetMissionResetPlayerOutCar(splits[0], splits[1]);
         return true;
     }
 
@@ -2071,9 +1877,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetMissionStartCameraName(param0);
+        Impl_SetMissionStartCameraName(splits[0]);
         return true;
     }
 
@@ -2086,9 +1890,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetMissionStartMulticontName(param0);
+        Impl_SetMissionStartMulticontName(splits[0]);
         return true;
     }
 
@@ -2101,9 +1903,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetInitialWalk(param0);
+        Impl_SetInitialWalk(splits[0]);
         return true;
     }
 
@@ -2116,14 +1916,11 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
         int32_t param3 = 0;
         if (numParams > 3)
             if (!Commands::StringToInt(splits[3], param3)) return false;
 
-        Impl_SetDialoguePositions(param0, param1, param2, param3);
+        Impl_SetDialoguePositions(splits[0], splits[1], splits[2], param3);
         return true;
     }
 
@@ -2136,11 +1933,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_ActivateVehicle(param0, param1, param2);
+        Impl_ActivateVehicle(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -2185,13 +1978,12 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        Impl_SetVehicleAIParams(param0, param1, param2);
+        Impl_SetVehicleAIParams(splits[0], param1, param2);
         return true;
     }
 
@@ -2204,9 +1996,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_StageStartMusicEvent(param0);
+        Impl_StageStartMusicEvent(splits[0]);
         return true;
     }
 
@@ -2219,9 +2009,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_AllowMissionAbort(param0);
+        Impl_AllowMissionAbort(splits[0]);
         return true;
     }
 
@@ -2250,13 +2038,12 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        Impl_SetStageAITargetCatchupParams(param0, param1, param2);
+        Impl_SetStageAITargetCatchupParams(splits[0], param1, param2);
         return true;
     }
 
@@ -2319,13 +2106,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-
-        Impl_AddStageCharacter(param0, param1, param2, param3, param4);
+        Impl_AddStageCharacter(splits[0], splits[1], splits[2], splits[3], splits[4]);
         return true;
     }
 
@@ -2354,10 +2135,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_SetFMVInfo(param0, param1);
+        Impl_SetFMVInfo(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -2402,9 +2180,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetSwapDefaultCarLocator(param0);
+        Impl_SetSwapDefaultCarLocator(splits[0]);
         return true;
     }
 
@@ -2417,9 +2193,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetSwapForcedCarLocator(param0);
+        Impl_SetSwapForcedCarLocator(splits[0]);
         return true;
     }
 
@@ -2432,9 +2206,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetSwapPlayerLocator(param0);
+        Impl_SetSwapPlayerLocator(splits[0]);
         return true;
     }
 
@@ -2447,9 +2219,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_StreetRacePropsLoad(param0);
+        Impl_StreetRacePropsLoad(splits[0]);
         return true;
     }
 
@@ -2462,9 +2232,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_StreetRacePropsUnload(param0);
+        Impl_StreetRacePropsUnload(splits[0]);
         return true;
     }
 
@@ -2477,7 +2245,6 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
         float param2;
@@ -2487,7 +2254,7 @@ namespace Donut
         float param4;
         if (!Commands::StringToFloat(splits[4], param4)) return false;
 
-        Impl_SetStageAIRaceCatchupParams(param0, param1, param2, param3, param4);
+        Impl_SetStageAIRaceCatchupParams(splits[0], param1, param2, param3, param4);
         return true;
     }
 
@@ -2548,11 +2315,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        Impl_AddSafeZone(param0, param1);
+        Impl_AddSafeZone(splits[0], param1);
         return true;
     }
 
@@ -2565,14 +2331,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
         int32_t param3;
         if (!Commands::StringToInt(splits[3], param3)) return false;
-        const auto& param4 = splits[4];
 
-        Impl_AddGagBinding(param0, param1, param2, param3, param4);
+        Impl_AddGagBinding(splits[0], splits[1], splits[2], param3, splits[4]);
         return true;
     }
 
@@ -2585,9 +2347,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetPostLevelFMV(param0);
+        Impl_SetPostLevelFMV(splits[0]);
         return true;
     }
 
@@ -2632,10 +2392,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetMusicState(param0, param1);
+        Impl_SetMusicState(splits[0], splits[1]);
         return true;
     }
 
@@ -2664,9 +2421,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_RemoveDriver(param0);
+        Impl_RemoveDriver(splits[0]);
         return true;
     }
 
@@ -2679,9 +2434,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_RemoveNPC(param0);
+        Impl_RemoveNPC(splits[0]);
         return true;
     }
 
@@ -2694,10 +2447,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AddDriver(param0, param1);
+        Impl_AddDriver(splits[0], splits[1]);
         return true;
     }
 
@@ -2710,9 +2460,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetCharacterToHide(param0);
+        Impl_SetCharacterToHide(splits[0]);
         return true;
     }
 
@@ -2741,13 +2489,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-
-        Impl_GagCheckCollCards(param0, param1, param2, param3, param4);
+        Impl_GagCheckCollCards(splits[0], splits[1], splits[2], splits[3], splits[4]);
         return true;
     }
 
@@ -2760,12 +2502,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 4) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-
-        Impl_GagCheckMovie(param0, param1, param2, param3);
+        Impl_GagCheckMovie(splits[0], splits[1], splits[2], splits[3]);
         return true;
     }
 
@@ -2814,10 +2551,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AddShield(param0, param1);
+        Impl_AddShield(splits[0], splits[1]);
         return true;
     }
 
@@ -2830,10 +2564,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetStatepropShadow(param0, param1);
+        Impl_SetStatepropShadow(splits[0], splits[1]);
         return true;
     }
 
@@ -2846,12 +2577,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 4) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-
-        Impl_AddFlyingActorByLocator(param0, param1, param2, param3);
+        Impl_AddFlyingActorByLocator(splits[0], splits[1], splits[2], splits[3]);
         return true;
     }
 
@@ -2864,12 +2590,10 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        Impl_AddCollectibleStateProp(param0, param1, param2);
+        Impl_AddCollectibleStateProp(splits[0], splits[1], param2);
         return true;
     }
 
@@ -2882,9 +2606,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetPickupTarget(param0);
+        Impl_SetPickupTarget(splits[0]);
         return true;
     }
 
@@ -2897,9 +2619,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetObjTargetBoss(param0);
+        Impl_SetObjTargetBoss(splits[0]);
         return true;
     }
 
@@ -2928,9 +2648,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_ShowHUD(param0);
+        Impl_ShowHUD(splits[0]);
         return true;
     }
 
@@ -3517,9 +3235,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetDriver(param0);
+        Impl_SetDriver(splits[0]);
         return true;
     }
 
@@ -3628,11 +3344,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-        const auto& param2 = (numParams > 2) ? splits[2] : "";
-
-        Impl_ClearVehicleSelectInfo(param0, param1, param2);
+        Impl_ClearVehicleSelectInfo(splits[0], (numParams > 1) ? splits[1] : "", (numParams > 2) ? splits[2] : "");
         return true;
     }
 
@@ -3645,13 +3357,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-
-        Impl_AddFlyingActor(param0, param1, param2, param3, param4);
+        Impl_AddFlyingActor(splits[0], splits[1], splits[2], splits[3], splits[4]);
         return true;
     }
 
@@ -3664,12 +3370,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 4) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-
-        Impl_SetCollisionAttributes(param0, param1, param2, param3);
+        Impl_SetCollisionAttributes(splits[0], splits[1], splits[2], splits[3]);
         return true;
     }
 
@@ -3682,16 +3383,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 8) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-        const auto& param5 = splits[5];
-        const auto& param6 = splits[6];
-        const auto& param7 = splits[7];
-
-        Impl_AddSpawnPoint(param0, param1, param2, param3, param4, param5, param6, param7);
+        Impl_AddSpawnPoint(splits[0], splits[1], splits[2], splits[3], splits[4], splits[5], splits[6], splits[7]);
         return true;
     }
 
@@ -3704,9 +3396,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_GagSetWeight(param0);
+        Impl_GagSetWeight(splits[0]);
         return true;
     }
 
@@ -3719,10 +3409,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_GagSetLoadDistances(param0, param1);
+        Impl_GagSetLoadDistances(splits[0], splits[1]);
         return true;
     }
 
@@ -3735,10 +3422,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetTotalWasps(param0, param1);
+        Impl_SetTotalWasps(splits[0], splits[1]);
         return true;
     }
 
@@ -3751,9 +3435,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_AddGlobalProp(param0);
+        Impl_AddGlobalProp(splits[0]);
         return true;
     }
 
@@ -3765,9 +3447,7 @@ namespace Donut
 
         size_t numParams = splits.size();
 
-        const auto& param0 = (numParams > 0) ? splits[0] : "";
-
-        Impl_EnableHitAndRun(param0);
+        Impl_EnableHitAndRun((numParams > 0) ? splits[0] : "");
         return true;
     }
 
@@ -3780,9 +3460,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetHitAndRunMeter(param0);
+        Impl_SetHitAndRunMeter(splits[0]);
         return true;
     }
 
@@ -3795,10 +3473,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetChaseSpawnRate(param0, param1);
+        Impl_SetChaseSpawnRate(splits[0], splits[1]);
         return true;
     }
 
@@ -3811,9 +3486,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_KillAllChaseAI(param0);
+        Impl_KillAllChaseAI(splits[0]);
         return true;
     }
 
@@ -3825,9 +3498,7 @@ namespace Donut
 
         size_t numParams = splits.size();
 
-        const auto& param0 = (numParams > 0) ? splits[0] : "";
-
-        Impl_ResetHitAndRun(param0);
+        Impl_ResetHitAndRun((numParams > 0) ? splits[0] : "");
         return true;
     }
 
@@ -3840,9 +3511,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetHitAndRunDecayInterior(param0);
+        Impl_SetHitAndRunDecayInterior(splits[0]);
         return true;
     }
 
@@ -3855,9 +3524,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetMissionNameIndex(param0);
+        Impl_SetMissionNameIndex(splits[0]);
         return true;
     }
 
@@ -3870,10 +3537,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = (numParams > 1) ? splits[1] : "";
-
-        Impl_AddBonusObjective(param0, param1);
+        Impl_AddBonusObjective(splits[0], (numParams > 1) ? splits[1] : "");
         return true;
     }
 
@@ -3886,10 +3550,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_AttachStatePropCollectible(param0, param1);
+        Impl_AttachStatePropCollectible(splits[0], splits[1]);
         return true;
     }
 
@@ -3902,11 +3563,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_MoveStageVehicle(param0, param1, param2);
+        Impl_MoveStageVehicle(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -3919,11 +3576,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_SetStageCamera(param0, param1, param2);
+        Impl_SetStageCamera(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -3935,9 +3588,7 @@ namespace Donut
 
         size_t numParams = splits.size();
 
-        const auto& param0 = (numParams > 0) ? splits[0] : "";
-
-        Impl_SetBonusMissionStart(param0);
+        Impl_SetBonusMissionStart((numParams > 0) ? splits[0] : "");
         return true;
     }
 
@@ -3950,9 +3601,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_PlacePlayerAtLocatorName(param0);
+        Impl_PlacePlayerAtLocatorName(splits[0]);
         return true;
     }
 
@@ -3965,9 +3614,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_msPlacePlayerCarAtLocatorName(param0);
+        Impl_msPlacePlayerCarAtLocatorName(splits[0]);
         return true;
     }
 
@@ -3979,9 +3626,7 @@ namespace Donut
 
         size_t numParams = splits.size();
 
-        const auto& param0 = (numParams > 0) ? splits[0] : "";
-
-        Impl_ClearTrafficForStage(param0);
+        Impl_ClearTrafficForStage((numParams > 0) ? splits[0] : "");
         return true;
     }
 
@@ -3994,11 +3639,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_SetStageAIEvadeCatchupParams(param0, param1, param2);
+        Impl_SetStageAIEvadeCatchupParams(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -4010,9 +3651,7 @@ namespace Donut
 
         size_t numParams = splits.size();
 
-        const auto& param0 = (numParams > 0) ? splits[0] : "";
-
-        Impl_AllowUserDump(param0);
+        Impl_AllowUserDump((numParams > 0) ? splits[0] : "");
         return true;
     }
 
@@ -4025,11 +3664,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_SetVehicleToLoad(param0, param1, param2);
+        Impl_SetVehicleToLoad(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -4042,9 +3677,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetConversationCamName(param0);
+        Impl_SetConversationCamName(splits[0]);
         return true;
     }
 
@@ -4057,9 +3690,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetConversationCamPcName(param0);
+        Impl_SetConversationCamPcName(splits[0]);
         return true;
     }
 
@@ -4072,9 +3703,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetConversationCamNpcName(param0);
+        Impl_SetConversationCamNpcName(splits[0]);
         return true;
     }
 
@@ -4087,10 +3716,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetConversationCamDistance(param0, param1);
+        Impl_SetConversationCamDistance(splits[0], splits[1]);
         return true;
     }
 
@@ -4103,9 +3729,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_CharacterIsChild(param0);
+        Impl_CharacterIsChild(splits[0]);
         return true;
     }
 
@@ -4118,9 +3742,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_SetCarStartCamera(param0);
+        Impl_SetCarStartCamera(splits[0]);
         return true;
     }
 
@@ -4133,10 +3755,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetPlayerCarName(param0, param1);
+        Impl_SetPlayerCarName(splits[0], splits[1]);
         return true;
     }
 
@@ -4149,10 +3768,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_SetRespawnRate(param0, param1);
+        Impl_SetRespawnRate(splits[0], splits[1]);
         return true;
     }
 
@@ -4165,9 +3781,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_ActivateTrigger(param0);
+        Impl_ActivateTrigger(splits[0]);
         return true;
     }
 
@@ -4180,9 +3794,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 1) return false;
 
-        const auto& param0 = splits[0];
-
-        Impl_DeactivateTrigger(param0);
+        Impl_DeactivateTrigger(splits[0]);
         return true;
     }
 
@@ -4195,10 +3807,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_CreateAnimPhysObject(param0, param1);
+        Impl_CreateAnimPhysObject(splits[0], splits[1]);
         return true;
     }
 
@@ -4211,13 +3820,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-
-        Impl_CreateActionEventTrigger(param0, param1, param2, param3, param4);
+        Impl_CreateActionEventTrigger(splits[0], splits[1], splits[2], splits[3], splits[4]);
         return true;
     }
 
@@ -4230,13 +3833,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-
-        Impl_LinkActionToObjectJoint(param0, param1, param2, param3, param4);
+        Impl_LinkActionToObjectJoint(splits[0], splits[1], splits[2], splits[3], splits[4]);
         return true;
     }
 
@@ -4249,13 +3846,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 5) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-        const auto& param3 = splits[3];
-        const auto& param4 = splits[4];
-
-        Impl_LinkActionToObject(param0, param1, param2, param3, param4);
+        Impl_LinkActionToObject(splits[0], splits[1], splits[2], splits[3], splits[4]);
         return true;
     }
 
@@ -4268,11 +3859,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 3) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-        const auto& param2 = splits[2];
-
-        Impl_SetCharacterPosition(param0, param1, param2);
+        Impl_SetCharacterPosition(splits[0], splits[1], splits[2]);
         return true;
     }
 
@@ -4285,10 +3872,7 @@ namespace Donut
         size_t numParams = splits.size();
         if (numParams < 2) return false;
 
-        const auto& param0 = splits[0];
-        const auto& param1 = splits[1];
-
-        Impl_ResetCharacter(param0, param1);
+        Impl_ResetCharacter(splits[0], splits[1]);
         return true;
     }
 
