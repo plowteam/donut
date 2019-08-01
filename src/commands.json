@@ -1,1223 +1,1227 @@
 {
   "LoadP3DFile": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetParticleTexture": {
     "min": 2,
-    "types": [ "Int", "String" ],
+    "types": [[ "Int", "String" ]],
     "help": "None"
   },
   "BindReward": {
     "min": 5,
-    "types": [ "String", "String", "String", "String", "Int", "Int", "String" ],
+    "types": [[ "String", "String", "String", "String", "Int", "Int", "String" ]],
     "help": "None"
   },
   "SetCarAttributes": {
     "min": 5,
-    "types": [ "String", "Float", "Float", "Float", "Float" ],
+    "types": [[ "String", "Float", "Float", "Float", "Float" ]],
     "help": "None"
   },
   "SetTotalGags": {
     "min": 2,
-    "types": [ "Int", "Int" ],
+    "types": [[ "Int", "Int" ]],
     "help": "None"
   },
   "SelectMission": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetMissionResetPlayerInCar": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetDynaLoadData": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "UsePedGroup": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddStage": {
-    "min": 1,
-    "types": [ "Int", "String", "String" ],
+    "min": 0,
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SetPresentationBitmap": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetStageMessageIndex": {
     "min": 1,
-    "types": [ "Int", "String" ],
+    "types": [[ "Int", "String" ]],
     "help": "None"
   },
   "AddObjective": {
     "min": 1,
-    "types": [ "String", "String", "String" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SetObjTargetVehicle": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "CloseObjective": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "CloseStage": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "RESET_TO_HERE": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetHUDIcon": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
 
   "AddCollectible": {
     "min": 1,
-    "types": [ "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String" ]],
     "help": "None"
   },
   "SetStageTime": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddCondition": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "CloseCondition": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "ShowStageComplete": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddNPC": {
     "min": 2,
-    "types": [ "String", "String", "Int" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SetDestination": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetCollectibleEffect": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AddStageTime": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddObjectiveNPCWaypoint": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetTalkToTarget": {
     "min": 1,
-    "types": [ "String", "Int", "Float", "String" ],
+    "types": [[ "String", "Int", "Float", "String" ]],
     "help": "None"
   },
   "SetDialogueInfo": {
     "min": 4,
-    "types": [ "String", "String", "String", "Int" ],
+    "types": [[ "String", "String", "String", "Int" ]],
     "help": "None"
   },
   "SetCamBestSide": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "CloseMission": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "PlacePlayerCar": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetMaxTraffic": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddStageVehicle": {
     "min": 4,
-    "types": [ "String", "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "AddStageWaypoint": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetRaceLaps": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetDemoLoopTime": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int64" ]],
     "help": "None"
   },
   "AddStageMusicChange": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "LoadDisposableCar": {
     "min": 3,
-    "types": [ "String", "String", "String" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "AddMission": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "ClearGagBindings": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "ClearGagBindings();"
   },
   "GagBegin": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "GagSetInterior": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "GagSetCycle": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "GagSetPosition": {
-    "min": 1,
-    "types": [ "Float", "Float", "Float" ],
+    "types": [
+      [ "String" ],
+      [ "Float", "Float", "Float" ]
+    ],
     "help": "None"
   },
   "GagSetRandom": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagSetSound": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "GagSetTrigger": {
-    "min": 3,
-    "types": [ "String", "Float", "Float", "Float", "Float" ],
+    "types": [
+      [ "String", "String", "Float" ],
+      [ "String", "Float", "Float", "Float", "Float" ]
+    ],
     "help": "None"
   },
   "GagEnd": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagSetSparkle": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagSetPersist": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagSetCoins": {
     "min": 2,
-    "types": [ "Int", "Float" ],
+    "types": [[ "Int", "Float" ]],
     "help": "None"
   },
   "GagSetAnimCollision": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagSetIntro": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagSetOutro": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagSetCameraShake": {
     "min": 3,
-    "types": [ "Float", "Int", "Float" ],
+    "types": [[ "Float", "Int", "Float" ]],
     "help": "None"
   },
   "GagPlayFMV": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "Play FMV specified by file name"
   },
   "EnableTutorialMode": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "InitLevelPlayerVehicle": {
     "min": 3,
-    "types": [ "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String" ]],
     "help": "None"
   },
   "AddCharacter": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "CreateChaseManager": {
     "min": 3,
-    "types": [ "String", "String", "Int" ],
+    "types": [[ "String", "String", "Int" ]],
     "help": "None"
   },
   "SetHitAndRunDecay": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "None"
   },
   "SetNumChaseCars": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AddNPCCharacterBonusMission": {
     "min": 7,
-    "types": [ "String", "String", "String", "String", "String", "String", "Int", "String" ],
+    "types": [[ "String", "String", "String", "String", "String", "String", "Int", "String" ]],
     "help": "None"
   },
   "AddBonusMissionNPCWaypoint": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "AddAmbientCharacter": {
     "min": 3,
-    "types": [ "String", "String", "Float" ],
+    "types": [[ "String", "String", "Float" ]],
     "help": "None"
   },
   "AddAmbientNPCWaypoint": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "AddPurchaseCarReward": {
     "min": 6,
-    "types": [ "String", "String", "String", "String", "Float", "String" ],
+    "types": [[ "String", "String", "String", "String", "Float", "String" ]],
     "help": "None"
   },
   "AddPurchaseCarNPCWaypoint": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "CreateTrafficGroup": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddTrafficModel": {
     "min": 2,
-    "types": [ "String", "Int", "Int" ],
+    "types": [[ "String", "Int", "Int" ]],
     "help": "None"
   },
   "CloseTrafficGroup": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "CreatePedGroup": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddPed": {
     "min": 2,
-    "types": [ "String", "Int" ],
+    "types": [[ "String", "Int" ]],
     "help": "None"
   },
   "ClosePedGroup": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "PreallocateActors": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetProjectileStats": {
     "min": 3,
-    "types": [ "String", "String", "String" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "AddSpawnPointByLocatorScript": {
     "min": 6,
-    "types": [ "String", "String", "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "AddBehaviour": {
     "min": 3,
-    "types": [ "String", "String", "String", "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "SetActorRotationSpeed": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetAnimatedCameraName": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetAnimCamMulticontName": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetCoinFee": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "PutMFPlayerInCar": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "StartCountdown": {
     "min": 1,
-    "types": [ "Int", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "AddToCountdownSequence": {
     "min": 2,
-    "types": [ "String", "Int" ],
+    "types": [[ "String", "Int" ]],
     "help": "None"
   },
   "UseElapsedTime": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetRaceEnteryFee": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetParTime": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetCondMinHealth": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "None"
   },
   "SetCondTargetVehicle": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetCondTime": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddBonusMission": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AddTeleportDest": {
     "min": 5,
-    "types": [ "String", "Float", "Float", "Float", "String" ],
+    "types": [[ "String", "Float", "Float", "Float", "String" ]],
     "help": "Set a valid location for a teleport"
   },
   "AddVehicleSelectInfo": {
     "min": 3,
-    "types": [ "String", "String", "String" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SuppressDriver": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "help your goddamn self"
   },
   "SetBonusMissionDialoguePos": {
     "min": 4,
-    "types": [ "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String" ]],
     "help": "None"
   },
   "SetConversationCam": {
     "min": 2,
-    "types": [ "Int", "String", "String" ],
+    "types": [[ "Int", "String", "String" ]],
     "help": "None"
   },
   "ClearAmbientAnimations": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AddAmbientNpcAnimation": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "AddAmbientPcAnimation": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetCoinDrawable": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AmbientAnimationRandomize": {
     "min": 2,
-    "types": [ "Int", "Int" ],
+    "types": [[ "Int", "Int" ]],
     "help": "None"
   },
   "TurnGotoDialogOff": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetCompletionDialog": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetMissionResetPlayerOutCar": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetMissionStartCameraName": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetMissionStartMulticontName": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetInitialWalk": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "Set locator to walk to on startup"
   },
   "SetDialoguePositions": {
     "min": 3,
-    "types": [ "String", "String", "String", "Int" ],
+    "types": [[ "String", "String", "String", "Int" ]],
     "help": "None"
   },
   "ActivateVehicle": {
     "min": 3,
-    "types": [ "String", "String", "String" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SetStageMusicAlwaysOn": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetNumValidFailureHints": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetVehicleAIParams": {
     "min": 3,
-    "types": [ "String", "Int", "Int" ],
+    "types": [[ "String", "Int", "Int" ]],
     "help": "None"
   },
   "StageStartMusicEvent": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AllowMissionAbort": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "MustActionTrigger": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetStageAITargetCatchupParams": {
     "min": 3,
-    "types": [ "String", "Int", "Int" ],
+    "types": [[ "String", "Int", "Int" ]],
     "help": "None"
   },
   "SetFollowDistances": {
     "min": 2,
-    "types": [ "Int", "Int" ],
+    "types": [[ "Int", "Int" ]],
     "help": "None"
   },
   "SetFadeOut": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "None"
   },
   "StayInBlack": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddStageCharacter": {
     "min": 5,
-    "types": [ "String", "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "SetDurationTime": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "None"
   },
   "SetFMVInfo": {
     "min": 1,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetForcedCar": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SwapInDefaultCar": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetSwapDefaultCarLocator": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetSwapForcedCarLocator": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetSwapPlayerLocator": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "StreetRacePropsLoad": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "StreetRacePropsUnload": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetStageAIRaceCatchupParams": {
     "min": 5,
-    "types": [ "String", "Int", "Float", "Float", "Float" ],
+    "types": [[ "String", "Int", "Float", "Float", "Float" ]],
     "help": "None"
   },
   "DisableHitAndRun": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "NoTrafficForStage": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetConditionPosition": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "AddSafeZone": {
     "min": 2,
-    "types": [ "String", "Int" ],
+    "types": [[ "String", "Int" ]],
     "help": "None"
   },
   "AddGagBinding": {
     "min": 5,
-    "types": [ "String", "String", "String", "Int", "String" ],
+    "types": [[ "String", "String", "String", "Int", "String" ]],
     "help": "AddGagBinding(InteriorName, GagFileName, CycleMode, Weight, SoundResourceName);"
   },
   "SetPostLevelFMV": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetHitNRun": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetObjDistance": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetMusicState": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetIrisWipe": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "None"
   },
   "RemoveDriver": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "RemoveNPC": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AddDriver": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetCharacterToHide": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetLevelOver": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GagCheckCollCards": {
     "min": 5,
-    "types": [ "String", "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "GagCheckMovie": {
     "min": 4,
-    "types": [ "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String" ]],
     "help": "None"
   },
   "GagSetSoundLoadDistances": {
     "min": 2,
-    "types": [ "Int", "Int" ],
+    "types": [[ "Int", "Int" ]],
     "help": "None"
   },
   "BindCollectibleTo": {
     "min": 2,
-    "types": [ "Int", "Int" ],
+    "types": [[ "Int", "Int" ]],
     "help": "None"
   },
   "AddShield": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetStatepropShadow": {
     "min": 2,
-    "types": [ "String", "String" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "AddFlyingActorByLocator": {
     "min": 4,
-    "types": [ "String", "String", "String", "String" ],
+    "types": [[ "String", "String", "String", "String" ]],
     "help": "None"
   },
   "AddCollectibleStateProp": {
     "min": 3,
-    "types": [ "String", "String", "Int" ],
+    "types": [[ "String", "String", "Int" ]],
     "help": "None"
   },
   "SetPickupTarget": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetObjTargetBoss": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AllowRockOut": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "ShowHUD": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetGameOver": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "GoToPsScreenWhenDone": {
-    "min": 1,
-    "types": [ "Int" ],
+    "min": 0,
+    "types": [[ "Int" ]],
     "help": "None"
   },
   "SetMass": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetGasScale": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetSlipGasScale": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetBrakeScale": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetTopSpeedKmh": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetMaxWheelTurnAngle": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetHighSpeedSteeringDrop": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetTireGrip": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetNormalSteering": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetSlipSteering": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetEBrakeEffect": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetSlipSteeringNoEBrake": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetSlipEffectNoEBrake": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetCMOffsetX": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetCMOffsetY": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetCMOffsetZ": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetSuspensionLimit": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetSpringK": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetDamperC": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetSuspensionYOffset": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetHitPoints": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetBurnoutRange": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetMaxSpeedBurstTime": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetDonutTorque": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetWeebleOffset": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetWheelieRange": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetWheelieOffsetY": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetWheelieOffsetZ": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetShadowAdjustments": {
     "min": 8,
-    "types": [ "Float", "Float", "Float", "Float", "Float", "Float", "Float", "Float" ],
+    "types": [[ "Float", "Float", "Float", "Float", "Float", "Float", "Float", "Float" ]],
     "help": "Move the shadow points around"
   },
   "SetCharactersVisible": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "help your goddamn self"
   },
   "SetIrisTransition": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "help your goddamn self"
   },
   "SetCharacterScale": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetGamblingOdds": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "Set Gambling Odds"
   },
   "SetDriver": {
     "min": 1,
-    "types": [ "String" ],
+    "types": [[ "String" ]],
     "help": "help your goddamn self"
   },
   "SetHasDoors": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "help your goddamn self"
   },
   "SetShininess": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "Set the environmental reflection 0 to 1"
   },
   "SetHighRoof": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "help your goddamn self"
   },
   "SetHighSpeedGasScale": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetGasScaleSpeedThreshold": {
     "min": 1,
-    "types": [ "Float" ],
+    "types": [[ "Float" ]],
     "help": "help your goddamn self"
   },
   "SetAllowSeatSlide": {
     "min": 1,
-    "types": [ "Int" ],
+    "types": [[ "Int" ]],
     "help": "help your goddamn self"
   },
   "ClearVehicleSelectInfo": {
     "min": 1,
-    "types": [ "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "AddFlyingActor": {
     "min": 5,
-    "types": [ "Unknown", "Unknown", "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "SetCollisionAttributes": {
     "min": 4,
-    "types": [ "Unknown", "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String", "String" ]],
     "help": "None"
   },
   "AddSpawnPoint": {
     "min": 8,
-    "types": [ "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String", "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "GagSetWeight": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "GagSetLoadDistances": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetTotalWasps": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "AddGlobalProp": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "EnableHitAndRun": {
-    "min": 1,
-    "types": [ "Unknown" ],
+    "min": 0,
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetHitAndRunMeter": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetChaseSpawnRate": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "KillAllChaseAI": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "ResetHitAndRun": {
-    "min": 1,
-    "types": [ "Unknown" ],
+    "min": 0,
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetHitAndRunDecayInterior": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetMissionNameIndex": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "AddBonusObjective": {
     "min": 1,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "AttachStatePropCollectible": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "MoveStageVehicle": {
     "min": 3,
-    "types": [ "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SetStageCamera": {
     "min": 3,
-    "types": [ "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SetBonusMissionStart": {
-    "min": 1,
-    "types": [ "Unknown" ],
+    "min": 0,
+    "types": [[ "String" ]],
     "help": "None"
   },
   "PlacePlayerAtLocatorName": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "msPlacePlayerCarAtLocatorName": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "ClearTrafficForStage": {
-    "min": 1,
-    "types": [ "Unknown" ],
+    "min": 0,
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetStageAIEvadeCatchupParams": {
     "min": 3,
-    "types": [ "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "AllowUserDump": {
-    "min": 1,
-    "types": [ "Unknown" ],
+    "min": 0,
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetVehicleToLoad": {
     "min": 3,
-    "types": [ "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "None"
   },
   "SetConversationCamName": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "x"
   },
   "SetConversationCamPcName": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetConversationCamNpcName": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetConversationCamDistance": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "CharacterIsChild": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetCarStartCamera": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "SetPlayerCarName": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "SetRespawnRate": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "ActivateTrigger": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "DeactivateTrigger": {
     "min": 1,
-    "types": [ "Unknown" ],
+    "types": [[ "String" ]],
     "help": "None"
   },
   "CreateAnimPhysObject": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "None"
   },
   "CreateActionEventTrigger": {
     "min": 5,
-    "types": [ "Unknown", "Unknown", "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "LinkActionToObjectJoint": {
     "min": 5,
-    "types": [ "Unknown", "Unknown", "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "LinkActionToObject": {
     "min": 5,
-    "types": [ "Unknown", "Unknown", "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String", "String", "String" ]],
     "help": "None"
   },
   "SetCharacterPosition": {
     "min": 3,
-    "types": [ "Unknown", "Unknown", "Unknown" ],
+    "types": [[ "String", "String", "String" ]],
     "help": "Sets the character position"
   },
   "ResetCharacter": {
     "min": 2,
-    "types": [ "Unknown", "Unknown" ],
+    "types": [[ "String", "String" ]],
     "help": "Sets the character to the named locator"
   }
 }
