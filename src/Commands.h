@@ -63,7 +63,7 @@ namespace Donut
             return end != nullptr;
         }
 
-        static bool SplitParams(const std::string& s, std::vector<std::string>& params)
+        static bool SplitParams(const std::string& s, std::vector<std::string>& params, size_t maxParams)
         {
             auto length = s.size();
             if (length == 0) return true;
@@ -81,7 +81,8 @@ namespace Donut
                 }
                 else if (c == ',' && !openQuote)
                 {
-                    if (param.empty()) return false;
+					if (param.empty()) return false;
+					if (params.size() >= maxParams) return false;
 
                     trim(param);
                     params.push_back(param);
@@ -93,7 +94,8 @@ namespace Donut
                 param.push_back(c);
             }
 
-            if (openQuote || param.empty()) return false;
+			if (openQuote || param.empty()) return false;
+			if (params.size() >= maxParams) return false;
 
             trim(param);
             params.push_back(param);
@@ -124,7 +126,14 @@ namespace Donut
                 trim(line);
                 if (line[0] == '/') continue;
 
-                std::size_t end = line.find_last_of(");");
+				std::size_t commentPos = line.find_first_of("//");
+				if (commentPos != -1)
+				{
+					line = line.substr(0, commentPos);
+					trim(line);
+				}
+
+				std::size_t end = line.find_last_of(");");
                 if (end == -1) continue;
                 std::size_t start = line.find_first_of("(");
                 if (start == -1) continue;
@@ -143,16 +152,17 @@ namespace Donut
                 lines.push_back(line);
             }
 
+			file.Close();
+
             if (commandsRun != lines.size())
             {
                 std::cout << fmt::format("{0} has {1} failed commands", filename, lines.size() - commandsRun) << std::endl;
+				return false;
             }
             else
             {
                 //std::cout << fmt::format("Successfully run {0} commands out of {1}", commandsRun, lines.size()) << std::endl;
             }
-
-            file.Close();
 
             return true;
         }
