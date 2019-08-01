@@ -38,43 +38,48 @@ Window::Window(const std::string& title, const int width, const int height)
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
-	const uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_ALLOW_HIGHDPI;
+	// request a 4.3 core profile
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	const uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN;
 
 	auto window = std::unique_ptr<SDL_Window, SDLDestroyer>(SDL_CreateWindow(
 	    title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags));
-
 	if (window == nullptr)
-	{
 		throw std::runtime_error("Failed creating window: " + std::string(SDL_GetError()));
-	}
 
 	_window = std::move(window);
 
 	SDL_Renderer* renderer = SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED);
-
 	if (renderer == nullptr)
-	{
-		std::cerr << "SDL2 Renderer couldn't be created. Error: " << SDL_GetError() << std::endl;
-		exit(1);
-	}
+		throw std::runtime_error("SDL2 Renderer couldn't be created: " + std::string(SDL_GetError()));
 
 	_renderer = std::move(std::unique_ptr<SDL_Renderer, SDLDestroyer>(renderer));
 
-	auto context = SDL_GL_CreateContext(_window.get());
-
 	// Create a OpenGL context on SDL2
+	auto context = SDL_GL_CreateContext(_window.get());
+	if (context == nullptr)
+		throw std::runtime_error("Failed to initialize the OpenGL context: " + std::string(SDL_GetError()));
+
+	// move context
 	_glContext = std::move(std::unique_ptr<SDL_GLContext, SDLDestroyer>(&context));
 
 	// Load GL extensions using glad
 	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
-	{
-		std::cerr << "Failed to initialize the OpenGL context." << std::endl;
-		exit(1);
-	}
+		throw std::runtime_error("Failed to initialize the OpenGL context.");
 
-	// Loaded OpenGL successfully.
-	std::cout << "OpenGL version loaded: " << GLVersion.major << "." << GLVersion.minor
+	std::cout << "OpenGL version loaded: " << GLVersion.major << "." << GLVersion.minor << "\n"
+			  << "Vendor: " << glGetString(GL_VENDOR) << "\n"
+			  << "Renderer: " << glGetString(GL_RENDERER) << "\n"
+			  << "Version: " << glGetString(GL_VERSION) << "\n"
 	          << std::endl;
+
+	if (!GLAD_GL_VERSION_4_3)
+		throw std::runtime_error("Your OpenGL version is too low, expected 4.3 or higher.");
+
+	SDL_ShowWindow(_window.get());
 }
 
 void Window::SetTitle(const std::string& title)
