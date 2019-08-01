@@ -254,6 +254,7 @@ namespace Donut
     static bool Command_LoadP3DFile(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -269,6 +270,7 @@ namespace Donut
     static bool Command_SetParticleTexture(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -285,6 +287,7 @@ namespace Donut
     static bool Command_BindReward(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(7);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -308,6 +311,7 @@ namespace Donut
     static bool Command_SetCarAttributes(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -330,6 +334,7 @@ namespace Donut
     static bool Command_SetTotalGags(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -347,6 +352,7 @@ namespace Donut
     static bool Command_SelectMission(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -361,6 +367,7 @@ namespace Donut
     static bool Command_SetMissionResetPlayerInCar(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -375,6 +382,7 @@ namespace Donut
     static bool Command_SetDynaLoadData(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -390,6 +398,7 @@ namespace Donut
     static bool Command_UsePedGroup(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -405,6 +414,7 @@ namespace Donut
     static bool Command_AddStage(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -420,6 +430,7 @@ namespace Donut
     static bool Command_SetPresentationBitmap(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -434,6 +445,7 @@ namespace Donut
     static bool Command_SetStageMessageIndex(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -450,6 +462,7 @@ namespace Donut
     static bool Command_AddObjective(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -466,6 +479,7 @@ namespace Donut
     static bool Command_SetObjTargetVehicle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -480,6 +494,7 @@ namespace Donut
     static bool Command_CloseObjective(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -495,6 +510,7 @@ namespace Donut
     static bool Command_CloseStage(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -510,6 +526,7 @@ namespace Donut
     static bool Command_RESET_TO_HERE(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -525,6 +542,7 @@ namespace Donut
     static bool Command_SetHUDIcon(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -539,6 +557,7 @@ namespace Donut
     static bool Command_AddCollectible(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -556,6 +575,7 @@ namespace Donut
     static bool Command_SetStageTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -571,6 +591,7 @@ namespace Donut
     static bool Command_AddCondition(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -586,6 +607,7 @@ namespace Donut
     static bool Command_CloseCondition(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -601,6 +623,7 @@ namespace Donut
     static bool Command_ShowStageComplete(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -616,6 +639,7 @@ namespace Donut
     static bool Command_AddNPC(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -632,6 +656,7 @@ namespace Donut
     static bool Command_SetDestination(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -647,6 +672,7 @@ namespace Donut
     static bool Command_SetCollectibleEffect(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -661,6 +687,7 @@ namespace Donut
     static bool Command_AddStageTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -676,6 +703,7 @@ namespace Donut
     static bool Command_AddObjectiveNPCWaypoint(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -691,6 +719,7 @@ namespace Donut
     static bool Command_SetTalkToTarget(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -712,6 +741,7 @@ namespace Donut
     static bool Command_SetDialogueInfo(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -730,6 +760,7 @@ namespace Donut
     static bool Command_SetCamBestSide(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -745,6 +776,7 @@ namespace Donut
     static bool Command_CloseMission(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -760,6 +792,7 @@ namespace Donut
     static bool Command_PlacePlayerCar(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -775,6 +808,7 @@ namespace Donut
     static bool Command_SetMaxTraffic(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -790,6 +824,7 @@ namespace Donut
     static bool Command_AddStageVehicle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -808,6 +843,7 @@ namespace Donut
     static bool Command_AddStageWaypoint(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -822,6 +858,7 @@ namespace Donut
     static bool Command_SetRaceLaps(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -837,6 +874,7 @@ namespace Donut
     static bool Command_SetDemoLoopTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -852,6 +890,7 @@ namespace Donut
     static bool Command_AddStageMusicChange(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -867,6 +906,7 @@ namespace Donut
     static bool Command_LoadDisposableCar(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -883,6 +923,7 @@ namespace Donut
     static bool Command_AddMission(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -897,6 +938,7 @@ namespace Donut
     static bool Command_ClearGagBindings(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -912,6 +954,7 @@ namespace Donut
     static bool Command_GagBegin(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -926,6 +969,7 @@ namespace Donut
     static bool Command_GagSetInterior(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -940,6 +984,7 @@ namespace Donut
     static bool Command_GagSetCycle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -954,6 +999,7 @@ namespace Donut
     static bool Command_GagSetPosition(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -983,6 +1029,7 @@ namespace Donut
     static bool Command_GagSetRandom(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -998,6 +1045,7 @@ namespace Donut
     static bool Command_GagSetSound(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1012,6 +1060,7 @@ namespace Donut
     static bool Command_GagSetTrigger(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1045,6 +1094,7 @@ namespace Donut
     static bool Command_GagEnd(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1060,6 +1110,7 @@ namespace Donut
     static bool Command_GagSetSparkle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1075,6 +1126,7 @@ namespace Donut
     static bool Command_GagSetPersist(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1090,6 +1142,7 @@ namespace Donut
     static bool Command_GagSetCoins(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1107,6 +1160,7 @@ namespace Donut
     static bool Command_GagSetAnimCollision(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1122,6 +1176,7 @@ namespace Donut
     static bool Command_GagSetIntro(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1137,6 +1192,7 @@ namespace Donut
     static bool Command_GagSetOutro(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1152,6 +1208,7 @@ namespace Donut
     static bool Command_GagSetCameraShake(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1171,6 +1228,7 @@ namespace Donut
     static bool Command_GagPlayFMV(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1185,6 +1243,7 @@ namespace Donut
     static bool Command_EnableTutorialMode(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1199,6 +1258,7 @@ namespace Donut
     static bool Command_InitLevelPlayerVehicle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1216,6 +1276,7 @@ namespace Donut
     static bool Command_AddCharacter(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1231,6 +1292,7 @@ namespace Donut
     static bool Command_CreateChaseManager(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1248,6 +1310,7 @@ namespace Donut
     static bool Command_SetHitAndRunDecay(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1263,6 +1326,7 @@ namespace Donut
     static bool Command_SetNumChaseCars(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1277,6 +1341,7 @@ namespace Donut
     static bool Command_AddNPCCharacterBonusMission(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(8);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1299,6 +1364,7 @@ namespace Donut
     static bool Command_AddBonusMissionNPCWaypoint(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1314,6 +1380,7 @@ namespace Donut
     static bool Command_AddAmbientCharacter(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1331,6 +1398,7 @@ namespace Donut
     static bool Command_AddAmbientNPCWaypoint(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1346,6 +1414,7 @@ namespace Donut
     static bool Command_AddPurchaseCarReward(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(6);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1366,6 +1435,7 @@ namespace Donut
     static bool Command_AddPurchaseCarNPCWaypoint(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1381,6 +1451,7 @@ namespace Donut
     static bool Command_CreateTrafficGroup(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1396,6 +1467,7 @@ namespace Donut
     static bool Command_AddTrafficModel(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1415,6 +1487,7 @@ namespace Donut
     static bool Command_CloseTrafficGroup(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1430,6 +1503,7 @@ namespace Donut
     static bool Command_CreatePedGroup(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1445,6 +1519,7 @@ namespace Donut
     static bool Command_AddPed(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1461,6 +1536,7 @@ namespace Donut
     static bool Command_ClosePedGroup(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1476,6 +1552,7 @@ namespace Donut
     static bool Command_PreallocateActors(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1491,6 +1568,7 @@ namespace Donut
     static bool Command_SetProjectileStats(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1507,6 +1585,7 @@ namespace Donut
     static bool Command_AddSpawnPointByLocatorScript(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(6);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1526,6 +1605,7 @@ namespace Donut
     static bool Command_AddBehaviour(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(7);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1546,6 +1626,7 @@ namespace Donut
     static bool Command_SetActorRotationSpeed(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1561,6 +1642,7 @@ namespace Donut
     static bool Command_SetAnimatedCameraName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1575,6 +1657,7 @@ namespace Donut
     static bool Command_SetAnimCamMulticontName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1589,6 +1672,7 @@ namespace Donut
     static bool Command_SetCoinFee(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1604,6 +1688,7 @@ namespace Donut
     static bool Command_PutMFPlayerInCar(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1619,6 +1704,7 @@ namespace Donut
     static bool Command_StartCountdown(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1634,6 +1720,7 @@ namespace Donut
     static bool Command_AddToCountdownSequence(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1650,6 +1737,7 @@ namespace Donut
     static bool Command_UseElapsedTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1665,6 +1753,7 @@ namespace Donut
     static bool Command_SetRaceEnteryFee(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1680,6 +1769,7 @@ namespace Donut
     static bool Command_SetParTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1695,6 +1785,7 @@ namespace Donut
     static bool Command_SetCondMinHealth(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1710,6 +1801,7 @@ namespace Donut
     static bool Command_SetCondTargetVehicle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1724,6 +1816,7 @@ namespace Donut
     static bool Command_SetCondTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1739,6 +1832,7 @@ namespace Donut
     static bool Command_AddBonusMission(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1753,6 +1847,7 @@ namespace Donut
     static bool Command_AddTeleportDest(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1774,6 +1869,7 @@ namespace Donut
     static bool Command_AddVehicleSelectInfo(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1790,6 +1886,7 @@ namespace Donut
     static bool Command_SuppressDriver(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1804,6 +1901,7 @@ namespace Donut
     static bool Command_SetBonusMissionDialoguePos(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1821,6 +1919,7 @@ namespace Donut
     static bool Command_SetConversationCam(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1838,6 +1937,7 @@ namespace Donut
     static bool Command_ClearAmbientAnimations(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1852,6 +1952,7 @@ namespace Donut
     static bool Command_AddAmbientNpcAnimation(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1867,6 +1968,7 @@ namespace Donut
     static bool Command_AddAmbientPcAnimation(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1882,6 +1984,7 @@ namespace Donut
     static bool Command_SetCoinDrawable(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1896,6 +1999,7 @@ namespace Donut
     static bool Command_AmbientAnimationRandomize(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1913,6 +2017,7 @@ namespace Donut
     static bool Command_TurnGotoDialogOff(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1928,6 +2033,7 @@ namespace Donut
     static bool Command_SetCompletionDialog(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1943,6 +2049,7 @@ namespace Donut
     static bool Command_SetMissionResetPlayerOutCar(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1958,6 +2065,7 @@ namespace Donut
     static bool Command_SetMissionStartCameraName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1972,6 +2080,7 @@ namespace Donut
     static bool Command_SetMissionStartMulticontName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -1986,6 +2095,7 @@ namespace Donut
     static bool Command_SetInitialWalk(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2000,6 +2110,7 @@ namespace Donut
     static bool Command_SetDialoguePositions(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2019,6 +2130,7 @@ namespace Donut
     static bool Command_ActivateVehicle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2035,6 +2147,7 @@ namespace Donut
     static bool Command_SetStageMusicAlwaysOn(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2050,6 +2163,7 @@ namespace Donut
     static bool Command_SetNumValidFailureHints(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2065,6 +2179,7 @@ namespace Donut
     static bool Command_SetVehicleAIParams(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2083,6 +2198,7 @@ namespace Donut
     static bool Command_StageStartMusicEvent(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2097,6 +2213,7 @@ namespace Donut
     static bool Command_AllowMissionAbort(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2111,6 +2228,7 @@ namespace Donut
     static bool Command_MustActionTrigger(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2126,6 +2244,7 @@ namespace Donut
     static bool Command_SetStageAITargetCatchupParams(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2144,6 +2263,7 @@ namespace Donut
     static bool Command_SetFollowDistances(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2161,6 +2281,7 @@ namespace Donut
     static bool Command_SetFadeOut(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2176,6 +2297,7 @@ namespace Donut
     static bool Command_StayInBlack(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2191,6 +2313,7 @@ namespace Donut
     static bool Command_AddStageCharacter(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2209,6 +2332,7 @@ namespace Donut
     static bool Command_SetDurationTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2224,6 +2348,7 @@ namespace Donut
     static bool Command_SetFMVInfo(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2239,6 +2364,7 @@ namespace Donut
     static bool Command_SetForcedCar(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2254,6 +2380,7 @@ namespace Donut
     static bool Command_SwapInDefaultCar(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2269,6 +2396,7 @@ namespace Donut
     static bool Command_SetSwapDefaultCarLocator(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2283,6 +2411,7 @@ namespace Donut
     static bool Command_SetSwapForcedCarLocator(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2297,6 +2426,7 @@ namespace Donut
     static bool Command_SetSwapPlayerLocator(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2311,6 +2441,7 @@ namespace Donut
     static bool Command_StreetRacePropsLoad(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2325,6 +2456,7 @@ namespace Donut
     static bool Command_StreetRacePropsUnload(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2339,6 +2471,7 @@ namespace Donut
     static bool Command_SetStageAIRaceCatchupParams(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2361,6 +2494,7 @@ namespace Donut
     static bool Command_DisableHitAndRun(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2376,6 +2510,7 @@ namespace Donut
     static bool Command_NoTrafficForStage(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2391,6 +2526,7 @@ namespace Donut
     static bool Command_SetConditionPosition(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2406,6 +2542,7 @@ namespace Donut
     static bool Command_AddSafeZone(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2422,6 +2559,7 @@ namespace Donut
     static bool Command_AddGagBinding(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2441,6 +2579,7 @@ namespace Donut
     static bool Command_SetPostLevelFMV(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2455,6 +2594,7 @@ namespace Donut
     static bool Command_SetHitNRun(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2470,6 +2610,7 @@ namespace Donut
     static bool Command_SetObjDistance(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2485,6 +2626,7 @@ namespace Donut
     static bool Command_SetMusicState(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2500,6 +2642,7 @@ namespace Donut
     static bool Command_SetIrisWipe(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2515,6 +2658,7 @@ namespace Donut
     static bool Command_RemoveDriver(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2529,6 +2673,7 @@ namespace Donut
     static bool Command_RemoveNPC(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2543,6 +2688,7 @@ namespace Donut
     static bool Command_AddDriver(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2558,6 +2704,7 @@ namespace Donut
     static bool Command_SetCharacterToHide(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2572,6 +2719,7 @@ namespace Donut
     static bool Command_SetLevelOver(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2587,6 +2735,7 @@ namespace Donut
     static bool Command_GagCheckCollCards(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2605,6 +2754,7 @@ namespace Donut
     static bool Command_GagCheckMovie(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2622,6 +2772,7 @@ namespace Donut
     static bool Command_GagSetSoundLoadDistances(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2639,6 +2790,7 @@ namespace Donut
     static bool Command_BindCollectibleTo(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2656,6 +2808,7 @@ namespace Donut
     static bool Command_AddShield(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2671,6 +2824,7 @@ namespace Donut
     static bool Command_SetStatepropShadow(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2686,6 +2840,7 @@ namespace Donut
     static bool Command_AddFlyingActorByLocator(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2703,6 +2858,7 @@ namespace Donut
     static bool Command_AddCollectibleStateProp(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2720,6 +2876,7 @@ namespace Donut
     static bool Command_SetPickupTarget(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2734,6 +2891,7 @@ namespace Donut
     static bool Command_SetObjTargetBoss(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2748,6 +2906,7 @@ namespace Donut
     static bool Command_AllowRockOut(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2763,6 +2922,7 @@ namespace Donut
     static bool Command_ShowHUD(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2777,6 +2937,7 @@ namespace Donut
     static bool Command_SetGameOver(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2792,6 +2953,7 @@ namespace Donut
     static bool Command_GoToPsScreenWhenDone(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2807,6 +2969,7 @@ namespace Donut
     static bool Command_SetMass(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2822,6 +2985,7 @@ namespace Donut
     static bool Command_SetGasScale(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2837,6 +3001,7 @@ namespace Donut
     static bool Command_SetSlipGasScale(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2852,6 +3017,7 @@ namespace Donut
     static bool Command_SetBrakeScale(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2867,6 +3033,7 @@ namespace Donut
     static bool Command_SetTopSpeedKmh(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2882,6 +3049,7 @@ namespace Donut
     static bool Command_SetMaxWheelTurnAngle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2897,6 +3065,7 @@ namespace Donut
     static bool Command_SetHighSpeedSteeringDrop(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2912,6 +3081,7 @@ namespace Donut
     static bool Command_SetTireGrip(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2927,6 +3097,7 @@ namespace Donut
     static bool Command_SetNormalSteering(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2942,6 +3113,7 @@ namespace Donut
     static bool Command_SetSlipSteering(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2957,6 +3129,7 @@ namespace Donut
     static bool Command_SetEBrakeEffect(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2972,6 +3145,7 @@ namespace Donut
     static bool Command_SetSlipSteeringNoEBrake(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -2987,6 +3161,7 @@ namespace Donut
     static bool Command_SetSlipEffectNoEBrake(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3002,6 +3177,7 @@ namespace Donut
     static bool Command_SetCMOffsetX(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3017,6 +3193,7 @@ namespace Donut
     static bool Command_SetCMOffsetY(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3032,6 +3209,7 @@ namespace Donut
     static bool Command_SetCMOffsetZ(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3047,6 +3225,7 @@ namespace Donut
     static bool Command_SetSuspensionLimit(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3062,6 +3241,7 @@ namespace Donut
     static bool Command_SetSpringK(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3077,6 +3257,7 @@ namespace Donut
     static bool Command_SetDamperC(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3092,6 +3273,7 @@ namespace Donut
     static bool Command_SetSuspensionYOffset(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3107,6 +3289,7 @@ namespace Donut
     static bool Command_SetHitPoints(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3122,6 +3305,7 @@ namespace Donut
     static bool Command_SetBurnoutRange(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3137,6 +3321,7 @@ namespace Donut
     static bool Command_SetMaxSpeedBurstTime(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3152,6 +3337,7 @@ namespace Donut
     static bool Command_SetDonutTorque(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3167,6 +3353,7 @@ namespace Donut
     static bool Command_SetWeebleOffset(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3182,6 +3369,7 @@ namespace Donut
     static bool Command_SetWheelieRange(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3197,6 +3385,7 @@ namespace Donut
     static bool Command_SetWheelieOffsetY(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3212,6 +3401,7 @@ namespace Donut
     static bool Command_SetWheelieOffsetZ(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3227,6 +3417,7 @@ namespace Donut
     static bool Command_SetShadowAdjustments(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(8);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3256,6 +3447,7 @@ namespace Donut
     static bool Command_SetCharactersVisible(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3271,6 +3463,7 @@ namespace Donut
     static bool Command_SetIrisTransition(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3286,6 +3479,7 @@ namespace Donut
     static bool Command_SetCharacterScale(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3301,6 +3495,7 @@ namespace Donut
     static bool Command_SetGamblingOdds(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3316,6 +3511,7 @@ namespace Donut
     static bool Command_SetDriver(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3330,6 +3526,7 @@ namespace Donut
     static bool Command_SetHasDoors(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3345,6 +3542,7 @@ namespace Donut
     static bool Command_SetShininess(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3360,6 +3558,7 @@ namespace Donut
     static bool Command_SetHighRoof(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3375,6 +3574,7 @@ namespace Donut
     static bool Command_SetHighSpeedGasScale(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3390,6 +3590,7 @@ namespace Donut
     static bool Command_SetGasScaleSpeedThreshold(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3405,6 +3606,7 @@ namespace Donut
     static bool Command_SetAllowSeatSlide(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3420,6 +3622,7 @@ namespace Donut
     static bool Command_ClearVehicleSelectInfo(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3436,6 +3639,7 @@ namespace Donut
     static bool Command_AddFlyingActor(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3454,6 +3658,7 @@ namespace Donut
     static bool Command_SetCollisionAttributes(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(4);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3471,6 +3676,7 @@ namespace Donut
     static bool Command_AddSpawnPoint(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(8);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3492,6 +3698,7 @@ namespace Donut
     static bool Command_GagSetWeight(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3506,6 +3713,7 @@ namespace Donut
     static bool Command_GagSetLoadDistances(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3521,6 +3729,7 @@ namespace Donut
     static bool Command_SetTotalWasps(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3536,6 +3745,7 @@ namespace Donut
     static bool Command_AddGlobalProp(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3550,6 +3760,7 @@ namespace Donut
     static bool Command_EnableHitAndRun(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3563,6 +3774,7 @@ namespace Donut
     static bool Command_SetHitAndRunMeter(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3577,6 +3789,7 @@ namespace Donut
     static bool Command_SetChaseSpawnRate(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3592,6 +3805,7 @@ namespace Donut
     static bool Command_KillAllChaseAI(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3606,6 +3820,7 @@ namespace Donut
     static bool Command_ResetHitAndRun(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3619,6 +3834,7 @@ namespace Donut
     static bool Command_SetHitAndRunDecayInterior(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3633,6 +3849,7 @@ namespace Donut
     static bool Command_SetMissionNameIndex(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3647,6 +3864,7 @@ namespace Donut
     static bool Command_AddBonusObjective(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3662,6 +3880,7 @@ namespace Donut
     static bool Command_AttachStatePropCollectible(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3677,6 +3896,7 @@ namespace Donut
     static bool Command_MoveStageVehicle(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3693,6 +3913,7 @@ namespace Donut
     static bool Command_SetStageCamera(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3709,6 +3930,7 @@ namespace Donut
     static bool Command_SetBonusMissionStart(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3722,6 +3944,7 @@ namespace Donut
     static bool Command_PlacePlayerAtLocatorName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3736,6 +3959,7 @@ namespace Donut
     static bool Command_msPlacePlayerCarAtLocatorName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3750,6 +3974,7 @@ namespace Donut
     static bool Command_ClearTrafficForStage(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3763,6 +3988,7 @@ namespace Donut
     static bool Command_SetStageAIEvadeCatchupParams(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3779,6 +4005,7 @@ namespace Donut
     static bool Command_AllowUserDump(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3792,6 +4019,7 @@ namespace Donut
     static bool Command_SetVehicleToLoad(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3808,6 +4036,7 @@ namespace Donut
     static bool Command_SetConversationCamName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3822,6 +4051,7 @@ namespace Donut
     static bool Command_SetConversationCamPcName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3836,6 +4066,7 @@ namespace Donut
     static bool Command_SetConversationCamNpcName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3850,6 +4081,7 @@ namespace Donut
     static bool Command_SetConversationCamDistance(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3865,6 +4097,7 @@ namespace Donut
     static bool Command_CharacterIsChild(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3879,6 +4112,7 @@ namespace Donut
     static bool Command_SetCarStartCamera(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3893,6 +4127,7 @@ namespace Donut
     static bool Command_SetPlayerCarName(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3908,6 +4143,7 @@ namespace Donut
     static bool Command_SetRespawnRate(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3923,6 +4159,7 @@ namespace Donut
     static bool Command_ActivateTrigger(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3937,6 +4174,7 @@ namespace Donut
     static bool Command_DeactivateTrigger(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(1);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3951,6 +4189,7 @@ namespace Donut
     static bool Command_CreateAnimPhysObject(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3966,6 +4205,7 @@ namespace Donut
     static bool Command_CreateActionEventTrigger(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -3984,6 +4224,7 @@ namespace Donut
     static bool Command_LinkActionToObjectJoint(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -4002,6 +4243,7 @@ namespace Donut
     static bool Command_LinkActionToObject(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(5);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -4020,6 +4262,7 @@ namespace Donut
     static bool Command_SetCharacterPosition(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(3);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
@@ -4036,6 +4279,7 @@ namespace Donut
     static bool Command_ResetCharacter(const std::string& params)
     {
         std::vector<std::string> splits;
+        splits.reserve(2);
         if (!Commands::SplitParams(params, splits)) return false;
 
         size_t numParams = splits.size();
