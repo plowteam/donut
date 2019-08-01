@@ -82,7 +82,9 @@ Level::Level(WorldPhysics* worldPhysics)
 
 void Level::LoadP3D(const std::string& filename)
 {
-	if (!std::filesystem::exists(filename))
+	std::string fullpath = "./art/" + filename;
+
+	if (!std::filesystem::exists(fullpath))
 	{
 		std::cout << "Level not found: " << filename << "\n";
 		return;
@@ -92,7 +94,7 @@ void Level::LoadP3D(const std::string& filename)
 
 	std::vector<std::unique_ptr<P3D::Locator2>> locators;
 
-	const auto p3d = P3D::P3DFile(filename);
+	const auto p3d = P3D::P3DFile(fullpath);
 
 	const auto& root = p3d.GetRoot();
 	for (const auto& chunk : root.GetChildren())

@@ -407,9 +407,9 @@ Game::Game(int argc, char** argv)
 	// init sub classes
 	_resourceManager = std::make_unique<ResourceManager>();
 
-	if (std::filesystem::exists("font0_16.p3d"))
+	if (std::filesystem::exists("./art/frontend/scrooby2/resource/fonts/font0_16.p3d"))
 	{
-		const P3D::P3DFile p3dFont("font0_16.p3d");
+		const P3D::P3DFile p3dFont("./art/frontend/scrooby2/resource/fonts/font0_16.p3d");
 		_textureFontP3D = P3D::TextureFont::Load(*p3dFont.GetRoot().GetChildren().at(0));
 
 		auto font = std::make_unique<Font>(*_textureFontP3D);
@@ -463,7 +463,7 @@ Game::~Game()
 
 void Game::loadGlobal()
 {
-	_globalP3D = std::make_unique<P3D::P3DFile>("global.p3d");
+	_globalP3D = std::make_unique<P3D::P3DFile>("art/chars/global.p3d");
 
 	const auto& root = _globalP3D->GetRoot();
 	for (const auto& chunk : root.GetChildren())
@@ -608,7 +608,8 @@ void Game::Run()
 		ImGui::BeginMainMenuBar();
 
 		guiTeleportMenu();
-		guiModelMenu(*_character);
+		if (_character != nullptr)
+			guiModelMenu(*_character);
 		guiDebugMenu();
 
 		ImGui::EndMainMenuBar();
