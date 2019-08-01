@@ -9,6 +9,7 @@
 #include <cctype>
 #include <locale>
 #include <fmt/format.h>
+#include <glm/vec3.hpp>
 
 namespace Donut
 {
@@ -201,6 +202,50 @@ namespace Donut
 			if (valueString.empty()) return false;
 
 			value = (float)atof(valueString.c_str());
+
+			return true;
+		}
+
+		static bool TryReadVec3(const char* data, size_t length, glm::vec3& value, size_t& pos)
+		{
+			bool isText = false;
+			std::string text;
+
+			for (size_t i = 0; i < length; ++i, ++pos)
+			{
+				char c = data[i];
+				if (c == ' ')
+				{
+					if (isText) return false;
+					else continue;
+				}
+
+				if (isText)
+				{
+					if (c == ',') break;
+					text.push_back(c);
+					continue;
+				}
+
+				if (isdigit(c) || c == '.' || c == '-')
+				{
+					if (!TryReadFloat(data, length, value[0], pos)) return false;
+					if (!TryReadFloat(data, length, value[1], pos)) return false;
+					if (!TryReadFloat(data, length, value[2], pos)) return false;
+
+					return true;
+				}
+				else
+				{
+					isText = true;
+					text.push_back(c);
+				}
+			}
+
+			if (isText)
+			{
+				text = text;
+			}
 
 			return true;
 		}

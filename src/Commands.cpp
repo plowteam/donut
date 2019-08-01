@@ -4,250 +4,250 @@
 
 namespace Donut
 {
-    static void LoadP3DFile(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetParticleTexture(int32_t param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void BindReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, int32_t param4, int32_t param5 = 0, const std::string& param6 = "") { std::cout << fmt::format("{0} {1} {2} {3} {4} {5} {6}", param0, param1, param2, param3, param4, param5, param6) << std::endl; }
-    static void SetCarAttributes(const std::string& param0, float param1, float param2, float param3, float param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void SetTotalGags(int32_t param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SelectMission(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetMissionResetPlayerInCar(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetDynaLoadData(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void UsePedGroup(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddStage(int32_t param0, const std::string& param1 = "", const std::string& param2 = "") { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetPresentationBitmap(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetStageMessageIndex(int32_t param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddObjective(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetObjTargetVehicle(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void CloseObjective(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void CloseStage(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void RESET_TO_HERE(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHUDIcon(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddCollectible(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "", const std::string& param3 = "") { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void SetStageTime(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddCondition(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void CloseCondition(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void ShowStageComplete(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddNPC(const std::string& param0, const std::string& param1, int32_t param2 = 0) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetDestination(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetCollectibleEffect(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddStageTime(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddObjectiveNPCWaypoint(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetTalkToTarget(const std::string& param0, int32_t param1 = 0, float param2 = 0.0f, const std::string& param3 = "") { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void SetDialogueInfo(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3) { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void SetCamBestSide(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void CloseMission(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void PlacePlayerCar(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetMaxTraffic(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4 = "") { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void AddStageWaypoint(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetRaceLaps(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetDemoLoopTime(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddStageMusicChange(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void LoadDisposableCar(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void AddMission(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void ClearGagBindings(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagBegin(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetInterior(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetCycle(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetPosition(float param0, float param1 = 0.0f, float param2 = 0.0f) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void GagSetRandom(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetSound(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetTrigger(const std::string& param0, float param1, float param2, float param3 = 0.0f, float param4 = 0.0f) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void GagEnd(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetSparkle(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetPersist(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetCoins(int32_t param0, float param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void GagSetAnimCollision(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetIntro(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetOutro(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetCameraShake(float param0, int32_t param1, float param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void GagPlayFMV(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void EnableTutorialMode(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void InitLevelPlayerVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "") { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void AddCharacter(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void CreateChaseManager(const std::string& param0, const std::string& param1, int32_t param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetHitAndRunDecay(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetNumChaseCars(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddNPCCharacterBonusMission(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, int32_t param6, const std::string& param7 = "") { std::cout << fmt::format("{0} {1} {2} {3} {4} {5} {6} {7}", param0, param1, param2, param3, param4, param5, param6, param7) << std::endl; }
-    static void AddBonusMissionNPCWaypoint(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddAmbientCharacter(const std::string& param0, const std::string& param1, float param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void AddAmbientNPCWaypoint(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddPurchaseCarReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, float param4, const std::string& param5) { std::cout << fmt::format("{0} {1} {2} {3} {4} {5}", param0, param1, param2, param3, param4, param5) << std::endl; }
-    static void AddPurchaseCarNPCWaypoint(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void CreateTrafficGroup(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddTrafficModel(const std::string& param0, int32_t param1, int32_t param2 = 0) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void CloseTrafficGroup(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void CreatePedGroup(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddPed(const std::string& param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void ClosePedGroup(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void PreallocateActors(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetProjectileStats(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void AddSpawnPointByLocatorScript(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5) { std::cout << fmt::format("{0} {1} {2} {3} {4} {5}", param0, param1, param2, param3, param4, param5) << std::endl; }
-    static void AddBehaviour(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "", const std::string& param4 = "", const std::string& param5 = "", const std::string& param6 = "") { std::cout << fmt::format("{0} {1} {2} {3} {4} {5} {6}", param0, param1, param2, param3, param4, param5, param6) << std::endl; }
-    static void SetActorRotationSpeed(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetAnimatedCameraName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetAnimCamMulticontName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCoinFee(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void PutMFPlayerInCar(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void StartCountdown(int32_t param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddToCountdownSequence(const std::string& param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void UseElapsedTime(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetRaceEnteryFee(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetParTime(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCondMinHealth(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCondTargetVehicle(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCondTime(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddBonusMission(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddTeleportDest(const std::string& param0, float param1, float param2, float param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void AddVehicleSelectInfo(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SuppressDriver(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetBonusMissionDialoguePos(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void SetConversationCam(int32_t param0, const std::string& param1, const std::string& param2 = "") { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void ClearAmbientAnimations(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddAmbientNpcAnimation(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddAmbientPcAnimation(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetCoinDrawable(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AmbientAnimationRandomize(int32_t param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void TurnGotoDialogOff(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCompletionDialog(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetMissionResetPlayerOutCar(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetMissionStartCameraName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetMissionStartMulticontName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetInitialWalk(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetDialoguePositions(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3 = 0) { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void ActivateVehicle(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetStageMusicAlwaysOn(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetNumValidFailureHints(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetVehicleAIParams(const std::string& param0, int32_t param1, int32_t param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void StageStartMusicEvent(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AllowMissionAbort(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void MustActionTrigger(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetStageAITargetCatchupParams(const std::string& param0, int32_t param1, int32_t param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetFollowDistances(int32_t param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetFadeOut(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void StayInBlack(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddStageCharacter(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void SetDurationTime(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetFMVInfo(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetForcedCar(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SwapInDefaultCar(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSwapDefaultCarLocator(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSwapForcedCarLocator(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSwapPlayerLocator(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void StreetRacePropsLoad(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void StreetRacePropsUnload(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetStageAIRaceCatchupParams(const std::string& param0, int32_t param1, float param2, float param3, float param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void DisableHitAndRun(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void NoTrafficForStage(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetConditionPosition(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddSafeZone(const std::string& param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddGagBinding(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void SetPostLevelFMV(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHitNRun(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetObjDistance(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetMusicState(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetIrisWipe(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void RemoveDriver(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void RemoveNPC(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddDriver(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetCharacterToHide(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetLevelOver(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagCheckCollCards(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void GagCheckMovie(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void GagSetSoundLoadDistances(int32_t param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void BindCollectibleTo(int32_t param0, int32_t param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddShield(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetStatepropShadow(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddFlyingActorByLocator(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void AddCollectibleStateProp(const std::string& param0, const std::string& param1, int32_t param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetPickupTarget(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetObjTargetBoss(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AllowRockOut(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void ShowHUD(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetGameOver(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GoToPsScreenWhenDone(int32_t param0 = 0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetMass(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetGasScale(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSlipGasScale(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetBrakeScale(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetTopSpeedKmh(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetMaxWheelTurnAngle(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHighSpeedSteeringDrop(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetTireGrip(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetNormalSteering(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSlipSteering(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetEBrakeEffect(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSlipSteeringNoEBrake(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSlipEffectNoEBrake(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCMOffsetX(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCMOffsetY(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCMOffsetZ(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSuspensionLimit(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSpringK(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetDamperC(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetSuspensionYOffset(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHitPoints(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetBurnoutRange(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetMaxSpeedBurstTime(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetDonutTorque(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetWeebleOffset(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetWheelieRange(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetWheelieOffsetY(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetWheelieOffsetZ(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetShadowAdjustments(float param0, float param1, float param2, float param3, float param4, float param5, float param6, float param7) { std::cout << fmt::format("{0} {1} {2} {3} {4} {5} {6} {7}", param0, param1, param2, param3, param4, param5, param6, param7) << std::endl; }
-    static void SetCharactersVisible(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetIrisTransition(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCharacterScale(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetGamblingOdds(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetDriver(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHasDoors(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetShininess(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHighRoof(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHighSpeedGasScale(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetGasScaleSpeedThreshold(float param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetAllowSeatSlide(int32_t param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void ClearVehicleSelectInfo(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void AddFlyingActor(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void SetCollisionAttributes(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { std::cout << fmt::format("{0} {1} {2} {3}", param0, param1, param2, param3) << std::endl; }
-    static void AddSpawnPoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, const std::string& param6, const std::string& param7) { std::cout << fmt::format("{0} {1} {2} {3} {4} {5} {6} {7}", param0, param1, param2, param3, param4, param5, param6, param7) << std::endl; }
-    static void GagSetWeight(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void GagSetLoadDistances(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetTotalWasps(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AddGlobalProp(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void EnableHitAndRun(const std::string& param0 = "") { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHitAndRunMeter(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetChaseSpawnRate(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void KillAllChaseAI(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void ResetHitAndRun(const std::string& param0 = "") { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetHitAndRunDecayInterior(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetMissionNameIndex(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void AddBonusObjective(const std::string& param0, const std::string& param1 = "") { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void AttachStatePropCollectible(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void MoveStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetStageCamera(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetBonusMissionStart(const std::string& param0 = "") { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void PlacePlayerAtLocatorName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void msPlacePlayerCarAtLocatorName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void ClearTrafficForStage(const std::string& param0 = "") { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetStageAIEvadeCatchupParams(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void AllowUserDump(const std::string& param0 = "") { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetVehicleToLoad(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void SetConversationCamName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetConversationCamPcName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetConversationCamNpcName(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetConversationCamDistance(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void CharacterIsChild(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetCarStartCamera(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void SetPlayerCarName(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void SetRespawnRate(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void ActivateTrigger(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void DeactivateTrigger(const std::string& param0) { std::cout << fmt::format("{0}", param0) << std::endl; }
-    static void CreateAnimPhysObject(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
-    static void CreateActionEventTrigger(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void LinkActionToObjectJoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void LinkActionToObject(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { std::cout << fmt::format("{0} {1} {2} {3} {4}", param0, param1, param2, param3, param4) << std::endl; }
-    static void SetCharacterPosition(const std::string& param0, const std::string& param1, const std::string& param2) { std::cout << fmt::format("{0} {1} {2}", param0, param1, param2) << std::endl; }
-    static void ResetCharacter(const std::string& param0, const std::string& param1) { std::cout << fmt::format("{0} {1}", param0, param1) << std::endl; }
+    static void LoadP3DFile(const std::string& param0, const std::string& param1 = "") {}
+    static void SetParticleTexture(int32_t param0, const std::string& param1) {}
+    static void BindReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, int32_t param4, int32_t param5 = 0, const std::string& param6 = "") {}
+    static void SetCarAttributes(const std::string& param0, float param1, float param2, float param3, float param4) {}
+    static void SetTotalGags(int32_t param0, int32_t param1) {}
+    static void SelectMission(const std::string& param0) {}
+    static void SetMissionResetPlayerInCar(const std::string& param0) {}
+    static void SetDynaLoadData(const std::string& param0, const std::string& param1 = "") {}
+    static void UsePedGroup(int32_t param0) {}
+    static void AddStage(int32_t param0, const std::string& param1 = "", const std::string& param2 = "") {}
+    static void SetPresentationBitmap(const std::string& param0) {}
+    static void SetStageMessageIndex(int32_t param0, const std::string& param1 = "") {}
+    static void AddObjective(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") {}
+    static void SetObjTargetVehicle(const std::string& param0) {}
+    static void CloseObjective(int32_t param0 = 0) {}
+    static void CloseStage(int32_t param0 = 0) {}
+    static void RESET_TO_HERE(int32_t param0 = 0) {}
+    static void SetHUDIcon(const std::string& param0) {}
+    static void AddCollectible(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "", const std::string& param3 = "") {}
+    static void SetStageTime(int32_t param0) {}
+    static void AddCondition(const std::string& param0, const std::string& param1 = "") {}
+    static void CloseCondition(int32_t param0 = 0) {}
+    static void ShowStageComplete(int32_t param0 = 0) {}
+    static void AddNPC(const std::string& param0, const std::string& param1, int32_t param2 = 0) {}
+    static void SetDestination(const std::string& param0, const std::string& param1 = "") {}
+    static void SetCollectibleEffect(const std::string& param0) {}
+    static void AddStageTime(int32_t param0) {}
+    static void AddObjectiveNPCWaypoint(const std::string& param0, const std::string& param1) {}
+    static void SetTalkToTarget(const std::string& param0, int32_t param1 = 0, float param2 = 0.0f, const std::string& param3 = "") {}
+    static void SetDialogueInfo(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3) {}
+    static void SetCamBestSide(const std::string& param0, const std::string& param1 = "") {}
+    static void CloseMission(int32_t param0 = 0) {}
+    static void PlacePlayerCar(const std::string& param0, const std::string& param1) {}
+    static void SetMaxTraffic(int32_t param0) {}
+    static void AddStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4 = "") {}
+    static void AddStageWaypoint(const std::string& param0) {}
+    static void SetRaceLaps(int32_t param0) {}
+    static void SetDemoLoopTime(int32_t param0) {}
+    static void AddStageMusicChange(int32_t param0 = 0) {}
+    static void LoadDisposableCar(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void AddMission(const std::string& param0) {}
+    static void ClearGagBindings(int32_t param0 = 0) {}
+    static void GagBegin(const std::string& param0) {}
+    static void GagSetInterior(const std::string& param0) {}
+    static void GagSetCycle(const std::string& param0) {}
+    static void GagSetPosition(const glm::vec3& param0) {}
+    static void GagSetRandom(int32_t param0) {}
+    static void GagSetSound(const std::string& param0) {}
+    static void GagSetTrigger(const std::string& param0, const glm::vec3& param1, float param2) {}
+    static void GagEnd(int32_t param0 = 0) {}
+    static void GagSetSparkle(int32_t param0) {}
+    static void GagSetPersist(int32_t param0) {}
+    static void GagSetCoins(int32_t param0, float param1) {}
+    static void GagSetAnimCollision(int32_t param0) {}
+    static void GagSetIntro(int32_t param0) {}
+    static void GagSetOutro(int32_t param0) {}
+    static void GagSetCameraShake(float param0, int32_t param1, float param2) {}
+    static void GagPlayFMV(const std::string& param0) {}
+    static void EnableTutorialMode(int32_t param0) {}
+    static void InitLevelPlayerVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "") {}
+    static void AddCharacter(const std::string& param0, const std::string& param1) {}
+    static void CreateChaseManager(const std::string& param0, const std::string& param1, int32_t param2) {}
+    static void SetHitAndRunDecay(float param0) {}
+    static void SetNumChaseCars(const std::string& param0) {}
+    static void AddNPCCharacterBonusMission(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, int32_t param6, const std::string& param7 = "") {}
+    static void AddBonusMissionNPCWaypoint(const std::string& param0, const std::string& param1) {}
+    static void AddAmbientCharacter(const std::string& param0, const std::string& param1, float param2) {}
+    static void AddAmbientNPCWaypoint(const std::string& param0, const std::string& param1) {}
+    static void AddPurchaseCarReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, float param4, const std::string& param5) {}
+    static void AddPurchaseCarNPCWaypoint(const std::string& param0, const std::string& param1) {}
+    static void CreateTrafficGroup(int32_t param0) {}
+    static void AddTrafficModel(const std::string& param0, int32_t param1, int32_t param2 = 0) {}
+    static void CloseTrafficGroup(int32_t param0 = 0) {}
+    static void CreatePedGroup(int32_t param0) {}
+    static void AddPed(const std::string& param0, int32_t param1) {}
+    static void ClosePedGroup(int32_t param0 = 0) {}
+    static void PreallocateActors(const std::string& param0, const std::string& param1) {}
+    static void SetProjectileStats(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void AddSpawnPointByLocatorScript(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5) {}
+    static void AddBehaviour(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "", const std::string& param4 = "", const std::string& param5 = "", const std::string& param6 = "") {}
+    static void SetActorRotationSpeed(const std::string& param0, const std::string& param1) {}
+    static void SetAnimatedCameraName(const std::string& param0) {}
+    static void SetAnimCamMulticontName(const std::string& param0) {}
+    static void SetCoinFee(int32_t param0) {}
+    static void PutMFPlayerInCar(int32_t param0 = 0) {}
+    static void StartCountdown(int32_t param0, const std::string& param1 = "") {}
+    static void AddToCountdownSequence(const std::string& param0, int32_t param1) {}
+    static void UseElapsedTime(int32_t param0 = 0) {}
+    static void SetRaceEnteryFee(int32_t param0) {}
+    static void SetParTime(int32_t param0) {}
+    static void SetCondMinHealth(float param0) {}
+    static void SetCondTargetVehicle(const std::string& param0) {}
+    static void SetCondTime(int32_t param0) {}
+    static void AddBonusMission(const std::string& param0) {}
+    static void AddTeleportDest(const std::string& param0, float param1, float param2, float param3, const std::string& param4) {}
+    static void AddVehicleSelectInfo(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void SuppressDriver(const std::string& param0) {}
+    static void SetBonusMissionDialoguePos(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
+    static void SetConversationCam(int32_t param0, const std::string& param1, const std::string& param2 = "") {}
+    static void ClearAmbientAnimations(const std::string& param0) {}
+    static void AddAmbientNpcAnimation(const std::string& param0, const std::string& param1 = "") {}
+    static void AddAmbientPcAnimation(const std::string& param0, const std::string& param1 = "") {}
+    static void SetCoinDrawable(const std::string& param0) {}
+    static void AmbientAnimationRandomize(int32_t param0, int32_t param1) {}
+    static void TurnGotoDialogOff(int32_t param0 = 0) {}
+    static void SetCompletionDialog(const std::string& param0, const std::string& param1 = "") {}
+    static void SetMissionResetPlayerOutCar(const std::string& param0, const std::string& param1) {}
+    static void SetMissionStartCameraName(const std::string& param0) {}
+    static void SetMissionStartMulticontName(const std::string& param0) {}
+    static void SetInitialWalk(const std::string& param0) {}
+    static void SetDialoguePositions(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3 = 0) {}
+    static void ActivateVehicle(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void SetStageMusicAlwaysOn(int32_t param0 = 0) {}
+    static void SetNumValidFailureHints(int32_t param0) {}
+    static void SetVehicleAIParams(const std::string& param0, int32_t param1, int32_t param2) {}
+    static void StageStartMusicEvent(const std::string& param0) {}
+    static void AllowMissionAbort(const std::string& param0) {}
+    static void MustActionTrigger(int32_t param0 = 0) {}
+    static void SetStageAITargetCatchupParams(const std::string& param0, int32_t param1, int32_t param2) {}
+    static void SetFollowDistances(int32_t param0, int32_t param1) {}
+    static void SetFadeOut(float param0) {}
+    static void StayInBlack(int32_t param0 = 0) {}
+    static void AddStageCharacter(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
+    static void SetDurationTime(float param0) {}
+    static void SetFMVInfo(const std::string& param0, const std::string& param1 = "") {}
+    static void SetForcedCar(int32_t param0 = 0) {}
+    static void SwapInDefaultCar(int32_t param0 = 0) {}
+    static void SetSwapDefaultCarLocator(const std::string& param0) {}
+    static void SetSwapForcedCarLocator(const std::string& param0) {}
+    static void SetSwapPlayerLocator(const std::string& param0) {}
+    static void StreetRacePropsLoad(const std::string& param0) {}
+    static void StreetRacePropsUnload(const std::string& param0) {}
+    static void SetStageAIRaceCatchupParams(const std::string& param0, int32_t param1, float param2, float param3, float param4) {}
+    static void DisableHitAndRun(int32_t param0 = 0) {}
+    static void NoTrafficForStage(int32_t param0 = 0) {}
+    static void SetConditionPosition(int32_t param0) {}
+    static void AddSafeZone(const std::string& param0, int32_t param1) {}
+    static void AddGagBinding(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3, const std::string& param4) {}
+    static void SetPostLevelFMV(const std::string& param0) {}
+    static void SetHitNRun(int32_t param0 = 0) {}
+    static void SetObjDistance(int32_t param0) {}
+    static void SetMusicState(const std::string& param0, const std::string& param1) {}
+    static void SetIrisWipe(float param0) {}
+    static void RemoveDriver(const std::string& param0) {}
+    static void RemoveNPC(const std::string& param0) {}
+    static void AddDriver(const std::string& param0, const std::string& param1) {}
+    static void SetCharacterToHide(const std::string& param0) {}
+    static void SetLevelOver(int32_t param0 = 0) {}
+    static void GagCheckCollCards(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
+    static void GagCheckMovie(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
+    static void GagSetSoundLoadDistances(int32_t param0, int32_t param1) {}
+    static void BindCollectibleTo(int32_t param0, int32_t param1) {}
+    static void AddShield(const std::string& param0, const std::string& param1) {}
+    static void SetStatepropShadow(const std::string& param0, const std::string& param1) {}
+    static void AddFlyingActorByLocator(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
+    static void AddCollectibleStateProp(const std::string& param0, const std::string& param1, int32_t param2) {}
+    static void SetPickupTarget(const std::string& param0) {}
+    static void SetObjTargetBoss(const std::string& param0) {}
+    static void AllowRockOut(int32_t param0 = 0) {}
+    static void ShowHUD(const std::string& param0) {}
+    static void SetGameOver(int32_t param0 = 0) {}
+    static void GoToPsScreenWhenDone(int32_t param0 = 0) {}
+    static void SetMass(float param0) {}
+    static void SetGasScale(float param0) {}
+    static void SetSlipGasScale(float param0) {}
+    static void SetBrakeScale(float param0) {}
+    static void SetTopSpeedKmh(float param0) {}
+    static void SetMaxWheelTurnAngle(float param0) {}
+    static void SetHighSpeedSteeringDrop(float param0) {}
+    static void SetTireGrip(float param0) {}
+    static void SetNormalSteering(float param0) {}
+    static void SetSlipSteering(float param0) {}
+    static void SetEBrakeEffect(float param0) {}
+    static void SetSlipSteeringNoEBrake(float param0) {}
+    static void SetSlipEffectNoEBrake(float param0) {}
+    static void SetCMOffsetX(float param0) {}
+    static void SetCMOffsetY(float param0) {}
+    static void SetCMOffsetZ(float param0) {}
+    static void SetSuspensionLimit(float param0) {}
+    static void SetSpringK(float param0) {}
+    static void SetDamperC(float param0) {}
+    static void SetSuspensionYOffset(float param0) {}
+    static void SetHitPoints(float param0) {}
+    static void SetBurnoutRange(float param0) {}
+    static void SetMaxSpeedBurstTime(float param0) {}
+    static void SetDonutTorque(float param0) {}
+    static void SetWeebleOffset(float param0) {}
+    static void SetWheelieRange(float param0) {}
+    static void SetWheelieOffsetY(float param0) {}
+    static void SetWheelieOffsetZ(float param0) {}
+    static void SetShadowAdjustments(float param0, float param1, float param2, float param3, float param4, float param5, float param6, float param7) {}
+    static void SetCharactersVisible(int32_t param0) {}
+    static void SetIrisTransition(int32_t param0) {}
+    static void SetCharacterScale(float param0) {}
+    static void SetGamblingOdds(float param0) {}
+    static void SetDriver(const std::string& param0) {}
+    static void SetHasDoors(int32_t param0) {}
+    static void SetShininess(float param0) {}
+    static void SetHighRoof(int32_t param0) {}
+    static void SetHighSpeedGasScale(float param0) {}
+    static void SetGasScaleSpeedThreshold(float param0) {}
+    static void SetAllowSeatSlide(int32_t param0) {}
+    static void ClearVehicleSelectInfo(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") {}
+    static void AddFlyingActor(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
+    static void SetCollisionAttributes(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
+    static void AddSpawnPoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, const std::string& param6, const std::string& param7) {}
+    static void GagSetWeight(const std::string& param0) {}
+    static void GagSetLoadDistances(const std::string& param0, const std::string& param1) {}
+    static void SetTotalWasps(const std::string& param0, const std::string& param1) {}
+    static void AddGlobalProp(const std::string& param0) {}
+    static void EnableHitAndRun(const std::string& param0 = "") {}
+    static void SetHitAndRunMeter(const std::string& param0) {}
+    static void SetChaseSpawnRate(const std::string& param0, const std::string& param1) {}
+    static void KillAllChaseAI(const std::string& param0) {}
+    static void ResetHitAndRun(const std::string& param0 = "") {}
+    static void SetHitAndRunDecayInterior(const std::string& param0) {}
+    static void SetMissionNameIndex(const std::string& param0) {}
+    static void AddBonusObjective(const std::string& param0, const std::string& param1 = "") {}
+    static void AttachStatePropCollectible(const std::string& param0, const std::string& param1) {}
+    static void MoveStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void SetStageCamera(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void SetBonusMissionStart(const std::string& param0 = "") {}
+    static void PlacePlayerAtLocatorName(const std::string& param0) {}
+    static void msPlacePlayerCarAtLocatorName(const std::string& param0) {}
+    static void ClearTrafficForStage(const std::string& param0 = "") {}
+    static void SetStageAIEvadeCatchupParams(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void AllowUserDump(const std::string& param0 = "") {}
+    static void SetVehicleToLoad(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void SetConversationCamName(const std::string& param0) {}
+    static void SetConversationCamPcName(const std::string& param0) {}
+    static void SetConversationCamNpcName(const std::string& param0) {}
+    static void SetConversationCamDistance(const std::string& param0, const std::string& param1) {}
+    static void CharacterIsChild(const std::string& param0) {}
+    static void SetCarStartCamera(const std::string& param0) {}
+    static void SetPlayerCarName(const std::string& param0, const std::string& param1) {}
+    static void SetRespawnRate(const std::string& param0, const std::string& param1) {}
+    static void ActivateTrigger(const std::string& param0) {}
+    static void DeactivateTrigger(const std::string& param0) {}
+    static void CreateAnimPhysObject(const std::string& param0, const std::string& param1) {}
+    static void CreateActionEventTrigger(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
+    static void LinkActionToObjectJoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
+    static void LinkActionToObject(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
+    static void SetCharacterPosition(const std::string& param0, const std::string& param1, const std::string& param2) {}
+    static void ResetCharacter(const std::string& param0, const std::string& param1) {}
 
     static bool Command_LoadP3DFile(const std::string& params)
     {
@@ -1368,9 +1368,7 @@ namespace Donut
 
     static bool Command_GagSetPosition(const std::string& params)
     {
-        float param0 = 0.0f;
-        float param1 = 0.0f;
-        float param2 = 0.0f;
+        glm::vec3 param0 = glm::vec3(0.0f);
 
         size_t paramIndex = 0;
         size_t length = params.length();
@@ -1381,15 +1379,13 @@ namespace Donut
 
             switch (paramIndex)
             {
-                case 0: { if (!ScriptParser::TryReadFloat(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
-                case 1: { if (!ScriptParser::TryReadFloat(&params[i], length - i, param1, i)) return false; paramIndex++; break; }
-                case 2: { if (!ScriptParser::TryReadFloat(&params[i], length - i, param2, i)) return false; paramIndex++; break; }
+                case 0: { if (!ScriptParser::TryReadVec3(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
             }
         }
 
         if (paramIndex < 1) return false;
 
-        GagSetPosition(param0, param1, param2);
+        GagSetPosition(param0);
         return true;
     }
 
@@ -1442,10 +1438,8 @@ namespace Donut
     static bool Command_GagSetTrigger(const std::string& params)
     {
         std::string param0 = "";
-        float param1 = 0.0f;
+        glm::vec3 param1 = glm::vec3(0.0f);
         float param2 = 0.0f;
-        float param3 = 0.0f;
-        float param4 = 0.0f;
 
         size_t paramIndex = 0;
         size_t length = params.length();
@@ -1457,16 +1451,14 @@ namespace Donut
             switch (paramIndex)
             {
                 case 0: { if (!ScriptParser::TryReadString(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
-                case 1: { if (!ScriptParser::TryReadFloat(&params[i], length - i, param1, i)) return false; paramIndex++; break; }
+                case 1: { if (!ScriptParser::TryReadVec3(&params[i], length - i, param1, i)) return false; paramIndex++; break; }
                 case 2: { if (!ScriptParser::TryReadFloat(&params[i], length - i, param2, i)) return false; paramIndex++; break; }
-                case 3: { if (!ScriptParser::TryReadFloat(&params[i], length - i, param3, i)) return false; paramIndex++; break; }
-                case 4: { if (!ScriptParser::TryReadFloat(&params[i], length - i, param4, i)) return false; paramIndex++; break; }
             }
         }
 
         if (paramIndex < 3) return false;
 
-        GagSetTrigger(param0, param1, param2, param3, param4);
+        GagSetTrigger(param0, param1, param2);
         return true;
     }
 
