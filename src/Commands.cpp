@@ -4,252 +4,252 @@
 
 namespace Donut
 {
-    static void LoadP3DFile(const std::string& param0, const std::string& param1 = "") {}
-    static void SetParticleTexture(int32_t param0, const std::string& param1) {}
-    static void BindReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, int32_t param4, int32_t param5 = 0, const std::string& param6 = "") {}
-    static void SetCarAttributes(const std::string& param0, float param1, float param2, float param3, float param4) {}
-    static void SetTotalGags(int32_t param0, int32_t param1) {}
-    static void SelectMission(const std::string& param0) {}
-    static void SetMissionResetPlayerInCar(const std::string& param0) {}
-    static void SetDynaLoadData(const std::string& param0, const std::string& param1 = "") {}
-    static void UsePedGroup(int32_t param0) {}
-    static void AddStage(const std::string& param0 = "", const std::string& param1 = "", const std::string& param2 = "") {}
-    static void SetPresentationBitmap(const std::string& param0) {}
-    static void SetStageMessageIndex(int32_t param0, const std::string& param1 = "") {}
-    static void AddObjective(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") {}
-    static void SetObjTargetVehicle(const std::string& param0) {}
-    static void CloseObjective(int32_t param0 = 0) {}
-    static void CloseStage(int32_t param0 = 0) {}
-    static void RESET_TO_HERE(int32_t param0 = 0) {}
-    static void SetHUDIcon(const std::string& param0) {}
-    static void AddCollectible(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "", const std::string& param3 = "") {}
-    static void SetStageTime(int32_t param0) {}
-    static void AddCondition(const std::string& param0, const std::string& param1 = "") {}
-    static void CloseCondition(int32_t param0 = 0) {}
-    static void ShowStageComplete(int32_t param0 = 0) {}
-    static void AddNPC(const std::string& param0, const std::string& param1, const std::string& param2 = "") {}
-    static void SetDestination(const std::string& param0, const std::string& param1 = "") {}
-    static void SetCollectibleEffect(const std::string& param0) {}
-    static void AddStageTime(int32_t param0) {}
-    static void AddObjectiveNPCWaypoint(const std::string& param0, const std::string& param1) {}
-    static void SetTalkToTarget(const std::string& param0, int32_t param1 = 0, float param2 = 0.0f, const std::string& param3 = "") {}
-    static void SetDialogueInfo(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3) {}
-    static void SetCamBestSide(const std::string& param0, const std::string& param1 = "") {}
-    static void CloseMission(int32_t param0 = 0) {}
-    static void PlacePlayerCar(const std::string& param0, const std::string& param1) {}
-    static void SetMaxTraffic(int32_t param0) {}
-    static void AddStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4 = "") {}
-    static void AddStageWaypoint(const std::string& param0) {}
-    static void SetRaceLaps(int32_t param0) {}
-    static void SetDemoLoopTime(int64_t param0) {}
-    static void AddStageMusicChange(int32_t param0 = 0) {}
-    static void LoadDisposableCar(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void AddMission(const std::string& param0) {}
-    static void ClearGagBindings(int32_t param0 = 0) {}
-    static void GagBegin(const std::string& param0) {}
-    static void GagSetInterior(const std::string& param0) {}
-    static void GagSetCycle(const std::string& param0) {}
-    static void GagSetPosition(const std::string& param0) {}
-    static void GagSetPosition(float param0, float param1, float param2) {}
-    static void GagSetRandom(int32_t param0) {}
-    static void GagSetSound(const std::string& param0) {}
-    static void GagSetTrigger(const std::string& param0, const std::string& param1, float param2) {}
-    static void GagSetTrigger(const std::string& param0, float param1, float param2, float param3, float param4) {}
-    static void GagEnd(int32_t param0 = 0) {}
-    static void GagSetSparkle(int32_t param0) {}
-    static void GagSetPersist(int32_t param0) {}
-    static void GagSetCoins(int32_t param0, float param1) {}
-    static void GagSetAnimCollision(int32_t param0) {}
-    static void GagSetIntro(int32_t param0) {}
-    static void GagSetOutro(int32_t param0) {}
-    static void GagSetCameraShake(float param0, int32_t param1, float param2) {}
-    static void GagPlayFMV(const std::string& param0) {}
-    static void EnableTutorialMode(const std::string& param0) {}
-    static void InitLevelPlayerVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "") {}
-    static void AddCharacter(const std::string& param0, const std::string& param1) {}
-    static void CreateChaseManager(const std::string& param0, const std::string& param1, int32_t param2) {}
-    static void SetHitAndRunDecay(float param0) {}
-    static void SetNumChaseCars(const std::string& param0) {}
-    static void AddNPCCharacterBonusMission(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, int32_t param6, const std::string& param7 = "") {}
-    static void AddBonusMissionNPCWaypoint(const std::string& param0, const std::string& param1) {}
-    static void AddAmbientCharacter(const std::string& param0, const std::string& param1, float param2) {}
-    static void AddAmbientNPCWaypoint(const std::string& param0, const std::string& param1) {}
-    static void AddPurchaseCarReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, float param4, const std::string& param5) {}
-    static void AddPurchaseCarNPCWaypoint(const std::string& param0, const std::string& param1) {}
-    static void CreateTrafficGroup(int32_t param0) {}
-    static void AddTrafficModel(const std::string& param0, int32_t param1, int32_t param2 = 0) {}
-    static void CloseTrafficGroup(int32_t param0 = 0) {}
-    static void CreatePedGroup(int32_t param0) {}
-    static void AddPed(const std::string& param0, int32_t param1) {}
-    static void ClosePedGroup(int32_t param0 = 0) {}
-    static void PreallocateActors(const std::string& param0, const std::string& param1) {}
-    static void SetProjectileStats(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void AddSpawnPointByLocatorScript(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5) {}
-    static void AddBehaviour(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "", const std::string& param4 = "", const std::string& param5 = "", const std::string& param6 = "") {}
-    static void SetActorRotationSpeed(const std::string& param0, const std::string& param1) {}
-    static void SetAnimatedCameraName(const std::string& param0) {}
-    static void SetAnimCamMulticontName(const std::string& param0) {}
-    static void SetCoinFee(int32_t param0) {}
-    static void PutMFPlayerInCar(int32_t param0 = 0) {}
-    static void StartCountdown(const std::string& param0, const std::string& param1 = "") {}
-    static void AddToCountdownSequence(const std::string& param0, int32_t param1) {}
-    static void UseElapsedTime(int32_t param0 = 0) {}
-    static void SetRaceEnteryFee(int32_t param0) {}
-    static void SetParTime(int32_t param0) {}
-    static void SetCondMinHealth(float param0) {}
-    static void SetCondTargetVehicle(const std::string& param0) {}
-    static void SetCondTime(int32_t param0) {}
-    static void AddBonusMission(const std::string& param0) {}
-    static void AddTeleportDest(const std::string& param0, float param1, float param2, float param3, const std::string& param4) {}
-    static void AddVehicleSelectInfo(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void SuppressDriver(const std::string& param0) {}
-    static void SetBonusMissionDialoguePos(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
-    static void SetConversationCam(int32_t param0, const std::string& param1, const std::string& param2 = "") {}
-    static void ClearAmbientAnimations(const std::string& param0) {}
-    static void AddAmbientNpcAnimation(const std::string& param0, const std::string& param1 = "") {}
-    static void AddAmbientPcAnimation(const std::string& param0, const std::string& param1 = "") {}
-    static void SetCoinDrawable(const std::string& param0) {}
-    static void AmbientAnimationRandomize(int32_t param0, int32_t param1) {}
-    static void TurnGotoDialogOff(int32_t param0 = 0) {}
-    static void SetCompletionDialog(const std::string& param0, const std::string& param1 = "") {}
-    static void SetMissionResetPlayerOutCar(const std::string& param0, const std::string& param1) {}
-    static void SetMissionStartCameraName(const std::string& param0) {}
-    static void SetMissionStartMulticontName(const std::string& param0) {}
-    static void SetInitialWalk(const std::string& param0) {}
-    static void SetDialoguePositions(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3 = 0) {}
-    static void ActivateVehicle(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void SetStageMusicAlwaysOn(int32_t param0 = 0) {}
-    static void SetNumValidFailureHints(int32_t param0) {}
-    static void SetVehicleAIParams(const std::string& param0, int32_t param1, int32_t param2) {}
-    static void StageStartMusicEvent(const std::string& param0) {}
-    static void AllowMissionAbort(const std::string& param0) {}
-    static void MustActionTrigger(int32_t param0 = 0) {}
-    static void SetStageAITargetCatchupParams(const std::string& param0, int32_t param1, int32_t param2) {}
-    static void SetFollowDistances(int32_t param0, int32_t param1) {}
-    static void SetFadeOut(float param0) {}
-    static void StayInBlack(int32_t param0 = 0) {}
-    static void AddStageCharacter(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
-    static void SetDurationTime(float param0) {}
-    static void SetFMVInfo(const std::string& param0, const std::string& param1 = "") {}
-    static void SetForcedCar(int32_t param0 = 0) {}
-    static void SwapInDefaultCar(int32_t param0 = 0) {}
-    static void SetSwapDefaultCarLocator(const std::string& param0) {}
-    static void SetSwapForcedCarLocator(const std::string& param0) {}
-    static void SetSwapPlayerLocator(const std::string& param0) {}
-    static void StreetRacePropsLoad(const std::string& param0) {}
-    static void StreetRacePropsUnload(const std::string& param0) {}
-    static void SetStageAIRaceCatchupParams(const std::string& param0, int32_t param1, float param2, float param3, float param4) {}
-    static void DisableHitAndRun(int32_t param0 = 0) {}
-    static void NoTrafficForStage(int32_t param0 = 0) {}
-    static void SetConditionPosition(int32_t param0) {}
-    static void AddSafeZone(const std::string& param0, int32_t param1) {}
-    static void AddGagBinding(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3, const std::string& param4) {}
-    static void SetPostLevelFMV(const std::string& param0) {}
-    static void SetHitNRun(int32_t param0 = 0) {}
-    static void SetObjDistance(int32_t param0) {}
-    static void SetMusicState(const std::string& param0, const std::string& param1) {}
-    static void SetIrisWipe(float param0) {}
-    static void RemoveDriver(const std::string& param0) {}
-    static void RemoveNPC(const std::string& param0) {}
-    static void AddDriver(const std::string& param0, const std::string& param1) {}
-    static void SetCharacterToHide(const std::string& param0) {}
-    static void SetLevelOver(int32_t param0 = 0) {}
-    static void GagCheckCollCards(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
-    static void GagCheckMovie(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
-    static void GagSetSoundLoadDistances(int32_t param0, int32_t param1) {}
-    static void BindCollectibleTo(int32_t param0, int32_t param1) {}
-    static void AddShield(const std::string& param0, const std::string& param1) {}
-    static void SetStatepropShadow(const std::string& param0, const std::string& param1) {}
-    static void AddFlyingActorByLocator(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
-    static void AddCollectibleStateProp(const std::string& param0, const std::string& param1, int32_t param2) {}
-    static void SetPickupTarget(const std::string& param0) {}
-    static void SetObjTargetBoss(const std::string& param0) {}
-    static void AllowRockOut(int32_t param0 = 0) {}
-    static void ShowHUD(const std::string& param0) {}
-    static void SetGameOver(int32_t param0 = 0) {}
-    static void GoToPsScreenWhenDone(int32_t param0 = 0) {}
-    static void SetMass(float param0) {}
-    static void SetGasScale(float param0) {}
-    static void SetSlipGasScale(float param0) {}
-    static void SetBrakeScale(float param0) {}
-    static void SetTopSpeedKmh(float param0) {}
-    static void SetMaxWheelTurnAngle(float param0) {}
-    static void SetHighSpeedSteeringDrop(float param0) {}
-    static void SetTireGrip(float param0) {}
-    static void SetNormalSteering(float param0) {}
-    static void SetSlipSteering(float param0) {}
-    static void SetEBrakeEffect(float param0) {}
-    static void SetSlipSteeringNoEBrake(float param0) {}
-    static void SetSlipEffectNoEBrake(float param0) {}
-    static void SetCMOffsetX(float param0) {}
-    static void SetCMOffsetY(float param0) {}
-    static void SetCMOffsetZ(float param0) {}
-    static void SetSuspensionLimit(float param0) {}
-    static void SetSpringK(float param0) {}
-    static void SetDamperC(float param0) {}
-    static void SetSuspensionYOffset(float param0) {}
-    static void SetHitPoints(float param0) {}
-    static void SetBurnoutRange(float param0) {}
-    static void SetMaxSpeedBurstTime(float param0) {}
-    static void SetDonutTorque(float param0) {}
-    static void SetWeebleOffset(float param0) {}
-    static void SetWheelieRange(float param0) {}
-    static void SetWheelieOffsetY(float param0) {}
-    static void SetWheelieOffsetZ(float param0) {}
-    static void SetShadowAdjustments(float param0, float param1, float param2, float param3, float param4, float param5, float param6, float param7) {}
-    static void SetCharactersVisible(int32_t param0) {}
-    static void SetIrisTransition(int32_t param0) {}
-    static void SetCharacterScale(float param0) {}
-    static void SetGamblingOdds(float param0) {}
-    static void SetDriver(const std::string& param0) {}
-    static void SetHasDoors(int32_t param0) {}
-    static void SetShininess(float param0) {}
-    static void SetHighRoof(int32_t param0) {}
-    static void SetHighSpeedGasScale(float param0) {}
-    static void SetGasScaleSpeedThreshold(float param0) {}
-    static void SetAllowSeatSlide(int32_t param0) {}
-    static void ClearVehicleSelectInfo(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") {}
-    static void AddFlyingActor(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
-    static void SetCollisionAttributes(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) {}
-    static void AddSpawnPoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, const std::string& param6, const std::string& param7) {}
-    static void GagSetWeight(const std::string& param0) {}
-    static void GagSetLoadDistances(const std::string& param0, const std::string& param1) {}
-    static void SetTotalWasps(const std::string& param0, const std::string& param1) {}
-    static void AddGlobalProp(const std::string& param0) {}
-    static void EnableHitAndRun(const std::string& param0 = "") {}
-    static void SetHitAndRunMeter(const std::string& param0) {}
-    static void SetChaseSpawnRate(const std::string& param0, const std::string& param1) {}
-    static void KillAllChaseAI(const std::string& param0) {}
-    static void ResetHitAndRun(const std::string& param0 = "") {}
-    static void SetHitAndRunDecayInterior(const std::string& param0) {}
-    static void SetMissionNameIndex(const std::string& param0) {}
-    static void AddBonusObjective(const std::string& param0, const std::string& param1 = "") {}
-    static void AttachStatePropCollectible(const std::string& param0, const std::string& param1) {}
-    static void MoveStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void SetStageCamera(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void SetBonusMissionStart(const std::string& param0 = "") {}
-    static void PlacePlayerAtLocatorName(const std::string& param0) {}
-    static void msPlacePlayerCarAtLocatorName(const std::string& param0) {}
-    static void ClearTrafficForStage(const std::string& param0 = "") {}
-    static void SetStageAIEvadeCatchupParams(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void AllowUserDump(const std::string& param0 = "") {}
-    static void SetVehicleToLoad(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void SetConversationCamName(const std::string& param0) {}
-    static void SetConversationCamPcName(const std::string& param0) {}
-    static void SetConversationCamNpcName(const std::string& param0) {}
-    static void SetConversationCamDistance(const std::string& param0, const std::string& param1) {}
-    static void CharacterIsChild(const std::string& param0) {}
-    static void SetCarStartCamera(const std::string& param0) {}
-    static void SetPlayerCarName(const std::string& param0, const std::string& param1) {}
-    static void SetRespawnRate(const std::string& param0, const std::string& param1) {}
-    static void ActivateTrigger(const std::string& param0) {}
-    static void DeactivateTrigger(const std::string& param0) {}
-    static void CreateAnimPhysObject(const std::string& param0, const std::string& param1) {}
-    static void CreateActionEventTrigger(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
-    static void LinkActionToObjectJoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
-    static void LinkActionToObject(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) {}
-    static void SetCharacterPosition(const std::string& param0, const std::string& param1, const std::string& param2) {}
-    static void ResetCharacter(const std::string& param0, const std::string& param1) {}
+    static void Impl_LoadP3DFile(const std::string& param0, const std::string& param1 = "") { GameCommands::LoadP3DFile(param0, param1); }
+    static void Impl_SetParticleTexture(int32_t param0, const std::string& param1) { GameCommands::SetParticleTexture(param0, param1); }
+    static void Impl_BindReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, int32_t param4, int32_t param5 = 0, const std::string& param6 = "") { GameCommands::BindReward(param0, param1, param2, param3, param4, param5, param6); }
+    static void Impl_SetCarAttributes(const std::string& param0, float param1, float param2, float param3, float param4) { GameCommands::SetCarAttributes(param0, param1, param2, param3, param4); }
+    static void Impl_SetTotalGags(int32_t param0, int32_t param1) { GameCommands::SetTotalGags(param0, param1); }
+    static void Impl_SelectMission(const std::string& param0) { GameCommands::SelectMission(param0); }
+    static void Impl_SetMissionResetPlayerInCar(const std::string& param0) { GameCommands::SetMissionResetPlayerInCar(param0); }
+    static void Impl_SetDynaLoadData(const std::string& param0, const std::string& param1 = "") { GameCommands::SetDynaLoadData(param0, param1); }
+    static void Impl_UsePedGroup(int32_t param0) { GameCommands::UsePedGroup(param0); }
+    static void Impl_AddStage(const std::string& param0 = "", const std::string& param1 = "", const std::string& param2 = "") { GameCommands::AddStage(param0, param1, param2); }
+    static void Impl_SetPresentationBitmap(const std::string& param0) { GameCommands::SetPresentationBitmap(param0); }
+    static void Impl_SetStageMessageIndex(int32_t param0, const std::string& param1 = "") { GameCommands::SetStageMessageIndex(param0, param1); }
+    static void Impl_AddObjective(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") { GameCommands::AddObjective(param0, param1, param2); }
+    static void Impl_SetObjTargetVehicle(const std::string& param0) { GameCommands::SetObjTargetVehicle(param0); }
+    static void Impl_CloseObjective(int32_t param0 = 0) { GameCommands::CloseObjective(param0); }
+    static void Impl_CloseStage(int32_t param0 = 0) { GameCommands::CloseStage(param0); }
+    static void Impl_RESET_TO_HERE(int32_t param0 = 0) { GameCommands::RESET_TO_HERE(param0); }
+    static void Impl_SetHUDIcon(const std::string& param0) { GameCommands::SetHUDIcon(param0); }
+    static void Impl_AddCollectible(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "", const std::string& param3 = "") { GameCommands::AddCollectible(param0, param1, param2, param3); }
+    static void Impl_SetStageTime(int32_t param0) { GameCommands::SetStageTime(param0); }
+    static void Impl_AddCondition(const std::string& param0, const std::string& param1 = "") { GameCommands::AddCondition(param0, param1); }
+    static void Impl_CloseCondition(int32_t param0 = 0) { GameCommands::CloseCondition(param0); }
+    static void Impl_ShowStageComplete(int32_t param0 = 0) { GameCommands::ShowStageComplete(param0); }
+    static void Impl_AddNPC(const std::string& param0, const std::string& param1, const std::string& param2 = "") { GameCommands::AddNPC(param0, param1, param2); }
+    static void Impl_SetDestination(const std::string& param0, const std::string& param1 = "") { GameCommands::SetDestination(param0, param1); }
+    static void Impl_SetCollectibleEffect(const std::string& param0) { GameCommands::SetCollectibleEffect(param0); }
+    static void Impl_AddStageTime(int32_t param0) { GameCommands::AddStageTime(param0); }
+    static void Impl_AddObjectiveNPCWaypoint(const std::string& param0, const std::string& param1) { GameCommands::AddObjectiveNPCWaypoint(param0, param1); }
+    static void Impl_SetTalkToTarget(const std::string& param0, int32_t param1 = 0, float param2 = 0.0f, const std::string& param3 = "") { GameCommands::SetTalkToTarget(param0, param1, param2, param3); }
+    static void Impl_SetDialogueInfo(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3) { GameCommands::SetDialogueInfo(param0, param1, param2, param3); }
+    static void Impl_SetCamBestSide(const std::string& param0, const std::string& param1 = "") { GameCommands::SetCamBestSide(param0, param1); }
+    static void Impl_CloseMission(int32_t param0 = 0) { GameCommands::CloseMission(param0); }
+    static void Impl_PlacePlayerCar(const std::string& param0, const std::string& param1) { GameCommands::PlacePlayerCar(param0, param1); }
+    static void Impl_SetMaxTraffic(int32_t param0) { GameCommands::SetMaxTraffic(param0); }
+    static void Impl_AddStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4 = "") { GameCommands::AddStageVehicle(param0, param1, param2, param3, param4); }
+    static void Impl_AddStageWaypoint(const std::string& param0) { GameCommands::AddStageWaypoint(param0); }
+    static void Impl_SetRaceLaps(int32_t param0) { GameCommands::SetRaceLaps(param0); }
+    static void Impl_SetDemoLoopTime(int64_t param0) { GameCommands::SetDemoLoopTime(param0); }
+    static void Impl_AddStageMusicChange(int32_t param0 = 0) { GameCommands::AddStageMusicChange(param0); }
+    static void Impl_LoadDisposableCar(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::LoadDisposableCar(param0, param1, param2); }
+    static void Impl_AddMission(const std::string& param0) { GameCommands::AddMission(param0); }
+    static void Impl_ClearGagBindings(int32_t param0 = 0) { GameCommands::ClearGagBindings(param0); }
+    static void Impl_GagBegin(const std::string& param0) { GameCommands::GagBegin(param0); }
+    static void Impl_GagSetInterior(const std::string& param0) { GameCommands::GagSetInterior(param0); }
+    static void Impl_GagSetCycle(const std::string& param0) { GameCommands::GagSetCycle(param0); }
+    static void Impl_GagSetPosition(const std::string& param0) { GameCommands::GagSetPosition(param0); }
+    static void Impl_GagSetPosition(float param0, float param1, float param2) { GameCommands::GagSetPosition(param0, param1, param2); }
+    static void Impl_GagSetRandom(int32_t param0) { GameCommands::GagSetRandom(param0); }
+    static void Impl_GagSetSound(const std::string& param0) { GameCommands::GagSetSound(param0); }
+    static void Impl_GagSetTrigger(const std::string& param0, const std::string& param1, float param2) { GameCommands::GagSetTrigger(param0, param1, param2); }
+    static void Impl_GagSetTrigger(const std::string& param0, float param1, float param2, float param3, float param4) { GameCommands::GagSetTrigger(param0, param1, param2, param3, param4); }
+    static void Impl_GagEnd(int32_t param0 = 0) { GameCommands::GagEnd(param0); }
+    static void Impl_GagSetSparkle(int32_t param0) { GameCommands::GagSetSparkle(param0); }
+    static void Impl_GagSetPersist(int32_t param0) { GameCommands::GagSetPersist(param0); }
+    static void Impl_GagSetCoins(int32_t param0, float param1) { GameCommands::GagSetCoins(param0, param1); }
+    static void Impl_GagSetAnimCollision(int32_t param0) { GameCommands::GagSetAnimCollision(param0); }
+    static void Impl_GagSetIntro(int32_t param0) { GameCommands::GagSetIntro(param0); }
+    static void Impl_GagSetOutro(int32_t param0) { GameCommands::GagSetOutro(param0); }
+    static void Impl_GagSetCameraShake(float param0, int32_t param1, float param2) { GameCommands::GagSetCameraShake(param0, param1, param2); }
+    static void Impl_GagPlayFMV(const std::string& param0) { GameCommands::GagPlayFMV(param0); }
+    static void Impl_EnableTutorialMode(const std::string& param0) { GameCommands::EnableTutorialMode(param0); }
+    static void Impl_InitLevelPlayerVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "") { GameCommands::InitLevelPlayerVehicle(param0, param1, param2, param3); }
+    static void Impl_AddCharacter(const std::string& param0, const std::string& param1) { GameCommands::AddCharacter(param0, param1); }
+    static void Impl_CreateChaseManager(const std::string& param0, const std::string& param1, int32_t param2) { GameCommands::CreateChaseManager(param0, param1, param2); }
+    static void Impl_SetHitAndRunDecay(float param0) { GameCommands::SetHitAndRunDecay(param0); }
+    static void Impl_SetNumChaseCars(const std::string& param0) { GameCommands::SetNumChaseCars(param0); }
+    static void Impl_AddNPCCharacterBonusMission(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, int32_t param6, const std::string& param7 = "") { GameCommands::AddNPCCharacterBonusMission(param0, param1, param2, param3, param4, param5, param6, param7); }
+    static void Impl_AddBonusMissionNPCWaypoint(const std::string& param0, const std::string& param1) { GameCommands::AddBonusMissionNPCWaypoint(param0, param1); }
+    static void Impl_AddAmbientCharacter(const std::string& param0, const std::string& param1, float param2) { GameCommands::AddAmbientCharacter(param0, param1, param2); }
+    static void Impl_AddAmbientNPCWaypoint(const std::string& param0, const std::string& param1) { GameCommands::AddAmbientNPCWaypoint(param0, param1); }
+    static void Impl_AddPurchaseCarReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, float param4, const std::string& param5) { GameCommands::AddPurchaseCarReward(param0, param1, param2, param3, param4, param5); }
+    static void Impl_AddPurchaseCarNPCWaypoint(const std::string& param0, const std::string& param1) { GameCommands::AddPurchaseCarNPCWaypoint(param0, param1); }
+    static void Impl_CreateTrafficGroup(int32_t param0) { GameCommands::CreateTrafficGroup(param0); }
+    static void Impl_AddTrafficModel(const std::string& param0, int32_t param1, int32_t param2 = 0) { GameCommands::AddTrafficModel(param0, param1, param2); }
+    static void Impl_CloseTrafficGroup(int32_t param0 = 0) { GameCommands::CloseTrafficGroup(param0); }
+    static void Impl_CreatePedGroup(int32_t param0) { GameCommands::CreatePedGroup(param0); }
+    static void Impl_AddPed(const std::string& param0, int32_t param1) { GameCommands::AddPed(param0, param1); }
+    static void Impl_ClosePedGroup(int32_t param0 = 0) { GameCommands::ClosePedGroup(param0); }
+    static void Impl_PreallocateActors(const std::string& param0, const std::string& param1) { GameCommands::PreallocateActors(param0, param1); }
+    static void Impl_SetProjectileStats(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::SetProjectileStats(param0, param1, param2); }
+    static void Impl_AddSpawnPointByLocatorScript(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5) { GameCommands::AddSpawnPointByLocatorScript(param0, param1, param2, param3, param4, param5); }
+    static void Impl_AddBehaviour(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "", const std::string& param4 = "", const std::string& param5 = "", const std::string& param6 = "") { GameCommands::AddBehaviour(param0, param1, param2, param3, param4, param5, param6); }
+    static void Impl_SetActorRotationSpeed(const std::string& param0, const std::string& param1) { GameCommands::SetActorRotationSpeed(param0, param1); }
+    static void Impl_SetAnimatedCameraName(const std::string& param0) { GameCommands::SetAnimatedCameraName(param0); }
+    static void Impl_SetAnimCamMulticontName(const std::string& param0) { GameCommands::SetAnimCamMulticontName(param0); }
+    static void Impl_SetCoinFee(int32_t param0) { GameCommands::SetCoinFee(param0); }
+    static void Impl_PutMFPlayerInCar(int32_t param0 = 0) { GameCommands::PutMFPlayerInCar(param0); }
+    static void Impl_StartCountdown(const std::string& param0, const std::string& param1 = "") { GameCommands::StartCountdown(param0, param1); }
+    static void Impl_AddToCountdownSequence(const std::string& param0, int32_t param1) { GameCommands::AddToCountdownSequence(param0, param1); }
+    static void Impl_UseElapsedTime(int32_t param0 = 0) { GameCommands::UseElapsedTime(param0); }
+    static void Impl_SetRaceEnteryFee(int32_t param0) { GameCommands::SetRaceEnteryFee(param0); }
+    static void Impl_SetParTime(int32_t param0) { GameCommands::SetParTime(param0); }
+    static void Impl_SetCondMinHealth(float param0) { GameCommands::SetCondMinHealth(param0); }
+    static void Impl_SetCondTargetVehicle(const std::string& param0) { GameCommands::SetCondTargetVehicle(param0); }
+    static void Impl_SetCondTime(int32_t param0) { GameCommands::SetCondTime(param0); }
+    static void Impl_AddBonusMission(const std::string& param0) { GameCommands::AddBonusMission(param0); }
+    static void Impl_AddTeleportDest(const std::string& param0, float param1, float param2, float param3, const std::string& param4) { GameCommands::AddTeleportDest(param0, param1, param2, param3, param4); }
+    static void Impl_AddVehicleSelectInfo(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::AddVehicleSelectInfo(param0, param1, param2); }
+    static void Impl_SuppressDriver(const std::string& param0) { GameCommands::SuppressDriver(param0); }
+    static void Impl_SetBonusMissionDialoguePos(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { GameCommands::SetBonusMissionDialoguePos(param0, param1, param2, param3); }
+    static void Impl_SetConversationCam(int32_t param0, const std::string& param1, const std::string& param2 = "") { GameCommands::SetConversationCam(param0, param1, param2); }
+    static void Impl_ClearAmbientAnimations(const std::string& param0) { GameCommands::ClearAmbientAnimations(param0); }
+    static void Impl_AddAmbientNpcAnimation(const std::string& param0, const std::string& param1 = "") { GameCommands::AddAmbientNpcAnimation(param0, param1); }
+    static void Impl_AddAmbientPcAnimation(const std::string& param0, const std::string& param1 = "") { GameCommands::AddAmbientPcAnimation(param0, param1); }
+    static void Impl_SetCoinDrawable(const std::string& param0) { GameCommands::SetCoinDrawable(param0); }
+    static void Impl_AmbientAnimationRandomize(int32_t param0, int32_t param1) { GameCommands::AmbientAnimationRandomize(param0, param1); }
+    static void Impl_TurnGotoDialogOff(int32_t param0 = 0) { GameCommands::TurnGotoDialogOff(param0); }
+    static void Impl_SetCompletionDialog(const std::string& param0, const std::string& param1 = "") { GameCommands::SetCompletionDialog(param0, param1); }
+    static void Impl_SetMissionResetPlayerOutCar(const std::string& param0, const std::string& param1) { GameCommands::SetMissionResetPlayerOutCar(param0, param1); }
+    static void Impl_SetMissionStartCameraName(const std::string& param0) { GameCommands::SetMissionStartCameraName(param0); }
+    static void Impl_SetMissionStartMulticontName(const std::string& param0) { GameCommands::SetMissionStartMulticontName(param0); }
+    static void Impl_SetInitialWalk(const std::string& param0) { GameCommands::SetInitialWalk(param0); }
+    static void Impl_SetDialoguePositions(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3 = 0) { GameCommands::SetDialoguePositions(param0, param1, param2, param3); }
+    static void Impl_ActivateVehicle(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::ActivateVehicle(param0, param1, param2); }
+    static void Impl_SetStageMusicAlwaysOn(int32_t param0 = 0) { GameCommands::SetStageMusicAlwaysOn(param0); }
+    static void Impl_SetNumValidFailureHints(int32_t param0) { GameCommands::SetNumValidFailureHints(param0); }
+    static void Impl_SetVehicleAIParams(const std::string& param0, int32_t param1, int32_t param2) { GameCommands::SetVehicleAIParams(param0, param1, param2); }
+    static void Impl_StageStartMusicEvent(const std::string& param0) { GameCommands::StageStartMusicEvent(param0); }
+    static void Impl_AllowMissionAbort(const std::string& param0) { GameCommands::AllowMissionAbort(param0); }
+    static void Impl_MustActionTrigger(int32_t param0 = 0) { GameCommands::MustActionTrigger(param0); }
+    static void Impl_SetStageAITargetCatchupParams(const std::string& param0, int32_t param1, int32_t param2) { GameCommands::SetStageAITargetCatchupParams(param0, param1, param2); }
+    static void Impl_SetFollowDistances(int32_t param0, int32_t param1) { GameCommands::SetFollowDistances(param0, param1); }
+    static void Impl_SetFadeOut(float param0) { GameCommands::SetFadeOut(param0); }
+    static void Impl_StayInBlack(int32_t param0 = 0) { GameCommands::StayInBlack(param0); }
+    static void Impl_AddStageCharacter(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { GameCommands::AddStageCharacter(param0, param1, param2, param3, param4); }
+    static void Impl_SetDurationTime(float param0) { GameCommands::SetDurationTime(param0); }
+    static void Impl_SetFMVInfo(const std::string& param0, const std::string& param1 = "") { GameCommands::SetFMVInfo(param0, param1); }
+    static void Impl_SetForcedCar(int32_t param0 = 0) { GameCommands::SetForcedCar(param0); }
+    static void Impl_SwapInDefaultCar(int32_t param0 = 0) { GameCommands::SwapInDefaultCar(param0); }
+    static void Impl_SetSwapDefaultCarLocator(const std::string& param0) { GameCommands::SetSwapDefaultCarLocator(param0); }
+    static void Impl_SetSwapForcedCarLocator(const std::string& param0) { GameCommands::SetSwapForcedCarLocator(param0); }
+    static void Impl_SetSwapPlayerLocator(const std::string& param0) { GameCommands::SetSwapPlayerLocator(param0); }
+    static void Impl_StreetRacePropsLoad(const std::string& param0) { GameCommands::StreetRacePropsLoad(param0); }
+    static void Impl_StreetRacePropsUnload(const std::string& param0) { GameCommands::StreetRacePropsUnload(param0); }
+    static void Impl_SetStageAIRaceCatchupParams(const std::string& param0, int32_t param1, float param2, float param3, float param4) { GameCommands::SetStageAIRaceCatchupParams(param0, param1, param2, param3, param4); }
+    static void Impl_DisableHitAndRun(int32_t param0 = 0) { GameCommands::DisableHitAndRun(param0); }
+    static void Impl_NoTrafficForStage(int32_t param0 = 0) { GameCommands::NoTrafficForStage(param0); }
+    static void Impl_SetConditionPosition(int32_t param0) { GameCommands::SetConditionPosition(param0); }
+    static void Impl_AddSafeZone(const std::string& param0, int32_t param1) { GameCommands::AddSafeZone(param0, param1); }
+    static void Impl_AddGagBinding(const std::string& param0, const std::string& param1, const std::string& param2, int32_t param3, const std::string& param4) { GameCommands::AddGagBinding(param0, param1, param2, param3, param4); }
+    static void Impl_SetPostLevelFMV(const std::string& param0) { GameCommands::SetPostLevelFMV(param0); }
+    static void Impl_SetHitNRun(int32_t param0 = 0) { GameCommands::SetHitNRun(param0); }
+    static void Impl_SetObjDistance(int32_t param0) { GameCommands::SetObjDistance(param0); }
+    static void Impl_SetMusicState(const std::string& param0, const std::string& param1) { GameCommands::SetMusicState(param0, param1); }
+    static void Impl_SetIrisWipe(float param0) { GameCommands::SetIrisWipe(param0); }
+    static void Impl_RemoveDriver(const std::string& param0) { GameCommands::RemoveDriver(param0); }
+    static void Impl_RemoveNPC(const std::string& param0) { GameCommands::RemoveNPC(param0); }
+    static void Impl_AddDriver(const std::string& param0, const std::string& param1) { GameCommands::AddDriver(param0, param1); }
+    static void Impl_SetCharacterToHide(const std::string& param0) { GameCommands::SetCharacterToHide(param0); }
+    static void Impl_SetLevelOver(int32_t param0 = 0) { GameCommands::SetLevelOver(param0); }
+    static void Impl_GagCheckCollCards(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { GameCommands::GagCheckCollCards(param0, param1, param2, param3, param4); }
+    static void Impl_GagCheckMovie(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { GameCommands::GagCheckMovie(param0, param1, param2, param3); }
+    static void Impl_GagSetSoundLoadDistances(int32_t param0, int32_t param1) { GameCommands::GagSetSoundLoadDistances(param0, param1); }
+    static void Impl_BindCollectibleTo(int32_t param0, int32_t param1) { GameCommands::BindCollectibleTo(param0, param1); }
+    static void Impl_AddShield(const std::string& param0, const std::string& param1) { GameCommands::AddShield(param0, param1); }
+    static void Impl_SetStatepropShadow(const std::string& param0, const std::string& param1) { GameCommands::SetStatepropShadow(param0, param1); }
+    static void Impl_AddFlyingActorByLocator(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { GameCommands::AddFlyingActorByLocator(param0, param1, param2, param3); }
+    static void Impl_AddCollectibleStateProp(const std::string& param0, const std::string& param1, int32_t param2) { GameCommands::AddCollectibleStateProp(param0, param1, param2); }
+    static void Impl_SetPickupTarget(const std::string& param0) { GameCommands::SetPickupTarget(param0); }
+    static void Impl_SetObjTargetBoss(const std::string& param0) { GameCommands::SetObjTargetBoss(param0); }
+    static void Impl_AllowRockOut(int32_t param0 = 0) { GameCommands::AllowRockOut(param0); }
+    static void Impl_ShowHUD(const std::string& param0) { GameCommands::ShowHUD(param0); }
+    static void Impl_SetGameOver(int32_t param0 = 0) { GameCommands::SetGameOver(param0); }
+    static void Impl_GoToPsScreenWhenDone(int32_t param0 = 0) { GameCommands::GoToPsScreenWhenDone(param0); }
+    static void Impl_SetMass(float param0) { GameCommands::SetMass(param0); }
+    static void Impl_SetGasScale(float param0) { GameCommands::SetGasScale(param0); }
+    static void Impl_SetSlipGasScale(float param0) { GameCommands::SetSlipGasScale(param0); }
+    static void Impl_SetBrakeScale(float param0) { GameCommands::SetBrakeScale(param0); }
+    static void Impl_SetTopSpeedKmh(float param0) { GameCommands::SetTopSpeedKmh(param0); }
+    static void Impl_SetMaxWheelTurnAngle(float param0) { GameCommands::SetMaxWheelTurnAngle(param0); }
+    static void Impl_SetHighSpeedSteeringDrop(float param0) { GameCommands::SetHighSpeedSteeringDrop(param0); }
+    static void Impl_SetTireGrip(float param0) { GameCommands::SetTireGrip(param0); }
+    static void Impl_SetNormalSteering(float param0) { GameCommands::SetNormalSteering(param0); }
+    static void Impl_SetSlipSteering(float param0) { GameCommands::SetSlipSteering(param0); }
+    static void Impl_SetEBrakeEffect(float param0) { GameCommands::SetEBrakeEffect(param0); }
+    static void Impl_SetSlipSteeringNoEBrake(float param0) { GameCommands::SetSlipSteeringNoEBrake(param0); }
+    static void Impl_SetSlipEffectNoEBrake(float param0) { GameCommands::SetSlipEffectNoEBrake(param0); }
+    static void Impl_SetCMOffsetX(float param0) { GameCommands::SetCMOffsetX(param0); }
+    static void Impl_SetCMOffsetY(float param0) { GameCommands::SetCMOffsetY(param0); }
+    static void Impl_SetCMOffsetZ(float param0) { GameCommands::SetCMOffsetZ(param0); }
+    static void Impl_SetSuspensionLimit(float param0) { GameCommands::SetSuspensionLimit(param0); }
+    static void Impl_SetSpringK(float param0) { GameCommands::SetSpringK(param0); }
+    static void Impl_SetDamperC(float param0) { GameCommands::SetDamperC(param0); }
+    static void Impl_SetSuspensionYOffset(float param0) { GameCommands::SetSuspensionYOffset(param0); }
+    static void Impl_SetHitPoints(float param0) { GameCommands::SetHitPoints(param0); }
+    static void Impl_SetBurnoutRange(float param0) { GameCommands::SetBurnoutRange(param0); }
+    static void Impl_SetMaxSpeedBurstTime(float param0) { GameCommands::SetMaxSpeedBurstTime(param0); }
+    static void Impl_SetDonutTorque(float param0) { GameCommands::SetDonutTorque(param0); }
+    static void Impl_SetWeebleOffset(float param0) { GameCommands::SetWeebleOffset(param0); }
+    static void Impl_SetWheelieRange(float param0) { GameCommands::SetWheelieRange(param0); }
+    static void Impl_SetWheelieOffsetY(float param0) { GameCommands::SetWheelieOffsetY(param0); }
+    static void Impl_SetWheelieOffsetZ(float param0) { GameCommands::SetWheelieOffsetZ(param0); }
+    static void Impl_SetShadowAdjustments(float param0, float param1, float param2, float param3, float param4, float param5, float param6, float param7) { GameCommands::SetShadowAdjustments(param0, param1, param2, param3, param4, param5, param6, param7); }
+    static void Impl_SetCharactersVisible(int32_t param0) { GameCommands::SetCharactersVisible(param0); }
+    static void Impl_SetIrisTransition(int32_t param0) { GameCommands::SetIrisTransition(param0); }
+    static void Impl_SetCharacterScale(float param0) { GameCommands::SetCharacterScale(param0); }
+    static void Impl_SetGamblingOdds(float param0) { GameCommands::SetGamblingOdds(param0); }
+    static void Impl_SetDriver(const std::string& param0) { GameCommands::SetDriver(param0); }
+    static void Impl_SetHasDoors(int32_t param0) { GameCommands::SetHasDoors(param0); }
+    static void Impl_SetShininess(float param0) { GameCommands::SetShininess(param0); }
+    static void Impl_SetHighRoof(int32_t param0) { GameCommands::SetHighRoof(param0); }
+    static void Impl_SetHighSpeedGasScale(float param0) { GameCommands::SetHighSpeedGasScale(param0); }
+    static void Impl_SetGasScaleSpeedThreshold(float param0) { GameCommands::SetGasScaleSpeedThreshold(param0); }
+    static void Impl_SetAllowSeatSlide(int32_t param0) { GameCommands::SetAllowSeatSlide(param0); }
+    static void Impl_ClearVehicleSelectInfo(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") { GameCommands::ClearVehicleSelectInfo(param0, param1, param2); }
+    static void Impl_AddFlyingActor(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { GameCommands::AddFlyingActor(param0, param1, param2, param3, param4); }
+    static void Impl_SetCollisionAttributes(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3) { GameCommands::SetCollisionAttributes(param0, param1, param2, param3); }
+    static void Impl_AddSpawnPoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4, const std::string& param5, const std::string& param6, const std::string& param7) { GameCommands::AddSpawnPoint(param0, param1, param2, param3, param4, param5, param6, param7); }
+    static void Impl_GagSetWeight(const std::string& param0) { GameCommands::GagSetWeight(param0); }
+    static void Impl_GagSetLoadDistances(const std::string& param0, const std::string& param1) { GameCommands::GagSetLoadDistances(param0, param1); }
+    static void Impl_SetTotalWasps(const std::string& param0, const std::string& param1) { GameCommands::SetTotalWasps(param0, param1); }
+    static void Impl_AddGlobalProp(const std::string& param0) { GameCommands::AddGlobalProp(param0); }
+    static void Impl_EnableHitAndRun(const std::string& param0 = "") { GameCommands::EnableHitAndRun(param0); }
+    static void Impl_SetHitAndRunMeter(const std::string& param0) { GameCommands::SetHitAndRunMeter(param0); }
+    static void Impl_SetChaseSpawnRate(const std::string& param0, const std::string& param1) { GameCommands::SetChaseSpawnRate(param0, param1); }
+    static void Impl_KillAllChaseAI(const std::string& param0) { GameCommands::KillAllChaseAI(param0); }
+    static void Impl_ResetHitAndRun(const std::string& param0 = "") { GameCommands::ResetHitAndRun(param0); }
+    static void Impl_SetHitAndRunDecayInterior(const std::string& param0) { GameCommands::SetHitAndRunDecayInterior(param0); }
+    static void Impl_SetMissionNameIndex(const std::string& param0) { GameCommands::SetMissionNameIndex(param0); }
+    static void Impl_AddBonusObjective(const std::string& param0, const std::string& param1 = "") { GameCommands::AddBonusObjective(param0, param1); }
+    static void Impl_AttachStatePropCollectible(const std::string& param0, const std::string& param1) { GameCommands::AttachStatePropCollectible(param0, param1); }
+    static void Impl_MoveStageVehicle(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::MoveStageVehicle(param0, param1, param2); }
+    static void Impl_SetStageCamera(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::SetStageCamera(param0, param1, param2); }
+    static void Impl_SetBonusMissionStart(const std::string& param0 = "") { GameCommands::SetBonusMissionStart(param0); }
+    static void Impl_PlacePlayerAtLocatorName(const std::string& param0) { GameCommands::PlacePlayerAtLocatorName(param0); }
+    static void Impl_msPlacePlayerCarAtLocatorName(const std::string& param0) { GameCommands::msPlacePlayerCarAtLocatorName(param0); }
+    static void Impl_ClearTrafficForStage(const std::string& param0 = "") { GameCommands::ClearTrafficForStage(param0); }
+    static void Impl_SetStageAIEvadeCatchupParams(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::SetStageAIEvadeCatchupParams(param0, param1, param2); }
+    static void Impl_AllowUserDump(const std::string& param0 = "") { GameCommands::AllowUserDump(param0); }
+    static void Impl_SetVehicleToLoad(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::SetVehicleToLoad(param0, param1, param2); }
+    static void Impl_SetConversationCamName(const std::string& param0) { GameCommands::SetConversationCamName(param0); }
+    static void Impl_SetConversationCamPcName(const std::string& param0) { GameCommands::SetConversationCamPcName(param0); }
+    static void Impl_SetConversationCamNpcName(const std::string& param0) { GameCommands::SetConversationCamNpcName(param0); }
+    static void Impl_SetConversationCamDistance(const std::string& param0, const std::string& param1) { GameCommands::SetConversationCamDistance(param0, param1); }
+    static void Impl_CharacterIsChild(const std::string& param0) { GameCommands::CharacterIsChild(param0); }
+    static void Impl_SetCarStartCamera(const std::string& param0) { GameCommands::SetCarStartCamera(param0); }
+    static void Impl_SetPlayerCarName(const std::string& param0, const std::string& param1) { GameCommands::SetPlayerCarName(param0, param1); }
+    static void Impl_SetRespawnRate(const std::string& param0, const std::string& param1) { GameCommands::SetRespawnRate(param0, param1); }
+    static void Impl_ActivateTrigger(const std::string& param0) { GameCommands::ActivateTrigger(param0); }
+    static void Impl_DeactivateTrigger(const std::string& param0) { GameCommands::DeactivateTrigger(param0); }
+    static void Impl_CreateAnimPhysObject(const std::string& param0, const std::string& param1) { GameCommands::CreateAnimPhysObject(param0, param1); }
+    static void Impl_CreateActionEventTrigger(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { GameCommands::CreateActionEventTrigger(param0, param1, param2, param3, param4); }
+    static void Impl_LinkActionToObjectJoint(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { GameCommands::LinkActionToObjectJoint(param0, param1, param2, param3, param4); }
+    static void Impl_LinkActionToObject(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { GameCommands::LinkActionToObject(param0, param1, param2, param3, param4); }
+    static void Impl_SetCharacterPosition(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::SetCharacterPosition(param0, param1, param2); }
+    static void Impl_ResetCharacter(const std::string& param0, const std::string& param1) { GameCommands::ResetCharacter(param0, param1); }
 
     static bool Command_LoadP3DFile(const std::string& params)
     {
@@ -262,7 +262,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        LoadP3DFile(param0, param1);
+        Impl_LoadP3DFile(param0, param1);
         return true;
     }
 
@@ -278,7 +278,7 @@ namespace Donut
         if (!Commands::StringToInt(splits[0], param0)) return false;
         const auto& param1 = splits[1];
 
-        SetParticleTexture(param0, param1);
+        Impl_SetParticleTexture(param0, param1);
         return true;
     }
 
@@ -301,7 +301,7 @@ namespace Donut
             if (!Commands::StringToInt(splits[5], param5)) return false;
         const auto& param6 = (numParams > 6) ? splits[6] : "";
 
-        BindReward(param0, param1, param2, param3, param4, param5, param6);
+        Impl_BindReward(param0, param1, param2, param3, param4, param5, param6);
         return true;
     }
 
@@ -323,7 +323,7 @@ namespace Donut
         float param4;
         if (!Commands::StringToFloat(splits[4], param4)) return false;
 
-        SetCarAttributes(param0, param1, param2, param3, param4);
+        Impl_SetCarAttributes(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -340,7 +340,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        SetTotalGags(param0, param1);
+        Impl_SetTotalGags(param0, param1);
         return true;
     }
 
@@ -354,7 +354,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SelectMission(param0);
+        Impl_SelectMission(param0);
         return true;
     }
 
@@ -368,7 +368,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetMissionResetPlayerInCar(param0);
+        Impl_SetMissionResetPlayerInCar(param0);
         return true;
     }
 
@@ -383,7 +383,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        SetDynaLoadData(param0, param1);
+        Impl_SetDynaLoadData(param0, param1);
         return true;
     }
 
@@ -398,7 +398,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        UsePedGroup(param0);
+        Impl_UsePedGroup(param0);
         return true;
     }
 
@@ -413,7 +413,7 @@ namespace Donut
         const auto& param1 = (numParams > 1) ? splits[1] : "";
         const auto& param2 = (numParams > 2) ? splits[2] : "";
 
-        AddStage(param0, param1, param2);
+        Impl_AddStage(param0, param1, param2);
         return true;
     }
 
@@ -427,7 +427,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetPresentationBitmap(param0);
+        Impl_SetPresentationBitmap(param0);
         return true;
     }
 
@@ -443,7 +443,7 @@ namespace Donut
         if (!Commands::StringToInt(splits[0], param0)) return false;
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        SetStageMessageIndex(param0, param1);
+        Impl_SetStageMessageIndex(param0, param1);
         return true;
     }
 
@@ -459,7 +459,7 @@ namespace Donut
         const auto& param1 = (numParams > 1) ? splits[1] : "";
         const auto& param2 = (numParams > 2) ? splits[2] : "";
 
-        AddObjective(param0, param1, param2);
+        Impl_AddObjective(param0, param1, param2);
         return true;
     }
 
@@ -473,7 +473,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetObjTargetVehicle(param0);
+        Impl_SetObjTargetVehicle(param0);
         return true;
     }
 
@@ -488,7 +488,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        CloseObjective(param0);
+        Impl_CloseObjective(param0);
         return true;
     }
 
@@ -503,7 +503,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        CloseStage(param0);
+        Impl_CloseStage(param0);
         return true;
     }
 
@@ -518,7 +518,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        RESET_TO_HERE(param0);
+        Impl_RESET_TO_HERE(param0);
         return true;
     }
 
@@ -532,7 +532,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetHUDIcon(param0);
+        Impl_SetHUDIcon(param0);
         return true;
     }
 
@@ -549,7 +549,7 @@ namespace Donut
         const auto& param2 = (numParams > 2) ? splits[2] : "";
         const auto& param3 = (numParams > 3) ? splits[3] : "";
 
-        AddCollectible(param0, param1, param2, param3);
+        Impl_AddCollectible(param0, param1, param2, param3);
         return true;
     }
 
@@ -564,7 +564,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetStageTime(param0);
+        Impl_SetStageTime(param0);
         return true;
     }
 
@@ -579,7 +579,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        AddCondition(param0, param1);
+        Impl_AddCondition(param0, param1);
         return true;
     }
 
@@ -594,7 +594,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        CloseCondition(param0);
+        Impl_CloseCondition(param0);
         return true;
     }
 
@@ -609,7 +609,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        ShowStageComplete(param0);
+        Impl_ShowStageComplete(param0);
         return true;
     }
 
@@ -625,7 +625,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = (numParams > 2) ? splits[2] : "";
 
-        AddNPC(param0, param1, param2);
+        Impl_AddNPC(param0, param1, param2);
         return true;
     }
 
@@ -640,7 +640,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        SetDestination(param0, param1);
+        Impl_SetDestination(param0, param1);
         return true;
     }
 
@@ -654,7 +654,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetCollectibleEffect(param0);
+        Impl_SetCollectibleEffect(param0);
         return true;
     }
 
@@ -669,7 +669,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        AddStageTime(param0);
+        Impl_AddStageTime(param0);
         return true;
     }
 
@@ -684,7 +684,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AddObjectiveNPCWaypoint(param0, param1);
+        Impl_AddObjectiveNPCWaypoint(param0, param1);
         return true;
     }
 
@@ -705,7 +705,7 @@ namespace Donut
             if (!Commands::StringToFloat(splits[2], param2)) return false;
         const auto& param3 = (numParams > 3) ? splits[3] : "";
 
-        SetTalkToTarget(param0, param1, param2, param3);
+        Impl_SetTalkToTarget(param0, param1, param2, param3);
         return true;
     }
 
@@ -723,7 +723,7 @@ namespace Donut
         int32_t param3;
         if (!Commands::StringToInt(splits[3], param3)) return false;
 
-        SetDialogueInfo(param0, param1, param2, param3);
+        Impl_SetDialogueInfo(param0, param1, param2, param3);
         return true;
     }
 
@@ -738,7 +738,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        SetCamBestSide(param0, param1);
+        Impl_SetCamBestSide(param0, param1);
         return true;
     }
 
@@ -753,7 +753,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        CloseMission(param0);
+        Impl_CloseMission(param0);
         return true;
     }
 
@@ -768,7 +768,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        PlacePlayerCar(param0, param1);
+        Impl_PlacePlayerCar(param0, param1);
         return true;
     }
 
@@ -783,7 +783,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetMaxTraffic(param0);
+        Impl_SetMaxTraffic(param0);
         return true;
     }
 
@@ -801,7 +801,7 @@ namespace Donut
         const auto& param3 = splits[3];
         const auto& param4 = (numParams > 4) ? splits[4] : "";
 
-        AddStageVehicle(param0, param1, param2, param3, param4);
+        Impl_AddStageVehicle(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -815,7 +815,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        AddStageWaypoint(param0);
+        Impl_AddStageWaypoint(param0);
         return true;
     }
 
@@ -830,7 +830,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetRaceLaps(param0);
+        Impl_SetRaceLaps(param0);
         return true;
     }
 
@@ -845,7 +845,7 @@ namespace Donut
         int64_t param0;
         if (!Commands::StringToInt64(splits[0], param0)) return false;
 
-        SetDemoLoopTime(param0);
+        Impl_SetDemoLoopTime(param0);
         return true;
     }
 
@@ -860,7 +860,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        AddStageMusicChange(param0);
+        Impl_AddStageMusicChange(param0);
         return true;
     }
 
@@ -876,7 +876,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        LoadDisposableCar(param0, param1, param2);
+        Impl_LoadDisposableCar(param0, param1, param2);
         return true;
     }
 
@@ -890,7 +890,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        AddMission(param0);
+        Impl_AddMission(param0);
         return true;
     }
 
@@ -905,7 +905,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        ClearGagBindings(param0);
+        Impl_ClearGagBindings(param0);
         return true;
     }
 
@@ -919,7 +919,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        GagBegin(param0);
+        Impl_GagBegin(param0);
         return true;
     }
 
@@ -933,7 +933,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        GagSetInterior(param0);
+        Impl_GagSetInterior(param0);
         return true;
     }
 
@@ -947,7 +947,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        GagSetCycle(param0);
+        Impl_GagSetCycle(param0);
         return true;
     }
 
@@ -963,7 +963,7 @@ namespace Donut
             {
                 const auto& param0 = splits[0];
 
-                GagSetPosition(param0);
+                Impl_GagSetPosition(param0);
                 return true;
             }
             case 3:
@@ -972,7 +972,7 @@ namespace Donut
                 float param1; if (!Commands::StringToFloat(splits[1], param1)) return false;
                 float param2; if (!Commands::StringToFloat(splits[2], param2)) return false;
 
-                GagSetPosition(param0, param1, param2);
+                Impl_GagSetPosition(param0, param1, param2);
                 return true;
             }
         }
@@ -991,7 +991,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GagSetRandom(param0);
+        Impl_GagSetRandom(param0);
         return true;
     }
 
@@ -1005,7 +1005,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        GagSetSound(param0);
+        Impl_GagSetSound(param0);
         return true;
     }
 
@@ -1023,7 +1023,7 @@ namespace Donut
                 const auto& param1 = splits[1];
                 float param2; if (!Commands::StringToFloat(splits[2], param2)) return false;
 
-                GagSetTrigger(param0, param1, param2);
+                Impl_GagSetTrigger(param0, param1, param2);
                 return true;
             }
             case 5:
@@ -1034,7 +1034,7 @@ namespace Donut
                 float param3; if (!Commands::StringToFloat(splits[3], param3)) return false;
                 float param4; if (!Commands::StringToFloat(splits[4], param4)) return false;
 
-                GagSetTrigger(param0, param1, param2, param3, param4);
+                Impl_GagSetTrigger(param0, param1, param2, param3, param4);
                 return true;
             }
         }
@@ -1053,7 +1053,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GagEnd(param0);
+        Impl_GagEnd(param0);
         return true;
     }
 
@@ -1068,7 +1068,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GagSetSparkle(param0);
+        Impl_GagSetSparkle(param0);
         return true;
     }
 
@@ -1083,7 +1083,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GagSetPersist(param0);
+        Impl_GagSetPersist(param0);
         return true;
     }
 
@@ -1100,7 +1100,7 @@ namespace Donut
         float param1;
         if (!Commands::StringToFloat(splits[1], param1)) return false;
 
-        GagSetCoins(param0, param1);
+        Impl_GagSetCoins(param0, param1);
         return true;
     }
 
@@ -1115,7 +1115,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GagSetAnimCollision(param0);
+        Impl_GagSetAnimCollision(param0);
         return true;
     }
 
@@ -1130,7 +1130,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GagSetIntro(param0);
+        Impl_GagSetIntro(param0);
         return true;
     }
 
@@ -1145,7 +1145,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GagSetOutro(param0);
+        Impl_GagSetOutro(param0);
         return true;
     }
 
@@ -1164,7 +1164,7 @@ namespace Donut
         float param2;
         if (!Commands::StringToFloat(splits[2], param2)) return false;
 
-        GagSetCameraShake(param0, param1, param2);
+        Impl_GagSetCameraShake(param0, param1, param2);
         return true;
     }
 
@@ -1178,7 +1178,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        GagPlayFMV(param0);
+        Impl_GagPlayFMV(param0);
         return true;
     }
 
@@ -1192,7 +1192,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        EnableTutorialMode(param0);
+        Impl_EnableTutorialMode(param0);
         return true;
     }
 
@@ -1209,7 +1209,7 @@ namespace Donut
         const auto& param2 = splits[2];
         const auto& param3 = (numParams > 3) ? splits[3] : "";
 
-        InitLevelPlayerVehicle(param0, param1, param2, param3);
+        Impl_InitLevelPlayerVehicle(param0, param1, param2, param3);
         return true;
     }
 
@@ -1224,7 +1224,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AddCharacter(param0, param1);
+        Impl_AddCharacter(param0, param1);
         return true;
     }
 
@@ -1241,7 +1241,7 @@ namespace Donut
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        CreateChaseManager(param0, param1, param2);
+        Impl_CreateChaseManager(param0, param1, param2);
         return true;
     }
 
@@ -1256,7 +1256,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetHitAndRunDecay(param0);
+        Impl_SetHitAndRunDecay(param0);
         return true;
     }
 
@@ -1270,7 +1270,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetNumChaseCars(param0);
+        Impl_SetNumChaseCars(param0);
         return true;
     }
 
@@ -1292,7 +1292,7 @@ namespace Donut
         if (!Commands::StringToInt(splits[6], param6)) return false;
         const auto& param7 = (numParams > 7) ? splits[7] : "";
 
-        AddNPCCharacterBonusMission(param0, param1, param2, param3, param4, param5, param6, param7);
+        Impl_AddNPCCharacterBonusMission(param0, param1, param2, param3, param4, param5, param6, param7);
         return true;
     }
 
@@ -1307,7 +1307,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AddBonusMissionNPCWaypoint(param0, param1);
+        Impl_AddBonusMissionNPCWaypoint(param0, param1);
         return true;
     }
 
@@ -1324,7 +1324,7 @@ namespace Donut
         float param2;
         if (!Commands::StringToFloat(splits[2], param2)) return false;
 
-        AddAmbientCharacter(param0, param1, param2);
+        Impl_AddAmbientCharacter(param0, param1, param2);
         return true;
     }
 
@@ -1339,7 +1339,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AddAmbientNPCWaypoint(param0, param1);
+        Impl_AddAmbientNPCWaypoint(param0, param1);
         return true;
     }
 
@@ -1359,7 +1359,7 @@ namespace Donut
         if (!Commands::StringToFloat(splits[4], param4)) return false;
         const auto& param5 = splits[5];
 
-        AddPurchaseCarReward(param0, param1, param2, param3, param4, param5);
+        Impl_AddPurchaseCarReward(param0, param1, param2, param3, param4, param5);
         return true;
     }
 
@@ -1374,7 +1374,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AddPurchaseCarNPCWaypoint(param0, param1);
+        Impl_AddPurchaseCarNPCWaypoint(param0, param1);
         return true;
     }
 
@@ -1389,7 +1389,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        CreateTrafficGroup(param0);
+        Impl_CreateTrafficGroup(param0);
         return true;
     }
 
@@ -1408,7 +1408,7 @@ namespace Donut
         if (numParams > 2)
             if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        AddTrafficModel(param0, param1, param2);
+        Impl_AddTrafficModel(param0, param1, param2);
         return true;
     }
 
@@ -1423,7 +1423,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        CloseTrafficGroup(param0);
+        Impl_CloseTrafficGroup(param0);
         return true;
     }
 
@@ -1438,7 +1438,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        CreatePedGroup(param0);
+        Impl_CreatePedGroup(param0);
         return true;
     }
 
@@ -1454,7 +1454,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        AddPed(param0, param1);
+        Impl_AddPed(param0, param1);
         return true;
     }
 
@@ -1469,7 +1469,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        ClosePedGroup(param0);
+        Impl_ClosePedGroup(param0);
         return true;
     }
 
@@ -1484,7 +1484,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        PreallocateActors(param0, param1);
+        Impl_PreallocateActors(param0, param1);
         return true;
     }
 
@@ -1500,7 +1500,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        SetProjectileStats(param0, param1, param2);
+        Impl_SetProjectileStats(param0, param1, param2);
         return true;
     }
 
@@ -1519,7 +1519,7 @@ namespace Donut
         const auto& param4 = splits[4];
         const auto& param5 = splits[5];
 
-        AddSpawnPointByLocatorScript(param0, param1, param2, param3, param4, param5);
+        Impl_AddSpawnPointByLocatorScript(param0, param1, param2, param3, param4, param5);
         return true;
     }
 
@@ -1539,7 +1539,7 @@ namespace Donut
         const auto& param5 = (numParams > 5) ? splits[5] : "";
         const auto& param6 = (numParams > 6) ? splits[6] : "";
 
-        AddBehaviour(param0, param1, param2, param3, param4, param5, param6);
+        Impl_AddBehaviour(param0, param1, param2, param3, param4, param5, param6);
         return true;
     }
 
@@ -1554,7 +1554,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetActorRotationSpeed(param0, param1);
+        Impl_SetActorRotationSpeed(param0, param1);
         return true;
     }
 
@@ -1568,7 +1568,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetAnimatedCameraName(param0);
+        Impl_SetAnimatedCameraName(param0);
         return true;
     }
 
@@ -1582,7 +1582,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetAnimCamMulticontName(param0);
+        Impl_SetAnimCamMulticontName(param0);
         return true;
     }
 
@@ -1597,7 +1597,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetCoinFee(param0);
+        Impl_SetCoinFee(param0);
         return true;
     }
 
@@ -1612,7 +1612,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        PutMFPlayerInCar(param0);
+        Impl_PutMFPlayerInCar(param0);
         return true;
     }
 
@@ -1627,7 +1627,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        StartCountdown(param0, param1);
+        Impl_StartCountdown(param0, param1);
         return true;
     }
 
@@ -1643,7 +1643,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        AddToCountdownSequence(param0, param1);
+        Impl_AddToCountdownSequence(param0, param1);
         return true;
     }
 
@@ -1658,7 +1658,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        UseElapsedTime(param0);
+        Impl_UseElapsedTime(param0);
         return true;
     }
 
@@ -1673,7 +1673,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetRaceEnteryFee(param0);
+        Impl_SetRaceEnteryFee(param0);
         return true;
     }
 
@@ -1688,7 +1688,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetParTime(param0);
+        Impl_SetParTime(param0);
         return true;
     }
 
@@ -1703,7 +1703,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetCondMinHealth(param0);
+        Impl_SetCondMinHealth(param0);
         return true;
     }
 
@@ -1717,7 +1717,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetCondTargetVehicle(param0);
+        Impl_SetCondTargetVehicle(param0);
         return true;
     }
 
@@ -1732,7 +1732,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetCondTime(param0);
+        Impl_SetCondTime(param0);
         return true;
     }
 
@@ -1746,7 +1746,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        AddBonusMission(param0);
+        Impl_AddBonusMission(param0);
         return true;
     }
 
@@ -1767,7 +1767,7 @@ namespace Donut
         if (!Commands::StringToFloat(splits[3], param3)) return false;
         const auto& param4 = splits[4];
 
-        AddTeleportDest(param0, param1, param2, param3, param4);
+        Impl_AddTeleportDest(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -1783,7 +1783,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        AddVehicleSelectInfo(param0, param1, param2);
+        Impl_AddVehicleSelectInfo(param0, param1, param2);
         return true;
     }
 
@@ -1797,7 +1797,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SuppressDriver(param0);
+        Impl_SuppressDriver(param0);
         return true;
     }
 
@@ -1814,7 +1814,7 @@ namespace Donut
         const auto& param2 = splits[2];
         const auto& param3 = splits[3];
 
-        SetBonusMissionDialoguePos(param0, param1, param2, param3);
+        Impl_SetBonusMissionDialoguePos(param0, param1, param2, param3);
         return true;
     }
 
@@ -1831,7 +1831,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = (numParams > 2) ? splits[2] : "";
 
-        SetConversationCam(param0, param1, param2);
+        Impl_SetConversationCam(param0, param1, param2);
         return true;
     }
 
@@ -1845,7 +1845,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        ClearAmbientAnimations(param0);
+        Impl_ClearAmbientAnimations(param0);
         return true;
     }
 
@@ -1860,7 +1860,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        AddAmbientNpcAnimation(param0, param1);
+        Impl_AddAmbientNpcAnimation(param0, param1);
         return true;
     }
 
@@ -1875,7 +1875,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        AddAmbientPcAnimation(param0, param1);
+        Impl_AddAmbientPcAnimation(param0, param1);
         return true;
     }
 
@@ -1889,7 +1889,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetCoinDrawable(param0);
+        Impl_SetCoinDrawable(param0);
         return true;
     }
 
@@ -1906,7 +1906,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        AmbientAnimationRandomize(param0, param1);
+        Impl_AmbientAnimationRandomize(param0, param1);
         return true;
     }
 
@@ -1921,7 +1921,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        TurnGotoDialogOff(param0);
+        Impl_TurnGotoDialogOff(param0);
         return true;
     }
 
@@ -1936,7 +1936,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        SetCompletionDialog(param0, param1);
+        Impl_SetCompletionDialog(param0, param1);
         return true;
     }
 
@@ -1951,7 +1951,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetMissionResetPlayerOutCar(param0, param1);
+        Impl_SetMissionResetPlayerOutCar(param0, param1);
         return true;
     }
 
@@ -1965,7 +1965,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetMissionStartCameraName(param0);
+        Impl_SetMissionStartCameraName(param0);
         return true;
     }
 
@@ -1979,7 +1979,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetMissionStartMulticontName(param0);
+        Impl_SetMissionStartMulticontName(param0);
         return true;
     }
 
@@ -1993,7 +1993,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetInitialWalk(param0);
+        Impl_SetInitialWalk(param0);
         return true;
     }
 
@@ -2012,7 +2012,7 @@ namespace Donut
         if (numParams > 3)
             if (!Commands::StringToInt(splits[3], param3)) return false;
 
-        SetDialoguePositions(param0, param1, param2, param3);
+        Impl_SetDialoguePositions(param0, param1, param2, param3);
         return true;
     }
 
@@ -2028,7 +2028,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        ActivateVehicle(param0, param1, param2);
+        Impl_ActivateVehicle(param0, param1, param2);
         return true;
     }
 
@@ -2043,7 +2043,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetStageMusicAlwaysOn(param0);
+        Impl_SetStageMusicAlwaysOn(param0);
         return true;
     }
 
@@ -2058,7 +2058,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetNumValidFailureHints(param0);
+        Impl_SetNumValidFailureHints(param0);
         return true;
     }
 
@@ -2076,7 +2076,7 @@ namespace Donut
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        SetVehicleAIParams(param0, param1, param2);
+        Impl_SetVehicleAIParams(param0, param1, param2);
         return true;
     }
 
@@ -2090,7 +2090,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        StageStartMusicEvent(param0);
+        Impl_StageStartMusicEvent(param0);
         return true;
     }
 
@@ -2104,7 +2104,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        AllowMissionAbort(param0);
+        Impl_AllowMissionAbort(param0);
         return true;
     }
 
@@ -2119,7 +2119,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        MustActionTrigger(param0);
+        Impl_MustActionTrigger(param0);
         return true;
     }
 
@@ -2137,7 +2137,7 @@ namespace Donut
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        SetStageAITargetCatchupParams(param0, param1, param2);
+        Impl_SetStageAITargetCatchupParams(param0, param1, param2);
         return true;
     }
 
@@ -2154,7 +2154,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        SetFollowDistances(param0, param1);
+        Impl_SetFollowDistances(param0, param1);
         return true;
     }
 
@@ -2169,7 +2169,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetFadeOut(param0);
+        Impl_SetFadeOut(param0);
         return true;
     }
 
@@ -2184,7 +2184,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        StayInBlack(param0);
+        Impl_StayInBlack(param0);
         return true;
     }
 
@@ -2202,7 +2202,7 @@ namespace Donut
         const auto& param3 = splits[3];
         const auto& param4 = splits[4];
 
-        AddStageCharacter(param0, param1, param2, param3, param4);
+        Impl_AddStageCharacter(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -2217,7 +2217,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetDurationTime(param0);
+        Impl_SetDurationTime(param0);
         return true;
     }
 
@@ -2232,7 +2232,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        SetFMVInfo(param0, param1);
+        Impl_SetFMVInfo(param0, param1);
         return true;
     }
 
@@ -2247,7 +2247,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetForcedCar(param0);
+        Impl_SetForcedCar(param0);
         return true;
     }
 
@@ -2262,7 +2262,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SwapInDefaultCar(param0);
+        Impl_SwapInDefaultCar(param0);
         return true;
     }
 
@@ -2276,7 +2276,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetSwapDefaultCarLocator(param0);
+        Impl_SetSwapDefaultCarLocator(param0);
         return true;
     }
 
@@ -2290,7 +2290,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetSwapForcedCarLocator(param0);
+        Impl_SetSwapForcedCarLocator(param0);
         return true;
     }
 
@@ -2304,7 +2304,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetSwapPlayerLocator(param0);
+        Impl_SetSwapPlayerLocator(param0);
         return true;
     }
 
@@ -2318,7 +2318,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        StreetRacePropsLoad(param0);
+        Impl_StreetRacePropsLoad(param0);
         return true;
     }
 
@@ -2332,7 +2332,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        StreetRacePropsUnload(param0);
+        Impl_StreetRacePropsUnload(param0);
         return true;
     }
 
@@ -2354,7 +2354,7 @@ namespace Donut
         float param4;
         if (!Commands::StringToFloat(splits[4], param4)) return false;
 
-        SetStageAIRaceCatchupParams(param0, param1, param2, param3, param4);
+        Impl_SetStageAIRaceCatchupParams(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -2369,7 +2369,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        DisableHitAndRun(param0);
+        Impl_DisableHitAndRun(param0);
         return true;
     }
 
@@ -2384,7 +2384,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        NoTrafficForStage(param0);
+        Impl_NoTrafficForStage(param0);
         return true;
     }
 
@@ -2399,7 +2399,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetConditionPosition(param0);
+        Impl_SetConditionPosition(param0);
         return true;
     }
 
@@ -2415,7 +2415,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        AddSafeZone(param0, param1);
+        Impl_AddSafeZone(param0, param1);
         return true;
     }
 
@@ -2434,7 +2434,7 @@ namespace Donut
         if (!Commands::StringToInt(splits[3], param3)) return false;
         const auto& param4 = splits[4];
 
-        AddGagBinding(param0, param1, param2, param3, param4);
+        Impl_AddGagBinding(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -2448,7 +2448,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetPostLevelFMV(param0);
+        Impl_SetPostLevelFMV(param0);
         return true;
     }
 
@@ -2463,7 +2463,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetHitNRun(param0);
+        Impl_SetHitNRun(param0);
         return true;
     }
 
@@ -2478,7 +2478,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetObjDistance(param0);
+        Impl_SetObjDistance(param0);
         return true;
     }
 
@@ -2493,7 +2493,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetMusicState(param0, param1);
+        Impl_SetMusicState(param0, param1);
         return true;
     }
 
@@ -2508,7 +2508,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetIrisWipe(param0);
+        Impl_SetIrisWipe(param0);
         return true;
     }
 
@@ -2522,7 +2522,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        RemoveDriver(param0);
+        Impl_RemoveDriver(param0);
         return true;
     }
 
@@ -2536,7 +2536,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        RemoveNPC(param0);
+        Impl_RemoveNPC(param0);
         return true;
     }
 
@@ -2551,7 +2551,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AddDriver(param0, param1);
+        Impl_AddDriver(param0, param1);
         return true;
     }
 
@@ -2565,7 +2565,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetCharacterToHide(param0);
+        Impl_SetCharacterToHide(param0);
         return true;
     }
 
@@ -2580,7 +2580,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetLevelOver(param0);
+        Impl_SetLevelOver(param0);
         return true;
     }
 
@@ -2598,7 +2598,7 @@ namespace Donut
         const auto& param3 = splits[3];
         const auto& param4 = splits[4];
 
-        GagCheckCollCards(param0, param1, param2, param3, param4);
+        Impl_GagCheckCollCards(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -2615,7 +2615,7 @@ namespace Donut
         const auto& param2 = splits[2];
         const auto& param3 = splits[3];
 
-        GagCheckMovie(param0, param1, param2, param3);
+        Impl_GagCheckMovie(param0, param1, param2, param3);
         return true;
     }
 
@@ -2632,7 +2632,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        GagSetSoundLoadDistances(param0, param1);
+        Impl_GagSetSoundLoadDistances(param0, param1);
         return true;
     }
 
@@ -2649,7 +2649,7 @@ namespace Donut
         int32_t param1;
         if (!Commands::StringToInt(splits[1], param1)) return false;
 
-        BindCollectibleTo(param0, param1);
+        Impl_BindCollectibleTo(param0, param1);
         return true;
     }
 
@@ -2664,7 +2664,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AddShield(param0, param1);
+        Impl_AddShield(param0, param1);
         return true;
     }
 
@@ -2679,7 +2679,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetStatepropShadow(param0, param1);
+        Impl_SetStatepropShadow(param0, param1);
         return true;
     }
 
@@ -2696,7 +2696,7 @@ namespace Donut
         const auto& param2 = splits[2];
         const auto& param3 = splits[3];
 
-        AddFlyingActorByLocator(param0, param1, param2, param3);
+        Impl_AddFlyingActorByLocator(param0, param1, param2, param3);
         return true;
     }
 
@@ -2713,7 +2713,7 @@ namespace Donut
         int32_t param2;
         if (!Commands::StringToInt(splits[2], param2)) return false;
 
-        AddCollectibleStateProp(param0, param1, param2);
+        Impl_AddCollectibleStateProp(param0, param1, param2);
         return true;
     }
 
@@ -2727,7 +2727,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetPickupTarget(param0);
+        Impl_SetPickupTarget(param0);
         return true;
     }
 
@@ -2741,7 +2741,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetObjTargetBoss(param0);
+        Impl_SetObjTargetBoss(param0);
         return true;
     }
 
@@ -2756,7 +2756,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        AllowRockOut(param0);
+        Impl_AllowRockOut(param0);
         return true;
     }
 
@@ -2770,7 +2770,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        ShowHUD(param0);
+        Impl_ShowHUD(param0);
         return true;
     }
 
@@ -2785,7 +2785,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetGameOver(param0);
+        Impl_SetGameOver(param0);
         return true;
     }
 
@@ -2800,7 +2800,7 @@ namespace Donut
         if (numParams > 0)
             if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        GoToPsScreenWhenDone(param0);
+        Impl_GoToPsScreenWhenDone(param0);
         return true;
     }
 
@@ -2815,7 +2815,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetMass(param0);
+        Impl_SetMass(param0);
         return true;
     }
 
@@ -2830,7 +2830,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetGasScale(param0);
+        Impl_SetGasScale(param0);
         return true;
     }
 
@@ -2845,7 +2845,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetSlipGasScale(param0);
+        Impl_SetSlipGasScale(param0);
         return true;
     }
 
@@ -2860,7 +2860,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetBrakeScale(param0);
+        Impl_SetBrakeScale(param0);
         return true;
     }
 
@@ -2875,7 +2875,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetTopSpeedKmh(param0);
+        Impl_SetTopSpeedKmh(param0);
         return true;
     }
 
@@ -2890,7 +2890,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetMaxWheelTurnAngle(param0);
+        Impl_SetMaxWheelTurnAngle(param0);
         return true;
     }
 
@@ -2905,7 +2905,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetHighSpeedSteeringDrop(param0);
+        Impl_SetHighSpeedSteeringDrop(param0);
         return true;
     }
 
@@ -2920,7 +2920,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetTireGrip(param0);
+        Impl_SetTireGrip(param0);
         return true;
     }
 
@@ -2935,7 +2935,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetNormalSteering(param0);
+        Impl_SetNormalSteering(param0);
         return true;
     }
 
@@ -2950,7 +2950,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetSlipSteering(param0);
+        Impl_SetSlipSteering(param0);
         return true;
     }
 
@@ -2965,7 +2965,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetEBrakeEffect(param0);
+        Impl_SetEBrakeEffect(param0);
         return true;
     }
 
@@ -2980,7 +2980,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetSlipSteeringNoEBrake(param0);
+        Impl_SetSlipSteeringNoEBrake(param0);
         return true;
     }
 
@@ -2995,7 +2995,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetSlipEffectNoEBrake(param0);
+        Impl_SetSlipEffectNoEBrake(param0);
         return true;
     }
 
@@ -3010,7 +3010,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetCMOffsetX(param0);
+        Impl_SetCMOffsetX(param0);
         return true;
     }
 
@@ -3025,7 +3025,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetCMOffsetY(param0);
+        Impl_SetCMOffsetY(param0);
         return true;
     }
 
@@ -3040,7 +3040,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetCMOffsetZ(param0);
+        Impl_SetCMOffsetZ(param0);
         return true;
     }
 
@@ -3055,7 +3055,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetSuspensionLimit(param0);
+        Impl_SetSuspensionLimit(param0);
         return true;
     }
 
@@ -3070,7 +3070,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetSpringK(param0);
+        Impl_SetSpringK(param0);
         return true;
     }
 
@@ -3085,7 +3085,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetDamperC(param0);
+        Impl_SetDamperC(param0);
         return true;
     }
 
@@ -3100,7 +3100,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetSuspensionYOffset(param0);
+        Impl_SetSuspensionYOffset(param0);
         return true;
     }
 
@@ -3115,7 +3115,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetHitPoints(param0);
+        Impl_SetHitPoints(param0);
         return true;
     }
 
@@ -3130,7 +3130,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetBurnoutRange(param0);
+        Impl_SetBurnoutRange(param0);
         return true;
     }
 
@@ -3145,7 +3145,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetMaxSpeedBurstTime(param0);
+        Impl_SetMaxSpeedBurstTime(param0);
         return true;
     }
 
@@ -3160,7 +3160,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetDonutTorque(param0);
+        Impl_SetDonutTorque(param0);
         return true;
     }
 
@@ -3175,7 +3175,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetWeebleOffset(param0);
+        Impl_SetWeebleOffset(param0);
         return true;
     }
 
@@ -3190,7 +3190,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetWheelieRange(param0);
+        Impl_SetWheelieRange(param0);
         return true;
     }
 
@@ -3205,7 +3205,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetWheelieOffsetY(param0);
+        Impl_SetWheelieOffsetY(param0);
         return true;
     }
 
@@ -3220,7 +3220,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetWheelieOffsetZ(param0);
+        Impl_SetWheelieOffsetZ(param0);
         return true;
     }
 
@@ -3249,7 +3249,7 @@ namespace Donut
         float param7;
         if (!Commands::StringToFloat(splits[7], param7)) return false;
 
-        SetShadowAdjustments(param0, param1, param2, param3, param4, param5, param6, param7);
+        Impl_SetShadowAdjustments(param0, param1, param2, param3, param4, param5, param6, param7);
         return true;
     }
 
@@ -3264,7 +3264,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetCharactersVisible(param0);
+        Impl_SetCharactersVisible(param0);
         return true;
     }
 
@@ -3279,7 +3279,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetIrisTransition(param0);
+        Impl_SetIrisTransition(param0);
         return true;
     }
 
@@ -3294,7 +3294,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetCharacterScale(param0);
+        Impl_SetCharacterScale(param0);
         return true;
     }
 
@@ -3309,7 +3309,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetGamblingOdds(param0);
+        Impl_SetGamblingOdds(param0);
         return true;
     }
 
@@ -3323,7 +3323,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetDriver(param0);
+        Impl_SetDriver(param0);
         return true;
     }
 
@@ -3338,7 +3338,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetHasDoors(param0);
+        Impl_SetHasDoors(param0);
         return true;
     }
 
@@ -3353,7 +3353,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetShininess(param0);
+        Impl_SetShininess(param0);
         return true;
     }
 
@@ -3368,7 +3368,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetHighRoof(param0);
+        Impl_SetHighRoof(param0);
         return true;
     }
 
@@ -3383,7 +3383,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetHighSpeedGasScale(param0);
+        Impl_SetHighSpeedGasScale(param0);
         return true;
     }
 
@@ -3398,7 +3398,7 @@ namespace Donut
         float param0;
         if (!Commands::StringToFloat(splits[0], param0)) return false;
 
-        SetGasScaleSpeedThreshold(param0);
+        Impl_SetGasScaleSpeedThreshold(param0);
         return true;
     }
 
@@ -3413,7 +3413,7 @@ namespace Donut
         int32_t param0;
         if (!Commands::StringToInt(splits[0], param0)) return false;
 
-        SetAllowSeatSlide(param0);
+        Impl_SetAllowSeatSlide(param0);
         return true;
     }
 
@@ -3429,7 +3429,7 @@ namespace Donut
         const auto& param1 = (numParams > 1) ? splits[1] : "";
         const auto& param2 = (numParams > 2) ? splits[2] : "";
 
-        ClearVehicleSelectInfo(param0, param1, param2);
+        Impl_ClearVehicleSelectInfo(param0, param1, param2);
         return true;
     }
 
@@ -3447,7 +3447,7 @@ namespace Donut
         const auto& param3 = splits[3];
         const auto& param4 = splits[4];
 
-        AddFlyingActor(param0, param1, param2, param3, param4);
+        Impl_AddFlyingActor(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -3464,7 +3464,7 @@ namespace Donut
         const auto& param2 = splits[2];
         const auto& param3 = splits[3];
 
-        SetCollisionAttributes(param0, param1, param2, param3);
+        Impl_SetCollisionAttributes(param0, param1, param2, param3);
         return true;
     }
 
@@ -3485,7 +3485,7 @@ namespace Donut
         const auto& param6 = splits[6];
         const auto& param7 = splits[7];
 
-        AddSpawnPoint(param0, param1, param2, param3, param4, param5, param6, param7);
+        Impl_AddSpawnPoint(param0, param1, param2, param3, param4, param5, param6, param7);
         return true;
     }
 
@@ -3499,7 +3499,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        GagSetWeight(param0);
+        Impl_GagSetWeight(param0);
         return true;
     }
 
@@ -3514,7 +3514,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        GagSetLoadDistances(param0, param1);
+        Impl_GagSetLoadDistances(param0, param1);
         return true;
     }
 
@@ -3529,7 +3529,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetTotalWasps(param0, param1);
+        Impl_SetTotalWasps(param0, param1);
         return true;
     }
 
@@ -3543,7 +3543,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        AddGlobalProp(param0);
+        Impl_AddGlobalProp(param0);
         return true;
     }
 
@@ -3556,7 +3556,7 @@ namespace Donut
 
         const auto& param0 = (numParams > 0) ? splits[0] : "";
 
-        EnableHitAndRun(param0);
+        Impl_EnableHitAndRun(param0);
         return true;
     }
 
@@ -3570,7 +3570,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetHitAndRunMeter(param0);
+        Impl_SetHitAndRunMeter(param0);
         return true;
     }
 
@@ -3585,7 +3585,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetChaseSpawnRate(param0, param1);
+        Impl_SetChaseSpawnRate(param0, param1);
         return true;
     }
 
@@ -3599,7 +3599,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        KillAllChaseAI(param0);
+        Impl_KillAllChaseAI(param0);
         return true;
     }
 
@@ -3612,7 +3612,7 @@ namespace Donut
 
         const auto& param0 = (numParams > 0) ? splits[0] : "";
 
-        ResetHitAndRun(param0);
+        Impl_ResetHitAndRun(param0);
         return true;
     }
 
@@ -3626,7 +3626,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetHitAndRunDecayInterior(param0);
+        Impl_SetHitAndRunDecayInterior(param0);
         return true;
     }
 
@@ -3640,7 +3640,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetMissionNameIndex(param0);
+        Impl_SetMissionNameIndex(param0);
         return true;
     }
 
@@ -3655,7 +3655,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = (numParams > 1) ? splits[1] : "";
 
-        AddBonusObjective(param0, param1);
+        Impl_AddBonusObjective(param0, param1);
         return true;
     }
 
@@ -3670,7 +3670,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        AttachStatePropCollectible(param0, param1);
+        Impl_AttachStatePropCollectible(param0, param1);
         return true;
     }
 
@@ -3686,7 +3686,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        MoveStageVehicle(param0, param1, param2);
+        Impl_MoveStageVehicle(param0, param1, param2);
         return true;
     }
 
@@ -3702,7 +3702,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        SetStageCamera(param0, param1, param2);
+        Impl_SetStageCamera(param0, param1, param2);
         return true;
     }
 
@@ -3715,7 +3715,7 @@ namespace Donut
 
         const auto& param0 = (numParams > 0) ? splits[0] : "";
 
-        SetBonusMissionStart(param0);
+        Impl_SetBonusMissionStart(param0);
         return true;
     }
 
@@ -3729,7 +3729,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        PlacePlayerAtLocatorName(param0);
+        Impl_PlacePlayerAtLocatorName(param0);
         return true;
     }
 
@@ -3743,7 +3743,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        msPlacePlayerCarAtLocatorName(param0);
+        Impl_msPlacePlayerCarAtLocatorName(param0);
         return true;
     }
 
@@ -3756,7 +3756,7 @@ namespace Donut
 
         const auto& param0 = (numParams > 0) ? splits[0] : "";
 
-        ClearTrafficForStage(param0);
+        Impl_ClearTrafficForStage(param0);
         return true;
     }
 
@@ -3772,7 +3772,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        SetStageAIEvadeCatchupParams(param0, param1, param2);
+        Impl_SetStageAIEvadeCatchupParams(param0, param1, param2);
         return true;
     }
 
@@ -3785,7 +3785,7 @@ namespace Donut
 
         const auto& param0 = (numParams > 0) ? splits[0] : "";
 
-        AllowUserDump(param0);
+        Impl_AllowUserDump(param0);
         return true;
     }
 
@@ -3801,7 +3801,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        SetVehicleToLoad(param0, param1, param2);
+        Impl_SetVehicleToLoad(param0, param1, param2);
         return true;
     }
 
@@ -3815,7 +3815,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetConversationCamName(param0);
+        Impl_SetConversationCamName(param0);
         return true;
     }
 
@@ -3829,7 +3829,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetConversationCamPcName(param0);
+        Impl_SetConversationCamPcName(param0);
         return true;
     }
 
@@ -3843,7 +3843,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetConversationCamNpcName(param0);
+        Impl_SetConversationCamNpcName(param0);
         return true;
     }
 
@@ -3858,7 +3858,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetConversationCamDistance(param0, param1);
+        Impl_SetConversationCamDistance(param0, param1);
         return true;
     }
 
@@ -3872,7 +3872,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        CharacterIsChild(param0);
+        Impl_CharacterIsChild(param0);
         return true;
     }
 
@@ -3886,7 +3886,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        SetCarStartCamera(param0);
+        Impl_SetCarStartCamera(param0);
         return true;
     }
 
@@ -3901,7 +3901,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetPlayerCarName(param0, param1);
+        Impl_SetPlayerCarName(param0, param1);
         return true;
     }
 
@@ -3916,7 +3916,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        SetRespawnRate(param0, param1);
+        Impl_SetRespawnRate(param0, param1);
         return true;
     }
 
@@ -3930,7 +3930,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        ActivateTrigger(param0);
+        Impl_ActivateTrigger(param0);
         return true;
     }
 
@@ -3944,7 +3944,7 @@ namespace Donut
 
         const auto& param0 = splits[0];
 
-        DeactivateTrigger(param0);
+        Impl_DeactivateTrigger(param0);
         return true;
     }
 
@@ -3959,7 +3959,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        CreateAnimPhysObject(param0, param1);
+        Impl_CreateAnimPhysObject(param0, param1);
         return true;
     }
 
@@ -3977,7 +3977,7 @@ namespace Donut
         const auto& param3 = splits[3];
         const auto& param4 = splits[4];
 
-        CreateActionEventTrigger(param0, param1, param2, param3, param4);
+        Impl_CreateActionEventTrigger(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -3995,7 +3995,7 @@ namespace Donut
         const auto& param3 = splits[3];
         const auto& param4 = splits[4];
 
-        LinkActionToObjectJoint(param0, param1, param2, param3, param4);
+        Impl_LinkActionToObjectJoint(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -4013,7 +4013,7 @@ namespace Donut
         const auto& param3 = splits[3];
         const auto& param4 = splits[4];
 
-        LinkActionToObject(param0, param1, param2, param3, param4);
+        Impl_LinkActionToObject(param0, param1, param2, param3, param4);
         return true;
     }
 
@@ -4029,7 +4029,7 @@ namespace Donut
         const auto& param1 = splits[1];
         const auto& param2 = splits[2];
 
-        SetCharacterPosition(param0, param1, param2);
+        Impl_SetCharacterPosition(param0, param1, param2);
         return true;
     }
 
@@ -4044,7 +4044,7 @@ namespace Donut
         const auto& param0 = splits[0];
         const auto& param1 = splits[1];
 
-        ResetCharacter(param0, param1);
+        Impl_ResetCharacter(param0, param1);
         return true;
     }
 
