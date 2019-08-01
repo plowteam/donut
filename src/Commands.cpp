@@ -13,7 +13,7 @@ namespace Donut
     static void SetMissionResetPlayerInCar(const std::string& param0) {}
     static void SetDynaLoadData(const std::string& param0, const std::string& param1 = "") {}
     static void UsePedGroup(int32_t param0) {}
-    static void AddStage(int32_t param0, const std::string& param1 = "", const std::string& param2 = "") {}
+    static void AddStage(const std::string& param0 = "", const std::string& param1 = "", const std::string& param2 = "") {}
     static void SetPresentationBitmap(const std::string& param0) {}
     static void SetStageMessageIndex(int32_t param0, const std::string& param1 = "") {}
     static void AddObjective(const std::string& param0, const std::string& param1 = "", const std::string& param2 = "") {}
@@ -27,7 +27,7 @@ namespace Donut
     static void AddCondition(const std::string& param0, const std::string& param1 = "") {}
     static void CloseCondition(int32_t param0 = 0) {}
     static void ShowStageComplete(int32_t param0 = 0) {}
-    static void AddNPC(const std::string& param0, const std::string& param1, int32_t param2 = 0) {}
+    static void AddNPC(const std::string& param0, const std::string& param1, const std::string& param2 = "") {}
     static void SetDestination(const std::string& param0, const std::string& param1 = "") {}
     static void SetCollectibleEffect(const std::string& param0) {}
     static void AddStageTime(int32_t param0) {}
@@ -62,7 +62,7 @@ namespace Donut
     static void GagSetOutro(int32_t param0) {}
     static void GagSetCameraShake(float param0, int32_t param1, float param2) {}
     static void GagPlayFMV(const std::string& param0) {}
-    static void EnableTutorialMode(int32_t param0) {}
+    static void EnableTutorialMode(const std::string& param0) {}
     static void InitLevelPlayerVehicle(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3 = "") {}
     static void AddCharacter(const std::string& param0, const std::string& param1) {}
     static void CreateChaseManager(const std::string& param0, const std::string& param1, int32_t param2) {}
@@ -89,7 +89,7 @@ namespace Donut
     static void SetAnimCamMulticontName(const std::string& param0) {}
     static void SetCoinFee(int32_t param0) {}
     static void PutMFPlayerInCar(int32_t param0 = 0) {}
-    static void StartCountdown(int32_t param0, const std::string& param1 = "") {}
+    static void StartCountdown(const std::string& param0, const std::string& param1 = "") {}
     static void AddToCountdownSequence(const std::string& param0, int32_t param1) {}
     static void UseElapsedTime(int32_t param0 = 0) {}
     static void SetRaceEnteryFee(int32_t param0) {}
@@ -486,7 +486,7 @@ namespace Donut
 
     static bool Command_AddStage(const std::string& params)
     {
-        int32_t param0 = 0;
+        std::string param0 = "";
         std::string param1 = "";
         std::string param2 = "";
 
@@ -499,13 +499,13 @@ namespace Donut
 
             switch (paramIndex)
             {
-                case 0: { if (!ScriptParser::TryReadInt(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
+                case 0: { if (!ScriptParser::TryReadString(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
                 case 1: { if (!ScriptParser::TryReadString(&params[i], length - i, param1, i)) return false; paramIndex++; break; }
                 case 2: { if (!ScriptParser::TryReadString(&params[i], length - i, param2, i)) return false; paramIndex++; break; }
             }
         }
 
-        if (paramIndex < 1) return false;
+        if (paramIndex < 0) return false;
 
         AddStage(param0, param1, param2);
         return true;
@@ -828,7 +828,7 @@ namespace Donut
     {
         std::string param0 = "";
         std::string param1 = "";
-        int32_t param2 = 0;
+        std::string param2 = "";
 
         size_t paramIndex = 0;
         size_t length = params.length();
@@ -841,7 +841,7 @@ namespace Donut
             {
                 case 0: { if (!ScriptParser::TryReadString(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
                 case 1: { if (!ScriptParser::TryReadString(&params[i], length - i, param1, i)) return false; paramIndex++; break; }
-                case 2: { if (!ScriptParser::TryReadInt(&params[i], length - i, param2, i)) return false; paramIndex++; break; }
+                case 2: { if (!ScriptParser::TryReadString(&params[i], length - i, param2, i)) return false; paramIndex++; break; }
             }
         }
 
@@ -1677,7 +1677,7 @@ namespace Donut
 
     static bool Command_EnableTutorialMode(const std::string& params)
     {
-        int32_t param0 = 0;
+        std::string param0 = "";
 
         size_t paramIndex = 0;
         size_t length = params.length();
@@ -1688,7 +1688,7 @@ namespace Donut
 
             switch (paramIndex)
             {
-                case 0: { if (!ScriptParser::TryReadInt(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
+                case 0: { if (!ScriptParser::TryReadString(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
             }
         }
 
@@ -2380,7 +2380,7 @@ namespace Donut
 
     static bool Command_StartCountdown(const std::string& params)
     {
-        int32_t param0 = 0;
+        std::string param0 = "";
         std::string param1 = "";
 
         size_t paramIndex = 0;
@@ -2392,7 +2392,7 @@ namespace Donut
 
             switch (paramIndex)
             {
-                case 0: { if (!ScriptParser::TryReadInt(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
+                case 0: { if (!ScriptParser::TryReadString(&params[i], length - i, param0, i)) return false; paramIndex++; break; }
                 case 1: { if (!ScriptParser::TryReadString(&params[i], length - i, param1, i)) return false; paramIndex++; break; }
             }
         }

@@ -109,7 +109,7 @@ std::string File::ReadString(std::size_t length)
 std::string File::ReadLine()
 {
 	std::string line;
-	for (size_t i = 0; i < _size; ++i)
+	for (size_t i = Position(); i < _size; ++i)
 	{
 		auto c = Read<char>();
 		if (c == '\r') continue;

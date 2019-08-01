@@ -50,12 +50,18 @@ namespace Donut
 			}));
 		}
 
-		static void RunScript(const std::string& filename)
+		static inline void rtrim(std::string &s) {
+			s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+				return !std::isspace(ch);
+			}).base(), s.end());
+		}
+
+		static bool RunScript(const std::string& filename)
 		{
 			if (!std::filesystem::exists(filename))
 			{
 				std::cout << "Script not found: " << filename << "\n";
-				return;
+				return false;
 			}
 
 			File file;
@@ -65,12 +71,13 @@ namespace Donut
 			std::vector<std::string> lines;
 			int32_t commandsRun = 0;
 
-			while (!file.IsEOF())
+			while (file.Position() < file.Size())
 			{
 				auto line = file.ReadLine();
 				if (line.empty() || std::all_of(line.begin(), line.end(), isspace)) continue;
 
 				ltrim(line);
+				rtrim(line);
 				if (line[0] == '/') continue;
 
 				std::size_t end = line.find_last_of(");");
@@ -79,24 +86,33 @@ namespace Donut
 				if (start == -1) continue;
 
 				auto name = line.substr(0, start);
+				ltrim(name);
+				rtrim(name);
+
 				auto params = line.substr(start + 1, (end - start) - 2);
+				ltrim(params);
+				rtrim(params);
 
 				if (Run(name, params))
 				{
 					commandsRun++;
 				}
-				else
-				{
-					Run(name, params);
-					commandsRun = commandsRun;
-				}
 
 				lines.push_back(line);
 			}
 
-			std::cout << fmt::format("Successfully run {0} commands out of {1}", commandsRun, lines.size()) << std::endl;
+			if (commandsRun != lines.size())
+			{
+				std::cout << fmt::format("{0} has {1} failed commands", filename, lines.size() - commandsRun) << std::endl;
+			}
+			else
+			{
+				//std::cout << fmt::format("Successfully run {0} commands out of {1}", commandsRun, lines.size()) << std::endl;
+			}
 
 			file.Close();
+
+			return true;
 		}
 
     private:
@@ -119,14 +135,12 @@ namespace Donut
 			for (size_t i = 0; i < length; ++i, ++pos)
 			{
 				char c = data[i];
-				if (c == ' ' && !open) continue;
+				if ((c == ' ' || c == '\t') && !open) continue;
 				if (c == '"')
 				{
 					if (open) return true;
 					else { open = true; continue; }
 				}
-
-				if (!open) return false;
 
 				value.push_back(c);
 			}
@@ -142,7 +156,7 @@ namespace Donut
 			for (size_t i = 0; i < length; ++i, ++pos)
 			{
 				char c = data[i];
-				if (c == ' ')
+				if (c == ' ' || c == '\t')
 				{
 					if (begin) break;
 					else continue;
@@ -174,11 +188,13 @@ namespace Donut
 			for (size_t i = 0; i < length; ++i, ++pos)
 			{
 				char c = data[i];
-				if (c == ' ')
+				if (c == ' ' || c == '\t')
 				{
 					if (begin) break;
 					else continue;
 				}
+
+				if (!begin && c == ',') continue;
 
 				if (!isdigit(c))
 				{
@@ -210,11 +226,12 @@ namespace Donut
 		{
 			bool isText = false;
 			std::string text;
+			size_t startPos = pos;
 
 			for (size_t i = 0; i < length; ++i, ++pos)
 			{
 				char c = data[i];
-				if (c == ' ')
+				if (c == ' ' || c == '\t')
 				{
 					if (isText) return false;
 					else continue;
@@ -229,10 +246,11 @@ namespace Donut
 
 				if (isdigit(c) || c == '.' || c == '-')
 				{
-					if (!TryReadFloat(data, length, value[0], pos)) return false;
-					if (!TryReadFloat(data, length, value[1], pos)) return false;
-					if (!TryReadFloat(data, length, value[2], pos)) return false;
-
+					float x, y, z;
+					if (!TryReadFloat(&data[pos - startPos], length, x, pos)) return false;
+					if (!TryReadFloat(&data[pos - startPos], length, y, pos)) return false;
+					if (!TryReadFloat(&data[pos - startPos], length, z, pos)) return false;
+					value = glm::vec3(x, y, z);
 					return true;
 				}
 				else
@@ -255,7 +273,7 @@ namespace Donut
 			while (pos < length - 1)
 			{
 				auto c = data[pos];
-				if (c == ' ')
+				if (c == ' ' || c == '\t')
 				{
 					pos++; continue;
 				}
