@@ -24,6 +24,11 @@ if (WIN32)
     option(DONUT_DOWNLOAD_OPENALSOFT "Downloads precompiled OpenAL-Soft binaries and uses those." ON)
 endif()
 
+# Default build type to release
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: Debug Release" FORCE)
+endif()
+
 # Check that all Git submodules are present
 function(check_submodules_present)
     file(READ "${PROJECT_SOURCE_DIR}/.gitmodules" gitmodules)
