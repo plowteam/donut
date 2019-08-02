@@ -11,49 +11,12 @@
 namespace Donut
 {
 
-std::string lvlVertexShader = R"glsl(
-	#version 150 core
-
-	in vec3 position;
-	in vec2 uv;
-	in vec4 color;
-
-	out vec2 texCoord;
-	out vec4 vertColor;
-
-	uniform mat4 viewProj;
-
-	void main()
-	{
-		texCoord = uv;
-		vertColor = color;
-		gl_Position = viewProj * vec4(position, 1.0);
-	}
-)glsl";
-
-std::string lvlFragmentShader = R"glsl(
-	#version 150 core
-
-	uniform sampler2D diffuseTex;
-
-	in vec2 texCoord;
-	in vec4 vertColor;
-
-	out vec4 outColor;
-
-	void main()
-	{
-		vec4 diffuseColor = texture2D(diffuseTex, texCoord);
-		if (diffuseColor.a == 0.0)
-			discard;
-
-        outColor = vec4(diffuseColor.rgb * vertColor.rgb, diffuseColor.a);
-	}
-)glsl";
-
 Level::Level(WorldPhysics* worldPhysics)
 {
-	_worldShader     = std::make_unique<GL::ShaderProgram>(lvlVertexShader, lvlFragmentShader);
+	const auto worldVertSrc = File::ReadAll("shaders/world.vert");
+	const auto worldFragSrc = File::ReadAll("shaders/world.frag");
+
+	_worldShader     = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
 	_resourceManager = std::make_unique<ResourceManager>();
 	_worldPhysics    = worldPhysics;
 
@@ -134,8 +97,6 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::StaticPhysics:
 		{
 			const auto& ent = P3D::StaticPhysics::Load(*chunk);
-			// std::cout << "StaticPhys: " << ent->GetName() << "\n";
-			// std::cout << "\tCollisionObject: " << ent->GetCollisionObject()->GetName() << "\n";
 
 			auto const& volume = ent->GetCollisionObject()->GetVolume();
 			if (volume != nullptr)
@@ -229,14 +190,12 @@ void Level::LoadP3D(const std::string& filename)
 		}
 		case P3D::ChunkType::WorldSphere:
 		{
-			auto worldSphere = P3D::WorldSphere::Load(*chunk);
-			std::cout << "world sphere: " << worldSphere->GetName() << " has " << worldSphere->GetMeshes().size() << " meshes\n";
-			_worldSphere = std::make_unique<WorldSphere>(*worldSphere);
+			_worldSphere = std::make_unique<WorldSphere>(*P3D::WorldSphere::Load(*chunk));
 			break;
 		}
 		case P3D::ChunkType::Locator2:
 		{
-			locators.push_back(std::move(P3D::Locator2::Load(*chunk)));
+			locators.push_back(P3D::Locator2::Load(*chunk));
 			break;
 		}
 		case P3D::ChunkType::FenceWrapper:
