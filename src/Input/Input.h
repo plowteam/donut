@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <map>
 #include <memory>
+#include <string>
 #include "ButtonCodes.h"
 
 namespace Donut
