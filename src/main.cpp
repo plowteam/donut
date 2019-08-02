@@ -23,16 +23,20 @@ int main(int argc, char** argv)
 	             "+---------------------------------------------------+\n"
 	          << std::endl;
 
-	try
-	{
+	#ifdef NDEBUG
+	try {
+	#endif
 		const auto game = std::make_unique<Donut::Game>(argc, argv);
 		game->Run();
+	#ifdef NDEBUG
 	}
 	catch (std::runtime_error& e)
 	{
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal error", e.what(), nullptr);
 		return EXIT_FAILURE;
 	}
+	#endif
+
 	return EXIT_SUCCESS;
 }
 
