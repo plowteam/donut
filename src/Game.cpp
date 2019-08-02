@@ -670,8 +670,6 @@ void Game::Run()
 
 		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 
-		sprites.Begin();
-
 		if (_textureFontP3D != nullptr)
 		{
 			std::string fps = fmt::format("{0} fps", timer.GetFps());
@@ -680,7 +678,7 @@ void Game::Run()
 			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
-		sprites.End(proj);
+		sprites.Flush(proj);
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

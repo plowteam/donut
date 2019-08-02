@@ -2,6 +2,7 @@
 #include <Render/OpenGL/Texture2D.h>
 #include <Render/OpenGL/VertexBuffer.h>
 #include <Render/OpenGL/VertexBinding.h>
+#include <Render/OpenGL/ShaderProgram.h>
 #include <Render/Font.h>
 
 namespace Donut
@@ -91,13 +92,13 @@ namespace Donut
 		const glm::vec2& size,
 		float angle,
 		const glm::vec4& colour) :
-		m_texture(texture),
-		m_position(position),
-		m_size(size),
-		m_uv1(0, 1),
-		m_uv2(1, 0),
-		m_colour(colour),
-		m_angle(angle)
+		_texture(texture),
+		_position(position),
+		_size(size),
+		_uv1(0, 1),
+		_uv2(1, 0),
+		_colour(colour),
+		_angle(angle)
 	{
 	}
 
@@ -108,26 +109,35 @@ namespace Donut
 		const glm::vec2& uv1,
 		const glm::vec2& uv2,
 		const glm::vec4& colour) :
-		m_texture(texture),
-		m_position(position),
-		m_size(size),
-		m_uv1(uv1),
-		m_uv2(uv2),
-		m_colour(colour),
-		m_angle(0.0f)
+		_texture(texture),
+		_position(position),
+		_size(size),
+		_uv1(uv1),
+		_uv2(uv2),
+		_colour(colour),
+		_angle(0.0f)
 	{
 	}
 
-	SpriteBatch::SpriteBatch() :
-		m_clipping(false),
-		m_drawCallCount(0)
+	SpriteBatch::SpriteBatch(size_t maxSpriteCount) :
+		_clipping(false),
+		_drawCallCount(0),
+		_maxSpriteCount(maxSpriteCount)
 	{
-	}
+		static const size_t vertSize = 8;
+		static const size_t faceVertCount = 6;
+		static const size_t vertStride = vertSize * sizeof(float);
 
-	void SpriteBatch::Begin()
-	{
-		m_spritesToDraw.clear();
-		m_drawCallCount = 0;
+		GL::ArrayElement vertexLayout[3] =
+		{
+			GL::ArrayElement(0, 2, GL::AE_FLOAT, vertStride, 0),
+			GL::ArrayElement(1, 2, GL::AE_FLOAT, vertStride, 2 * sizeof(float)),
+			GL::ArrayElement(2, 4, GL::AE_FLOAT, vertStride, 4 * sizeof(float)),
+		};
+
+		_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, _maxSpriteCount * faceVertCount, vertStride);
+		_vertexBinding = std::make_unique<GL::VertexBinding>();
+		_vertexBinding->Create(vertexLayout, 3, *_vertexBuffer);
 	}
 
 	void SpriteBatch::Draw(
@@ -136,7 +146,7 @@ namespace Donut
 		float angle,
 		const glm::vec4& colour)
 	{
-		m_spritesToDraw.push_back(Sprite(texture, position, texture->GetSize(), angle, colour));
+		_spritesToDraw.push_back(Sprite(texture, position, texture->GetSize(), angle, colour));
 	}
 
 	void SpriteBatch::Draw(
@@ -152,17 +162,17 @@ namespace Donut
 		glm::vec2 newPosition = position;
 		glm::vec2 newSize = size;
 
-		if (m_clipping)
+		if (_clipping)
 		{
 			if (!IsSpriteInsideClippingRect(position, size))
 			{
 				return;
 			}
 
-			float newleft = glm::clamp(position.x, (float)m_clippingRect.x, (float)m_clippingRect.z);
-			float newtop = glm::clamp(position.y, (float)m_clippingRect.y, (float)m_clippingRect.w);
-			float newright = glm::clamp(position.x + size.x, (float)m_clippingRect.x, (float)m_clippingRect.z);
-			float newbottom = glm::clamp(position.y + size.y, (float)m_clippingRect.y, (float)m_clippingRect.w);
+			float newleft = glm::clamp(position.x, (float)_clippingRect.x, (float)_clippingRect.z);
+			float newtop = glm::clamp(position.y, (float)_clippingRect.y, (float)_clippingRect.w);
+			float newright = glm::clamp(position.x + size.x, (float)_clippingRect.x, (float)_clippingRect.z);
+			float newbottom = glm::clamp(position.y + size.y, (float)_clippingRect.y, (float)_clippingRect.w);
 
 			newPosition = glm::vec2(newleft, newtop);
 			newSize = glm::vec2(newright - newleft, newbottom - newtop);
@@ -186,7 +196,7 @@ namespace Donut
 			v2 = v2 + (vheight * difbottom);
 		}
 
-		m_spritesToDraw.push_back(Sprite(texture, newPosition, newSize, glm::vec2(u1, v1), glm::vec2(u2, v2), colour));
+		_spritesToDraw.push_back(Sprite(texture, newPosition, newSize, glm::vec2(u1, v1), glm::vec2(u2, v2), colour));
 	}
 
 	void SpriteBatch::Draw(
@@ -196,7 +206,7 @@ namespace Donut
 		float angle,
 		const glm::vec4& colour)
 	{
-		m_spritesToDraw.push_back(Sprite(texture, position, size, angle, colour));
+		_spritesToDraw.push_back(Sprite(texture, position, size, angle, colour));
 	}
 
 	void SpriteBatch::Draw(
@@ -214,17 +224,17 @@ namespace Donut
 		glm::vec2 newPosition = position;
 		glm::vec2 newSize = size;
 
-		if (m_clipping)
+		if (_clipping)
 		{
 			if (!IsSpriteInsideClippingRect(position, size))
 			{
 				return;
 			}
 
-			float newleft = glm::clamp(position.x, (float)m_clippingRect.x, (float)m_clippingRect.z);
-			float newtop = glm::clamp(position.y, (float)m_clippingRect.y, (float)m_clippingRect.w);
-			float newright = glm::clamp(position.x + size.x, (float)m_clippingRect.x, (float)m_clippingRect.z);
-			float newbottom = glm::clamp(position.y + size.y, (float)m_clippingRect.y, (float)m_clippingRect.w);
+			float newleft = glm::clamp(position.x, (float)_clippingRect.x, (float)_clippingRect.z);
+			float newtop = glm::clamp(position.y, (float)_clippingRect.y, (float)_clippingRect.w);
+			float newright = glm::clamp(position.x + size.x, (float)_clippingRect.x, (float)_clippingRect.z);
+			float newbottom = glm::clamp(position.y + size.y, (float)_clippingRect.y, (float)_clippingRect.w);
 
 			newPosition = glm::vec2(newleft, newtop);
 			newSize = glm::vec2(newright - newleft, newbottom - newtop);
@@ -248,7 +258,7 @@ namespace Donut
 			v2 = v2 + (vheight * difbottom);
 		}
 
-		m_spritesToDraw.push_back(Sprite(texture, newPosition, newSize, glm::vec2(u1, v1), glm::vec2(u2, v2), colour));
+		_spritesToDraw.push_back(Sprite(texture, newPosition, newSize, glm::vec2(u1, v1), glm::vec2(u2, v2), colour));
 	}
 
 	SpriteBatch::NineSliceProperties::NineSliceProperties(
@@ -257,122 +267,122 @@ namespace Donut
 		const glm::vec2& glyphSize,
 		const glm::vec2& drawPosition,
 		const glm::vec2& drawSize) :
-		m_topLeftSlicePx(topLeftSlicePx),
-		m_bottomRightSlicePx(bottomRightSlicePx),
-		m_topLeftSlice(topLeftSlicePx / glyphSize),
-		m_bottomRightSlice(bottomRightSlicePx / glyphSize),
-		m_glyphSize(glyphSize),
-		m_drawPosition(drawPosition),
-		m_drawSize(drawSize)
+		_topLeftSlicePx(topLeftSlicePx),
+		_bottomRightSlicePx(bottomRightSlicePx),
+		_topLeftSlice(topLeftSlicePx / glyphSize),
+		_bottomRightSlice(bottomRightSlicePx / glyphSize),
+		_glyphSize(glyphSize),
+		_drawPosition(drawPosition),
+		_drawSize(drawSize)
 	{
 
 	}
 
 	void SpriteBatch::DrawSlice(GL::Texture2D* texture, const SpriteBatch::Slice& slice, const glm::vec4& colour)
 	{
-		Draw(texture, slice.m_drawPosition, slice.m_uv1, slice.m_uv2, slice.m_drawSize, colour);
+		Draw(texture, slice._drawPosition, slice._uv1, slice._uv2, slice._drawSize, colour);
 	}
 
 	void SpriteBatch::NineSliceProperties::GetTopLeftSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = 0.0f;
-		slice.m_uv1.y = 1.0f;
-		slice.m_uv2.x = m_topLeftSlice.x;
-		slice.m_uv2.y = 1.0f - m_topLeftSlice.y;
-		slice.m_drawPosition = m_drawPosition;
-		slice.m_drawSize = m_topLeftSlicePx;
+		slice._uv1.x = 0.0f;
+		slice._uv1.y = 1.0f;
+		slice._uv2.x = _topLeftSlice.x;
+		slice._uv2.y = 1.0f - _topLeftSlice.y;
+		slice._drawPosition = _drawPosition;
+		slice._drawSize = _topLeftSlicePx;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetTopRightSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = 1.0f - m_bottomRightSlice.x;
-		slice.m_uv1.y = 1.0f;
-		slice.m_uv2.x = 1.0f;
-		slice.m_uv2.y = 1.0f - m_topLeftSlice.y;
-		slice.m_drawPosition.x = m_drawPosition.x + m_drawSize.x - m_bottomRightSlicePx.x;
-		slice.m_drawPosition.y = m_drawPosition.y;
-		slice.m_drawSize.x = m_bottomRightSlicePx.x;
-		slice.m_drawSize.y = m_topLeftSlicePx.y;
+		slice._uv1.x = 1.0f - _bottomRightSlice.x;
+		slice._uv1.y = 1.0f;
+		slice._uv2.x = 1.0f;
+		slice._uv2.y = 1.0f - _topLeftSlice.y;
+		slice._drawPosition.x = _drawPosition.x + _drawSize.x - _bottomRightSlicePx.x;
+		slice._drawPosition.y = _drawPosition.y;
+		slice._drawSize.x = _bottomRightSlicePx.x;
+		slice._drawSize.y = _topLeftSlicePx.y;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetBottomLeftSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = 0.0f;
-		slice.m_uv1.y = m_bottomRightSlice.y;
-		slice.m_uv2.x = m_topLeftSlice.x;
-		slice.m_uv2.y = 0.0f;
-		slice.m_drawPosition.x = m_drawPosition.x;
-		slice.m_drawPosition.y = m_drawPosition.y + m_drawSize.y - m_bottomRightSlicePx.y;
-		slice.m_drawSize.x = m_topLeftSlicePx.x;
-		slice.m_drawSize.y = m_bottomRightSlicePx.y;
+		slice._uv1.x = 0.0f;
+		slice._uv1.y = _bottomRightSlice.y;
+		slice._uv2.x = _topLeftSlice.x;
+		slice._uv2.y = 0.0f;
+		slice._drawPosition.x = _drawPosition.x;
+		slice._drawPosition.y = _drawPosition.y + _drawSize.y - _bottomRightSlicePx.y;
+		slice._drawSize.x = _topLeftSlicePx.x;
+		slice._drawSize.y = _bottomRightSlicePx.y;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetBottomRightSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = 1.0f - m_bottomRightSlice.x;
-		slice.m_uv1.y = m_bottomRightSlice.y;
-		slice.m_uv2.x = 1.0f;
-		slice.m_uv2.y = 0.0f;
-		slice.m_drawPosition = m_drawPosition + m_drawSize - m_bottomRightSlicePx;
-		slice.m_drawSize = m_bottomRightSlicePx;
+		slice._uv1.x = 1.0f - _bottomRightSlice.x;
+		slice._uv1.y = _bottomRightSlice.y;
+		slice._uv2.x = 1.0f;
+		slice._uv2.y = 0.0f;
+		slice._drawPosition = _drawPosition + _drawSize - _bottomRightSlicePx;
+		slice._drawSize = _bottomRightSlicePx;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetTopMidSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = m_topLeftSlice.x;
-		slice.m_uv1.y = 1.0f;
-		slice.m_uv2.x = 1.0f - m_bottomRightSlice.x;
-		slice.m_uv2.y = 1.0f - m_topLeftSlice.y;
-		slice.m_drawPosition.x = m_drawPosition.x + m_topLeftSlicePx.x;
-		slice.m_drawPosition.y = m_drawPosition.y;
-		slice.m_drawSize.x = m_drawSize.x - m_topLeftSlicePx.x - m_bottomRightSlicePx.x;
-		slice.m_drawSize.y = m_topLeftSlicePx.y;
+		slice._uv1.x = _topLeftSlice.x;
+		slice._uv1.y = 1.0f;
+		slice._uv2.x = 1.0f - _bottomRightSlice.x;
+		slice._uv2.y = 1.0f - _topLeftSlice.y;
+		slice._drawPosition.x = _drawPosition.x + _topLeftSlicePx.x;
+		slice._drawPosition.y = _drawPosition.y;
+		slice._drawSize.x = _drawSize.x - _topLeftSlicePx.x - _bottomRightSlicePx.x;
+		slice._drawSize.y = _topLeftSlicePx.y;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetBottomMidSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = m_topLeftSlice.x;
-		slice.m_uv1.y = m_bottomRightSlice.y;
-		slice.m_uv2.x = 1.0f - m_bottomRightSlice.x;
-		slice.m_uv2.y = 0.0f;
-		slice.m_drawPosition.x = m_drawPosition.x + m_topLeftSlicePx.x;
-		slice.m_drawPosition.y = m_drawPosition.y + m_drawSize.y - m_bottomRightSlicePx.y;
-		slice.m_drawSize.x = m_drawSize.x - m_topLeftSlicePx.x - m_bottomRightSlicePx.x;
-		slice.m_drawSize.y = m_bottomRightSlicePx.y;
+		slice._uv1.x = _topLeftSlice.x;
+		slice._uv1.y = _bottomRightSlice.y;
+		slice._uv2.x = 1.0f - _bottomRightSlice.x;
+		slice._uv2.y = 0.0f;
+		slice._drawPosition.x = _drawPosition.x + _topLeftSlicePx.x;
+		slice._drawPosition.y = _drawPosition.y + _drawSize.y - _bottomRightSlicePx.y;
+		slice._drawSize.x = _drawSize.x - _topLeftSlicePx.x - _bottomRightSlicePx.x;
+		slice._drawSize.y = _bottomRightSlicePx.y;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetLeftMidSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = 0.0f;
-		slice.m_uv1.y = 1.0f - m_topLeftSlice.y;
-		slice.m_uv2.x = m_topLeftSlice.x;
-		slice.m_uv2.y = m_bottomRightSlice.y;
-		slice.m_drawPosition.x = m_drawPosition.x;
-		slice.m_drawPosition.y = m_drawPosition.y + m_topLeftSlicePx.y;
-		slice.m_drawSize.x = m_topLeftSlicePx.x;
-		slice.m_drawSize.y = m_drawSize.y - m_bottomRightSlicePx.y - m_topLeftSlicePx.y;
+		slice._uv1.x = 0.0f;
+		slice._uv1.y = 1.0f - _topLeftSlice.y;
+		slice._uv2.x = _topLeftSlice.x;
+		slice._uv2.y = _bottomRightSlice.y;
+		slice._drawPosition.x = _drawPosition.x;
+		slice._drawPosition.y = _drawPosition.y + _topLeftSlicePx.y;
+		slice._drawSize.x = _topLeftSlicePx.x;
+		slice._drawSize.y = _drawSize.y - _bottomRightSlicePx.y - _topLeftSlicePx.y;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetRightMidSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = 1.0f - m_bottomRightSlice.x;
-		slice.m_uv1.y = 1.0f - m_topLeftSlice.y;
-		slice.m_uv2.x = 1.0f;
-		slice.m_uv2.y = m_bottomRightSlice.y;
-		slice.m_drawPosition.x = m_drawPosition.x + m_drawSize.x - m_bottomRightSlicePx.x;
-		slice.m_drawPosition.y = m_drawPosition.y + m_topLeftSlicePx.y;
-		slice.m_drawSize.x = m_bottomRightSlicePx.x;
-		slice.m_drawSize.y = m_drawSize.y - m_bottomRightSlicePx.y - m_topLeftSlicePx.y;
+		slice._uv1.x = 1.0f - _bottomRightSlice.x;
+		slice._uv1.y = 1.0f - _topLeftSlice.y;
+		slice._uv2.x = 1.0f;
+		slice._uv2.y = _bottomRightSlice.y;
+		slice._drawPosition.x = _drawPosition.x + _drawSize.x - _bottomRightSlicePx.x;
+		slice._drawPosition.y = _drawPosition.y + _topLeftSlicePx.y;
+		slice._drawSize.x = _bottomRightSlicePx.x;
+		slice._drawSize.y = _drawSize.y - _bottomRightSlicePx.y - _topLeftSlicePx.y;
 	}
 
 	void SpriteBatch::NineSliceProperties::GetMidSlice(Slice& slice) const
 	{
-		slice.m_uv1.x = m_topLeftSlice.x;
-		slice.m_uv1.y = 1.0f - m_topLeftSlice.y;
-		slice.m_uv2.x = 1.0f - m_bottomRightSlice.x;
-		slice.m_uv2.y = m_bottomRightSlice.y;
-		slice.m_drawPosition = m_drawPosition + m_topLeftSlicePx;
-		slice.m_drawSize = m_drawSize - m_topLeftSlicePx - m_bottomRightSlicePx;
+		slice._uv1.x = _topLeftSlice.x;
+		slice._uv1.y = 1.0f - _topLeftSlice.y;
+		slice._uv2.x = 1.0f - _bottomRightSlice.x;
+		slice._uv2.y = _bottomRightSlice.y;
+		slice._drawPosition = _drawPosition + _topLeftSlicePx;
+		slice._drawSize = _drawSize - _topLeftSlicePx - _bottomRightSlicePx;
 	}
 
 	void SpriteBatch::Draw9Slice(
@@ -424,8 +434,8 @@ namespace Donut
 
 	void SpriteBatch::TransformUVs(Slice& slice, const glm::vec2& glyphSize, const glm::vec2& offset, const glm::vec2& sheetSize)
 	{
-		TransformUV(slice.m_uv1, glyphSize, offset, sheetSize);
-		TransformUV(slice.m_uv2, glyphSize, offset, sheetSize);
+		TransformUV(slice._uv1, glyphSize, offset, sheetSize);
+		TransformUV(slice._uv2, glyphSize, offset, sheetSize);
 	}
 
 	void SpriteBatch::Draw9Slice(
@@ -482,12 +492,14 @@ namespace Donut
 		}
 	}
 
-	void SpriteBatch::End(const glm::mat4& proj)
+	void SpriteBatch::Flush(const glm::mat4& proj)
 	{
-		if (m_spritesToDraw.empty())
+		if (_spritesToDraw.empty())
 		{
 			return;
 		}
+
+		_drawCallCount = 0;
 
 		glDisable(GL_DEPTH_TEST);
 
@@ -499,26 +511,17 @@ namespace Donut
 		static const size_t faceVertCount = 6;
 		static const size_t vertStride = vertSize * sizeof(float);
 
-		GL::ArrayElement vertexLayout[3] =
-		{
-			GL::ArrayElement(0, 2, GL::AE_FLOAT, vertStride, 0),
-			GL::ArrayElement(1, 2, GL::AE_FLOAT, vertStride, 2 * sizeof(float)),
-			GL::ArrayElement(2, 4, GL::AE_FLOAT, vertStride, 4 * sizeof(float)),
-		};
-
-		GL::VertexBuffer vertexBuffer(nullptr, m_spritesToDraw.size() * faceVertCount, vertStride);
-		GL::VertexBinding vertexBinding;
-		vertexBinding.Create(vertexLayout, 3, vertexBuffer);
-		vertexBinding.Bind();
-
 		unsigned int basePos = 0;
 
-		while (basePos < m_spritesToDraw.size())
+		_vertexBinding->Bind();
+
+		while (basePos < _spritesToDraw.size() && _drawCallCount < _maxSpriteCount)
 		{
 			unsigned int searchPos = basePos;
-			GL::Texture2D* batchTexture = m_spritesToDraw[basePos].m_texture;
+			GL::Texture2D* batchTexture = _spritesToDraw[basePos]._texture;
 
-			while (searchPos < m_spritesToDraw.size() && m_spritesToDraw[searchPos].m_texture == batchTexture)
+			while (searchPos < _spritesToDraw.size() && _drawCallCount < _maxSpriteCount &&
+				   _spritesToDraw[searchPos]._texture == batchTexture)
 			{
 				searchPos++;
 			}
@@ -533,41 +536,41 @@ namespace Donut
 			for (size_t i = basePos; i < searchPos; ++i)
 			{
 				float* buffer = &vertexData[(i - basePos) * faceVertCount * vertSize];
-				Sprite& sprite = m_spritesToDraw[i];
+				Sprite& sprite = _spritesToDraw[i];
 
 				for (size_t j = 0; j < faceVertCount; ++j)
 				{
-					buffer[4 + vertSize * j] = sprite.m_colour.x;
-					buffer[5 + vertSize * j] = sprite.m_colour.y;
-					buffer[6 + vertSize * j] = sprite.m_colour.z;
-					buffer[7 + vertSize * j] = sprite.m_colour.w;
+					buffer[4 + vertSize * j] = sprite._colour.x;
+					buffer[5 + vertSize * j] = sprite._colour.y;
+					buffer[6 + vertSize * j] = sprite._colour.z;
+					buffer[7 + vertSize * j] = sprite._colour.w;
 				}
 
 				glm::vec2 vertexPositions[4] =
 				{
-					glm::vec2(-(sprite.m_size.x / 2), -(sprite.m_size.y / 2)),
-					glm::vec2(-(sprite.m_size.x / 2), sprite.m_size.y / 2),
-					glm::vec2(sprite.m_size.x / 2, sprite.m_size.y / 2),
-					glm::vec2(sprite.m_size.x / 2, -(sprite.m_size.y / 2)),
+					glm::vec2(-(sprite._size.x / 2), -(sprite._size.y / 2)),
+					glm::vec2(-(sprite._size.x / 2), sprite._size.y / 2),
+					glm::vec2(sprite._size.x / 2, sprite._size.y / 2),
+					glm::vec2(sprite._size.x / 2, -(sprite._size.y / 2)),
 				};
 
 				glm::vec2 vertexTextureCoords[4] =
 				{
-					glm::vec2(sprite.m_uv1.x, sprite.m_uv1.y),
-					glm::vec2(sprite.m_uv1.x, sprite.m_uv2.y),
-					glm::vec2(sprite.m_uv2.x, sprite.m_uv2.y),
-					glm::vec2(sprite.m_uv2.x, sprite.m_uv1.y),
+					glm::vec2(sprite._uv1.x, sprite._uv1.y),
+					glm::vec2(sprite._uv1.x, sprite._uv2.y),
+					glm::vec2(sprite._uv2.x, sprite._uv2.y),
+					glm::vec2(sprite._uv2.x, sprite._uv1.y),
 				};
 
 				for (size_t j = 0; j < 4; ++j)
 				{
-					float cosAngle = glm::cos(glm::radians(sprite.m_angle));
-					float sinAngle = glm::sin(glm::radians(sprite.m_angle));
+					float cosAngle = glm::cos(glm::radians(sprite._angle));
+					float sinAngle = glm::sin(glm::radians(sprite._angle));
 
 					glm::vec2 p = vertexPositions[j];
 					vertexPositions[j].x = p.x * cosAngle - p.y * sinAngle;
 					vertexPositions[j].y = p.y * cosAngle + p.x * sinAngle;
-					vertexPositions[j] += sprite.m_position + (sprite.m_size * 0.5f);
+					vertexPositions[j] += sprite._position + (sprite._size * 0.5f);
 				}
 
 				unsigned int faceIndices[] = { 0, 1, 2, 2, 3, 0 };
@@ -584,26 +587,28 @@ namespace Donut
 				}
 			}
 
-			vertexBuffer.UpdateBuffer(&vertexData[0], 0, (searchPos - basePos) * faceVertCount * vertStride);
+			_vertexBuffer->UpdateBuffer(&vertexData[0], 0, (searchPos - basePos) * faceVertCount * vertStride);
 
 			glDrawArrays(GL_TRIANGLES, 0, (GLsizei)((searchPos - basePos) * faceVertCount));
 
-			m_drawCallCount++;
+			_drawCallCount++;
 
 			basePos = searchPos;
 		}
 
-		vertexBinding.Unbind();
+		_vertexBinding->Unbind();
 		shader.Unbind();
 
 		glEnable(GL_DEPTH_TEST);
+
+		_spritesToDraw.clear();
 	}
 
 	bool SpriteBatch::IsSpriteInsideClippingRect(const glm::vec2& position, const glm::vec2& size)
 	{
-		return !((position.x >= m_clippingRect.z) ||
-				 (position.x + size.x <= m_clippingRect.x) ||
-				 (position.y >= m_clippingRect.w) ||
-				 (position.y + size.y <= m_clippingRect.y));
+		return !((position.x >= _clippingRect.z) ||
+				 (position.x + size.x <= _clippingRect.x) ||
+				 (position.y >= _clippingRect.w) ||
+				 (position.y + size.y <= _clippingRect.y));
 	}
 }

@@ -1,8 +1,6 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <Render/OpenGL/Texture2D.h>
-#include <Render/OpenGL/ShaderProgram.h>
 #include <vector>
 #include <stack>
 #include <map>
@@ -10,27 +8,34 @@
 
 namespace Donut
 {
+	namespace GL
+	{
+		class VertexBinding;
+		class VertexBuffer;
+		class Texture2D;
+		class ShaderProgram;
+	}
+
 	class SpriteBatch
 	{
 
 	public:
 
-		SpriteBatch();
+		SpriteBatch(size_t = 1000);
 
-		void Begin();
-		void End(const glm::mat4& proj);
-		void DrawText(const class Font* font, const std::string& text, const glm::vec2& position, const glm::vec4& colour);
-		void Draw(GL::Texture2D* texture, const glm::vec2& position, float angle, const glm::vec4& colour);
-		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour);
-		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, float angle, const glm::vec4& colour);
-		void Draw(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& size, const glm::vec4& colour);
-		void Draw9Slice(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec4& margin, const glm::vec4& colour, bool drawCenter = true);
-		void Draw9Slice(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec2& glyphPosition, const glm::vec2& glyphSize, const glm::vec4& margin, const glm::vec4& colour, bool drawCenter = true);
-		void EnableClipping(bool clipping) { m_clipping = clipping; }
+		void Flush(const glm::mat4&);
+		void DrawText(const class Font*, const std::string&, const glm::vec2&, const glm::vec4&);
+		void Draw(GL::Texture2D*, const glm::vec2&, float, const glm::vec4&);
+		void Draw(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec4&);
+		void Draw(GL::Texture2D*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
+		void Draw(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
+		void Draw9Slice(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
+		void Draw9Slice(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
 
-		void SetClippingRect(const glm::vec4& clippingRect) { m_clippingRect = clippingRect; }
+		void EnableClipping(bool clipping) { _clipping = clipping; }
+		void SetClippingRect(const glm::vec4& clippingRect) { _clippingRect = clippingRect; }
 
-		unsigned int GetDrawCallCount() const { return m_drawCallCount; }
+		size_t GetDrawCallCount() const { return _drawCallCount; }
 
 		GL::ShaderProgram& GetShader();
 
@@ -38,64 +43,67 @@ namespace Donut
 
 		struct Sprite
 		{
-			Sprite(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, float angle, const glm::vec4& colour);
-			Sprite(GL::Texture2D* texture, const glm::vec2& position, const glm::vec2& size, const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec4& colour);
+			Sprite(GL::Texture2D*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
+			Sprite(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
 
-			GL::Texture2D* m_texture;
-			glm::vec2 m_position;
-			glm::vec2 m_size;
-			glm::vec2 m_uv1;
-			glm::vec2 m_uv2;
-			glm::vec4 m_colour;
-			float m_angle;
+			GL::Texture2D* _texture;
+			glm::vec2 _position;
+			glm::vec2 _size;
+			glm::vec2 _uv1;
+			glm::vec2 _uv2;
+			glm::vec4 _colour;
+			float _angle;
 		};
 
 		struct Slice
 		{
-			glm::vec2 m_uv1;
-			glm::vec2 m_uv2;
-			glm::vec2 m_drawPosition;
-			glm::vec2 m_drawSize;
+			glm::vec2 _uv1;
+			glm::vec2 _uv2;
+			glm::vec2 _drawPosition;
+			glm::vec2 _drawSize;
 		};
 
 		struct NineSliceProperties
 		{
 			NineSliceProperties(
-				const glm::vec2& topLeftSlicePx,
-				const glm::vec2& bottomRightSlicePx,
-				const glm::vec2& glyphSize,
-				const glm::vec2& drawPosition,
-				const glm::vec2& drawSize);
+				const glm::vec2&,
+				const glm::vec2&,
+				const glm::vec2&,
+				const glm::vec2&,
+				const glm::vec2&);
 
-			void GetTopLeftSlice(Slice& slice) const;
-			void GetTopRightSlice(Slice& slice) const;
-			void GetBottomLeftSlice(Slice& slice) const;
-			void GetBottomRightSlice(Slice& slice) const;
-			void GetTopMidSlice(Slice& slice) const;
-			void GetBottomMidSlice(Slice& slice) const;
-			void GetLeftMidSlice(Slice& slice) const;
-			void GetRightMidSlice(Slice& slice) const;
-			void GetMidSlice(Slice& slice) const;
+			void GetTopLeftSlice(Slice&) const;
+			void GetTopRightSlice(Slice&) const;
+			void GetBottomLeftSlice(Slice&) const;
+			void GetBottomRightSlice(Slice&) const;
+			void GetTopMidSlice(Slice&) const;
+			void GetBottomMidSlice(Slice&) const;
+			void GetLeftMidSlice(Slice&) const;
+			void GetRightMidSlice(Slice&) const;
+			void GetMidSlice(Slice&) const;
 
-			const glm::vec2 m_glyphSize;
-			const glm::vec2 m_topLeftSlicePx;
-			const glm::vec2 m_bottomRightSlicePx;
-			const glm::vec2 m_topLeftSlice;
-			const glm::vec2 m_bottomRightSlice;
-			const glm::vec2 m_drawPosition;
-			const glm::vec2 m_drawSize;
+			const glm::vec2 _glyphSize;
+			const glm::vec2 _topLeftSlicePx;
+			const glm::vec2 _bottomRightSlicePx;
+			const glm::vec2 _topLeftSlice;
+			const glm::vec2 _bottomRightSlice;
+			const glm::vec2 _drawPosition;
+			const glm::vec2 _drawSize;
 		};
 
-		void DrawSlice(GL::Texture2D* texture, const Slice& slice, const glm::vec4& colour);
-		static void TransformUV(glm::vec2& uv, const glm::vec2& glyphSize, const glm::vec2& offset, const glm::vec2& sheetSize);
-		static void TransformUVs(Slice& slice, const glm::vec2& glyphSize, const glm::vec2& offset, const glm::vec2& sheetSize);
+		void DrawSlice(GL::Texture2D*, const Slice&, const glm::vec4&);
+		static void TransformUV(glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&);
+		static void TransformUVs(Slice&, const glm::vec2&, const glm::vec2&, const glm::vec2&);
+		bool IsSpriteInsideClippingRect(const glm::vec2&, const glm::vec2&);
 
-		bool IsSpriteInsideClippingRect(const glm::vec2& position, const glm::vec2& size);
+		std::vector<Sprite> _spritesToDraw;
+		bool _clipping;
+		glm::vec4 _clippingRect;
+		size_t _drawCallCount;
+		size_t _maxSpriteCount;
 
-		std::vector<Sprite> m_spritesToDraw;
-		bool m_clipping;
-		glm::vec4 m_clippingRect;
-		unsigned int m_drawCallCount;
+		std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
+		std::unique_ptr<GL::VertexBinding> _vertexBinding;
 
 		static std::unique_ptr<GL::ShaderProgram> Shader;
 	};
