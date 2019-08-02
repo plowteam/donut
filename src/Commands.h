@@ -15,10 +15,19 @@
 
 namespace Donut
 {
+	enum class ParamType : uint32_t
+	{
+		String,
+		Int,
+		Int64,
+		Float,
+	};
+
     struct Command
     {
         bool(*sig)(const std::string&);
         std::string help;
+		std::vector<std::vector<ParamType>> types;
     };
 
     class Commands
