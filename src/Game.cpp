@@ -352,7 +352,7 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 
 	alBufferData(buffer, format, data.data(), (ALsizei)data.size(), sampleRate);
 	alSourcei(source, AL_BUFFER, buffer);
-	alSourcei(source, AL_LOOPING, AL_TRUE);
+	alSourcei(source, AL_LOOPING, AL_FALSE);
 	alSourcePlay(source);
 }
 
@@ -548,6 +548,10 @@ std::vector<std::pair<std::string, std::string>> models {
 	{ "a_amer", "apu" },
 };
 
+void Game::OnInputTextEntry(const std::string& text)
+{
+}
+
 void Game::Run()
 {
 	// measure our delta time
@@ -561,6 +565,8 @@ void Game::Run()
 	GL::ShaderProgram& spriteShader = sprites.GetShader();
 
 	auto animCamera = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");
+
+	Input::CaptureTextEntry(this, &Game::OnInputTextEntry);
 
 	SDL_Event event;
 	bool running = true;

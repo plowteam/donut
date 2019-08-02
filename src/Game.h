@@ -66,6 +66,7 @@ class Game
 	void debugDrawRCF();
 	void TestAudio();
 	void PlayAudio(RCL::RCFFile& file, const std::string& filename);
+	void OnInputTextEntry(const std::string& text);
 
 	std::unique_ptr<Window> _window;
 	std::unique_ptr<ResourceManager> _resourceManager;

@@ -178,10 +178,6 @@ namespace Donut
 				TextEntry->Call(e.text.text);
 			}
 		}
-		else if (e.type == SDL_TEXTEDITING)
-		{
-			std::cout << "SDL_TEXTEDITING" << std::endl;
-		}
 	}
 
 	float Input::GetMouseDeltaX()
