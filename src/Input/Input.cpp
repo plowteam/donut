@@ -122,6 +122,7 @@ namespace Donut
 	Input::ButtonState Input::ButtonStates[to_underlying(Button::Count)] = { ButtonState() };
 	float Input::MouseDeltaX = 0.0f;
 	float Input::MouseDeltaY = 0.0f;
+	std::unique_ptr<ITextEntryEventHandler> Input::TextEntry = nullptr;
 
 	Button Input::KeyCodeToButtonCode(SDL_Keycode key)
 	{
@@ -170,6 +171,17 @@ namespace Donut
 			MouseDeltaX += (float)e.motion.xrel;
 			MouseDeltaY += (float)e.motion.yrel;
 		}
+		else if (e.type == SDL_TEXTINPUT)
+		{
+			if (TextEntry != nullptr)
+			{
+				TextEntry->Call(e.text.text);
+			}
+		}
+		else if (e.type == SDL_TEXTEDITING)
+		{
+			std::cout << "SDL_TEXTEDITING" << std::endl;
+		}
 	}
 
 	float Input::GetMouseDeltaX()
@@ -195,5 +207,14 @@ namespace Donut
 	bool Input::JustReleased(Button button)
 	{
 		return ButtonStates[to_underlying(button)].Released;
+	}
+
+	void Input::ReleaseTextEntry()
+	{
+		if (TextEntry != nullptr)
+		{
+			TextEntry = nullptr;
+			SDL_StopTextInput();
+		}
 	}
 }
