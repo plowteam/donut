@@ -32,23 +32,17 @@ void File::Open(const std::filesystem::path& path, FileMode mode)
 #endif
 
 	if (_file == nullptr)
-	{
-		throw std::runtime_error("fopen failed");
-	}
-	else
-	{
-		std::size_t origPos = Position();
-		Seek(0, FileSeekMode::End);
+		throw std::runtime_error("Failed to open file: " + path.string());
 
-		_size = Position();
-		Seek(origPos, FileSeekMode::Begin);
-	}
+	// get file size
+	Seek(0, FileSeekMode::End);
+	_size = Position();
+	Seek(0, FileSeekMode::Begin);
 }
 
 void File::Close()
 {
 	if (_file != nullptr) std::fclose(_file);
-
 	_file = nullptr;
 }
 
