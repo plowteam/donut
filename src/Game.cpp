@@ -10,6 +10,7 @@
 #include <P3D/p3d.generated.h>
 #include <Physics/WorldPhysics.h>
 #include <RCL/RCFFile.h>
+#include <RCL/RSDFile.h>
 #include <Render/LineRenderer.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
@@ -65,104 +66,9 @@ void Game::TestAudio()
 
 	alGenBuffers(1, &buffer);
 	alGenSources(1, &source);
-
-	//PlayAudio(*_filesRCF[3], "sound\\music\\homer\\tuba_060.rsd");
-
-	//auto magic = rsdStream->ReadString(8);
-	//auto numChannels = rsdStream->Read<uint32_t>();
-	//auto bitsPerChannel = rsdStream->Read<uint32_t>();
-	//auto sampleRate = rsdStream->Read<uint32_t>();
-
-	//rsdStream->Seek(0x800, Donut::SeekMode::Begin);
-	//std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
-	//rsdStream->ReadBytes(data.data(), data.size());
-
-	//alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), sampleRate);
-	//alGenSources(1, &source);
-	//alSourcei(source, AL_BUFFER, buffer);
-	//alSourcei(source, AL_LOOPING, AL_TRUE);
-	//alSourcePlay(source);
-
-	//alSourceStop(source);
-	//alDeleteSources(1, &source);
-	//alDeleteBuffers(1, &buffer);
-	//alcMakeContextCurrent(NULL);
-	//alcDestroyContext(context);
-	//alcCloseDevice(device);
 }
 
-std::array<int, 16> indexTable = { -1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8 };
-std::array<int, 89> stepTable  = {
-    7, 8, 9, 10, 11, 12, 13, 14,
-    16, 17, 19, 21, 23, 25, 28, 31,
-    34, 37, 41, 45, 50, 55, 60, 66,
-    73, 80, 88, 97, 107, 118, 130, 143,
-    157, 173, 190, 209, 230, 253, 279, 307,
-    337, 371, 408, 449, 494, 544, 598, 658,
-    724, 796, 876, 963, 1060, 1166, 1282, 1411,
-    1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024,
-    3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484,
-    7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899,
-    15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794,
-    32767
-};
 
-static void DecodeNibble(int32_t nibble, int32_t& nibbleDecoded, int32_t& stepIndex)
-{
-	int32_t step  = stepTable[stepIndex];
-	int32_t delta = step >> 3;
-	if (nibble & 1) delta += step >> 2;
-	if (nibble & 2) delta += step >> 1;
-	if (nibble & 4) delta += step;
-	if (nibble & 8) delta = -delta;
-
-	nibbleDecoded += delta;
-	if (nibbleDecoded > 32767)
-		nibbleDecoded = 32767;
-	else if (nibbleDecoded < -32768)
-		nibbleDecoded = -32768;
-
-	stepIndex += indexTable[nibble];
-	if (stepIndex < 0)
-		stepIndex = 0;
-	else if (stepIndex > 88)
-		stepIndex = 88;
-}
-
-static void DecodeRADP(MemoryStream& stream, int16_t* outBuffer, int32_t numBlocks, int32_t numChannels)
-{
-	const size_t blockSize       = numChannels * 20;
-	const size_t numBlockSamples = 32;
-	size_t offset                = 0x800;
-	size_t firstSample           = 0;
-
-	for (size_t block = 0; block < numBlocks; ++block, firstSample += numBlockSamples)
-	{
-		for (size_t channel = 0; channel < numChannels; ++channel)
-		{
-			stream.Seek(offset + (channel * 4), Donut::SeekMode::Begin);
-			int32_t stepIndex     = (int32_t)stream.Read<int16_t>();
-			int32_t nibbleDecoded = (int32_t)stream.Read<int16_t>();
-
-			if (stepIndex < 0)
-				stepIndex = 0;
-			else if (stepIndex > 88)
-				stepIndex = 88;
-
-			for (size_t i = 0; i < numBlockSamples; ++i)
-			{
-				size_t byteOffset = offset + 4 * numChannels + channel + i / 2 * numChannels;
-				stream.Seek(byteOffset, Donut::SeekMode::Begin);
-				int8_t byte    = stream.Read<int8_t>();
-				int32_t nibble = (byte >> (i & 1 ? 4 : 0)) & 0xF;
-				DecodeNibble(nibble, nibbleDecoded, stepIndex);
-				outBuffer[((firstSample + i) * numChannels) + channel] = (int16_t)nibbleDecoded;
-			}
-
-			offset += blockSize;
-		}
-	}
-}
 
 void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 {
@@ -170,33 +76,7 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 
 	auto rsdStream = file.GetFileStream(filename);
 	if (rsdStream == nullptr) return;
-
-	auto magic          = rsdStream->ReadString(8);
-	auto numChannels    = rsdStream->Read<uint32_t>();
-	auto bitsPerChannel = rsdStream->Read<uint32_t>();
-	auto sampleRate     = rsdStream->Read<uint32_t>();
-
-	std::cout << fmt::format("{0}, channels:{1}, bpc:{2}, samplerate:{3}", magic, numChannels, bitsPerChannel, sampleRate) << std::endl;
-
-	rsdStream->Seek(0x800, Donut::SeekMode::Begin);
-	std::vector<uint8_t> data;
-
-	if (magic == "RSD4PCM ")
-	{
-		data.resize(rsdStream->Size() - rsdStream->Position());
-		rsdStream->ReadBytes(data.data(), data.size());
-	}
-	else if (magic == "RSD4RADP")
-	{
-		uint32_t encodedLength    = (uint32_t)(rsdStream->Size() - rsdStream->Position());
-		uint32_t encodedBlockSize = numChannels * 20;
-		uint32_t numBlocks        = encodedLength / encodedBlockSize;
-		uint32_t numSamples       = (numBlocks / numChannels) * 32;
-
-		data.resize(numSamples * sizeof(int16_t));
-
-		DecodeRADP(*rsdStream, (int16_t*)data.data(), numBlocks, numChannels);
-	}
+	RCL::RSDFile rsdFile(*rsdStream);
 
 	if (buffer != 0)
 	{
@@ -206,22 +86,24 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 	alGenBuffers(1, &buffer);
 
 	ALenum format = AL_FORMAT_STEREO16;
-	if (numChannels == 1)
+	if (rsdFile.GetNumChannels() == 1)
 	{
-		if (bitsPerChannel == 8)
+		if (rsdFile.GetBitsPerChannel() == 8)
 			format = AL_FORMAT_MONO8;
-		else if (bitsPerChannel == 16)
+		else if (rsdFile.GetBitsPerChannel() == 16)
 			format = AL_FORMAT_MONO16;
 	}
-	else if (numChannels == 2)
+	else if (rsdFile.GetNumChannels() == 2)
 	{
-		if (bitsPerChannel == 8)
+		if (rsdFile.GetBitsPerChannel() == 8)
 			format = AL_FORMAT_STEREO8;
-		else if (bitsPerChannel == 16)
+		else if (rsdFile.GetBitsPerChannel() == 16)
 			format = AL_FORMAT_STEREO16;
 	}
 
-	alBufferData(buffer, format, data.data(), (ALsizei)data.size(), sampleRate);
+	const auto& data = rsdFile.GetData();
+
+	alBufferData(buffer, format, data.data(), (ALsizei)data.size(), rsdFile.GetSampleRate());
 	alSourcei(source, AL_BUFFER, buffer);
 	alSourcei(source, AL_LOOPING, AL_FALSE);
 	alSourcePlay(source);
