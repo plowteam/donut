@@ -138,6 +138,8 @@ namespace Donut
 		_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, _maxSpriteCount * faceVertCount, vertStride);
 		_vertexBinding = std::make_unique<GL::VertexBinding>();
 		_vertexBinding->Create(vertexLayout, 3, *_vertexBuffer);
+
+		_vertexData.resize(_maxSpriteCount * faceVertCount * vertSize);
 	}
 
 	void SpriteBatch::Draw(
@@ -510,23 +512,26 @@ namespace Donut
 		static const size_t vertSize = 8;
 		static const size_t faceVertCount = 6;
 		static const size_t vertStride = vertSize * sizeof(float);
+		static const uint32_t faceIndices[] = { 0, 1, 2, 2, 3, 0 };
 
-		unsigned int basePos = 0;
+		size_t basePos = 0;
+		size_t maxSpriteBatch = _spritesToDraw.size();
+		if (maxSpriteBatch > _maxSpriteCount)
+		{
+			maxSpriteBatch = _maxSpriteCount;
+		}
 
 		_vertexBinding->Bind();
 
-		while (basePos < _spritesToDraw.size() && _drawCallCount < _maxSpriteCount)
+		while (basePos < _spritesToDraw.size() && maxSpriteBatch > 0)
 		{
-			unsigned int searchPos = basePos;
-			GL::Texture2D* batchTexture = _spritesToDraw[basePos]._texture;
+			size_t searchPos = basePos;
+			auto batchTexture = _spritesToDraw[basePos]._texture;
 
-			while (searchPos < _spritesToDraw.size() && _drawCallCount < _maxSpriteCount &&
-				   _spritesToDraw[searchPos]._texture == batchTexture)
+			while ((searchPos - basePos) < maxSpriteBatch && _spritesToDraw[searchPos]._texture == batchTexture)
 			{
 				searchPos++;
 			}
-
-			std::vector<float> vertexData((searchPos - basePos) * faceVertCount * vertSize);
 
 			if (batchTexture != nullptr)
 			{
@@ -535,7 +540,7 @@ namespace Donut
 
 			for (size_t i = basePos; i < searchPos; ++i)
 			{
-				float* buffer = &vertexData[(i - basePos) * faceVertCount * vertSize];
+				float* buffer = &_vertexData[(i - basePos) * faceVertCount * vertSize];
 				Sprite& sprite = _spritesToDraw[i];
 
 				for (size_t j = 0; j < faceVertCount; ++j)
@@ -573,8 +578,6 @@ namespace Donut
 					vertexPositions[j] += sprite._position + (sprite._size * 0.5f);
 				}
 
-				unsigned int faceIndices[] = { 0, 1, 2, 2, 3, 0 };
-
 				for (size_t j = 0; j < faceVertCount; ++j)
 				{
 					size_t bufferIndex = j * vertSize;
@@ -587,7 +590,7 @@ namespace Donut
 				}
 			}
 
-			_vertexBuffer->UpdateBuffer(&vertexData[0], 0, (searchPos - basePos) * faceVertCount * vertStride);
+			_vertexBuffer->UpdateBuffer(_vertexData.data(), 0, (searchPos - basePos) * faceVertCount * vertStride);
 
 			glDrawArrays(GL_TRIANGLES, 0, (GLsizei)((searchPos - basePos) * faceVertCount));
 

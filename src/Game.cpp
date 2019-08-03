@@ -561,7 +561,7 @@ void Game::Run()
 
 	FpsTimer timer;
 
-	SpriteBatch sprites;
+	SpriteBatch sprites(1024);
 	GL::ShaderProgram& spriteShader = sprites.GetShader();
 
 	auto animCamera = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");

@@ -101,7 +101,7 @@ namespace Donut
 		glm::vec4 _clippingRect;
 		size_t _drawCallCount;
 		size_t _maxSpriteCount;
-
+		std::vector<float> _vertexData;
 		std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
 		std::unique_ptr<GL::VertexBinding> _vertexBinding;
 
