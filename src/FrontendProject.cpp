@@ -36,43 +36,48 @@ namespace Donut
 					auto sprite = P3D::Sprite::Load(*chunk);
 					if (sprite->GetName() != "skin-l5.png") continue;
 
-					std::vector<uint8_t> data((sprite->GetWidth() * sprite->GetHeight()) * 4);
 					auto dstRow = 0;
 					auto dstColumn = 0;
 
+					auto spriteWidth = sprite->GetWidth();
+					auto spriteHeight = sprite->GetHeight();
+					std::vector<uint8_t> data((spriteWidth * spriteHeight) * 4);
+
 					for (const auto& image : sprite->GetImages())
 					{
+						auto imageWidth = image->GetWidth();
+						auto imageHeight = image->GetHeight();
 						auto texdata = P3D::ImageData::Decode(image->GetData());
 
-						for (auto row = 0; row < image->GetHeight() - 2; ++row)
+						for (auto row = 0; row < imageHeight - 2; ++row)
 						{
-							if ((dstRow + row) >= sprite->GetHeight())
+							if ((dstRow + row) >= spriteHeight)
 							{
 								continue;
 							}
 
-							auto dstIndex = (dstRow + row) * (sprite->GetWidth() * 4);
+							auto dstIndex = (dstRow + row) * (spriteWidth * 4);
 							dstIndex += dstColumn * 4;
 
-							auto rowDataSize = (image->GetWidth() - 2) * 4;
-							if ((sprite->GetWidth() - dstColumn) < (image->GetWidth() - 2))
+							auto rowDataSize = (imageWidth - 2) * 4;
+							if ((spriteWidth - dstColumn) < (imageWidth - 2))
 							{
-								rowDataSize = (sprite->GetWidth() - dstColumn) * 4;
+								rowDataSize = (spriteWidth - dstColumn) * 4;
 							}
 
-							std::memcpy(&data[dstIndex], &texdata.data[row * (image->GetWidth() * 4)], rowDataSize);
+							std::memcpy(&data[dstIndex], &texdata.data[row * (imageWidth * 4)], rowDataSize);
 						}
 
-						dstColumn += image->GetWidth() - 2;
-						if (dstColumn > sprite->GetWidth())
+						dstColumn += imageWidth - 2;
+						if (dstColumn > spriteWidth)
 						{
 							dstColumn = 0;
-							dstRow += image->GetHeight() - 2;
+							dstRow += imageHeight - 2;
 						}
 					}
 
 					_textures.push_back(std::move(
-						std::make_unique<GL::Texture2D>(sprite->GetWidth(), sprite->GetHeight(), GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, data.data())));
+						std::make_unique<GL::Texture2D>(spriteWidth, spriteHeight, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, data.data())));
 
 					break;
 				}
