@@ -6,6 +6,7 @@
 #include <Input/Input.h>
 #include <Commands.h>
 #include <Level.h>
+#include <FrontendProject.h>
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
 #include <Physics/WorldPhysics.h>
@@ -113,15 +114,15 @@ Game::Game(int argc, char** argv)
 {
 	instance = this; // global static :D
 
-	Commands::RunLine("HelloWorld();");
-	for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
-	{
-		const auto& path = entry.path();
-		const auto& extension = path.extension().string();
-		if (extension != ".con" && extension != ".mfk") continue;
+	//Commands::RunLine("HelloWorld();");
+	//for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
+	//{
+	//	const auto& path = entry.path();
+	//	const auto& extension = path.extension().string();
+	//	if (extension != ".con" && extension != ".mfk") continue;
 
-		Commands::RunScript(path.string());
-	}
+	//	Commands::RunScript(path.string());
+	//}
 
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
 
@@ -319,6 +320,10 @@ void Game::Run()
 
 	auto animCamera = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");
 
+
+	auto frontend = std::make_unique<FrontendProject>();
+	frontend->LoadP3D("art/frontend/scrooby/frontend.p3d");
+
 	Input::CaptureTextEntry(this, &Game::OnInputTextEntry);
 
 	SDL_Event event;
@@ -431,9 +436,13 @@ void Game::Run()
 			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		sprites.Flush(proj);
 
-		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		frontend->Draw(proj);
+
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();
 	}

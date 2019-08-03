@@ -528,7 +528,7 @@ namespace Donut
 			size_t searchPos = basePos;
 			auto batchTexture = _spritesToDraw[basePos]._texture;
 
-			while ((searchPos - basePos) < maxSpriteBatch && _spritesToDraw[searchPos]._texture == batchTexture)
+			while (searchPos < _spritesToDraw.size() && (searchPos - basePos) < maxSpriteBatch && _spritesToDraw[searchPos]._texture == batchTexture)
 			{
 				searchPos++;
 			}

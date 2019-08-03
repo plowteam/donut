@@ -963,13 +963,13 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::Sprite));
 
         MemoryStream stream(chunk.GetData());
-        _imageCount = stream.Read<uint32_t>();
         _name = stream.ReadLPString();
+        _nativeX = stream.Read<uint32_t>();
+        _nativeY = stream.Read<uint32_t>();
         _shader = stream.ReadLPString();
-        _nativeWidth = stream.Read<uint32_t>();
-        _nativeHeight = stream.Read<uint32_t>();
         _width = stream.Read<uint32_t>();
         _height = stream.Read<uint32_t>();
+        _imageCount = stream.Read<uint32_t>();
         _blitBorder = stream.Read<uint32_t>();
 
         for (auto const& child : chunk.GetChildren())
@@ -1086,7 +1086,28 @@ namespace Donut::P3D
                         _groups.push_back(std::make_unique<FrontendGroup>(*child));
                         break;
                     }
+                case ChunkType::FrontendMultiSprite:
+                    {
+                        _multiSprites.push_back(std::make_unique<FrontendMultiSprite>(*child));
+                        break;
+                    }
+                case ChunkType::FrontendMultiText:
+                    {
+                        _multiTexts.push_back(std::make_unique<FrontendMultiText>(*child));
+                        break;
+                    }
+                case ChunkType::FrontendObject:
+                    {
+                        _objects.push_back(std::make_unique<FrontendObject>(*child));
+                        break;
+                    }
+                case ChunkType::FrontendPolygon:
+                    {
+                        _polygons.push_back(std::make_unique<FrontendPolygon>(*child));
+                        break;
+                    }
                 default:
+                    std::cout << "[FrontendLayer] Unexpected Chunk: " << child->GetType() << "\n";
                     break;
             }
         }
@@ -1110,10 +1131,58 @@ namespace Donut::P3D
                         _children.push_back(std::make_unique<FrontendGroup>(*child));
                         break;
                     }
+                case ChunkType::FrontendMultiSprite:
+                    {
+                        _multiSprites.push_back(std::make_unique<FrontendMultiSprite>(*child));
+                        break;
+                    }
+                case ChunkType::FrontendMultiText:
+                    {
+                        _multiTexts.push_back(std::make_unique<FrontendMultiText>(*child));
+                        break;
+                    }
+                case ChunkType::FrontendPolygon:
+                    {
+                        _polygons.push_back(std::make_unique<FrontendPolygon>(*child));
+                        break;
+                    }
                 default:
+                    std::cout << "[FrontendGroup] Unexpected Chunk: " << child->GetType() << "\n";
                     break;
             }
         }
+    }
+
+    FrontendMultiSprite::FrontendMultiSprite(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendMultiSprite));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+    }
+
+    FrontendMultiText::FrontendMultiText(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendMultiText));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+    }
+
+    FrontendObject::FrontendObject(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendObject));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+    }
+
+    FrontendPolygon::FrontendPolygon(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FrontendPolygon));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
     }
 
     FrontendImageResource::FrontendImageResource(const P3DChunk& chunk)
