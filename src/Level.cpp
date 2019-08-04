@@ -91,7 +91,8 @@ void Level::LoadP3D(const std::string& filename)
 			const auto& ent = P3D::StaticEntity::Load(*chunk);
 			auto model      = std::make_unique<StaticEntity>(*ent);
 
-			_staticEntities.push_back(std::move(model));
+			_entities.push_back(std::move(model));
+			// _staticEntities.push_back(std::move(model));
 			break;
 		}
 		case P3D::ChunkType::StaticPhysics:
@@ -126,8 +127,8 @@ void Level::LoadP3D(const std::string& filename)
 				const auto& meshName = drawable->GetName();
 				const auto& mesh     = meshes.at(meshesNameIndex.at(meshName));
 
-				auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
-				_staticEntities.push_back(std::move(model));
+				//auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
+				//_staticEntities.push_back(std::move(model));
 			}
 
 			break;
@@ -154,8 +155,8 @@ void Level::LoadP3D(const std::string& filename)
 				const auto& meshName = drawable->GetName();
 				const auto& mesh     = meshes.at(meshesNameIndex.at(meshName));
 
-				auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
-				_staticEntities.push_back(std::move(model));
+				// auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
+				//_staticEntities.push_back(std::move(model));
 			}
 
 			break;
@@ -208,6 +209,47 @@ void Level::LoadP3D(const std::string& filename)
 	}
 }
 
+void Level::DynaLoadData(const std::string& dynaLoadData)
+{
+	std::vector<std::string> regionsLoad, regionsUnload, interiorsLoad, interiorsUnload;
+
+	// todo: this will probably fuck up on an invalid string
+	std::size_t prev = 0, pos;
+	while ((pos = dynaLoadData.find_first_of(";:@$", prev)) != std::string::npos)
+	{
+		const std::string file = dynaLoadData.substr(prev, pos - prev);
+		switch (dynaLoadData.at(pos))
+		{
+		case ';': regionsLoad.push_back(file); break;
+		case ':': regionsUnload.push_back(file); break;
+		case '@': interiorsLoad.push_back(file); break;
+		case '$': interiorsUnload.push_back(file); break;
+		}
+
+		prev = pos + 1;
+	}
+
+	// todo: be a right laugh to thread all this!!! stick it all in a queue etc.
+
+	// unload first
+	for (auto const& region : regionsUnload)
+		unloadRegion(region);
+
+	// load in more shit
+	for (auto const& region : regionsLoad)
+		loadRegion(region);
+}
+
+void Level::loadRegion(const std::string& filename)
+{
+	std::cout << "load region: " << filename << std::endl;
+}
+
+void Level::unloadRegion(const std::string& filename)
+{
+	std::cout << "unload region: " << filename << std::endl;
+}
+
 void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 {
 	_worldShader->Bind();
@@ -216,9 +258,9 @@ void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
 	if (_worldSphere != nullptr)
 		_worldSphere->Draw(*_worldShader, *_resourceManager);
 
-	for (const auto& ent : _staticEntities)
+	for (const auto& ent : _entities)
 	{
-		_worldShader->SetUniformValue("viewProj", viewProj * ent->GetTransform());
+		// _worldShader->SetUniformValue("viewProj", viewProj * ent->GetTransform());
 		ent->Draw(*_worldShader, *_resourceManager);
 	}
 

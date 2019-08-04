@@ -431,10 +431,12 @@ Game::Game(int argc, char** argv)
 	//
 	_level->LoadP3D("L1_TERRA.p3d");
 
-	// simpsons house l1z1.p3d;l1r1.p3d;l1r7.p3d;
+	// simpsons house 
 	_level->LoadP3D("l1z1.p3d");
 	_level->LoadP3D("l1r1.p3d");
 	_level->LoadP3D("l1r7.p3d");
+
+	_level->DynaLoadData("l1z1.p3d;l1r1.p3d;l1r7.p3d;");
 
 	// rest of the shit, load the whole world why not!!
 	// _level->LoadP3D("l1r2.p3d");
