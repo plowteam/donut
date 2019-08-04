@@ -52,6 +52,7 @@ class Texture
 {
 public:
 	Texture(const P3D::Texture&);
+	~Texture();
 
 protected:
 	std::string _name;
@@ -60,5 +61,20 @@ protected:
 
 	GLuint _glTexture;
 };
+
+class Shader
+{
+public:
+	Shader(const P3D::Shader&);
+	~Shader();
+
+protected:
+	std::string _name;
+
+	std::string _textureName;
+	// std::weak_ptr<Texture> _texture;
+
+	GLuint _glSampler;
+}
 
 } // namespace Donut

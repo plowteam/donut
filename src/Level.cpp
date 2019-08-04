@@ -74,6 +74,9 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::Texture:
 		{
 			auto texture = P3D::Texture::Load(*chunk);
+
+			Texture testTexture(*texture);
+
 			auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
 
 			std::unique_ptr<GL::Texture2D> tex;
