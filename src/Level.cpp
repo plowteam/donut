@@ -255,8 +255,16 @@ void Level::Draw(glm::mat4& viewProj)
 	if (_worldSphere != nullptr)
 		_worldSphere->Draw(*_worldShader);
 
+	// opaque draw first
 	for (const auto& ent : _entities)
 		ent->Draw(*_worldShader);
+
+	// transparent draw after
+	//if (_worldSphere != nullptr)
+	//	_worldSphere->Draw(*_worldShader);
+	//for (const auto& ent : _entities)
+	//	ent->Draw(*_worldShader);
+
 
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform());

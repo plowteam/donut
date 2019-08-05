@@ -57,6 +57,8 @@ Shader::Shader(const P3D::Shader& shader):
 	if (pddiName != "simple")
 		fmt::print("shader {0}: unhandled pddi type: {1}\n", _name, pddiName);
 
+	_isTranslucent = shader.GetIsTrans() == 1;
+
 	for (const auto& textureParam : shader.GetTextureParams())
 	{
 		if (textureParam->GetKey() == "TEX")

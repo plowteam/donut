@@ -76,6 +76,8 @@ class Shader
 	const std::string& GetTextureName() const { return _textureName; }
 	void SetTexture(Texture* texture);
 
+	bool IsTranslucent() const { return _isTranslucent; }
+
   protected:
 	std::string _name;
 	std::string _textureName;
@@ -83,6 +85,7 @@ class Shader
 
 	GLuint _glSampler;
 	bool _twoSided;
+	bool _isTranslucent;
 };
 
 } // namespace Donut
