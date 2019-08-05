@@ -61,7 +61,7 @@ class SkinModel
 
 	// Update / Draw methods
 	// void UpdateAnimation(SkinAnimation& anim, double time);
-	void Draw(const ResourceManager&, const std::unordered_map<std::string, std::string>&, const std::unordered_map<std::string, std::unique_ptr<GL::Texture2D>>&);
+	void Draw();
 
   private:
 	std::unique_ptr<GL::VertexBinding> _vertexBinding;

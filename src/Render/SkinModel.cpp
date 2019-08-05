@@ -114,12 +114,12 @@ void SkinModel::UpdateAnimation(SkinAnimation& anim, double time)
 	_boneBuffer->SetBuffer(_finalMatrices.data(), _finalMatrices.size() * sizeof(glm::mat4));
 }*/
 
-void SkinModel::Draw(const ResourceManager& rm, const std::unordered_map<std::string, std::string>& shaderMap, const std::unordered_map<std::string, std::unique_ptr<GL::Texture2D>>& textureMap)
+void SkinModel::Draw()
 {
 	_vertexBinding->Bind();
 
 	glActiveTexture(GL_TEXTURE0);
-	for (auto const& primGroup : _primGroups)
+	/*for (auto const& primGroup : _primGroups)
 	{
 		auto const& textureName = shaderMap.at(primGroup.shaderName);
 
@@ -129,7 +129,7 @@ void SkinModel::Draw(const ResourceManager& rm, const std::unordered_map<std::st
 			textureMap.at(textureName)->Bind();
 
 		glDrawElements(primGroup.mode, primGroup.indicesCount, _indexBuffer->GetType(), reinterpret_cast<const void*>(primGroup.indicesOffset * 4));
-	}
+	}*/
 
 	_vertexBinding->Unbind();
 }

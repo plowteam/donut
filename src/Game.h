@@ -89,6 +89,8 @@ class Game
 	int _lockedMousePosX;
 	int _lockedMousePosY;
 
+	bool _debugResourceManagerWindowOpen = false;
+
 	ALuint buffer, source;
 
 	static Game* instance;

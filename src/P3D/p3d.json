@@ -201,12 +201,33 @@
     "vertexNeeds": "u32",
     "vertexMask": "u32",
     "numParams": "u32",
-    "textureParams": "children ShaderTextureParam"
+    "textureParams": "children ShaderTextureParam",
+    "integerParams": "children ShaderIntParam",
+    "floatParams": "children ShaderFloatParam",
+    "colorParams": "children ShaderColorParam"
   },
 
   "ShaderTextureParam": {
     "key": "string[4]",
     "value": "string"
+  },
+
+  "ShaderIntParam": {
+    "key": "string[4]",
+    "value": "s32"
+  },
+
+  "ShaderFloatParam": {
+    "key": "string[4]",
+    "value": "float"
+  },
+
+  "ShaderColorParam": {
+    "key": "string[4]",
+    "r": "u8",
+    "g": "u8",
+    "b": "u8",
+    "a": "u8"
   },
 
   "CompositeDrawable": {

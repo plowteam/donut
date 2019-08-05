@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Render/Mesh.h"
-
 #include <memory>
 #include <string>
+#include <unordered_map>
+
+#include <Render/Mesh.h>
 
 namespace Donut
 {
@@ -12,25 +13,24 @@ namespace GL
 class ShaderProgram;
 }
 
-class ResourceManager;
-
 namespace P3D
 {
 class StaticEntity;
 }
 
+
 class Entity
 {
   public:
-	virtual ~Entity() {}
+	Entity() = default;
+	virtual ~Entity() = default;
 
-	virtual void Draw(const GL::ShaderProgram&, const ResourceManager&) {}
+	virtual void Draw(const GL::ShaderProgram&) {}
 
 	const std::string& GetName() const { return _name; }
 	virtual const std::string GetClassName() const { return "Entity"; }
 
   protected:
-	Entity() = default;
 	std::string _name;
 };
 
@@ -39,7 +39,7 @@ class StaticEntity: public Entity
   public:
 	StaticEntity(const P3D::StaticEntity&);
 
-	void Draw(const GL::ShaderProgram&, const ResourceManager&) override;
+	void Draw(const GL::ShaderProgram&) override;
 
 	const std::string GetClassName() const override { return "StaticEntity"; }
 
@@ -54,6 +54,9 @@ public:
 	Texture(const P3D::Texture&);
 	~Texture();
 
+	void Bind(GLenum texture) const;
+	GLuint GetHandle() const { return _glTexture; }
+
 protected:
 	std::string _name;
 	uint32_t _width;
@@ -64,17 +67,22 @@ protected:
 
 class Shader
 {
-public:
+  public:
 	Shader(const P3D::Shader&);
 	~Shader();
 
-protected:
-	std::string _name;
+	void Bind(GLuint unit) const;
 
+	const std::string& GetTextureName() const { return _textureName; }
+	void SetTexture(Texture* texture);
+
+  protected:
+	std::string _name;
 	std::string _textureName;
-	// std::weak_ptr<Texture> _texture;
+	Texture* _texture;
 
 	GLuint _glSampler;
-}
+	bool _twoSided;
+};
 
 } // namespace Donut

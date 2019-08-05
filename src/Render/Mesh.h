@@ -31,7 +31,7 @@ class Mesh
 
   public:
 	Mesh(const P3D::Mesh& mesh);
-	void Draw(const ResourceManager&);
+	void Draw();
 
   private:
 	std::string _name;

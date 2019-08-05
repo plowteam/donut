@@ -2,6 +2,7 @@
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
 #include <iostream>
+#include "Game.h"
 
 namespace Donut
 {
@@ -41,8 +42,7 @@ namespace Donut
 		}
 	}
 
-	CompositeModel::CompositeModel(const ICompositeModel& provider, const std::unique_ptr<ResourceManager>& resourceManager) :
-		_resourceManager(resourceManager)
+	CompositeModel::CompositeModel(const ICompositeModel& provider)
 	{
 		const auto& drawables = provider.GetDrawables();
 		const auto& skeletons = provider.GetSkeletons();
@@ -64,27 +64,19 @@ namespace Donut
 			const auto& skeletonJoints = skeleton->GetJoints();
 
 			std::vector<glm::mat4> transforms;
+		    transforms.reserve(skeletonJoints.size());
 			for (const auto& joint : skeletonJoints)
-			{
 				transforms.push_back(transforms.empty() ? glm::mat4(1.0f) : transforms[joint->GetParent()] * joint->GetRestPose());
-			}
 
 			const auto& skeletonName = skeleton->GetName();
 			jointTransforms.insert({ skeletonName, std::move(transforms) });
 		}
 
 		for (const auto& shader : shaders)
-		{
-			_resourceManager->AddShader(shader->GetName(), std::make_unique<Shader>(*shader));
-		}
+		    Game::GetInstance().GetResourceManager().LoadShader(*shader);
 
 		for (const auto& texture : textures)
-		{
-			auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
-			_resourceManager->AddTexture(texture->GetName(), std::move((texdata.comp == 4) ?
-				std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, texdata.data.data()) :
-				std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data())));
-		}
+		    Game::GetInstance().GetResourceManager().LoadTexture(*texture);
 
 		for (const auto& drawable : drawables)
 		{
@@ -107,7 +99,7 @@ namespace Donut
 		}
 	}
 
-	std::unique_ptr<CompositeModel> CompositeModel::LoadP3D(const std::string& filename, const std::unique_ptr<ResourceManager>& resourceManager)
+	std::unique_ptr<CompositeModel> CompositeModel::LoadP3D(const std::string& filename)
 	{
 		if (!std::filesystem::exists(filename))
 		{
@@ -118,7 +110,7 @@ namespace Donut
 		std::cout << "Loading CompositeDrawable: " << filename << "\n";
 
 		const auto p3d = P3D::P3DFile(filename);
-		return std::make_unique<CompositeModel>(CompositeModel_Chunk(p3d.GetRoot()), resourceManager);
+		return std::make_unique<CompositeModel>(CompositeModel_Chunk(p3d.GetRoot()));
 	}
 
 	void CompositeModel::Draw(GL::ShaderProgram& shader, const glm::mat4& viewProj, const glm::mat4& modelMatrix)
@@ -126,7 +118,7 @@ namespace Donut
 		for (const auto& prop : _props)
 		{
 			shader.SetUniformValue("viewProj", viewProj * modelMatrix * prop.transform);
-			_meshes[prop.meshIndex]->Draw(*_resourceManager);
+			_meshes[prop.meshIndex]->Draw();
 		}
 	}
 } // namespace Donut

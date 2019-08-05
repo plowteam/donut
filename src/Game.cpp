@@ -481,12 +481,7 @@ void Game::loadGlobal()
 	for (const auto& chunk : root.GetChildren())
 	{
 		if (chunk->GetType() != P3D::ChunkType::Texture) continue;
-
-		auto texture = P3D::Texture::Load(*chunk);
-		auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
-
-		auto tex2d = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
-		_resourceManager->AddTexture(texture->GetName(), std::move(tex2d));
+		_resourceManager->LoadTexture(*P3D::Texture::Load(*chunk));
 	}
 }
 
@@ -632,6 +627,11 @@ void Game::Run()
 
 		ImGui::EndMainMenuBar();
 
+		if (_debugResourceManagerWindowOpen)
+			_resourceManager->ImGuiDebugWindow(&_debugResourceManagerWindowOpen);
+
+		// ImGui::ShowDemoWindow();
+
 		debugDrawRCF();
 
 		ImGuiIO& io = ImGui::GetIO();
@@ -663,7 +663,7 @@ void Game::Run()
 		glm::mat4 viewMatrix     = _camera->GetViewMatrix();
 		glm::mat4 viewProjection = projectionMatrix * viewMatrix;
 
-		if (_level != nullptr) _level->Draw(GetResourceManager(), viewProjection);
+		if (_level != nullptr) _level->Draw(viewProjection);
 
 		if (_character != nullptr)
 			_character->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
@@ -775,19 +775,22 @@ void Game::guiDebugMenu()
 	{
 		PhysicsDebugDrawMode mode = _worldPhysics->GetDebugDrawMode();
 
-		ImGui::CheckboxFlags("Draw Wireframe", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawWireframe);
-		ImGui::CheckboxFlags("Draw AABB", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawAABB);
-		ImGui::CheckboxFlags("Draw Features Text", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawFeaturesText);
-		ImGui::CheckboxFlags("Draw Contact Points", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawContactPoints);
-		ImGui::CheckboxFlags("Draw Text", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawText);
-		ImGui::CheckboxFlags("Fast Wireframe", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::FastWireframe);
-		ImGui::CheckboxFlags("Draw Normals", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawNormals);
-		ImGui::CheckboxFlags("Draw Frames", (unsigned int*)&mode, (unsigned int)PhysicsDebugDrawMode::DrawFrames);
+		ImGui::CheckboxFlags("Draw Wireframe", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawWireframe));
+		ImGui::CheckboxFlags("Draw AABB", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawAABB));
+		ImGui::CheckboxFlags("Draw Features Text", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFeaturesText));
+		ImGui::CheckboxFlags("Draw Contact Points", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawContactPoints));
+		ImGui::CheckboxFlags("Draw Text", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawText));
+		ImGui::CheckboxFlags("Fast Wireframe", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::FastWireframe));
+		ImGui::CheckboxFlags("Draw Normals", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawNormals));
+		ImGui::CheckboxFlags("Draw Frames", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFrames));
 
 		_worldPhysics->SetDebugDrawMode(mode);
 
 		ImGui::EndMenu();
 	}
+
+	if (ImGui::MenuItem("Resource Manager..."))
+		_debugResourceManagerWindowOpen = true;
 
 	ImGui::EndMenu();
 }

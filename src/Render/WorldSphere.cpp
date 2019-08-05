@@ -11,10 +11,10 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 		_meshes.push_back(std::make_unique<Mesh>(*p3dMesh));
 }
 
-void WorldSphere::Draw(const GL::ShaderProgram& shader, const ResourceManager& rm) const
+void WorldSphere::Draw(const GL::ShaderProgram& shader) const
 {
 	for (auto const& mesh : _meshes)
-		mesh->Draw(rm);
+		mesh->Draw();
 }
 
 } // namespace Donut

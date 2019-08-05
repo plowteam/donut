@@ -55,6 +55,9 @@ namespace Donut::P3D
 	class SceneGraphDrawable;
 	class Shader;
 	class ShaderTextureParam;
+	class ShaderIntParam;
+	class ShaderFloatParam;
+	class ShaderColorParam;
 	class CompositeDrawable;
 	class CompositeDrawablePropList;
 	class CompositeDrawableProp;
@@ -702,6 +705,9 @@ namespace Donut::P3D
         const uint32_t& GetVertexMask() const { return _vertexMask; }
         const uint32_t& GetNumParams() const { return _numParams; }
         const std::vector<std::unique_ptr<ShaderTextureParam>>& GetTextureParams() const { return _textureParams; }
+        const std::vector<std::unique_ptr<ShaderIntParam>>& GetIntegerParams() const { return _integerParams; }
+        const std::vector<std::unique_ptr<ShaderFloatParam>>& GetFloatParams() const { return _floatParams; }
+        const std::vector<std::unique_ptr<ShaderColorParam>>& GetColorParams() const { return _colorParams; }
 
     private:
 
@@ -713,6 +719,9 @@ namespace Donut::P3D
         uint32_t _vertexMask;
         uint32_t _numParams;
         std::vector<std::unique_ptr<ShaderTextureParam>> _textureParams;
+        std::vector<std::unique_ptr<ShaderIntParam>> _integerParams;
+        std::vector<std::unique_ptr<ShaderFloatParam>> _floatParams;
+        std::vector<std::unique_ptr<ShaderColorParam>> _colorParams;
 
     };
 
@@ -731,6 +740,66 @@ namespace Donut::P3D
 
         std::string _key;
         std::string _value;
+
+    };
+
+    class ShaderIntParam
+    {
+    public:
+
+        ShaderIntParam(const P3DChunk&);
+
+        static std::unique_ptr<ShaderIntParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderIntParam>(chunk); }
+
+        const std::string& GetKey() const { return _key; }
+        const int32_t& GetValue() const { return _value; }
+
+    private:
+
+        std::string _key;
+        int32_t _value;
+
+    };
+
+    class ShaderFloatParam
+    {
+    public:
+
+        ShaderFloatParam(const P3DChunk&);
+
+        static std::unique_ptr<ShaderFloatParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderFloatParam>(chunk); }
+
+        const std::string& GetKey() const { return _key; }
+        const float& GetValue() const { return _value; }
+
+    private:
+
+        std::string _key;
+        float _value;
+
+    };
+
+    class ShaderColorParam
+    {
+    public:
+
+        ShaderColorParam(const P3DChunk&);
+
+        static std::unique_ptr<ShaderColorParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderColorParam>(chunk); }
+
+        const std::string& GetKey() const { return _key; }
+        const uint8_t& GetR() const { return _r; }
+        const uint8_t& GetG() const { return _g; }
+        const uint8_t& GetB() const { return _b; }
+        const uint8_t& GetA() const { return _a; }
+
+    private:
+
+        std::string _key;
+        uint8_t _r;
+        uint8_t _g;
+        uint8_t _b;
+        uint8_t _a;
 
     };
 

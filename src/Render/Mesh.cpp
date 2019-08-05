@@ -2,6 +2,9 @@
 #include <Render/SkinModel.h>
 #include <vector>
 
+#include <Game.h>
+#include <Entity.h>
+
 namespace Donut
 {
 
@@ -89,14 +92,15 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(const ResourceManager& rm)
+void Mesh::Draw()
 {
 	glBindVertexArray(_vertexArrayObject);
 
 	for (auto const& prim : _primGroups)
 	{
-		rm.GetShaderTexture(prim.shaderName).Bind(0);
-		glDrawElements(prim.type, (GLsizei)prim.indicesCount, _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));
+		auto const& shader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName);
+		shader->Bind(0);
+		glDrawElements(prim.type, static_cast<GLsizei>(prim.indicesCount), _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));
 	}
 
 	glBindVertexArray(0);

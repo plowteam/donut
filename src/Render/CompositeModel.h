@@ -62,9 +62,9 @@ namespace Donut
 	{
 	public:
 
-		CompositeModel(const ICompositeModel&, const std::unique_ptr<ResourceManager>&);
+		CompositeModel(const ICompositeModel&);
 
-		static std::unique_ptr<CompositeModel> LoadP3D(const std::string&, const std::unique_ptr<ResourceManager>&);
+		static std::unique_ptr<CompositeModel> LoadP3D(const std::string&);
 
 		void Draw(GL::ShaderProgram&, const glm::mat4&, const glm::mat4&);
 
@@ -82,6 +82,5 @@ namespace Donut
 		glm::mat4 _transform;
 		std::vector<std::unique_ptr<Mesh>> _meshes;
 		std::vector<DrawableProp> _props;
-		const std::unique_ptr<ResourceManager>& _resourceManager;
 	};
 } // namespace Donut

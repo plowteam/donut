@@ -688,6 +688,21 @@ namespace Donut::P3D
                         _textureParams.push_back(std::make_unique<ShaderTextureParam>(*child));
                         break;
                     }
+                case ChunkType::ShaderIntParam:
+                    {
+                        _integerParams.push_back(std::make_unique<ShaderIntParam>(*child));
+                        break;
+                    }
+                case ChunkType::ShaderFloatParam:
+                    {
+                        _floatParams.push_back(std::make_unique<ShaderFloatParam>(*child));
+                        break;
+                    }
+                case ChunkType::ShaderColorParam:
+                    {
+                        _colorParams.push_back(std::make_unique<ShaderColorParam>(*child));
+                        break;
+                    }
                 default:
                     break;
             }
@@ -701,6 +716,36 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _key = stream.ReadString(4);
         _value = stream.ReadLPString();
+    }
+
+    ShaderIntParam::ShaderIntParam(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::ShaderIntParam));
+
+        MemoryStream stream(chunk.GetData());
+        _key = stream.ReadString(4);
+        _value = stream.Read<int32_t>();
+    }
+
+    ShaderFloatParam::ShaderFloatParam(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::ShaderFloatParam));
+
+        MemoryStream stream(chunk.GetData());
+        _key = stream.ReadString(4);
+        _value = stream.Read<float>();
+    }
+
+    ShaderColorParam::ShaderColorParam(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::ShaderColorParam));
+
+        MemoryStream stream(chunk.GetData());
+        _key = stream.ReadString(4);
+        _r = stream.Read<uint8_t>();
+        _g = stream.Read<uint8_t>();
+        _b = stream.Read<uint8_t>();
+        _a = stream.Read<uint8_t>();
     }
 
     CompositeDrawable::CompositeDrawable(const P3DChunk& chunk)

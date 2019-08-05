@@ -89,8 +89,6 @@ class Character
 	std::unique_ptr<SkinModel> _skinModel;
 	// std::weak_ptr<SkinModel> _skinModel; // use when SkinModels are created as a shared_ptr
 	std::vector<SkeletonJoint> _skeletonJoints;
-	std::unordered_map<std::string, std::unique_ptr<GL::Texture2D>> _textureMap;
-	std::unordered_map<std::string, std::string> _shaderTextureMap;
 
 	// animations / bone buffers
 	std::unordered_map<std::string, std::unique_ptr<SkinAnimation>> _animations;

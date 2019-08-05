@@ -7,6 +7,7 @@
 #include <ResourceManager.h>
 #include <array>
 #include <iostream>
+#include "Game.h"
 
 namespace Donut
 {
@@ -17,7 +18,6 @@ Level::Level(WorldPhysics* worldPhysics)
 	const auto worldFragSrc = File::ReadAll("shaders/world.frag");
 
 	_worldShader     = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
-	_resourceManager = std::make_unique<ResourceManager>();
 	_worldPhysics    = worldPhysics;
 
 	std::array<std::string, 7> carFiles {
@@ -33,7 +33,7 @@ Level::Level(WorldPhysics* worldPhysics)
 	float offset = 0.0f;
 	for (const auto& carFile : carFiles)
 	{
-		if (auto car = CompositeModel::LoadP3D(carFile, _resourceManager))
+		if (auto car = CompositeModel::LoadP3D(carFile))
 		{
 			auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(240 + offset, 4.6f, -160));
 			car->SetTransform(transform);
@@ -65,30 +65,11 @@ void Level::LoadP3D(const std::string& filename)
 		switch (chunk->GetType())
 		{
 		case P3D::ChunkType::Shader:
-		{
-			auto shader                   = P3D::Shader::Load(*chunk);
-			const std::string shader_name = shader->GetName();
-			_resourceManager->AddShader(shader_name, std::make_unique<Shader>(*shader));
+			Game::GetInstance().GetResourceManager().LoadShader(*P3D::Shader::Load(*chunk));
 			break;
-		}
 		case P3D::ChunkType::Texture:
-		{
-			auto texture = P3D::Texture::Load(*chunk);
-
-			Texture testTexture(*texture);
-
-			auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
-
-			std::unique_ptr<GL::Texture2D> tex;
-			if (texdata.comp == 4)
-				tex = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, texdata.data.data());
-			else
-				tex = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
-
-			_resourceManager->AddTexture(texture->GetName(), std::move(tex));
-
+			Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk));
 			break;
-		}
 		case P3D::ChunkType::StaticEntity:
 		{
 			const auto& ent = P3D::StaticEntity::Load(*chunk);
@@ -178,7 +159,7 @@ void Level::LoadP3D(const std::string& filename)
 				const auto& drawable  = drawables.at(i);
 				const auto& transform = transforms.at(i);
 
-				auto compositeModel = std::make_unique<CompositeModel>(CompositeModel_AnimObjectWrapper(*animObjectWrapper), _resourceManager);
+				auto compositeModel = std::make_unique<CompositeModel>(CompositeModel_AnimObjectWrapper(*animObjectWrapper));
 				compositeModel->SetTransform(transform);
 				_compositeModels.push_back(std::move(compositeModel));
 			}
@@ -253,18 +234,18 @@ void Level::unloadRegion(const std::string& filename)
 	std::cout << "unload region: " << filename << std::endl;
 }
 
-void Level::Draw(const ResourceManager& rm, glm::mat4& viewProj)
+void Level::Draw(glm::mat4& viewProj)
 {
 	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
 
 	if (_worldSphere != nullptr)
-		_worldSphere->Draw(*_worldShader, *_resourceManager);
+		_worldSphere->Draw(*_worldShader);
 
 	for (const auto& ent : _entities)
 	{
 		// _worldShader->SetUniformValue("viewProj", viewProj * ent->GetTransform());
-		ent->Draw(*_worldShader, *_resourceManager);
+		ent->Draw(*_worldShader);
 	}
 
 	for (const auto& compositeModel : _compositeModels)

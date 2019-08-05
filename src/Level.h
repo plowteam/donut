@@ -28,7 +28,7 @@ class Level
 public:
 	Level(WorldPhysics*);
 
-	void Draw(const ResourceManager&, glm::mat4& viewProj);
+	void Draw(glm::mat4& viewProj);
 	void LoadP3D(const std::string& filename);
 
 	void DynaLoadData(const std::string& dynaLoadData);
@@ -39,7 +39,6 @@ public:
 
 	WorldPhysics* _worldPhysics;
 
-	std::unique_ptr<ResourceManager> _resourceManager;
     std::unique_ptr<WorldSphere> _worldSphere;
 	std::vector<std::unique_ptr<Entity>> _entities;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;

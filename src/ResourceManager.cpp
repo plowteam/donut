@@ -1,30 +1,25 @@
+#include "imgui.h"
+
+#include <Entity.h>
 #include <ResourceManager.h>
 
 namespace Donut
 {
-Shader::Shader(const P3D::Shader& shader)
-{
-	const auto& textureParams = shader.GetTextureParams();
-	for (const auto& textureParam : textureParams)
-	{
-		_textureParams.insert({ textureParam->GetKey(), textureParam->GetValue() });
-	}
-}
 
 ResourceManager::ResourceManager()
 {
-	constexpr GLuint errorTextureData[] = { 0xFFFF00FF, 0xFF000000, 0xFF000000, 0xFFFF00FF };
-	_errorTexture                       = std::make_unique<GL::Texture2D>(2, 2, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, errorTextureData);
+	// constexpr GLuint errorTextureData[] = { 0xFFFF00FF, 0xFF000000, 0xFF000000, 0xFFFF00FF };
+	// _errorTexture                       = std::make_unique<GL::Texture2D>(2, 2, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, errorTextureData);
 }
 
-void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<GL::Texture2D> texture)
+void ResourceManager::LoadTexture(const P3D::Texture& texture)
 {
-	_textures[name] = std::move(texture);
+	_textures[texture.GetName()] = std::make_unique<Texture>(texture);
 }
 
-void ResourceManager::AddShader(const std::string& name, std::unique_ptr<Shader> shader)
+void ResourceManager::LoadShader(const P3D::Shader& shader)
 {
-	_shaders[name] = std::move(shader);
+	_shaders[shader.GetName()] = std::make_unique<Shader>(shader);
 }
 
 void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> font)
@@ -32,14 +27,54 @@ void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> fon
 	_fonts[name] = std::move(font);
 }
 
-const GL::Texture2D& ResourceManager::GetTexture(const std::string& name) const
+void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 {
-	if (_textures.find(name) == _textures.end())
+	if (!ImGui::Begin("Resource Manager", p_open))
 	{
-		return *_errorTexture;
+		ImGui::End();
+		return;
 	}
 
-	return *_textures.at(name);
+	ImGui::Text("Textures: %d", _textures.size());
+	ImGui::SameLine();
+	ImGui::Text("Shaders: %d", _shaders.size());
+	ImGui::SameLine();
+	ImGui::Text("Fonts: %d", _fonts.size());
+
+	ImGui::BeginTabBar("rmtabs");
+
+	if (ImGui::BeginTabItem("Textures"))
+	{
+		const ImVec2 windowSize = ImGui::GetWindowSize();
+		const int perLine       = windowSize.x / 72;
+
+		int i = 0;
+		for (auto const& [name, texture] : _textures)
+		{
+			ImGui::Image(reinterpret_cast<ImTextureID>(texture->GetHandle()), ImVec2(64, 64));
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(name.c_str());
+
+			if (++i % perLine != 0)
+				ImGui::SameLine();
+		}
+
+		ImGui::EndTabItem();
+	}
+
+	ImGui::EndTabBar();
+
+	ImGui::End();
+}
+
+const Shader* ResourceManager::GetShader(const std::string& name) const
+{
+	auto const& shader = _shaders.at(name);
+
+	// ensure the texture is bounded..
+	shader->SetTexture(_textures.at(shader->GetTextureName()).get());
+
+	return shader.get();
 }
 
 const Font* ResourceManager::GetFont(const std::string& name) const
@@ -50,20 +85,6 @@ const Font* ResourceManager::GetFont(const std::string& name) const
 	}
 
 	return _fonts.at(name).get();
-}
-
-const GL::Texture2D& ResourceManager::GetShaderTexture(const std::string& name) const
-{
-	if (_shaders.find(name) == _shaders.end())
-		return *_errorTexture;
-
-	auto const& shader = _shaders.at(name);
-	auto const& texture = shader->GetTextureParam();
-
-	if (_textures.find(texture) == _textures.end())
-		return *_errorTexture;
-
-	return *_textures.at(texture);
 }
 
 } // namespace Donut

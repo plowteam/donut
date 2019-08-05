@@ -33,28 +33,20 @@ void Character::LoadModel(const std::string& name)
 		switch (chunk->GetType())
 		{
 		case P3D::ChunkType::Shader:
-		{
-			const auto shader                    = P3D::Shader::Load(*chunk);
-			_shaderTextureMap[shader->GetName()] = Shader(*shader).GetTextureParam();
+			Game::GetInstance().GetResourceManager().LoadShader(*P3D::Shader::Load(*chunk));
 			break;
-		}
 		case P3D::ChunkType::Texture:
-		{
-			auto texture                    = P3D::Texture::Load(*chunk);
-			auto texdata                    = P3D::ImageData::Decode(texture->GetImage()->GetData());
-			_textureMap[texture->GetName()] = std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data());
+			Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk));
 			break;
-		}
 		case P3D::ChunkType::PolySkin:
-		{
-			auto const polySkin = P3D::PolySkin::Load(*chunk);
-			_skinModel->LoadPolySkin(*polySkin);
+			_skinModel->LoadPolySkin(*P3D::PolySkin::Load(*chunk));
 			break;
-		}
 		case P3D::ChunkType::Skeleton:
 			loadSkeleton(*P3D::Skeleton::Load(*chunk));
 			break;
-		default: break;
+		default:
+			fmt::print("unhandled chunk {1} in character {0}\n", name, chunk->GetType());
+			break;
 		}
 	}
 }
@@ -95,7 +87,7 @@ void Character::Draw(const glm::mat4& viewProjection, GL::ShaderProgram& shaderP
 	glActiveTexture(GL_TEXTURE1);
 	_boneBuffer->Bind();
 
-	_skinModel->Draw(rm, _shaderTextureMap, _textureMap);
+	_skinModel->Draw();
 }
 
 void Character::SetAnimation(const std::string& animationName)
