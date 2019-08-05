@@ -75,12 +75,28 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 	ImGui::End();
 }
 
-const Shader* ResourceManager::GetShader(const std::string& name) const
+/*
+ * Searches for the shader in the map, you should cache the result to avoid unnecessary lookups
+ */
+Shader* ResourceManager::GetShader(const std::string& name) const
 {
+	if (_shaders.find(name) == _shaders.end())
+	{
+		fmt::print("could not find shader {0}\n", name);
+		return nullptr; // todo: return an error shader		
+	}
+
 	auto const& shader = _shaders.at(name);
 
-	// ensure the texture is bounded..
-	shader->SetTexture(_textures.at(shader->GetTextureName()).get());
+	// todo: check if a texture is set/valid before setting texture again
+	const std::string texName = shader->GetTextureName();
+	if (_textures.find(texName) != _textures.end())
+		shader->SetTexture(_textures.at(texName).get());
+	else
+	{
+		fmt::print("could not find texture {1} for shader {0}\n", name, texName);
+		shader->SetTexture(_textures.begin()->second.get()); // todo: set an error texture	
+	}
 
 	return shader.get();
 }

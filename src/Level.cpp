@@ -1,3 +1,5 @@
+#include "Game.h"
+
 #include <Level.h>
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
@@ -7,7 +9,6 @@
 #include <ResourceManager.h>
 #include <array>
 #include <iostream>
-#include "Game.h"
 
 namespace Donut
 {
@@ -17,8 +18,8 @@ Level::Level(WorldPhysics* worldPhysics)
 	const auto worldVertSrc = File::ReadAll("shaders/world.vert");
 	const auto worldFragSrc = File::ReadAll("shaders/world.frag");
 
-	_worldShader     = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
-	_worldPhysics    = worldPhysics;
+	_worldShader  = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
+	_worldPhysics = worldPhysics;
 
 	std::array<std::string, 7> carFiles {
 		"art/cars/mrplo_v.p3d",
@@ -75,11 +76,7 @@ void Level::LoadP3D(const std::string& filename)
 			break;
 		case P3D::ChunkType::StaticEntity:
 		{
-			const auto& ent = P3D::StaticEntity::Load(*chunk);
-			auto model      = std::make_unique<StaticEntity>(*ent);
-
-			_entities.push_back(std::move(model));
-			// _staticEntities.push_back(std::move(model));
+			_entities.emplace_back(std::make_unique<StaticEntity>(*P3D::StaticEntity::Load(*chunk)));
 			break;
 		}
 		case P3D::ChunkType::StaticPhysics:
