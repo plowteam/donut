@@ -54,7 +54,9 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 	if (ImGui::BeginTabItem("Textures"))
 	{
 		const ImVec2 windowSize = ImGui::GetWindowSize();
-		const int perLine       = windowSize.x / 72;
+		int perLine       = static_cast<int>(windowSize.x) / 72;
+		if (perLine == 0)
+			perLine = 1;
 
 		int i = 0;
 		for (auto const& [name, texture] : _textures)
