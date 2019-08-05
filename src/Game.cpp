@@ -1,14 +1,17 @@
 #include <Character.h>
 #include <Core/FpsTimer.h>
+#include <AnimCamera.h>
 #include <FreeCamera.h>
 #include <Game.h>
 #include <Input/Input.h>
 #include <Commands.h>
 #include <Level.h>
+#include <FrontendProject.h>
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
 #include <Physics/WorldPhysics.h>
 #include <RCL/RCFFile.h>
+#include <RCL/RSDFile.h>
 #include <Render/LineRenderer.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
@@ -49,136 +52,6 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 	        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 }
 
-class AnimCamera
-{
-  public:
-	AnimCamera(const P3D::P3DChunk& chunk):
-	    _time(0.0)
-	{
-		for (const auto& child : chunk.GetChildren())
-		{
-			switch (child->GetType())
-			{
-			case P3D::ChunkType::Animation:
-			{
-				auto animation = P3D::Animation::Load(*child);
-				_trans         = std::make_unique<SkinAnimation>(
-                    animation->GetName(),
-                    animation->GetNumFrames() / animation->GetFrameRate(),
-                    static_cast<int32_t>(animation->GetNumFrames()),
-                    animation->GetFrameRate());
-
-				_forward = std::make_unique<SkinAnimation>(
-				    animation->GetName(),
-				    animation->GetNumFrames() / animation->GetFrameRate(),
-				    static_cast<int32_t>(animation->GetNumFrames()),
-				    animation->GetFrameRate());
-
-				_up = std::make_unique<SkinAnimation>(
-				    animation->GetName(),
-				    animation->GetNumFrames() / animation->GetFrameRate(),
-				    static_cast<int32_t>(animation->GetNumFrames()),
-				    animation->GetFrameRate());
-
-				for (auto const& group : animation->GetGroupList()->GetGroups())
-				{
-					auto transTrack   = std::make_unique<SkinAnimation::Track>(group->GetName());
-					auto forwardTrack = std::make_unique<SkinAnimation::Track>(group->GetName());
-					auto upTrack      = std::make_unique<SkinAnimation::Track>(group->GetName());
-
-					if (const auto& vector3Channel = group->GetVector3ChannelsValue("TRAN"))
-					{
-						const auto& frames = vector3Channel->GetFrames();
-						const auto& values = vector3Channel->GetValues();
-
-						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
-						{
-							transTrack->AddTranslationKey(frames[i], values[i]);
-						}
-					}
-
-					if (const auto& vector3Channel = group->GetVector3ChannelsValue("LOOK"))
-					{
-						const auto& frames = vector3Channel->GetFrames();
-						const auto& values = vector3Channel->GetValues();
-
-						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
-						{
-							forwardTrack->AddDirectionKey(frames[i], glm::normalize(values[i]));
-						}
-					}
-
-					if (const auto& vector3Channel = group->GetVector3ChannelsValue("UP"))
-					{
-						const auto& frames = vector3Channel->GetFrames();
-						const auto& values = vector3Channel->GetValues();
-
-						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
-						{
-							upTrack->AddDirectionKey(frames[i], glm::normalize(values[i]));
-						}
-					}
-
-					_trans->AddTrack(transTrack);
-					_forward->AddTrack(forwardTrack);
-					_up->AddTrack(upTrack);
-				}
-
-				break;
-			}
-			case P3D::ChunkType::Camera:
-			{
-				auto camera = P3D::Camera::Load(*child);
-				break;
-			}
-			case P3D::ChunkType::MultiController:
-			{
-				auto multiController = P3D::MultiController::Load(*child);
-				break;
-			}
-			default:
-				break;
-			}
-		}
-	}
-
-	static std::unique_ptr<AnimCamera> LoadP3D(const std::string& filename)
-	{
-		if (!std::filesystem::exists(filename))
-		{
-			std::cout << "AnimCamera not found: " << filename << "\n";
-			return nullptr;
-		}
-
-		std::cout << "Loading AnimCamera: " << filename << "\n";
-
-		const auto p3d = P3D::P3DFile(filename);
-		return std::make_unique<AnimCamera>(p3d.GetRoot());
-	}
-
-	glm::mat4 Update(double dt)
-	{
-		const auto& trans   = _trans->Evaluate(0, (float)_time);
-		const auto& forward = _forward->EvaluateDirection(0, (float)_time);
-		const auto& up      = glm::vec3(0, 1, 0); // _up->EvaluateDirection(0, (float)_time);
-		const auto& right   = glm::normalize(glm::cross(up, forward));
-		glm::mat3 rotation(right.x, up.x, forward.x, right.y, up.y, forward.y, right.z, up.z, forward.z);
-		auto lookAt = glm::quat_cast(rotation);
-
-		lookAt = glm::inverse(glm::quatLookAt(forward, up));
-
-		_time += dt;
-
-		return glm::toMat4(lookAt) * glm::translate(glm::mat4(1.0f), -glm::vec3(trans[3]));
-	}
-
-  private:
-	double _time;
-	std::unique_ptr<SkinAnimation> _trans;
-	std::unique_ptr<SkinAnimation> _forward;
-	std::unique_ptr<SkinAnimation> _up;
-};
-
 void Game::TestAudio()
 {
 	// THIS IS ALL SHIT, PROOF OF CONCEPT!!
@@ -194,104 +67,9 @@ void Game::TestAudio()
 
 	alGenBuffers(1, &buffer);
 	alGenSources(1, &source);
-
-	//PlayAudio(*_filesRCF[3], "sound\\music\\homer\\tuba_060.rsd");
-
-	//auto magic = rsdStream->ReadString(8);
-	//auto numChannels = rsdStream->Read<uint32_t>();
-	//auto bitsPerChannel = rsdStream->Read<uint32_t>();
-	//auto sampleRate = rsdStream->Read<uint32_t>();
-
-	//rsdStream->Seek(0x800, Donut::SeekMode::Begin);
-	//std::vector<uint8_t> data(rsdStream->Size() - rsdStream->Position());
-	//rsdStream->ReadBytes(data.data(), data.size());
-
-	//alBufferData(buffer, AL_FORMAT_STEREO16, data.data(), (ALsizei)data.size(), sampleRate);
-	//alGenSources(1, &source);
-	//alSourcei(source, AL_BUFFER, buffer);
-	//alSourcei(source, AL_LOOPING, AL_TRUE);
-	//alSourcePlay(source);
-
-	//alSourceStop(source);
-	//alDeleteSources(1, &source);
-	//alDeleteBuffers(1, &buffer);
-	//alcMakeContextCurrent(NULL);
-	//alcDestroyContext(context);
-	//alcCloseDevice(device);
 }
 
-std::array<int, 16> indexTable = { -1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8 };
-std::array<int, 89> stepTable  = {
-    7, 8, 9, 10, 11, 12, 13, 14,
-    16, 17, 19, 21, 23, 25, 28, 31,
-    34, 37, 41, 45, 50, 55, 60, 66,
-    73, 80, 88, 97, 107, 118, 130, 143,
-    157, 173, 190, 209, 230, 253, 279, 307,
-    337, 371, 408, 449, 494, 544, 598, 658,
-    724, 796, 876, 963, 1060, 1166, 1282, 1411,
-    1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024,
-    3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484,
-    7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899,
-    15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794,
-    32767
-};
 
-static void DecodeNibble(int32_t nibble, int32_t& nibbleDecoded, int32_t& stepIndex)
-{
-	int32_t step  = stepTable[stepIndex];
-	int32_t delta = step >> 3;
-	if (nibble & 1) delta += step >> 2;
-	if (nibble & 2) delta += step >> 1;
-	if (nibble & 4) delta += step;
-	if (nibble & 8) delta = -delta;
-
-	nibbleDecoded += delta;
-	if (nibbleDecoded > 32767)
-		nibbleDecoded = 32767;
-	else if (nibbleDecoded < -32768)
-		nibbleDecoded = -32768;
-
-	stepIndex += indexTable[nibble];
-	if (stepIndex < 0)
-		stepIndex = 0;
-	else if (stepIndex > 88)
-		stepIndex = 88;
-}
-
-static void DecodeRADP(MemoryStream& stream, int16_t* outBuffer, int32_t numBlocks, int32_t numChannels)
-{
-	const size_t blockSize       = numChannels * 20;
-	const size_t numBlockSamples = 32;
-	size_t offset                = 0x800;
-	size_t firstSample           = 0;
-
-	for (size_t block = 0; block < numBlocks; ++block, firstSample += numBlockSamples)
-	{
-		for (size_t channel = 0; channel < numChannels; ++channel)
-		{
-			stream.Seek(offset + (channel * 4), Donut::SeekMode::Begin);
-			int32_t stepIndex     = (int32_t)stream.Read<int16_t>();
-			int32_t nibbleDecoded = (int32_t)stream.Read<int16_t>();
-
-			if (stepIndex < 0)
-				stepIndex = 0;
-			else if (stepIndex > 88)
-				stepIndex = 88;
-
-			for (size_t i = 0; i < numBlockSamples; ++i)
-			{
-				size_t byteOffset = offset + 4 * numChannels + channel + i / 2 * numChannels;
-				stream.Seek(byteOffset, Donut::SeekMode::Begin);
-				int8_t byte    = stream.Read<int8_t>();
-				int32_t nibble = (byte >> (i & 1 ? 4 : 0)) & 0xF;
-				DecodeNibble(nibble, nibbleDecoded, stepIndex);
-				outBuffer[((firstSample + i) * numChannels) + channel] = (int16_t)nibbleDecoded;
-			}
-
-			offset += blockSize;
-		}
-	}
-}
 
 void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 {
@@ -299,33 +77,7 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 
 	auto rsdStream = file.GetFileStream(filename);
 	if (rsdStream == nullptr) return;
-
-	auto magic          = rsdStream->ReadString(8);
-	auto numChannels    = rsdStream->Read<uint32_t>();
-	auto bitsPerChannel = rsdStream->Read<uint32_t>();
-	auto sampleRate     = rsdStream->Read<uint32_t>();
-
-	std::cout << fmt::format("{0}, channels:{1}, bpc:{2}, samplerate:{3}", magic, numChannels, bitsPerChannel, sampleRate) << std::endl;
-
-	rsdStream->Seek(0x800, Donut::SeekMode::Begin);
-	std::vector<uint8_t> data;
-
-	if (magic == "RSD4PCM ")
-	{
-		data.resize(rsdStream->Size() - rsdStream->Position());
-		rsdStream->ReadBytes(data.data(), data.size());
-	}
-	else if (magic == "RSD4RADP")
-	{
-		uint32_t encodedLength    = (uint32_t)(rsdStream->Size() - rsdStream->Position());
-		uint32_t encodedBlockSize = numChannels * 20;
-		uint32_t numBlocks        = encodedLength / encodedBlockSize;
-		uint32_t numSamples       = (numBlocks / numChannels) * 32;
-
-		data.resize(numSamples * sizeof(int16_t));
-
-		DecodeRADP(*rsdStream, (int16_t*)data.data(), numBlocks, numChannels);
-	}
+	RCL::RSDFile rsdFile(*rsdStream);
 
 	if (buffer != 0)
 	{
@@ -335,22 +87,24 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 	alGenBuffers(1, &buffer);
 
 	ALenum format = AL_FORMAT_STEREO16;
-	if (numChannels == 1)
+	if (rsdFile.GetNumChannels() == 1)
 	{
-		if (bitsPerChannel == 8)
+		if (rsdFile.GetBitsPerChannel() == 8)
 			format = AL_FORMAT_MONO8;
-		else if (bitsPerChannel == 16)
+		else if (rsdFile.GetBitsPerChannel() == 16)
 			format = AL_FORMAT_MONO16;
 	}
-	else if (numChannels == 2)
+	else if (rsdFile.GetNumChannels() == 2)
 	{
-		if (bitsPerChannel == 8)
+		if (rsdFile.GetBitsPerChannel() == 8)
 			format = AL_FORMAT_STEREO8;
-		else if (bitsPerChannel == 16)
+		else if (rsdFile.GetBitsPerChannel() == 16)
 			format = AL_FORMAT_STEREO16;
 	}
 
-	alBufferData(buffer, format, data.data(), (ALsizei)data.size(), sampleRate);
+	const auto& data = rsdFile.GetData();
+
+	alBufferData(buffer, format, data.data(), (ALsizei)data.size(), rsdFile.GetSampleRate());
 	alSourcei(source, AL_BUFFER, buffer);
 	alSourcei(source, AL_LOOPING, AL_FALSE);
 	alSourcePlay(source);
@@ -360,15 +114,15 @@ Game::Game(int argc, char** argv)
 {
 	instance = this; // global static :D
 
-	Commands::RunLine("HelloWorld();");
-	for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
-	{
-		const auto& path = entry.path();
-		const auto& extension = path.extension().string();
-		if (extension != ".con" && extension != ".mfk") continue;
+	//Commands::RunLine("HelloWorld();");
+	//for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
+	//{
+	//	const auto& path = entry.path();
+	//	const auto& extension = path.extension().string();
+	//	if (extension != ".con" && extension != ".mfk") continue;
 
-		Commands::RunScript(path.string());
-	}
+	//	Commands::RunScript(path.string());
+	//}
 
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
 
@@ -558,10 +312,14 @@ void Game::Run()
 
 	FpsTimer timer;
 
-	SpriteBatch sprites;
+	SpriteBatch sprites(1024);
 	GL::ShaderProgram& spriteShader = sprites.GetShader();
 
 	auto animCamera = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");
+
+
+	auto frontend = std::make_unique<FrontendProject>();
+	frontend->LoadP3D("art/frontend/scrooby/frontend.p3d");
 
 	Input::CaptureTextEntry(this, &Game::OnInputTextEntry);
 
@@ -675,8 +433,6 @@ void Game::Run()
 
 		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 
-		sprites.Begin();
-
 		if (_textureFontP3D != nullptr)
 		{
 			std::string fps = fmt::format("{0} fps", timer.GetFps());
@@ -685,9 +441,13 @@ void Game::Run()
 			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
-		sprites.End(proj);
-
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		sprites.Flush(proj);
+
+		frontend->Draw(proj);
+
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();
 	}

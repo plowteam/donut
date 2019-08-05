@@ -74,6 +74,10 @@ namespace Donut::P3D
 	class FrontendPage;
 	class FrontendLayer;
 	class FrontendGroup;
+	class FrontendMultiSprite;
+	class FrontendMultiText;
+	class FrontendObject;
+	class FrontendPolygon;
 	class FrontendImageResource;
 	class Locator2;
 	class TriggerVolume;
@@ -1088,25 +1092,25 @@ namespace Donut::P3D
 
         static std::unique_ptr<Sprite> Load(const P3DChunk& chunk) { return std::make_unique<Sprite>(chunk); }
 
-        const uint32_t& GetImageCount() const { return _imageCount; }
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetNativeX() const { return _nativeX; }
+        const uint32_t& GetNativeY() const { return _nativeY; }
         const std::string& GetShader() const { return _shader; }
-        const uint32_t& GetNativeWidth() const { return _nativeWidth; }
-        const uint32_t& GetNativeHeight() const { return _nativeHeight; }
         const uint32_t& GetWidth() const { return _width; }
         const uint32_t& GetHeight() const { return _height; }
+        const uint32_t& GetImageCount() const { return _imageCount; }
         const uint32_t& GetBlitBorder() const { return _blitBorder; }
         const std::vector<std::unique_ptr<Image>>& GetImages() const { return _images; }
 
     private:
 
-        uint32_t _imageCount;
         std::string _name;
+        uint32_t _nativeX;
+        uint32_t _nativeY;
         std::string _shader;
-        uint32_t _nativeWidth;
-        uint32_t _nativeHeight;
         uint32_t _width;
         uint32_t _height;
+        uint32_t _imageCount;
         uint32_t _blitBorder;
         std::vector<std::unique_ptr<Image>> _images;
 
@@ -1208,6 +1212,10 @@ namespace Donut::P3D
         const uint32_t& GetEditable() const { return _editable; }
         const uint32_t& GetAlpha() const { return _alpha; }
         const std::vector<std::unique_ptr<FrontendGroup>>& GetGroups() const { return _groups; }
+        const std::vector<std::unique_ptr<FrontendMultiSprite>>& GetMultiSprites() const { return _multiSprites; }
+        const std::vector<std::unique_ptr<FrontendMultiText>>& GetMultiTexts() const { return _multiTexts; }
+        const std::vector<std::unique_ptr<FrontendObject>>& GetObjects() const { return _objects; }
+        const std::vector<std::unique_ptr<FrontendPolygon>>& GetPolygons() const { return _polygons; }
 
     private:
 
@@ -1217,6 +1225,10 @@ namespace Donut::P3D
         uint32_t _editable;
         uint32_t _alpha;
         std::vector<std::unique_ptr<FrontendGroup>> _groups;
+        std::vector<std::unique_ptr<FrontendMultiSprite>> _multiSprites;
+        std::vector<std::unique_ptr<FrontendMultiText>> _multiTexts;
+        std::vector<std::unique_ptr<FrontendObject>> _objects;
+        std::vector<std::unique_ptr<FrontendPolygon>> _polygons;
 
     };
 
@@ -1232,6 +1244,9 @@ namespace Donut::P3D
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetAlpha() const { return _alpha; }
         const std::vector<std::unique_ptr<FrontendGroup>>& GetChildren() const { return _children; }
+        const std::vector<std::unique_ptr<FrontendMultiSprite>>& GetMultiSprites() const { return _multiSprites; }
+        const std::vector<std::unique_ptr<FrontendMultiText>>& GetMultiTexts() const { return _multiTexts; }
+        const std::vector<std::unique_ptr<FrontendPolygon>>& GetPolygons() const { return _polygons; }
 
     private:
 
@@ -1239,6 +1254,73 @@ namespace Donut::P3D
         uint32_t _version;
         uint32_t _alpha;
         std::vector<std::unique_ptr<FrontendGroup>> _children;
+        std::vector<std::unique_ptr<FrontendMultiSprite>> _multiSprites;
+        std::vector<std::unique_ptr<FrontendMultiText>> _multiTexts;
+        std::vector<std::unique_ptr<FrontendPolygon>> _polygons;
+
+    };
+
+    class FrontendMultiSprite
+    {
+    public:
+
+        FrontendMultiSprite(const P3DChunk&);
+
+        static std::unique_ptr<FrontendMultiSprite> Load(const P3DChunk& chunk) { return std::make_unique<FrontendMultiSprite>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+
+    private:
+
+        std::string _name;
+
+    };
+
+    class FrontendMultiText
+    {
+    public:
+
+        FrontendMultiText(const P3DChunk&);
+
+        static std::unique_ptr<FrontendMultiText> Load(const P3DChunk& chunk) { return std::make_unique<FrontendMultiText>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+
+    private:
+
+        std::string _name;
+
+    };
+
+    class FrontendObject
+    {
+    public:
+
+        FrontendObject(const P3DChunk&);
+
+        static std::unique_ptr<FrontendObject> Load(const P3DChunk& chunk) { return std::make_unique<FrontendObject>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+
+    private:
+
+        std::string _name;
+
+    };
+
+    class FrontendPolygon
+    {
+    public:
+
+        FrontendPolygon(const P3DChunk&);
+
+        static std::unique_ptr<FrontendPolygon> Load(const P3DChunk& chunk) { return std::make_unique<FrontendPolygon>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+
+    private:
+
+        std::string _name;
 
     };
 
