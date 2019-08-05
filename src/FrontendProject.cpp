@@ -1,4 +1,4 @@
-#include "FrontendProject.h"
+#include <FrontendProject.h>
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
 #include <Render/OpenGL/Texture2D.h>
@@ -17,8 +17,6 @@ namespace Donut
 		}
 
 		std::cout << "Loading Frontend Project: " << filename << "\n";
-
-		_resourceManager = std::make_unique<ResourceManager>();
 
 		const auto p3d = P3D::P3DFile(filename);
 		const auto& root = p3d.GetRoot();
@@ -76,8 +74,7 @@ namespace Donut
 						}
 					}
 
-					_textures.push_back(std::move(
-						std::make_unique<GL::Texture2D>(spriteWidth, spriteHeight, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, data.data())));
+					_textures.emplace_back(new GL::Texture2D(spriteWidth, spriteHeight, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
 
 					break;
 				}
