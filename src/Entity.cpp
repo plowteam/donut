@@ -127,12 +127,12 @@ void Shader::Bind(GLuint unit) const
 	_texture->Bind(GL_TEXTURE0 + unit);
 	glBindSampler(unit, _glSampler);
 
+	// todo: do they even use culling at all??????????
+	/*glCullFace(GL_FRONT);
 	if (_twoSided)
 		glDisable(GL_CULL_FACE);
 	else
-		glEnable(GL_CULL_FACE);
-
-	glCullFace(GL_FRONT);
+		glEnable(GL_CULL_FACE);*/
 }
 
 StaticEntity::StaticEntity(const P3D::StaticEntity& entity)
