@@ -1498,4 +1498,27 @@ namespace Donut::P3D
         _end = stream.Read<glm::vec3>();
         _normal = stream.Read<glm::vec3>();
     }
+
+    Set::Set(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Set));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _numTextures = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::Texture:
+                    {
+                        _textures.push_back(std::make_unique<Texture>(*child));
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
 }

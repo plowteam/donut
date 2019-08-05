@@ -502,5 +502,11 @@
     "start": "vec3",
     "end": "vec3",
     "normal": "vec3"
+  },
+
+  "Set": {
+    "name": "string",
+    "numTextures": "u32",
+    "textures": "children Texture"
   }
 }

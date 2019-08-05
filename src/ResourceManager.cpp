@@ -1,7 +1,8 @@
-#include "imgui.h"
-
 #include <Entity.h>
 #include <ResourceManager.h>
+
+#include <imgui.h>
+#include <fmt/format.h>
 
 namespace Donut
 {
@@ -20,6 +21,13 @@ void ResourceManager::LoadTexture(const P3D::Texture& texture)
 void ResourceManager::LoadShader(const P3D::Shader& shader)
 {
 	_shaders[shader.GetName()] = std::make_unique<Shader>(shader);
+}
+
+void ResourceManager::LoadSet(const P3D::Set& set)
+{
+	std::srand(std::time(0));
+	int idx = std::rand() % set.GetTextures().size();
+	_textures[set.GetName()] = std::make_unique<Texture>(*set.GetTextures().at(idx));
 }
 
 void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> font)

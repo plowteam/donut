@@ -70,6 +70,9 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::Texture:
 			Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk));
 			break;
+		case P3D::ChunkType::Set:
+			Game::GetInstance().GetResourceManager().LoadSet(*P3D::Set::Load(*chunk));
+			break;
 		case P3D::ChunkType::StaticEntity:
 		{
 			const auto& ent = P3D::StaticEntity::Load(*chunk);

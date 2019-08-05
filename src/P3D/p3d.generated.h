@@ -92,6 +92,7 @@ namespace Donut::P3D
 	class CollisionObjectAttribute;
 	class FenceWrapper;
 	class Fence;
+	class Set;
 
     class Animation
     {
@@ -1620,6 +1621,26 @@ namespace Donut::P3D
         glm::vec3 _start;
         glm::vec3 _end;
         glm::vec3 _normal;
+
+    };
+
+    class Set
+    {
+    public:
+
+        Set(const P3DChunk&);
+
+        static std::unique_ptr<Set> Load(const P3DChunk& chunk) { return std::make_unique<Set>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetNumTextures() const { return _numTextures; }
+        const std::vector<std::unique_ptr<Texture>>& GetTextures() const { return _textures; }
+
+    private:
+
+        std::string _name;
+        uint32_t _numTextures;
+        std::vector<std::unique_ptr<Texture>> _textures;
 
     };
 }
