@@ -96,10 +96,12 @@ void Mesh::Draw()
 {
 	glBindVertexArray(_vertexArrayObject);
 
-	for (auto const& prim : _primGroups)
+	for (auto& prim : _primGroups)
 	{
-		auto const& shader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName);
-		shader->Bind(0);
+		if (prim.cacheShader == nullptr)
+			prim.cacheShader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName);
+
+		prim.cacheShader->Bind(0);
 		glDrawElements(prim.type, static_cast<GLsizei>(prim.indicesCount), _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));
 	}
 

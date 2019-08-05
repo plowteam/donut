@@ -20,6 +20,7 @@ class Mesh
 		GLenum type;
 		std::size_t indicesOffset;
 		std::size_t indicesCount;
+		Shader* cacheShader;
 	};
 
 	struct Vertex
