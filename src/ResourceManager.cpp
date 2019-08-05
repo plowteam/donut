@@ -37,6 +37,7 @@ void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> fon
 
 void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 {
+	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
 	if (!ImGui::Begin("Resource Manager", p_open))
 	{
 		ImGui::End();

@@ -426,7 +426,7 @@ Game::Game(int argc, char** argv)
 		_resourceManager->AddFont(_textureFontP3D->GetName(), std::move(font));
 	}
 
-	_level = std::make_unique<Level>(_worldPhysics.get());
+	_level = std::make_unique<Level>();
 
 	//
 	_level->LoadP3D("L1_TERRA.p3d");
@@ -629,6 +629,9 @@ void Game::Run()
 
 		if (_debugResourceManagerWindowOpen)
 			_resourceManager->ImGuiDebugWindow(&_debugResourceManagerWindowOpen);
+
+		bool open = true;
+		_level->ImGuiDebugWindow(&open);
 
 		// ImGui::ShowDemoWindow();
 

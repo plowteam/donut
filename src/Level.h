@@ -6,10 +6,9 @@
 #include <vector>
 #include <unordered_map>
 
-#include <Render/StaticEntity.h>
 #include <Render/WorldSphere.h>
 #include <Render/CompositeModel.h>
-#include "Entity.h"
+#include <Entity.h>
 
 namespace Donut
 {
@@ -20,32 +19,29 @@ class ShaderProgram;
 }
 
 class ResourceManager;
-class WorldPhysics;
 
 
 class Level
 {
 public:
-	Level(WorldPhysics*);
+	Level();
 
 	void Draw(glm::mat4& viewProj);
 	void LoadP3D(const std::string& filename);
 
 	void DynaLoadData(const std::string& dynaLoadData);
 
+	void ImGuiDebugWindow(bool* p_open) const;
+
   private:
 	void loadRegion(const std::string& filename);
 	void unloadRegion(const std::string& filename);
-
-	WorldPhysics* _worldPhysics;
 
     std::unique_ptr<WorldSphere> _worldSphere;
 	std::vector<std::unique_ptr<Entity>> _entities;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
 
 	std::vector<std::unique_ptr<CompositeModel>> _compositeModels;
-
-	//std::unordered_map<std::string, std::vector<void*>> _regionResources;
 };
 
 } // namespace Donut

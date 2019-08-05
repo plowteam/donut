@@ -1,27 +1,26 @@
-#include "Game.h"
-
+#include <Game.h>
 #include <Level.h>
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/OpenGL/ShaderProgram.h>
-#include <Render/StaticEntity.h>
 #include <ResourceManager.h>
 #include <array>
+#include <imgui.h>
 #include <iostream>
 
 namespace Donut
 {
 
-Level::Level(WorldPhysics* worldPhysics)
+Level::Level()
 {
 	const auto worldVertSrc = File::ReadAll("shaders/world.vert");
 	const auto worldFragSrc = File::ReadAll("shaders/world.frag");
 
 	_worldShader  = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
-	_worldPhysics = worldPhysics;
 
-	std::array<std::string, 7> carFiles {
+	// todo: move this into Game.cpp or something else ?
+	/*std::array<std::string, 7> carFiles {
 		"art/cars/mrplo_v.p3d",
 		"art/cars/carhom_v.p3d",
 		"art/cars/krust_v.p3d",
@@ -41,7 +40,7 @@ Level::Level(WorldPhysics* worldPhysics)
 			_compositeModels.push_back(std::move(car));
 			offset += 3.0f;
 		}
-	}
+	}*/
 }
 
 void Level::LoadP3D(const std::string& filename)
@@ -75,17 +74,15 @@ void Level::LoadP3D(const std::string& filename)
 			Game::GetInstance().GetResourceManager().LoadSet(*P3D::Set::Load(*chunk));
 			break;
 		case P3D::ChunkType::StaticEntity:
-		{
 			_entities.emplace_back(std::make_unique<StaticEntity>(*P3D::StaticEntity::Load(*chunk)));
 			break;
-		}
 		case P3D::ChunkType::StaticPhysics:
 		{
 			const auto& ent = P3D::StaticPhysics::Load(*chunk);
 
-			auto const& volume = ent->GetCollisionObject()->GetVolume();
+			/*auto const& volume = ent->GetCollisionObject()->GetVolume();
 			if (volume != nullptr)
-				_worldPhysics->AddCollisionVolume(*volume);
+				_worldPhysics->AddCollisionVolume(*volume);*/
 
 			break;
 		}
@@ -169,24 +166,21 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::Intersect:
 		{
 			auto intersect = P3D::Intersect::Load(*chunk);
-			_worldPhysics->AddIntersect(*intersect);
+			// _worldPhysics->AddIntersect(*intersect);
 
 			break;
 		}
 		case P3D::ChunkType::WorldSphere:
-		{
 			_worldSphere = std::make_unique<WorldSphere>(*P3D::WorldSphere::Load(*chunk));
 			break;
-		}
 		case P3D::ChunkType::Locator2:
-		{
 			locators.push_back(P3D::Locator2::Load(*chunk));
 			break;
-		}
 		case P3D::ChunkType::FenceWrapper:
 		{
 			auto const& fence = P3D::FenceWrapper::Load(*chunk);
-			_worldPhysics->AddP3DFence(*fence->GetFence());
+			// _worldPhysics->AddP3DFence(*fence->GetFence());
+			break;
 		}
 		default: break;
 		}
@@ -224,6 +218,25 @@ void Level::DynaLoadData(const std::string& dynaLoadData)
 		loadRegion(region);
 }
 
+void Level::ImGuiDebugWindow(bool* p_open) const
+{
+	ImGui::SetNextWindowSize(ImVec2(300, 400), ImGuiSetCond_FirstUseEver);
+	if (!ImGui::Begin("Level", p_open))
+	{
+		ImGui::End();
+		return;
+	}
+
+	for (const auto& ent : _entities)
+	{
+		ImGui::TextDisabled(ent->GetClassName().c_str());
+		ImGui::SameLine();
+		ImGui::Text(ent->GetName().c_str());
+	}
+
+	ImGui::End();
+}
+
 void Level::loadRegion(const std::string& filename)
 {
 	std::cout << "load region: " << filename << std::endl;
@@ -243,15 +256,10 @@ void Level::Draw(glm::mat4& viewProj)
 		_worldSphere->Draw(*_worldShader);
 
 	for (const auto& ent : _entities)
-	{
-		// _worldShader->SetUniformValue("viewProj", viewProj * ent->GetTransform());
 		ent->Draw(*_worldShader);
-	}
 
 	for (const auto& compositeModel : _compositeModels)
-	{
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform());
-	}
 }
 
 } // namespace Donut
