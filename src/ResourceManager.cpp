@@ -32,6 +32,11 @@ void ResourceManager::LoadSet(const P3D::Set& set)
 	_textures[set.GetName()] = std::make_unique<Texture>(*set.GetTextures().at(idx));
 }
 
+void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<Texture> texture)
+{
+	_textures[name] = std::move(texture);
+}
+
 void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> font)
 {
 	_fonts[name] = std::move(font);

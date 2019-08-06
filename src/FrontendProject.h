@@ -9,11 +9,7 @@
 namespace Donut
 {
 	class ResourceManager;
-
-	namespace GL
-	{
-		class Texture2D;
-	}
+	class Texture;
 
 	class FrontendProject
 	{
@@ -23,7 +19,6 @@ namespace Donut
 
 	private:
 
-		std::vector<std::unique_ptr<GL::Texture2D>> _textures;
 		SpriteBatch _spriteBatch;
 	};
 }

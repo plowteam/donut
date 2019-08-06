@@ -30,6 +30,7 @@ class ResourceManager
 	void LoadShader(const P3D::Shader&);
 	void LoadSet(const P3D::Set&);
 
+	void AddTexture(const std::string& name, std::unique_ptr<Texture> texture);
 	void AddFont(const std::string& name, std::unique_ptr<Font> font);
 
 	void ImGuiDebugWindow(bool* p_open) const;

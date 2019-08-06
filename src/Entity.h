@@ -54,6 +54,7 @@ class Texture
 {
 public:
 	Texture(const P3D::Texture&);
+	Texture(const P3D::Sprite&);
 	~Texture();
 
 	void Bind(GLenum texture) const;
