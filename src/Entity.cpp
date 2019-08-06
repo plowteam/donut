@@ -108,6 +108,10 @@ Shader::Shader(const P3D::Shader& shader):
 		{
 			_twoSided = param->GetValue() == 1;
 		}
+		else if (param->GetKey() == "ATST")
+		{
+			_alphaTest = param->GetValue() == 1;
+		}
 
 		// ATST - alpha test
 	}
@@ -143,9 +147,9 @@ StaticEntity::StaticEntity(const P3D::StaticEntity& entity)
 	_mesh = std::make_unique<Mesh>(*entity.GetMesh());
 }
 
-void StaticEntity::Draw(const GL::ShaderProgram& shader)
+void StaticEntity::Draw(const GL::ShaderProgram& shader, bool opaque)
 {
-	_mesh->Draw();
+	_mesh->Draw(opaque);
 }
 
 } // namespace Donut

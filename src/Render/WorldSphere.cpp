@@ -11,10 +11,10 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 		_meshes.push_back(std::make_unique<Mesh>(*p3dMesh));
 }
 
-void WorldSphere::Draw(const GL::ShaderProgram& shader) const
+void WorldSphere::Draw(bool opaque) const
 {
 	for (auto const& mesh : _meshes)
-		mesh->Draw();
+		mesh->Draw(opaque);
 }
 
 } // namespace Donut

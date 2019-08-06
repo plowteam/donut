@@ -412,9 +412,10 @@ void Game::Run()
 
 		glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		// glEnable(GL_BLEND);
+		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -441,11 +442,10 @@ void Game::Run()
 			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
-		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		sprites.Flush(proj);
-
 		frontend->Draw(proj);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

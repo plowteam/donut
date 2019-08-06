@@ -92,7 +92,7 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw()
+void Mesh::Draw(bool opaque)
 {
 	glBindVertexArray(_vertexArrayObject);
 
@@ -100,6 +100,9 @@ void Mesh::Draw()
 	{
 		if (prim.cacheShader == nullptr)
 			prim.cacheShader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName);
+
+		if ((prim.cacheShader->AlphaTest() || prim.cacheShader->IsTranslucent()) && opaque)
+			continue;
 
 		prim.cacheShader->Bind(0);
 		glDrawElements(prim.type, static_cast<GLsizei>(prim.indicesCount), _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));

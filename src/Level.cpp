@@ -252,19 +252,23 @@ void Level::Draw(glm::mat4& viewProj)
 	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
 
-	if (_worldSphere != nullptr)
-		_worldSphere->Draw(*_worldShader);
+	glDisable(GL_BLEND);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	// opaque draw first
+	// draw opaque
+	if (_worldSphere != nullptr)
+		_worldSphere->Draw(true);
 	for (const auto& ent : _entities)
-		ent->Draw(*_worldShader);
+		ent->Draw(*_worldShader, true);
+
+	glEnable(GL_BLEND);
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	// transparent draw after
-	//if (_worldSphere != nullptr)
-	//	_worldSphere->Draw(*_worldShader);
-	//for (const auto& ent : _entities)
-	//	ent->Draw(*_worldShader);
-
+	if (_worldSphere != nullptr)
+		_worldSphere->Draw(false);
+	for (const auto& ent : _entities)
+		ent->Draw(*_worldShader, false);
 
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform());

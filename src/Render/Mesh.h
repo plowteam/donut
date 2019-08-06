@@ -32,7 +32,7 @@ class Mesh
 
   public:
 	Mesh(const P3D::Mesh& mesh);
-	void Draw();
+	void Draw(bool opaque);
 
   private:
 	std::string _name;

@@ -118,7 +118,7 @@ namespace Donut
 		for (const auto& prop : _props)
 		{
 			shader.SetUniformValue("viewProj", viewProj * modelMatrix * prop.transform);
-			_meshes[prop.meshIndex]->Draw();
+			_meshes[prop.meshIndex]->Draw(true);
 		}
 	}
 } // namespace Donut
