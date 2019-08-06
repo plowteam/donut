@@ -36,7 +36,7 @@ namespace Donut
 				case P3D::ChunkType::Sprite:
 				{
 					auto sprite = P3D::Sprite::Load(*chunk);
-					Game::GetInstance().GetResourceManager().AddTexture(sprite->GetName(), std::make_unique<Texture>(*sprite));
+					Game::GetInstance().GetResourceManager().LoadTexture(*sprite);
 
 					break;
 				}

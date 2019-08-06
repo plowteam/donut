@@ -14,6 +14,7 @@ namespace Donut
 namespace P3D
 {
 class Texture;
+class Sprite;
 class Shader;
 class Set;
 }
@@ -27,6 +28,7 @@ class ResourceManager
 	ResourceManager();
 
 	void LoadTexture(const P3D::Texture&);
+	void LoadTexture(const P3D::Sprite&);
 	void LoadShader(const P3D::Shader&);
 	void LoadSet(const P3D::Set&);
 

@@ -20,6 +20,11 @@ void ResourceManager::LoadTexture(const P3D::Texture& texture)
 	_textures[texture.GetName()] = std::make_unique<Texture>(texture);
 }
 
+void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
+{
+	_textures[sprite.GetName()] = std::make_unique<Texture>(sprite);
+}
+
 void ResourceManager::LoadShader(const P3D::Shader& shader)
 {
 	_shaders[shader.GetName()] = std::make_unique<Shader>(shader);
@@ -69,7 +74,7 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 		int i = 0;
 		for (auto const& [name, texture] : _textures)
 		{
-			ImGui::Image(reinterpret_cast<ImTextureID>(texture->GetHandle()), ImVec2(64, 64));
+			ImGui::Image(reinterpret_cast<ImTextureID>(texture->GetHandle()), ImVec2(texture->GetWidth(), texture->GetHeight()));
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip(name.c_str());
 

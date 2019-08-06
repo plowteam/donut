@@ -77,7 +77,7 @@ Texture::Texture(const P3D::Sprite& sprite) :
 		}
 
 		dstColumn += imageWidth - 2;
-		if (dstColumn > spriteWidth)
+		if (dstColumn >= spriteWidth)
 		{
 			dstColumn = 0;
 			dstRow += imageHeight - 2;

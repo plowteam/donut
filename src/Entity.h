@@ -59,6 +59,8 @@ public:
 
 	void Bind(GLenum texture) const;
 	GLuint GetHandle() const { return _glTexture; }
+	uint32_t GetWidth() const { return _width; }
+	uint32_t GetHeight() const { return _height; }
 
 protected:
 	std::string _name;
