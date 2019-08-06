@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <Character.h>
 #include <Core/FpsTimer.h>
 #include <AnimCamera.h>

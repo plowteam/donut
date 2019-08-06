@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <Render/OpenGL/TextureBuffer.h>
 #include <glad/glad.h>
 

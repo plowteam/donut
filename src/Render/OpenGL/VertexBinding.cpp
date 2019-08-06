@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include "VertexBinding.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"

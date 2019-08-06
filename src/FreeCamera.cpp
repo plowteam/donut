@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include "FreeCamera.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>

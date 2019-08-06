@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <Core/File.h>
 #include <RCL/RCFFile.h>
 

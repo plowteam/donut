@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <Render/Mesh.h>
 #include <Render/SkinModel.h>
 #include <vector>

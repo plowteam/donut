@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include "LineRenderer.h"
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/quaternion.hpp>

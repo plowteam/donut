@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <Render/OpenGL/Texture2D.h>
 
 namespace Donut::GL

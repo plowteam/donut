@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <P3D/P3DChunk.h>
 #include <P3D/p3d.generated.h>
 

@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <Game.h>
 #include <Level.h>
 #include <P3D/P3DFile.h>

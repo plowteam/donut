@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include "SkinAnimation.h"
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>

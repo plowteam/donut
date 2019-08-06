@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #pragma once
 
 #include <Render/OpenGL/VertexBuffer.h>

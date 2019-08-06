@@ -1,3 +1,5 @@
+// Copyright 2019 the donut authors. See AUTHORS.md
+
 #include <Window.h>
 #include <glad/glad.h>
 #include <iostream>
