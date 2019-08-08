@@ -1,4 +1,7 @@
 {
+  "HelloWorld": {
+    "help": "hellooooooooooo new york!!!!"
+  },
   "LoadP3DFile": {
     "min": 1,
     "types": [[ "String", "String" ]],

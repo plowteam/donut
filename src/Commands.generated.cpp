@@ -18,6 +18,7 @@
 
 namespace Donut
 {
+    static void Impl_HelloWorld() { GameCommands::HelloWorld(); }
     static void Impl_LoadP3DFile(const std::string& param0, const std::string& param1 = "") { GameCommands::LoadP3DFile(param0, param1); }
     static void Impl_SetParticleTexture(int32_t param0, const std::string& param1) { GameCommands::SetParticleTexture(param0, param1); }
     static void Impl_BindReward(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, int32_t param4, int32_t param5 = 0, const std::string& param6 = "") { GameCommands::BindReward(param0, param1, param2, param3, param4, param5, param6); }
@@ -264,6 +265,14 @@ namespace Donut
     static void Impl_LinkActionToObject(const std::string& param0, const std::string& param1, const std::string& param2, const std::string& param3, const std::string& param4) { GameCommands::LinkActionToObject(param0, param1, param2, param3, param4); }
     static void Impl_SetCharacterPosition(const std::string& param0, const std::string& param1, const std::string& param2) { GameCommands::SetCharacterPosition(param0, param1, param2); }
     static void Impl_ResetCharacter(const std::string& param0, const std::string& param1) { GameCommands::ResetCharacter(param0, param1); }
+
+    static bool Command_HelloWorld(const std::string& line)
+    {
+        if (!line.empty()) return false;
+
+        Impl_HelloWorld();
+        return true;
+    }
 
     static bool Command_LoadP3DFile(const std::string& line)
     {
@@ -3651,6 +3660,7 @@ namespace Donut
 
     std::unordered_map<std::string, Command> Commands::_namedCommands =
     {
+        { "HelloWorld", Command { &Command_HelloWorld, "hellooooooooooo new york!!!!" } },
         { "LoadP3DFile", Command { &Command_LoadP3DFile, "None", { { ParamType::String, ParamType::String } } } },
         { "SetParticleTexture", Command { &Command_SetParticleTexture, "None", { { ParamType::Int, ParamType::String } } } },
         { "BindReward", Command { &Command_BindReward, "None", { { ParamType::String, ParamType::String, ParamType::String, ParamType::String, ParamType::Int, ParamType::Int, ParamType::String } } } },
