@@ -6,7 +6,7 @@
 #include <FreeCamera.h>
 #include <Game.h>
 #include <Input/Input.h>
-#include <Commands.h>
+#include <Scripting/Commands.h>
 #include <Level.h>
 #include <FrontendProject.h>
 #include <P3D/P3DFile.h>
@@ -116,7 +116,7 @@ Game::Game(int argc, char** argv)
 {
 	instance = this; // global static :D
 
-	//Commands::RunLine("HelloWorld();");
+	Commands::RunLine("HelloWorld();");
 	//for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
 	//{
 	//	const auto& path = entry.path();

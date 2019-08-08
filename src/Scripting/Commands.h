@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameCommands.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -13,7 +14,6 @@
 #include <locale>
 #include <fmt/format.h>
 #include <glm/vec3.hpp>
-#include <GameCommands.h>
 
 namespace Donut
 {
