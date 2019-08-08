@@ -17,6 +17,15 @@ namespace Donut
 
 class Mesh
 {
+public:
+
+	Mesh(const P3D::Mesh& mesh);
+
+	void Commit();
+	void Draw(bool opaque);
+
+protected:
+
 	struct PrimGroup
 	{
 		std::string shaderName;
@@ -33,21 +42,36 @@ class Mesh
 		glm::vec4 co0lor;
 	};
 
-  public:
-	Mesh(const P3D::Mesh& mesh, bool instanced = false);
-	void Draw(bool opaque);
+	void CreateMeshBuffers(const P3D::Mesh& mesh);
+	virtual void CreateVertexBinding();
 
-  private:
+	virtual void DrawPrimGroup(const PrimGroup& primGroup);
+
 	std::string _name;
 	std::vector<PrimGroup> _primGroups;
 
-	std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
-	std::unique_ptr<GL::VertexBuffer> _instanceBuffer;
-	std::unique_ptr<GL::IndexBuffer> _indexBuffer;
-	std::unique_ptr<GL::VertexBinding> _vertexBinding;
+	std::shared_ptr<GL::VertexBuffer> _vertexBuffer;
+	std::shared_ptr<GL::IndexBuffer> _indexBuffer;
+	std::shared_ptr<GL::VertexBinding> _vertexBinding;
 
 	glm::vec3 _boundingBoxMin;
 	glm::vec3 _boundingBoxMax;
+};
+
+class MeshInstanced : public Mesh
+{
+public:
+
+	MeshInstanced(const P3D::Mesh& mesh, const std::vector<glm::mat4>& transforms);
+
+protected:
+
+	virtual void CreateVertexBinding() override;
+
+	virtual void DrawPrimGroup(const PrimGroup& primGroup) override;
+
+	std::vector<glm::mat4> _transforms;
+	std::shared_ptr<GL::VertexBuffer> _instanceBuffer;
 };
 
 } // namespace Donut

@@ -10,7 +10,11 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 {
 	auto const& p3dMeshes = worldSphere.GetMeshes();
 	for (auto& p3dMesh : p3dMeshes)
-		_meshes.push_back(std::make_unique<Mesh>(*p3dMesh));
+	{
+		auto mesh = std::make_unique<Mesh>(*p3dMesh);
+		mesh->Commit();
+		_meshes.push_back(std::move(mesh));
+	}
 }
 
 void WorldSphere::Draw(bool opaque) const

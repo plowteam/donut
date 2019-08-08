@@ -55,10 +55,12 @@ namespace Donut
 		std::map<std::string, size_t> meshNames;
 		std::map<std::string, std::vector<glm::mat4>> jointTransforms;
 
-		for (const auto& mesh : meshes)
+		for (const auto& meshP3D : meshes)
 		{
-			meshNames.insert({ mesh->GetName(), _meshes.size() });
-			_meshes.push_back(std::make_unique<Mesh>(*mesh));
+			meshNames.insert({ meshP3D->GetName(), _meshes.size() });
+			auto mesh = std::make_unique<Mesh>(*meshP3D);
+			mesh->Commit();
+			_meshes.push_back(std::move(mesh));
 		}
 
 		for (const auto& skeleton : skeletons)

@@ -54,15 +54,14 @@ class StaticEntity: public Entity
 class InstancedStaticEntity : public Entity
 {
 public:
-	InstancedStaticEntity(const P3D::InstancedStaticPhysics&);
+	InstancedStaticEntity(const P3D::Mesh&, const std::vector<glm::mat4>&);
 
 	void Draw(const GL::ShaderProgram&, bool opaque) override;
 
 	const std::string GetClassName() const override { return "InstancedStaticEntity"; }
 
 protected:
-	std::vector<glm::mat4> _transforms;
-	std::unique_ptr<Mesh> _mesh;
+	std::unique_ptr<MeshInstanced> _mesh;
 };
 
 } // namespace Donut

@@ -18,8 +18,11 @@ Level::Level()
 {
 	const auto worldVertSrc = File::ReadAll("shaders/world.vert");
 	const auto worldFragSrc = File::ReadAll("shaders/world.frag");
+	const auto worldInstancedVertSrc = File::ReadAll("shaders/world_instanced.vert");
+	const auto worldInstancedFragSrc = File::ReadAll("shaders/world_instanced.frag");
 
-	_worldShader  = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
+	_worldShader = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
+	_worldInstancedShader  = std::make_unique<GL::ShaderProgram>(worldInstancedVertSrc, worldInstancedFragSrc);
 
 	// todo: move this into Game.cpp or something else ?
 	/*std::array<std::string, 7> carFiles {
@@ -102,16 +105,22 @@ void Level::LoadP3D(const std::string& filename)
 				meshesNameIndex.insert({ mesh->GetName(), meshesNameIndex.size() });
 			}
 
+			std::unordered_map<std::string, std::vector<glm::mat4>> meshTransforms;
+
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
 				const auto& drawable  = drawables.at(i);
 				const auto& transform = transforms.at(i);
-
 				const auto& meshName = drawable->GetName();
-				const auto& mesh     = meshes.at(meshesNameIndex.at(meshName));
 
-				//auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
-				//_staticEntities.push_back(std::move(model));
+				auto& transforms = meshTransforms[meshName];
+				transforms.push_back(transform);
+			}
+
+			for (const auto& meshTransformsPair : meshTransforms)
+			{
+				const auto& mesh = meshes.at(meshesNameIndex.at(meshTransformsPair.first));
+				_instances.emplace_back(std::make_unique<InstancedStaticEntity>(*mesh, meshTransformsPair.second));
 			}
 
 			break;
@@ -130,16 +139,22 @@ void Level::LoadP3D(const std::string& filename)
 				meshesNameIndex.insert({ mesh->GetName(), meshesNameIndex.size() });
 			}
 
+			std::unordered_map<std::string, std::vector<glm::mat4>> meshTransforms;
+
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
 				const auto& drawable  = drawables.at(i);
 				const auto& transform = transforms.at(i);
-
 				const auto& meshName = drawable->GetName();
-				const auto& mesh     = meshes.at(meshesNameIndex.at(meshName));
 
-				// auto model = std::make_unique<StaticEntity>(meshName, *mesh, transform);
-				//_staticEntities.push_back(std::move(model));
+				auto& transforms = meshTransforms[meshName];
+				transforms.push_back(transform);
+			}
+
+			for (const auto& meshTransformsPair : meshTransforms)
+			{
+				const auto& mesh = meshes.at(meshesNameIndex.at(meshTransformsPair.first));
+				_instances.emplace_back(std::make_unique<InstancedStaticEntity>(*mesh, meshTransformsPair.second));
 			}
 
 			break;
@@ -251,20 +266,29 @@ void Level::unloadRegion(const std::string& filename)
 
 void Level::Draw(glm::mat4& viewProj)
 {
-	_worldShader->Bind();
-	_worldShader->SetUniformValue("viewProj", viewProj);
-
 	glDisable(GL_BLEND);
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	_worldShader->Bind();
+	_worldShader->SetUniformValue("viewProj", viewProj);
 
 	// draw opaque
 	if (_worldSphere != nullptr)
 		_worldSphere->Draw(true);
+
 	for (const auto& ent : _entities)
 		ent->Draw(*_worldShader, true);
 
+	_worldInstancedShader->Bind();
+	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
+
+	for (const auto& ent : _instances)
+		ent->Draw(*_worldInstancedShader, true);
+
 	glEnable(GL_BLEND);
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	_worldShader->Bind();
 
 	// transparent draw after
 	if (_worldSphere != nullptr)
@@ -274,6 +298,11 @@ void Level::Draw(glm::mat4& viewProj)
 
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform());
+
+	_worldInstancedShader->Bind();
+
+	for (const auto& ent : _instances)
+		ent->Draw(*_worldInstancedShader, false);
 }
 
 } // namespace Donut

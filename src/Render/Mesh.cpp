@@ -18,8 +18,33 @@ static glm::vec4 ConvertColor(uint32_t v)
 					 ((v >> 24) & 255) / 255.0f);
 }
 
-Mesh::Mesh(const P3D::Mesh& mesh, bool instanced):
+Mesh::Mesh(const P3D::Mesh& mesh):
     _name(mesh.GetName())
+{
+	CreateMeshBuffers(mesh);
+}
+
+void Mesh::Commit()
+{
+	CreateVertexBinding();
+}
+
+void Mesh::CreateVertexBinding()
+{
+	static const size_t vertStride = sizeof(Vertex);
+
+	GL::ArrayElement vertexLayout[] =
+	{
+		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, vertStride, 0),
+		GL::ArrayElement(_vertexBuffer.get(), 1, 2, GL::AE_FLOAT, vertStride, 3 * sizeof(float)),
+		GL::ArrayElement(_vertexBuffer.get(), 2, 4, GL::AE_FLOAT, vertStride, 5 * sizeof(float)),
+	};
+
+	_vertexBinding = std::make_shared<GL::VertexBinding>();
+	_vertexBinding->Create(vertexLayout, 3, *_indexBuffer, GL::ElementType::AE_UINT);
+}
+
+void Mesh::CreateMeshBuffers(const P3D::Mesh& mesh)
 {
 	std::vector<Vertex> allVerts;
 	std::vector<uint32_t> allIndices;
@@ -28,19 +53,19 @@ Mesh::Mesh(const P3D::Mesh& mesh, bool instanced):
 	size_t idxOffset = 0;
 	for (auto const& prim : mesh.GetPrimitiveGroups())
 	{
-		auto verts         = prim->GetVertices();
-		auto uvs           = prim->GetUvs(0);
-		auto colors        = prim->GetColors();
-		auto indices       = prim->GetIndices();
+		auto verts = prim->GetVertices();
+		auto uvs = prim->GetUvs(0);
+		auto colors = prim->GetColors();
+		auto indices = prim->GetIndices();
 		bool hasColors = !colors.empty();
 
 		for (uint32_t i = 0; i < verts.size(); i++)
 		{
-			allVerts.push_back(Vertex {
-			    verts[i],
-			    glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
+			allVerts.push_back(Vertex{
+				verts[i],
+				glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
 				hasColors ? ConvertColor(colors[i]) : glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
-			});
+				});
 		}
 
 		for (auto const& idx : prim->GetIndices())
@@ -67,28 +92,14 @@ Mesh::Mesh(const P3D::Mesh& mesh, bool instanced):
 			break;
 		}
 
-		_primGroups.emplace_back(PrimGroup { prim->GetShaderName(), mode, idxOffset, indices.size()});
+		_primGroups.emplace_back(PrimGroup{ prim->GetShaderName(), mode, idxOffset, indices.size() });
 		idxOffset += indices.size();
 	}
 
 	_vertexBuffer =
-	    std::make_unique<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
+		std::make_shared<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
 	_indexBuffer =
-	    std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
-	_instanceBuffer =
-		std::make_unique<GL::VertexBuffer>(allVerts.data(), 10, sizeof(glm::mat4));
-
-	static const size_t vertStride = sizeof(Vertex);
-
-	GL::ArrayElement vertexLayout[] =
-	{
-		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, vertStride, 0),
-		GL::ArrayElement(_vertexBuffer.get(), 1, 2, GL::AE_FLOAT, vertStride, 3 * sizeof(float)),
-		GL::ArrayElement(_vertexBuffer.get(), 2, 4, GL::AE_FLOAT, vertStride, 5 * sizeof(float)),
-	};
-
-	_vertexBinding = std::make_unique<GL::VertexBinding>();
-	_vertexBinding->Create(vertexLayout, 3, *_indexBuffer, GL::ElementType::AE_UINT);
+		std::make_shared<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
 }
 
 void Mesh::Draw(bool opaque)
@@ -104,9 +115,66 @@ void Mesh::Draw(bool opaque)
 			continue;
 
 		prim.cacheShader->Bind(0);
-		glDrawElements(prim.type, static_cast<GLsizei>(prim.indicesCount), _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));
+
+		DrawPrimGroup(prim);	
 	}
 
 	_vertexBinding->Unbind();
 }
+
+void Mesh::DrawPrimGroup(const PrimGroup& primGroup)
+{
+	glDrawElements(
+		primGroup.type,
+		static_cast<GLsizei>(primGroup.indicesCount),
+		_indexBuffer->GetType(),
+		reinterpret_cast<void*>(primGroup.indicesOffset * 4));
+}
+
+
+
+
+
+MeshInstanced::MeshInstanced(const P3D::Mesh& mesh, const std::vector<glm::mat4>& transforms) :
+	Mesh(mesh),
+	_transforms(std::move(transforms))
+{
+}
+
+void MeshInstanced::CreateVertexBinding()
+{
+	static const size_t vertStride = sizeof(Mesh::Vertex);
+	static const size_t instanceStride = sizeof(glm::mat4);
+
+	_instanceBuffer =
+		std::make_shared<GL::VertexBuffer>(_transforms.data(), _transforms.size(), instanceStride);
+
+	GL::ArrayElement vertexLayout[] =
+	{
+		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, vertStride, 0),
+		GL::ArrayElement(_vertexBuffer.get(), 1, 2, GL::AE_FLOAT, vertStride, 3 * sizeof(float)),
+		GL::ArrayElement(_vertexBuffer.get(), 2, 4, GL::AE_FLOAT, vertStride, 5 * sizeof(float)),
+
+		GL::ArrayElement(_instanceBuffer.get(), 3, 4, GL::AE_FLOAT, instanceStride, 0, 1),
+		GL::ArrayElement(_instanceBuffer.get(), 4, 4, GL::AE_FLOAT, instanceStride, 4 * sizeof(float), 1),
+		GL::ArrayElement(_instanceBuffer.get(), 5, 4, GL::AE_FLOAT, instanceStride, 8 * sizeof(float), 1),
+		GL::ArrayElement(_instanceBuffer.get(), 6, 4, GL::AE_FLOAT, instanceStride, 12 * sizeof(float), 1),
+	};
+
+	_vertexBinding = std::make_shared<GL::VertexBinding>();
+	_vertexBinding->Create(vertexLayout, 7, *_indexBuffer, GL::ElementType::AE_UINT);
+}
+
+void MeshInstanced::DrawPrimGroup(const PrimGroup& primGroup)
+{
+	glDrawElementsInstanced(
+		primGroup.type,
+		static_cast<GLsizei>(primGroup.indicesCount),
+		_indexBuffer->GetType(),
+		reinterpret_cast<void*>(primGroup.indicesOffset * 4),
+		(GLsizei)_transforms.size());
+}
+
+
+
 } // namespace Donut

@@ -41,7 +41,9 @@ public:
 
     std::unique_ptr<WorldSphere> _worldSphere;
 	std::vector<std::unique_ptr<Entity>> _entities;
+	std::vector<std::unique_ptr<Entity>> _instances;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
+	std::unique_ptr<GL::ShaderProgram> _worldInstancedShader;
 
 	std::vector<std::unique_ptr<CompositeModel>> _compositeModels;
 };
