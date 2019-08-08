@@ -6,12 +6,15 @@
 
 namespace Donut::GL
 {
-	ArrayElement::ArrayElement(std::size_t attributeIndex,
+	ArrayElement::ArrayElement(
+		const VertexBuffer* buffer,
+		std::size_t attributeIndex,
 		std::size_t componentCount,
 		ElementType type,
 		std::size_t stride,
 		std::size_t offset,
 		std::size_t instanceStep) :
+		buffer(buffer),
 		attributeIndex(attributeIndex),
 		componentCount(componentCount),
 		type(type),
@@ -43,11 +46,11 @@ namespace Donut::GL
 		CreateVAO();
 
 		Bind();
-		SetupVertices(vertices, elements, elementCount);
+		SetupVertices(elements, elementCount);
 		Unbind();
 	}
 
-	void VertexBinding::Create(const ArrayElement* elements, std::size_t elementCount, const VertexBuffer& vertices, const IndexBuffer& indices, ElementType indicesType)
+	void VertexBinding::Create(const ArrayElement* elements, std::size_t elementCount, const IndexBuffer& indices, ElementType indicesType)
 	{
 		if (m_handle != 0)
 		{
@@ -57,7 +60,7 @@ namespace Donut::GL
 		CreateVAO();
 
 		Bind();
-		SetupVertices(vertices, elements, elementCount);
+		SetupVertices(elements, elementCount);
 		SetupIndices(indices, indicesType);
 		Unbind();
 	}
@@ -103,13 +106,13 @@ namespace Donut::GL
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.GetIBO());
 	}
 
-	void VertexBinding::SetupVertices(const VertexBuffer& vertices, const ArrayElement* elements, std::size_t elementCount)
+	void VertexBinding::SetupVertices(const ArrayElement* elements, std::size_t elementCount)
 	{
 		for (std::size_t i = 0; i < elementCount; ++i)
 		{
 			const ArrayElement& element = elements[i];
 
-			glBindBuffer(GL_ARRAY_BUFFER, vertices.GetVBO());
+			glBindBuffer(GL_ARRAY_BUFFER, element.buffer->GetVBO());
 
 			GLenum type = GL_FLOAT;
 

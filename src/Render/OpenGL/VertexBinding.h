@@ -21,13 +21,16 @@ namespace Donut::GL
 
 	struct ArrayElement
 	{
-		ArrayElement(std::size_t attributeIndex,
+		ArrayElement(
+			const VertexBuffer* buffer,
+			std::size_t attributeIndex,
 			std::size_t componentCount,
 			ElementType type,
 			std::size_t stride,
 			std::size_t offset,
 			std::size_t instanceStep = 0);
 
+		const VertexBuffer* buffer;
 		std::size_t attributeIndex;
 		std::size_t componentCount;
 		ElementType type;
@@ -45,7 +48,7 @@ namespace Donut::GL
 		~VertexBinding();
 
 		void Create(const ArrayElement* elements, std::size_t elementCount, const VertexBuffer& vertices);
-		void Create(const ArrayElement* elements, std::size_t elementCount, const VertexBuffer& vertices, const IndexBuffer& indices, ElementType indicesType);
+		void Create(const ArrayElement* elements, std::size_t elementCount, const IndexBuffer& indices, ElementType indicesType);
 		void Dispose();
 		void Bind();
 		void Unbind();
@@ -53,7 +56,7 @@ namespace Donut::GL
 	private:
 
 		void CreateVAO();
-		void SetupVertices(const VertexBuffer& vertices, const ArrayElement* elements, std::size_t elementCount);
+		void SetupVertices(const ArrayElement* elements, std::size_t elementCount);
 		void SetupIndices(const IndexBuffer& indices, ElementType indicesType);
 
 		GLuint m_handle;

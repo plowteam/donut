@@ -18,6 +18,7 @@ class ShaderProgram;
 namespace P3D
 {
 class StaticEntity;
+class InstancedStaticPhysics;
 }
 
 
@@ -47,6 +48,20 @@ class StaticEntity: public Entity
 	const std::string GetClassName() const override { return "StaticEntity"; }
 
   protected:
+	std::unique_ptr<Mesh> _mesh;
+};
+
+class InstancedStaticEntity : public Entity
+{
+public:
+	InstancedStaticEntity(const P3D::InstancedStaticPhysics&);
+
+	void Draw(const GL::ShaderProgram&, bool opaque) override;
+
+	const std::string GetClassName() const override { return "InstancedStaticEntity"; }
+
+protected:
+	std::vector<glm::mat4> _transforms;
 	std::unique_ptr<Mesh> _mesh;
 };
 

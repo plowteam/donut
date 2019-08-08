@@ -18,7 +18,7 @@ static glm::vec4 ConvertColor(uint32_t v)
 					 ((v >> 24) & 255) / 255.0f);
 }
 
-Mesh::Mesh(const P3D::Mesh& mesh):
+Mesh::Mesh(const P3D::Mesh& mesh, bool instanced):
     _name(mesh.GetName())
 {
 	std::vector<Vertex> allVerts;
@@ -71,32 +71,29 @@ Mesh::Mesh(const P3D::Mesh& mesh):
 		idxOffset += indices.size();
 	}
 
-	glGenVertexArrays(1, &_vertexArrayObject);
-	glBindVertexArray(_vertexArrayObject);
-
 	_vertexBuffer =
 	    std::make_unique<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
 	_indexBuffer =
 	    std::make_unique<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
+	_instanceBuffer =
+		std::make_unique<GL::VertexBuffer>(allVerts.data(), 10, sizeof(glm::mat4));
 
-	std::size_t ptr = 0;
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(ptr)); // pos
-	ptr += sizeof(glm::vec3);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(ptr)); // uv
-	ptr += sizeof(glm::vec2);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(ptr)); // color
-	ptr += sizeof(glm::vec4);
+	static const size_t vertStride = sizeof(Vertex);
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+	GL::ArrayElement vertexLayout[] =
+	{
+		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, vertStride, 0),
+		GL::ArrayElement(_vertexBuffer.get(), 1, 2, GL::AE_FLOAT, vertStride, 3 * sizeof(float)),
+		GL::ArrayElement(_vertexBuffer.get(), 2, 4, GL::AE_FLOAT, vertStride, 5 * sizeof(float)),
+	};
 
-	glBindVertexArray(0);
+	_vertexBinding = std::make_unique<GL::VertexBinding>();
+	_vertexBinding->Create(vertexLayout, 3, *_indexBuffer, GL::ElementType::AE_UINT);
 }
 
 void Mesh::Draw(bool opaque)
 {
-	glBindVertexArray(_vertexArrayObject);
+	_vertexBinding->Bind();
 
 	for (auto& prim : _primGroups)
 	{
@@ -110,6 +107,6 @@ void Mesh::Draw(bool opaque)
 		glDrawElements(prim.type, static_cast<GLsizei>(prim.indicesCount), _indexBuffer->GetType(), reinterpret_cast<void*>(prim.indicesOffset * 4));
 	}
 
-	glBindVertexArray(0);
+	_vertexBinding->Unbind();
 }
 } // namespace Donut

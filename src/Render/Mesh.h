@@ -5,6 +5,7 @@
 #include <Render/OpenGL/IndexBuffer.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/OpenGL/VertexBuffer.h>
+#include <Render/OpenGL/VertexBinding.h>
 #include <Render/SkinAnimation.h>
 #include <P3D/p3d.generated.h>
 #include <ResourceManager.h>
@@ -33,16 +34,17 @@ class Mesh
 	};
 
   public:
-	Mesh(const P3D::Mesh& mesh);
+	Mesh(const P3D::Mesh& mesh, bool instanced = false);
 	void Draw(bool opaque);
 
   private:
 	std::string _name;
 	std::vector<PrimGroup> _primGroups;
 
-	GLuint _vertexArrayObject;
 	std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
+	std::unique_ptr<GL::VertexBuffer> _instanceBuffer;
 	std::unique_ptr<GL::IndexBuffer> _indexBuffer;
+	std::unique_ptr<GL::VertexBinding> _vertexBinding;
 
 	glm::vec3 _boundingBoxMin;
 	glm::vec3 _boundingBoxMax;

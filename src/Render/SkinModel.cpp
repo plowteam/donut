@@ -70,19 +70,19 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 		idxOffset += primIndices.size();
 	}
 
+	_vertexBuffer = std::make_unique<GL::VertexBuffer>(vertices.data(), vertices.size(), sizeof(Vertex));
+	_indexBuffer = std::make_unique<GL::IndexBuffer>(indices.data(), indices.size(), GL_UNSIGNED_INT);
+
 	GL::ArrayElement vertexLayout[] = {
-		GL::ArrayElement(0, 3, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, pos)),
-		GL::ArrayElement(1, 3, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, normal)),
-		GL::ArrayElement(2, 2, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, uv)),
-		GL::ArrayElement(3, 3, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, boneWeights)),
-		GL::ArrayElement(4, 3, GL::AE_INT, sizeof(Vertex), offsetof(Vertex, boneIndices)),
+		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, pos)),
+		GL::ArrayElement(_vertexBuffer.get(), 1, 3, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, normal)),
+		GL::ArrayElement(_vertexBuffer.get(), 2, 2, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, uv)),
+		GL::ArrayElement(_vertexBuffer.get(), 3, 3, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, boneWeights)),
+		GL::ArrayElement(_vertexBuffer.get(), 4, 3, GL::AE_INT, sizeof(Vertex), offsetof(Vertex, boneIndices)),
 	};
 
-	_vertexBuffer = std::make_unique<GL::VertexBuffer>(vertices.data(), vertices.size(), sizeof(Vertex));
-	_indexBuffer  = std::make_unique<GL::IndexBuffer>(indices.data(), indices.size(), GL_UNSIGNED_INT);
-
 	_vertexBinding = std::make_unique<GL::VertexBinding>();
-	_vertexBinding->Create(vertexLayout, 5, *_vertexBuffer, *_indexBuffer, GL::AE_UINT);
+	_vertexBinding->Create(vertexLayout, 5, *_indexBuffer, GL::AE_UINT);
 }
 
 /*void SkinModel::LoadSkeleton(P3D::Skeleton& skeleton)

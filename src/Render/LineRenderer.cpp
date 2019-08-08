@@ -49,8 +49,8 @@ namespace Donut
 
 		GL::ArrayElement vertexLayout[] =
 		{
-			GL::ArrayElement(0, 3, GL::AE_FLOAT, VertexSize, 0),
-			GL::ArrayElement(1, 4, GL::AE_FLOAT, VertexSize, 3 * sizeof(float))
+			GL::ArrayElement(m_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, VertexSize, 0),
+			GL::ArrayElement(m_vertexBuffer.get(), 1, 4, GL::AE_FLOAT, VertexSize, 3 * sizeof(float))
 		};
 
 		m_vertexBinding = std::make_unique<GL::VertexBinding>();
