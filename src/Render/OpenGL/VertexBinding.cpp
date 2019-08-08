@@ -25,9 +25,9 @@ namespace Donut::GL
 	}
 
 	VertexBinding::VertexBinding() :
-		m_handle(0),
-		m_indicesType(AE_UBYTE),
-		m_hasIndices(false)
+		_handle(0),
+		_indicesType(AE_UBYTE),
+		_hasIndices(false)
 	{
 	}
 
@@ -38,7 +38,7 @@ namespace Donut::GL
 
 	void VertexBinding::Create(const ArrayElement* elements, std::size_t elementCount, const VertexBuffer& vertices)
 	{
-		if (m_handle != 0)
+		if (_handle != 0)
 		{
 			Dispose();
 		}
@@ -52,7 +52,7 @@ namespace Donut::GL
 
 	void VertexBinding::Create(const ArrayElement* elements, std::size_t elementCount, const IndexBuffer& indices, ElementType indicesType)
 	{
-		if (m_handle != 0)
+		if (_handle != 0)
 		{
 			Dispose();
 		}
@@ -67,20 +67,20 @@ namespace Donut::GL
 
 	void VertexBinding::Dispose()
 	{
-		if (m_handle != 0)
+		if (_handle != 0)
 		{
-			glDeleteVertexArrays(1, &m_handle);
+			glDeleteVertexArrays(1, &_handle);
 
-			m_handle = 0;
+			_handle = 0;
 		}
 
-		m_hasIndices = false;
-		m_indicesType = AE_UBYTE;
+		_hasIndices = false;
+		_indicesType = AE_UBYTE;
 	}
 
 	void VertexBinding::Bind()
 	{
-		glBindVertexArray(m_handle);
+		glBindVertexArray(_handle);
 	}
 
 	void VertexBinding::Unbind()
@@ -90,18 +90,18 @@ namespace Donut::GL
 
 	void VertexBinding::CreateVAO()
 	{
-		if (m_handle != 0)
+		if (_handle != 0)
 		{
 			Dispose();
 		}
 
-		glGenVertexArrays(1, &m_handle);
+		glGenVertexArrays(1, &_handle);
 	}
 
 	void VertexBinding::SetupIndices(const IndexBuffer& indices, ElementType indicesType)
 	{
-		m_hasIndices = true;
-		m_indicesType = indicesType;
+		_hasIndices = true;
+		_indicesType = indicesType;
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.GetIBO());
 	}

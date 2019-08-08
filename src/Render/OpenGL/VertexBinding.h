@@ -59,9 +59,9 @@ namespace Donut::GL
 		void SetupVertices(const ArrayElement* elements, std::size_t elementCount);
 		void SetupIndices(const IndexBuffer& indices, ElementType indicesType);
 
-		GLuint m_handle;
-		ElementType m_indicesType;
-		bool m_hasIndices;
+		GLuint _handle;
+		ElementType _indicesType;
+		bool _hasIndices;
 
 	};
 } // namespace Donut::GL
