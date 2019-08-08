@@ -4,6 +4,7 @@
 
 // #include <Entity.h>
 #include <Render/Font.h>
+#include <Render/Shader.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -20,7 +21,7 @@ class Set;
 }
 
 class Texture;
-class Shader;
+// class Shader;
 
 class ResourceManager
 {
@@ -37,7 +38,7 @@ class ResourceManager
 
 	void ImGuiDebugWindow(bool* p_open) const;
 
-	Shader* GetShader(const std::string& name) const;
+	ShaderPtr GetShader(const std::string& name) const;
 	const Font* GetFont(const std::string& name) const;
 
 	const std::unordered_map<std::string, std::unique_ptr<Font>>& GetFonts() const { return _fonts; }
@@ -45,8 +46,8 @@ class ResourceManager
   protected:
 	// std::unique_ptr<GL::Texture2D> _errorTexture;
 
-	std::unordered_map<std::string, std::unique_ptr<Texture>> _textures;
-	std::unordered_map<std::string, std::unique_ptr<Shader>> _shaders;
+	std::unordered_map<std::string, std::shared_ptr<Texture>> _textures;
+	std::unordered_map<std::string, std::shared_ptr<Shader>> _shaders;
 	std::unordered_map<std::string, std::unique_ptr<Font>> _fonts;
 };
 

@@ -1,7 +1,7 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
 #include "SpriteBatch.h"
-#include <Render/OpenGL/Texture2D.h>
+#include <Render/OpenGL/GLTexture2D.h>
 #include <Render/OpenGL/VertexBuffer.h>
 #include <Render/OpenGL/VertexBinding.h>
 #include <Render/OpenGL/ShaderProgram.h>
@@ -75,7 +75,7 @@ namespace Donut
 
 			if (!font->TryGetGlyph(c, glyph)) continue;
 
-			GL::Texture2D* glyphTexture = font->GetTexture(glyph.textureId);
+			GL::GLTexture2D* glyphTexture = font->GetTexture(glyph.textureId);
 
 			Draw(glyphTexture,
 				 curPosition + glm::vec2(glyph.leftBearing),
@@ -89,7 +89,7 @@ namespace Donut
 	}
 
 	SpriteBatch::Sprite::Sprite(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		float angle,
@@ -105,7 +105,7 @@ namespace Donut
 	}
 
 	SpriteBatch::Sprite::Sprite(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec2& uv1,
@@ -145,7 +145,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		float angle,
 		const glm::vec4& colour)
@@ -154,7 +154,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec4& colour)
@@ -204,7 +204,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		float angle,
@@ -214,7 +214,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		const glm::vec2& uv1,
 		const glm::vec2& uv2,
@@ -282,7 +282,7 @@ namespace Donut
 
 	}
 
-	void SpriteBatch::DrawSlice(GL::Texture2D* texture, const SpriteBatch::Slice& slice, const glm::vec4& colour)
+	void SpriteBatch::DrawSlice(GL::GLTexture2D* texture, const SpriteBatch::Slice& slice, const glm::vec4& colour)
 	{
 		Draw(texture, slice._drawPosition, slice._uv1, slice._uv2, slice._drawSize, colour);
 	}
@@ -390,7 +390,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw9Slice(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec4& margin,
@@ -443,7 +443,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw9Slice(
-		GL::Texture2D* texture,
+		GL::GLTexture2D* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec2& glyphPosition,

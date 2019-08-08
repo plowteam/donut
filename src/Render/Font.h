@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <Render/OpenGL/Texture2D.h>
+#include <Render/OpenGL/GLTexture2D.h>
 #include <memory>
 #include <vector>
 #include <map>
@@ -33,7 +33,7 @@ namespace Donut
 
 		Font(P3D::TextureFont&);
 
-		GL::Texture2D* GetTexture(std::size_t index) const { return _textures.at(index).get(); }
+		GL::GLTexture2D* GetTexture(std::size_t index) const { return _textures.at(index).get(); }
 		float GetHeight() const { return _height; }
 
 		bool TryGetGlyph(int32_t id, Glyph& glyph) const;
@@ -41,7 +41,7 @@ namespace Donut
 	private:
 
 		float _height;
-		std::vector<std::unique_ptr<GL::Texture2D>> _textures;
+		std::vector<std::unique_ptr<GL::GLTexture2D>> _textures;
 		std::map<int32_t, Glyph> _glyphs;
 	};
 }

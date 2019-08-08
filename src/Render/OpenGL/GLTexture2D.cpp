@@ -1,11 +1,11 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Render/OpenGL/Texture2D.h>
+#include <Render/OpenGL/GLTexture2D.h>
 
 namespace Donut::GL
 {
 
-Texture2D::Texture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData):
+GLTexture2D::GLTexture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData):
     _width(width), _height(height), _internalFormat(internalFormat), _format(format), _type(type), _textureID(0)
 {
 	glGenTextures(1, &_textureID);
@@ -15,7 +15,7 @@ Texture2D::Texture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenu
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-Texture2D::~Texture2D()
+GLTexture2D::~GLTexture2D()
 {
 	if (_textureID != 0)
 		glDeleteTextures(1, &_textureID);

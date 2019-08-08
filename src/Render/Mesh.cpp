@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <Game.h>
-#include <Entity.h>
+#include <Render/Shader.h>
 
 namespace Donut
 {
@@ -101,9 +101,9 @@ void Mesh::Draw(bool opaque)
 	for (auto& prim : _primGroups)
 	{
 		if (prim.cacheShader == nullptr)
-			prim.cacheShader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName);
+			prim.cacheShader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName).get();
 
-		if ((prim.cacheShader->AlphaTest() || prim.cacheShader->IsTranslucent()) && opaque)
+		if ((prim.cacheShader->IsAlphaTested() || prim.cacheShader->IsTranslucent()) && opaque)
 			continue;
 
 		prim.cacheShader->Bind(0);

@@ -15,7 +15,7 @@ namespace Donut
 	{
 		class VertexBinding;
 		class VertexBuffer;
-		class Texture2D;
+		class GLTexture2D;
 		class ShaderProgram;
 	}
 
@@ -28,12 +28,12 @@ namespace Donut
 
 		void Flush(const glm::mat4&);
 		void DrawText(const class Font*, const std::string&, const glm::vec2&, const glm::vec4&);
-		void Draw(GL::Texture2D*, const glm::vec2&, float, const glm::vec4&);
-		void Draw(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec4&);
-		void Draw(GL::Texture2D*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
-		void Draw(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
-		void Draw9Slice(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
-		void Draw9Slice(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
+		void Draw(GL::GLTexture2D*, const glm::vec2&, float, const glm::vec4&);
+		void Draw(GL::GLTexture2D*, const glm::vec2&, const glm::vec2&, const glm::vec4&);
+		void Draw(GL::GLTexture2D*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
+		void Draw(GL::GLTexture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
+		void Draw9Slice(GL::GLTexture2D*, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
+		void Draw9Slice(GL::GLTexture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
 
 		void EnableClipping(bool clipping) { _clipping = clipping; }
 		void SetClippingRect(const glm::vec4& clippingRect) { _clippingRect = clippingRect; }
@@ -46,10 +46,10 @@ namespace Donut
 
 		struct Sprite
 		{
-			Sprite(GL::Texture2D*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
-			Sprite(GL::Texture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
+			Sprite(GL::GLTexture2D*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
+			Sprite(GL::GLTexture2D*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
 
-			GL::Texture2D* _texture;
+			GL::GLTexture2D* _texture;
 			glm::vec2 _position;
 			glm::vec2 _size;
 			glm::vec2 _uv1;
@@ -94,7 +94,7 @@ namespace Donut
 			const glm::vec2 _drawSize;
 		};
 
-		void DrawSlice(GL::Texture2D*, const Slice&, const glm::vec4&);
+		void DrawSlice(GL::GLTexture2D*, const Slice&, const glm::vec4&);
 		static void TransformUV(glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&);
 		static void TransformUVs(Slice&, const glm::vec2&, const glm::vec2&, const glm::vec2&);
 		bool IsSpriteInsideClippingRect(const glm::vec2&, const glm::vec2&);

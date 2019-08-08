@@ -3,7 +3,7 @@
 #include <FrontendProject.h>
 #include <P3D/P3DFile.h>
 #include <P3D/p3d.generated.h>
-#include <Render/OpenGL/Texture2D.h>
+#include <Render/OpenGL/GLTexture2D.h>
 #include <Game.h>
 #include <ResourceManager.h>
 #include <Entity.h>

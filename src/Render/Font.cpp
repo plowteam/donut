@@ -14,8 +14,8 @@ namespace Donut
 		{
 			auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
 			_textures.push_back(std::move((texdata.comp == 4) ?
-				std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, texdata.data.data()) :
-				std::make_unique<GL::Texture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data())));
+				std::make_unique<GL::GLTexture2D>(texdata.width, texdata.height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, texdata.data.data()) :
+				std::make_unique<GL::GLTexture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data())));
 		}
 
 		for (const auto& glyph : fontP3D.GetGlyphs())

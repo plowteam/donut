@@ -8,12 +8,12 @@
 namespace Donut::GL
 {
 
-class Texture2D
+class GLTexture2D
 {
   public:
-	Texture2D() = delete;
-	Texture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData);
-	~Texture2D();
+	GLTexture2D() = delete;
+	GLTexture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData);
+	~GLTexture2D();
 
 	inline void Bind() const
 	{
