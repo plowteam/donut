@@ -117,12 +117,12 @@ namespace Donut
 		return std::make_unique<CompositeModel>(CompositeModel_Chunk(p3d.GetRoot()));
 	}
 
-	void CompositeModel::Draw(GL::ShaderProgram& shader, const glm::mat4& viewProj, const glm::mat4& modelMatrix)
+	void CompositeModel::Draw(GL::ShaderProgram& shader, const glm::mat4& viewProj, const glm::mat4& modelMatrix, bool opaque)
 	{
 		for (const auto& prop : _props)
 		{
 			shader.SetUniformValue("viewProj", viewProj * modelMatrix * prop.transform);
-			_meshes[prop.meshIndex]->Draw(true);
+			_meshes[prop.meshIndex]->Draw(opaque);
 		}
 	}
 } // namespace Donut

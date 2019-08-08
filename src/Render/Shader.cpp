@@ -31,11 +31,11 @@ Shader::Shader(const P3D::Shader& shader):
 			switch (param->GetValue())
 			{
 			case 0: // NN
-				glSamplerParameteri(_glSampler, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glSamplerParameteri(_glSampler, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 				glSamplerParameteri(_glSampler, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				break;
 			case 1: // Linear
-				glSamplerParameteri(_glSampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glSamplerParameteri(_glSampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 				glSamplerParameteri(_glSampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				break;
 			case 2: // NN, Mip NN

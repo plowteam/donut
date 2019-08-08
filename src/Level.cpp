@@ -279,6 +279,9 @@ void Level::Draw(glm::mat4& viewProj)
 	for (const auto& ent : _entities)
 		ent->Draw(*_worldShader, true);
 
+	for (const auto& compositeModel : _compositeModels)
+		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), true);
+
 	_worldInstancedShader->Bind();
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
 
@@ -289,17 +292,20 @@ void Level::Draw(glm::mat4& viewProj)
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	_worldShader->Bind();
+	_worldShader->SetUniformValue("viewProj", viewProj);
 
 	// transparent draw after
 	if (_worldSphere != nullptr)
 		_worldSphere->Draw(false);
+
 	for (const auto& ent : _entities)
 		ent->Draw(*_worldShader, false);
 
 	for (const auto& compositeModel : _compositeModels)
-		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform());
+		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), false);
 
 	_worldInstancedShader->Bind();
+	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
 
 	for (const auto& ent : _instances)
 		ent->Draw(*_worldInstancedShader, false);

@@ -68,7 +68,7 @@ namespace Donut
 
 		static std::unique_ptr<CompositeModel> LoadP3D(const std::string&);
 
-		void Draw(GL::ShaderProgram&, const glm::mat4&, const glm::mat4&);
+		void Draw(GL::ShaderProgram&, const glm::mat4&, const glm::mat4&, bool);
 
 		void SetTransform(const glm::mat4& transform) { _transform = transform; }
 		const glm::mat4& GetTransform() const { return _transform; }
