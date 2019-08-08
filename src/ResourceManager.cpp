@@ -34,7 +34,7 @@ void ResourceManager::LoadShader(const P3D::Shader& shader)
 
 void ResourceManager::LoadSet(const P3D::Set& set)
 {
-	std::srand(std::time(0));
+	std::srand((uint32_t)std::time(0));
 	int idx = std::rand() % set.GetTextures().size();
 	_textures[set.GetName()] = std::make_unique<Texture>(*set.GetTextures().at(idx));
 }
@@ -76,7 +76,7 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 		int i = 0;
 		for (auto const& [name, texture] : _textures)
 		{
-			ImGui::Image(reinterpret_cast<ImTextureID>(texture->GetOpenGLHandle()), ImVec2(texture->GetWidth(), texture->GetHeight()));
+			ImGui::Image((ImTextureID)(intptr_t)texture->GetOpenGLHandle(), ImVec2((float)texture->GetWidth(), (float)texture->GetHeight()));
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip(name.c_str());
 

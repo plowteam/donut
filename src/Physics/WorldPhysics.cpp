@@ -76,10 +76,10 @@ void WorldPhysics::AddIntersect(const P3D::Intersect& intersect)
 	btIndexedMesh indexedMesh;
 	indexedMesh.m_vertexBase          = reinterpret_cast<const unsigned char*>(verts->data());
 	indexedMesh.m_vertexStride        = sizeof(glm::vec3);
-	indexedMesh.m_numVertices         = verts->size();
+	indexedMesh.m_numVertices         = (int)verts->size();
 	indexedMesh.m_triangleIndexBase   = reinterpret_cast<const unsigned char*>(indices->data());
 	indexedMesh.m_triangleIndexStride = sizeof(uint32_t) * 3;
-	indexedMesh.m_numTriangles        = indices->size() / 3;
+	indexedMesh.m_numTriangles        = (int)indices->size() / 3;
 
 	auto meshInterface = new btTriangleIndexVertexArray();
 	meshInterface->addIndexedMesh(indexedMesh, PHY_INTEGER);

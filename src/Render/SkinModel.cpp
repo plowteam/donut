@@ -30,7 +30,7 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 
 		for (uint32_t i = 0; i < primVerts.size(); i++)
 		{
-			auto boneIndices = glm::ivec3(0.0);
+			auto boneIndices = glm::ivec3(0);
 
 			if (primHasBoneIndices)
 			{

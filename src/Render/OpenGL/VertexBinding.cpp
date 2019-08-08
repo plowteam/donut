@@ -122,20 +122,20 @@ namespace Donut::GL
 				type = GL_INT;
 			}
 
-			glEnableVertexAttribArray(element.attributeIndex);
+			glEnableVertexAttribArray((GLuint)element.attributeIndex);
 
 			if (type == GL_INT || type == GL_UNSIGNED_INT)
 			{
-				glVertexAttribIPointer(element.attributeIndex, element.componentCount, type, element.stride, (void*)element.offset);
+				glVertexAttribIPointer((GLuint)element.attributeIndex, (GLint)element.componentCount, type, (GLsizei)element.stride, (void*)element.offset);
 			}
 			else
 			{
-				glVertexAttribPointer(element.attributeIndex, element.componentCount, type, GL_FALSE, element.stride, (void*)element.offset);
+				glVertexAttribPointer((GLuint)element.attributeIndex, (GLint)element.componentCount, type, GL_FALSE, (GLsizei)element.stride, (void*)element.offset);
 			}
 
 			if (element.instanceStep > 0)
 			{
-				glVertexAttribDivisor(element.attributeIndex, element.instanceStep);
+				glVertexAttribDivisor((GLuint)element.attributeIndex, (GLuint)element.instanceStep);
 			}
 		}
 	}

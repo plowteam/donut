@@ -23,7 +23,7 @@ CharacterController::CharacterController(Character* character, WorldPhysics* phy
 	_position       = character->GetPosition();
 	_targetPosition = BulletCast<btVector3>(character->GetPosition());
 
-	_physShape       = std::make_unique<btCapsuleShape>(0.4, 0.95f);
+	_physShape       = std::make_unique<btCapsuleShape>(0.4f, 0.95f);
 
 	_physGhostObject = std::make_unique<btPairCachingGhostObject>();
 	_physGhostObject->setWorldTransform(transform);
@@ -215,7 +215,7 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 		for (int j = 0; j < manifoldArraySize; j++)
 		{
 			btPersistentManifold* manifold = _manifoldArray[j];
-			btScalar directionSign         = (manifold->getBody0() == _physGhostObject.get()) ? -1.0 : 1.0;
+			btScalar directionSign         = (manifold->getBody0() == _physGhostObject.get()) ? -1.0f : 1.0f;
 
 			int numContacts = manifold->getNumContacts();
 			for (int k = 0; k < numContacts; k++)
@@ -325,7 +325,7 @@ void CharacterController::stepForwardAndStrafe(btCollisionWorld* collsionWorld, 
 		for (int j = 0; j < manifoldArraySize; j++)
 		{
 			btPersistentManifold* manifold = _manifoldArray[j];
-			btScalar directionSign         = (manifold->getBody0() == _physGhostObject.get()) ? -1.0 : 1.0;
+			btScalar directionSign         = (manifold->getBody0() == _physGhostObject.get()) ? -1.0f : 1.0f;
 
 			int numContacts = manifold->getNumContacts();
 			for (int k = 0; k < numContacts; k++)
@@ -358,7 +358,7 @@ void CharacterController::stepDown(btCollisionWorld* collisionWorld, btScalar dt
 		return;
 
 	// todo: cap downVelocity
-	btScalar downVelocity = (_verticalVelocity < 0.0 ? -_verticalVelocity : 0.0) * dt;
+	btScalar downVelocity = (_verticalVelocity < 0.0f ? -_verticalVelocity : 0.0f) * dt;
 
 	if (downVelocity > 0.0 && downVelocity < _stepHeight)
 		downVelocity = _stepHeight;

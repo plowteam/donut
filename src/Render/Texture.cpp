@@ -26,9 +26,9 @@ Texture::Texture(const P3D::Texture& texture):
 		auto imageData = P3D::ImageData::Decode(image->GetData());
 
 		if (imageData.comp == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.data.data());
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.data.data());
 		else
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData.data.data());
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData.data.data());
 
 		break;
 	}
@@ -86,7 +86,7 @@ Texture::Texture(const P3D::Sprite& sprite):
 
 	glGenTextures(1, &_glTexture);
 	glBindTexture(GL_TEXTURE_2D, _glTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
