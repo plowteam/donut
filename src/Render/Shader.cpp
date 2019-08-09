@@ -89,10 +89,7 @@ Shader::Shader(const P3D::Shader& shader):
 		}
 	}
 
-	if (uvmd == 0 && _alphaTested)
-	{
-		glSamplerParameteri(_glSampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
+	glSamplerParameterf(_glSampler, 0x84FE, 16);
 }
 
 Shader::~Shader()
