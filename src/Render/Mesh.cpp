@@ -102,7 +102,7 @@ void Mesh::CreateMeshBuffers(const P3D::Mesh& mesh)
 		std::make_shared<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
 }
 
-void Mesh::Draw(bool opaque)
+void Mesh::Draw(GL::ShaderProgram& shader, bool opaque)
 {
 	_vertexBinding->Bind();
 
@@ -111,9 +111,33 @@ void Mesh::Draw(bool opaque)
 		if (prim.cacheShader == nullptr)
 			prim.cacheShader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName).get();
 
-		if ((prim.cacheShader->IsAlphaTested() || prim.cacheShader->IsTranslucent()) && opaque)
-			continue;
+		bool trans = (!prim.cacheShader->IsAlphaTested() && prim.cacheShader->IsTranslucent());
 
+		if (trans && opaque)
+		{
+			continue;
+		}
+
+		if (!trans && !opaque)
+		{
+			continue;
+		}
+
+		if (!opaque)
+		{
+			auto blendMode = prim.cacheShader->GetBlendMode();
+
+			if (blendMode == BlendMode::Alpha)
+			{
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			}
+			else if (blendMode == BlendMode::Additive)
+			{
+				glBlendFunc(GL_ONE, GL_ONE);
+			}
+		}
+
+		shader.SetUniformValue("alphaMask", (prim.cacheShader->IsAlphaTested()) ? 0.5f : 0.0f);
 		prim.cacheShader->Bind(0);
 
 		DrawPrimGroup(prim);	

@@ -3,6 +3,9 @@
 #include "FrameBuffer.h"
 #include <iostream>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <ThirdParty/stb_image_write.h>
+
 namespace Donut::GL
 {
 	GLint FrameBuffer::MAX_ATTACHMENTS = -1;
@@ -188,7 +191,6 @@ namespace Donut::GL
 			glTexParameteri(_format._target, GL_TEXTURE_WRAP_T, _format._wrapT);
 			glTexParameteri(_format._target, GL_TEXTURE_MIN_FILTER, _format._filterMin);
 			glTexParameteri(_format._target, GL_TEXTURE_MAG_FILTER, _format._filterMag);
-			//glTexParameteri(_format._target, GL_DEPTH_TEXTURE_MODE, GL_LUMINANCE);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _format._target, _depthTextureHandle, 0);
 			glBindTexture(_format._target, 0);
 		}
@@ -337,6 +339,38 @@ namespace Donut::GL
 		return true;
 	}
 
+	void FrameBuffer::Save()
+	{
+		//glBindFramebuffer(GL_READ_FRAMEBUFFER, _handle);
+		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fboID);
+		//glBlitFramebuffer(0, 0, _width, _height, 0, 0, _width, _height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+		auto w = _width;
+		auto h = _height;
+		uint32_t channels = 3;
+		std::vector<uint8_t> data(((w * h) * channels) + (w * channels));
+		uint8_t* row = &data[w * h * channels];
+
+		glReadBuffer((GLenum)GL_COLOR_ATTACHMENT0);
+
+		GLint alignment;
+		glGetIntegerv(GL_PACK_ALIGNMENT, &alignment);
+		glPixelStorei(GL_PACK_ALIGNMENT, 1);
+		glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, data.data());
+		glPixelStorei(GL_PACK_ALIGNMENT, alignment);
+
+		for (int y = 0; y < h / 2; ++y)
+		{
+			memcpy(row, &data[y * w * channels], w * channels);
+			memcpy(&data[y * w * channels], &data[(h - y - 1) * w * channels], w * channels);
+			memcpy(&data[(h - y - 1) * w * channels], row, w * channels);
+		}
+
+		stbi_write_png("screenshot.png", w, h, channels, data.data(), w * channels);
+
+		int i = 0;
+	}
+
 	void FrameBuffer::Bind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, _handle);
@@ -352,7 +386,7 @@ namespace Donut::GL
 		}
 	}
 
-	void FrameBuffer::BindTexture(int attachment)
+	void FrameBuffer::BindColorTexture(int attachment)
 	{
 		if (attachment >= (int)_colourTextureHandles.size())
 		{

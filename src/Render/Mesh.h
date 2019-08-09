@@ -22,7 +22,7 @@ public:
 	Mesh(const P3D::Mesh& mesh);
 
 	void Commit();
-	void Draw(bool opaque);
+	void Draw(GL::ShaderProgram&, bool opaque);
 
 protected:
 

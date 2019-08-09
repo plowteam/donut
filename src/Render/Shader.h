@@ -15,6 +15,13 @@ namespace P3D
 class Shader;
 }
 
+enum class BlendMode : uint32_t
+{
+	None,
+	Alpha,
+	Additive,
+	Subractive,
+};
 
 class Shader
 {
@@ -42,6 +49,8 @@ class Shader
 
 	bool IsTranslucent() const { return _isTranslucent; }
 
+	BlendMode GetBlendMode() const { return _blendMode; }
+
   protected:
 	std::string _name;
 	std::string _textureName;
@@ -58,6 +67,9 @@ class Shader
 	bool _hasLighting;
 	bool _alphaTested;
 	bool _twoSided;
+
+	BlendMode _blendMode;
+
 };
 
 using ShaderPtr = std::shared_ptr<Shader>;

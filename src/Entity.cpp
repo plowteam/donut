@@ -13,9 +13,9 @@ StaticEntity::StaticEntity(const P3D::StaticEntity& entity)
 	_mesh->Commit();
 }
 
-void StaticEntity::Draw(const GL::ShaderProgram& shader, bool opaque)
+void StaticEntity::Draw(GL::ShaderProgram& shader, bool opaque)
 {
-	_mesh->Draw(opaque);
+	_mesh->Draw(shader, opaque);
 }
 
 
@@ -26,9 +26,9 @@ InstancedStaticEntity::InstancedStaticEntity(const P3D::Mesh& mesh, const std::v
 	_mesh->Commit();
 }
 
-void InstancedStaticEntity::Draw(const GL::ShaderProgram& shader, bool opaque)
+void InstancedStaticEntity::Draw(GL::ShaderProgram& shader, bool opaque)
 {
-	_mesh->Draw(opaque);
+	_mesh->Draw(shader, opaque);
 }
 
 } // namespace Donut

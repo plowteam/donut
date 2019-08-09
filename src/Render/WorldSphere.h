@@ -16,7 +16,7 @@ class WorldSphere
   public:
 	WorldSphere(const P3D::WorldSphere&);
 
-	void Draw(bool opaque) const;
+	void Draw(GL::ShaderProgram&, bool opaque) const;
   private:
 	std::string _name;
 	std::vector<std::unique_ptr<Mesh>> _meshes;

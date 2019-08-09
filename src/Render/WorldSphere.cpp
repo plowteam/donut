@@ -17,10 +17,10 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 	}
 }
 
-void WorldSphere::Draw(bool opaque) const
+void WorldSphere::Draw(GL::ShaderProgram& shader, bool opaque) const
 {
 	for (auto const& mesh : _meshes)
-		mesh->Draw(opaque);
+		mesh->Draw(shader, opaque);
 }
 
 } // namespace Donut

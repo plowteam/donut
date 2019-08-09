@@ -1,6 +1,7 @@
 #version 330
 
 uniform sampler2D diffuseTex;
+uniform float alphaMask;
 
 in VertexData
 {
@@ -13,5 +14,7 @@ out vec4 fragColor;
 void main()
 {
 	vec4 diffuseColor = texture2D(diffuseTex, inData.uv);
-    fragColor = vec4(diffuseColor.rgb * inData.color.rgb, diffuseColor.a);
+
+	if (diffuseColor.a < alphaMask) discard;
+	else fragColor = vec4(diffuseColor.rgb * inData.color.rgb, diffuseColor.a);
 }

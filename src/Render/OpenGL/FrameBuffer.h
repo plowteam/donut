@@ -71,7 +71,7 @@ namespace Donut::GL
 		~FrameBuffer();
 
 		void Bind();
-		void BindTexture(int attachment);
+		void BindColorTexture(int attachment);
 		void BindDepthTexture();
 		static void Unbind();
 
@@ -82,8 +82,11 @@ namespace Donut::GL
 		inline GLint GetWidth() const { return _width; }
 		inline GLint GetHeight() const { return _height; }
 		inline const Format& GetFormat() const { return _format; }
+		inline GLint GetColorTexture(int attachment) { return _colourTextureHandles.at(attachment); }
 		static GLint GetMaxSamples();
 		static GLint GetMaxAttachments();
+
+		void Save();
 
 	private:
 

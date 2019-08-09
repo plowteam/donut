@@ -3,6 +3,7 @@
 #include <Render/Shader.h>
 #include <P3D/p3d.generated.h>
 #include <fmt/format.h>
+#include <iostream>
 
 namespace Donut
 {
@@ -23,6 +24,18 @@ Shader::Shader(const P3D::Shader& shader):
 	}
 
 	glGenSamplers(1, &_glSampler);
+
+	for (const auto& param : shader.GetFloatParams())
+	{
+		if (param->GetKey() == "CBVV")
+		{
+		}
+		else if (param->GetKey() == "MSHP")
+		{
+		}
+	}
+
+	uint32_t uvmd = 0;
 
 	for (const auto& param : shader.GetIntegerParams())
 	{
@@ -56,7 +69,8 @@ Shader::Shader(const P3D::Shader& shader):
 		}
 		else if (param->GetKey() == "UVMD")
 		{
-			GLint glparam = (param->GetValue() == 0) ? GL_REPEAT : GL_CLAMP_TO_EDGE;
+			uvmd = param->GetValue();
+			GLint glparam = (uvmd == 0) ? GL_REPEAT : GL_CLAMP_TO_EDGE;
 
 			glSamplerParameteri(_glSampler, GL_TEXTURE_WRAP_S, glparam);
 			glSamplerParameteri(_glSampler, GL_TEXTURE_WRAP_T, glparam);
@@ -69,8 +83,15 @@ Shader::Shader(const P3D::Shader& shader):
 		{
 			_alphaTested = param->GetValue() == 1;
 		}
+		else if (param->GetKey() == "BLMD")
+		{
+			_blendMode = (BlendMode)param->GetValue();
+		}
+	}
 
-		// ATST - alpha test
+	if (uvmd == 0 && _alphaTested)
+	{
+		glSamplerParameteri(_glSampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	}
 }
 

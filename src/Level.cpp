@@ -266,15 +266,21 @@ void Level::unloadRegion(const std::string& filename)
 
 void Level::Draw(glm::mat4& viewProj)
 {
-	glDisable(GL_BLEND);
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-
 	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
 
-	// draw opaque
+	glDisable(GL_DEPTH_TEST);
+
 	if (_worldSphere != nullptr)
-		_worldSphere->Draw(true);
+	{
+		glDisable(GL_BLEND);
+		_worldSphere->Draw(*_worldShader, true);
+		glEnable(GL_BLEND);
+		_worldSphere->Draw(*_worldShader, false);
+	}
+
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 
 	for (const auto& ent : _entities)
 		ent->Draw(*_worldShader, true);
@@ -289,14 +295,9 @@ void Level::Draw(glm::mat4& viewProj)
 		ent->Draw(*_worldInstancedShader, true);
 
 	glEnable(GL_BLEND);
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
-
-	// transparent draw after
-	if (_worldSphere != nullptr)
-		_worldSphere->Draw(false);
 
 	for (const auto& ent : _entities)
 		ent->Draw(*_worldShader, false);

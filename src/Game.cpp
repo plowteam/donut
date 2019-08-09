@@ -35,6 +35,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <Render/OpenGL/FrameBuffer.h>
 
 namespace Donut
 {
@@ -329,7 +330,6 @@ void Game::Run()
 	bool running = true;
 	while (running)
 	{
-
 		last = now;
 		now  = SDL_GetPerformanceCounter();
 
@@ -412,17 +412,22 @@ void Game::Run()
 
 		ImGui::Render();
 
-		glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+		int viewportWidth = 0;
+		int viewportHeight = 0;
+
+		viewportWidth = (int)io.DisplaySize.x;
+		viewportHeight = (int)io.DisplaySize.y;
+
+		glViewport(0, 0, viewportWidth, viewportHeight);
+
 		glEnable(GL_DEPTH_TEST);
-		// glEnable(GL_BLEND);
-		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		glEnable(GL_BLEND);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glm::mat4 projectionMatrix = glm::perspective(
-		    glm::radians(70.0f), io.DisplaySize.x / io.DisplaySize.y, 0.1f, 10000.0f);
+		    glm::radians(70.0f), (float)viewportWidth / (float)viewportHeight, 0.1f, 10000.0f);
 
 		glm::mat4 viewMatrix     = _camera->GetViewMatrix();
 		glm::mat4 viewProjection = projectionMatrix * viewMatrix;
@@ -434,7 +439,7 @@ void Game::Run()
 
 		_lineRenderer->Flush(viewProjection);
 
-		glm::mat4 proj = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
+		glm::mat4 proj = glm::ortho(0.0f, (float)viewportWidth, (float)viewportHeight, 0.0f);
 
 		if (_textureFontP3D != nullptr)
 		{
@@ -443,9 +448,6 @@ void Game::Run()
 			sprites.DrawText(font, fps, glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
-
-		// glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		sprites.Flush(proj);
 		frontend->Draw(proj);

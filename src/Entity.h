@@ -29,7 +29,7 @@ class Entity
 	Entity() = default;
 	virtual ~Entity() = default;
 
-	virtual void Draw(const GL::ShaderProgram&, bool opaque) {}
+	virtual void Draw(GL::ShaderProgram&, bool opaque) {}
 
 	const std::string& GetName() const { return _name; }
 	virtual const std::string GetClassName() const { return "Entity"; }
@@ -43,7 +43,7 @@ class StaticEntity: public Entity
   public:
 	StaticEntity(const P3D::StaticEntity&);
 
-	void Draw(const GL::ShaderProgram&, bool opaque) override;
+	void Draw(GL::ShaderProgram&, bool opaque) override;
 
 	const std::string GetClassName() const override { return "StaticEntity"; }
 
@@ -56,7 +56,7 @@ class InstancedStaticEntity : public Entity
 public:
 	InstancedStaticEntity(const P3D::Mesh&, const std::vector<glm::mat4>&);
 
-	void Draw(const GL::ShaderProgram&, bool opaque) override;
+	void Draw(GL::ShaderProgram&, bool opaque) override;
 
 	const std::string GetClassName() const override { return "InstancedStaticEntity"; }
 
