@@ -16,5 +16,5 @@ void main()
 	vec4 diffuseColor = texture2D(diffuseTex, inData.uv);
 
 	if (diffuseColor.a < alphaMask) discard;
-	else fragColor = vec4(diffuseColor.rgb * inData.color.rgb, diffuseColor.a);
+	else fragColor = diffuseColor * inData.color;
 }
