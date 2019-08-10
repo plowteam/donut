@@ -32,20 +32,20 @@ namespace Donut
 		glm::vec2 uv3;
 	};
 
+	static std::array<glm::vec2, 4> quadVertices =
+	{
+		glm::vec2(-0.5, 0.5),
+		glm::vec2(0.5, 0.5),
+		glm::vec2(0.5, -0.5),
+		glm::vec2(-0.5, -0.5),
+	};
+
+	static std::array<uint32_t, 6> indices = { 0, 1, 2, 2, 3, 0 };
+
 	BillboardBatch::BillboardBatch(const P3D::BillboardQuadGroup& billboardQuadGroup)
 	{
 		static const size_t vertStride = sizeof(glm::vec2);
 		static const size_t instanceStride = sizeof(QuadInstance);
-
-		std::array<glm::vec2, 4> quadVertices =
-		{
-			glm::vec2(0.5, 0.5),
-			glm::vec2(-0.5, 0.5),
-			glm::vec2(-0.5, -0.5),
-			glm::vec2(0.5, -0.5),
-		};
-
-		std::array<uint32_t, 6> indices = { 0, 1, 2, 2, 3, 0 };
 
 		_numQuads = billboardQuadGroup.GetQuadCount();
 		std::vector<QuadInstance> quadInstances;
