@@ -256,7 +256,12 @@
   "CompositeDrawableProp": {
     "name": "string",
     "isTrans": "u32",
-    "skeletonJoint": "u32"
+    "skeletonJoint": "u32",
+    "sortOrder": "child<float> CompositeDrawableSortOrder"
+  },
+
+  "CompositeDrawableSortOrder": {
+    "value": "float"
   },
 
   "Intersect": {

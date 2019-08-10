@@ -63,6 +63,7 @@ namespace Donut::P3D
 	class CompositeDrawable;
 	class CompositeDrawablePropList;
 	class CompositeDrawableProp;
+	class CompositeDrawableSortOrder;
 	class Intersect;
 	class WorldSphere;
 	class BillboardQuad;
@@ -890,12 +891,30 @@ namespace Donut::P3D
         const std::string& GetName() const { return _name; }
         const uint32_t& GetIsTrans() const { return _isTrans; }
         const uint32_t& GetSkeletonJoint() const { return _skeletonJoint; }
+        const float& GetSortOrder() const { return _sortOrder; }
 
     private:
 
         std::string _name;
         uint32_t _isTrans;
         uint32_t _skeletonJoint;
+        float _sortOrder;
+
+    };
+
+    class CompositeDrawableSortOrder
+    {
+    public:
+
+        CompositeDrawableSortOrder(const P3DChunk&);
+
+        static std::unique_ptr<CompositeDrawableSortOrder> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableSortOrder>(chunk); }
+
+        const float& GetValue() const { return _value; }
+
+    private:
+
+        float _value;
 
     };
 

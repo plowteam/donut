@@ -815,6 +815,30 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _isTrans = stream.Read<uint32_t>();
         _skeletonJoint = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            MemoryStream data(child->GetData());
+
+            switch (child->GetType())
+            {
+                case ChunkType::CompositeDrawableSortOrder:
+                    {
+                        _sortOrder = data.Read<float>();
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    CompositeDrawableSortOrder::CompositeDrawableSortOrder(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CompositeDrawableSortOrder));
+
+        MemoryStream stream(chunk.GetData());
+        _value = stream.Read<float>();
     }
 
     Intersect::Intersect(const P3DChunk& chunk)
