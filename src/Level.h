@@ -10,6 +10,7 @@
 
 #include <Render/WorldSphere.h>
 #include <Render/CompositeModel.h>
+#include <Render/BillboardBatch.h>
 #include <Entity.h>
 
 namespace Donut
@@ -42,6 +43,7 @@ public:
     std::unique_ptr<WorldSphere> _worldSphere;
 	std::vector<std::unique_ptr<Entity>> _entities;
 	std::vector<std::unique_ptr<Entity>> _instances;
+	std::vector<std::unique_ptr<BillboardBatch>> _billboardBatches;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
 	std::unique_ptr<GL::ShaderProgram> _worldInstancedShader;
 

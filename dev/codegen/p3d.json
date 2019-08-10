@@ -275,7 +275,8 @@
     "width": "float",
     "height": "float",
     "distance": "float",
-    "uvOffset": "vec2"
+    "uvOffset": "vec2",
+    "displayInfo": "child BillboardDisplayInfo"
   },
 
   "BillboardQuadGroup": {
@@ -287,6 +288,11 @@
     "fog": "u32",
     "quadCount": "u32",
     "quads": "children BillboardQuad"
+  },
+
+  "BillboardDisplayInfo": {
+    "version": "u32",
+    "rotation": "quat"
   },
 
   "Texture": {

@@ -67,6 +67,7 @@ namespace Donut::P3D
 	class WorldSphere;
 	class BillboardQuad;
 	class BillboardQuadGroup;
+	class BillboardDisplayInfo;
 	class Texture;
 	class Image;
 	class TextureFont;
@@ -935,6 +936,7 @@ namespace Donut::P3D
         const float& GetHeight() const { return _height; }
         const float& GetDistance() const { return _distance; }
         const glm::vec2& GetUvOffset() const { return _uvOffset; }
+        const std::unique_ptr<BillboardDisplayInfo>& GetDisplayInfo() const { return _displayInfo; }
 
     private:
 
@@ -951,6 +953,7 @@ namespace Donut::P3D
         float _height;
         float _distance;
         glm::vec2 _uvOffset;
+        std::unique_ptr<BillboardDisplayInfo> _displayInfo;
 
     };
 
@@ -981,6 +984,24 @@ namespace Donut::P3D
         uint32_t _fog;
         uint32_t _quadCount;
         std::vector<std::unique_ptr<BillboardQuad>> _quads;
+
+    };
+
+    class BillboardDisplayInfo
+    {
+    public:
+
+        BillboardDisplayInfo(const P3DChunk&);
+
+        static std::unique_ptr<BillboardDisplayInfo> Load(const P3DChunk& chunk) { return std::make_unique<BillboardDisplayInfo>(chunk); }
+
+        const uint32_t& GetVersion() const { return _version; }
+        const glm::quat& GetRotation() const { return _rotation; }
+
+    private:
+
+        uint32_t _version;
+        glm::quat _rotation;
 
     };
 

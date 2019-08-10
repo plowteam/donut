@@ -875,6 +875,20 @@ namespace Donut::P3D
         _height = stream.Read<float>();
         _distance = stream.Read<float>();
         _uvOffset = stream.Read<glm::vec2>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::BillboardDisplayInfo:
+                    {
+                        _displayInfo = std::make_unique<BillboardDisplayInfo>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
     }
 
     BillboardQuadGroup::BillboardQuadGroup(const P3DChunk& chunk)
@@ -903,6 +917,15 @@ namespace Donut::P3D
                     break;
             }
         }
+    }
+
+    BillboardDisplayInfo::BillboardDisplayInfo(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::BillboardDisplayInfo));
+
+        MemoryStream stream(chunk.GetData());
+        _version = stream.Read<uint32_t>();
+        _rotation = stream.Read<glm::quat>();
     }
 
     Texture::Texture(const P3DChunk& chunk)

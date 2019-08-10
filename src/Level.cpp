@@ -199,6 +199,13 @@ void Level::LoadP3D(const std::string& filename)
 			// _worldPhysics->AddP3DFence(*fence->GetFence());
 			break;
 		}
+		case P3D::ChunkType::BillboardQuadGroup:
+		{
+			auto b = P3D::BillboardQuadGroup::Load(*chunk);
+			_billboardBatches.push_back(std::make_unique<BillboardBatch>(*b));
+
+			break;
+		}
 		default: break;
 		}
 	}
@@ -288,6 +295,10 @@ void Level::Draw(glm::mat4& viewProj)
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), true);
 
+	_worldShader->SetUniformValue("viewProj", viewProj);
+	for (const auto& billboardBatch : _billboardBatches)
+		billboardBatch->Draw(*_worldShader, true);
+
 	_worldInstancedShader->Bind();
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
 
@@ -304,6 +315,10 @@ void Level::Draw(glm::mat4& viewProj)
 
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), false);
+
+	_worldShader->SetUniformValue("viewProj", viewProj);
+	for (const auto& billboardBatch : _billboardBatches)
+		billboardBatch->Draw(*_worldShader, false);
 
 	_worldInstancedShader->Bind();
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
