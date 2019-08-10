@@ -9,6 +9,7 @@
 #include <Game.h>
 #include <ResourceManager.h>
 #include <glm/glm.hpp>
+#include <array>
 
 namespace Donut
 {
@@ -20,84 +21,68 @@ namespace Donut
 			((v >> 24) & 255) / 255.0f);
 	}
 
-	struct Vertex
+	struct QuadInstance
 	{
 		glm::vec3 pos;
-		glm::vec2 uv;
+		glm::vec2 size;
 		glm::vec4 color;
+		glm::vec2 uv0;
+		glm::vec2 uv1;
+		glm::vec2 uv2;
+		glm::vec2 uv3;
 	};
 
 	BillboardBatch::BillboardBatch(const P3D::BillboardQuadGroup& billboardQuadGroup)
 	{
-		static const size_t vertStride = sizeof(Vertex);
+		static const size_t vertStride = sizeof(glm::vec2);
+		static const size_t instanceStride = sizeof(QuadInstance);
 
-		std::vector<Vertex> vertices;
-		std::vector<uint32_t> indices;
-
-		auto numQuads = billboardQuadGroup.GetQuadCount();
-		_numIndices = numQuads * 6;
-
-		vertices.reserve(numQuads * 4);
-		indices.reserve(numQuads * 6);
-
-		glm::vec3 quadVertices[4] =
+		std::array<glm::vec2, 4> quadVertices =
 		{
-			glm::vec3(0.5, 0.5, 0),
-			glm::vec3(-0.5, 0.5, 0),
-			glm::vec3(-0.5, -0.5, 0),
-			glm::vec3(0.5, -0.5, 0),
+			glm::vec2(0.5, 0.5),
+			glm::vec2(-0.5, 0.5),
+			glm::vec2(-0.5, -0.5),
+			glm::vec2(0.5, -0.5),
 		};
 
-		uint32_t indexOffset = 0;
+		std::array<uint32_t, 6> indices = { 0, 1, 2, 2, 3, 0 };
+
+		_numQuads = billboardQuadGroup.GetQuadCount();
+		std::vector<QuadInstance> quadInstances;
+		quadInstances.reserve(_numQuads);
 
 		for (auto const& billboardQuad : billboardQuadGroup.GetQuads())
 		{
-			auto color = billboardQuad->GetColor();
-			const auto& translation = billboardQuad->GetTranslation();
-			const auto& rotation = billboardQuad->GetDisplayInfo()->GetRotation();
-			auto width = billboardQuad->GetWidth();
-			auto height = billboardQuad->GetHeight();
-			
-			glm::vec2 quadUVs[4] =
+			quadInstances.push_back(QuadInstance
 			{
+				billboardQuad->GetTranslation(),
+				glm::vec2(billboardQuad->GetWidth(), billboardQuad->GetHeight()),
+				ConvertColor(billboardQuad->GetColor()),
 				billboardQuad->GetUv0(),
 				billboardQuad->GetUv1(),
 				billboardQuad->GetUv2(),
 				billboardQuad->GetUv3(),
-			};
-
-			for (size_t i = 0; i < 4; ++i)
-			{
-				vertices.push_back(Vertex
-				{
-					translation + (quadVertices[i] * glm::vec3(width, height, 1.0f)),
-					quadUVs[i],
-					ConvertColor(color),
-				});
-			}
-
-			indices.push_back(indexOffset + 0);
-			indices.push_back(indexOffset + 1);
-			indices.push_back(indexOffset + 2);
-			indices.push_back(indexOffset + 2);
-			indices.push_back(indexOffset + 3);
-			indices.push_back(indexOffset + 0);
-
-			indexOffset += 4;
+			});
 		}
 
-		_vertexBuffer = std::make_shared<GL::VertexBuffer>(vertices.data(), vertices.size(), vertStride);
+		_vertexBuffer = std::make_shared<GL::VertexBuffer>(quadVertices.data(), quadVertices.size(), vertStride);
 		_indexBuffer = std::make_shared<GL::IndexBuffer>(indices.data(), indices.size(), GL_UNSIGNED_INT);
+		_instanceBuffer = std::make_shared<GL::VertexBuffer>(quadInstances.data(), _numQuads, instanceStride);
 
 		GL::ArrayElement vertexLayout[] =
 		{
-			GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, vertStride, 0),
-			GL::ArrayElement(_vertexBuffer.get(), 1, 2, GL::AE_FLOAT, vertStride, 3 * sizeof(float)),
-			GL::ArrayElement(_vertexBuffer.get(), 2, 4, GL::AE_FLOAT, vertStride, 5 * sizeof(float)),
+			GL::ArrayElement(_vertexBuffer.get(), 0, 2, GL::AE_FLOAT, vertStride, 0),
+			GL::ArrayElement(_instanceBuffer.get(), 1, 3, GL::AE_FLOAT, instanceStride, 0 * sizeof(float), 1),
+			GL::ArrayElement(_instanceBuffer.get(), 2, 2, GL::AE_FLOAT, instanceStride, 3 * sizeof(float), 1),
+			GL::ArrayElement(_instanceBuffer.get(), 3, 4, GL::AE_FLOAT, instanceStride, 5 * sizeof(float), 1),
+			GL::ArrayElement(_instanceBuffer.get(), 4, 2, GL::AE_FLOAT, instanceStride, 9 * sizeof(float), 1),
+			GL::ArrayElement(_instanceBuffer.get(), 5, 2, GL::AE_FLOAT, instanceStride, 11 * sizeof(float), 1),
+			GL::ArrayElement(_instanceBuffer.get(), 6, 2, GL::AE_FLOAT, instanceStride, 13 * sizeof(float), 1),
+			GL::ArrayElement(_instanceBuffer.get(), 7, 2, GL::AE_FLOAT, instanceStride, 15 * sizeof(float), 1),
 		};
 
 		_vertexBinding = std::make_shared<GL::VertexBinding>();
-		_vertexBinding->Create(vertexLayout, 3, *_indexBuffer, GL::ElementType::AE_UINT);
+		_vertexBinding->Create(vertexLayout, 8, *_indexBuffer, GL::ElementType::AE_UINT);
 
 		_shader = Game::GetInstance().GetResourceManager().GetShader(billboardQuadGroup.GetShader());
 		_zTest = billboardQuadGroup.GetZTest() == 1;
@@ -147,7 +132,7 @@ namespace Donut
 
 		_vertexBinding->Bind();
 		_shader->Bind(0);
-		glDrawElements(GL_TRIANGLES, _numIndices, GL_UNSIGNED_INT, 0);
+		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, _numQuads);
 		_vertexBinding->Unbind();
 
 		glEnable(GL_DEPTH_TEST);

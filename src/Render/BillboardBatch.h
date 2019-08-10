@@ -33,9 +33,10 @@ namespace Donut
 
 		std::shared_ptr<GL::VertexBuffer> _vertexBuffer;
 		std::shared_ptr<GL::IndexBuffer> _indexBuffer;
+		std::shared_ptr<GL::VertexBuffer> _instanceBuffer;
 		std::shared_ptr<GL::VertexBinding> _vertexBinding;
 
-		uint32_t _numIndices;
+		uint32_t _numQuads;
 
 		std::shared_ptr<Shader> _shader;
 		bool _zTest;

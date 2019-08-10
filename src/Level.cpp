@@ -19,10 +19,11 @@ Level::Level()
 	const auto worldVertSrc = File::ReadAll("shaders/world.vert");
 	const auto worldFragSrc = File::ReadAll("shaders/world.frag");
 	const auto worldInstancedVertSrc = File::ReadAll("shaders/world_instanced.vert");
-	const auto worldInstancedFragSrc = File::ReadAll("shaders/world_instanced.frag");
+	const auto billboardBatchVertSrc = File::ReadAll("shaders/billboard_batch.vert");
 
 	_worldShader = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
-	_worldInstancedShader  = std::make_unique<GL::ShaderProgram>(worldInstancedVertSrc, worldInstancedFragSrc);
+	_worldInstancedShader = std::make_unique<GL::ShaderProgram>(worldInstancedVertSrc, worldFragSrc);
+	_billboardBatchShader  = std::make_unique<GL::ShaderProgram>(billboardBatchVertSrc, worldFragSrc);
 
 	// todo: move this into Game.cpp or something else ?
 	/*std::array<std::string, 7> carFiles {
@@ -295,9 +296,10 @@ void Level::Draw(glm::mat4& viewProj)
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), true);
 
-	_worldShader->SetUniformValue("viewProj", viewProj);
+	_billboardBatchShader->Bind();
+	_billboardBatchShader->SetUniformValue("viewProj", viewProj);
 	for (const auto& billboardBatch : _billboardBatches)
-		billboardBatch->Draw(*_worldShader, true);
+		billboardBatch->Draw(*_billboardBatchShader, true);
 
 	_worldInstancedShader->Bind();
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
@@ -316,9 +318,10 @@ void Level::Draw(glm::mat4& viewProj)
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), false);
 
-	_worldShader->SetUniformValue("viewProj", viewProj);
+	_billboardBatchShader->Bind();
+	_billboardBatchShader->SetUniformValue("viewProj", viewProj);
 	for (const auto& billboardBatch : _billboardBatches)
-		billboardBatch->Draw(*_worldShader, false);
+		billboardBatch->Draw(*_billboardBatchShader, false);
 
 	_worldInstancedShader->Bind();
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);

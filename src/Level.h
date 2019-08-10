@@ -46,6 +46,7 @@ public:
 	std::vector<std::unique_ptr<BillboardBatch>> _billboardBatches;
 	std::unique_ptr<GL::ShaderProgram> _worldShader;
 	std::unique_ptr<GL::ShaderProgram> _worldInstancedShader;
+	std::unique_ptr<GL::ShaderProgram> _billboardBatchShader;
 
 	std::vector<std::unique_ptr<CompositeModel>> _compositeModels;
 };
