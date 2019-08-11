@@ -6,6 +6,7 @@
 #include <glm/mat4x4.hpp>
 #include <memory>
 #include <vector>
+#include <fmt/format.h>
 
 namespace Donut::P3D
 {
@@ -213,6 +214,10 @@ class P3DChunk
 	const std::vector<uint8_t>& GetData() const
 	{
 		return _data;
+	}
+	size_t GetDataSize() const
+	{
+		return _data.size();
 	}
 	const std::vector<std::unique_ptr<P3DChunk>>& GetChildren() const
 	{

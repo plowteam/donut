@@ -68,6 +68,7 @@ namespace Donut::P3D
 	class BillboardQuad;
 	class BillboardQuadGroup;
 	class BillboardDisplayInfo;
+	class BillboardPerspectiveInfo;
 	class Texture;
 	class Image;
 	class TextureFont;
@@ -79,6 +80,7 @@ namespace Donut::P3D
 	class FrontendGroup;
 	class FrontendMultiSprite;
 	class FrontendMultiText;
+	class FrontendStringTextBible;
 	class FrontendObject;
 	class FrontendPolygon;
 	class FrontendImageResource;
@@ -492,11 +494,13 @@ namespace Donut::P3D
         static std::unique_ptr<StaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<StaticPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetUnknown() const { return _unknown; }
         const std::unique_ptr<CollisionObject>& GetCollisionObject() const { return _collisionObject; }
 
     private:
 
         std::string _name;
+        uint32_t _unknown;
         std::unique_ptr<CollisionObject> _collisionObject;
 
     };
@@ -510,12 +514,16 @@ namespace Donut::P3D
         static std::unique_ptr<InstancedStaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<InstancedStaticPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetRenderOrder() const { return _renderOrder; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
 
     private:
 
         std::string _name;
+        uint32_t _unknown;
+        uint32_t _renderOrder;
         std::vector<std::unique_ptr<Mesh>> _meshes;
         std::unique_ptr<InstanceList> _instanceList;
 
@@ -530,12 +538,16 @@ namespace Donut::P3D
         static std::unique_ptr<DynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<DynamicPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetRenderOrder() const { return _renderOrder; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
 
     private:
 
         std::string _name;
+        uint32_t _unknown;
+        uint32_t _renderOrder;
         std::vector<std::unique_ptr<Mesh>> _meshes;
         std::unique_ptr<InstanceList> _instanceList;
 
@@ -550,12 +562,16 @@ namespace Donut::P3D
         static std::unique_ptr<AnimDynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<AnimDynamicPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetRenderOrder() const { return _renderOrder; }
         const std::unique_ptr<AnimObjectWrapper>& GetAnimObjectWrapper() const { return _animObjectWrapper; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
 
     private:
 
         std::string _name;
+        uint32_t _unknown;
+        uint32_t _renderOrder;
         std::unique_ptr<AnimObjectWrapper> _animObjectWrapper;
         std::unique_ptr<InstanceList> _instanceList;
 
@@ -570,6 +586,7 @@ namespace Donut::P3D
         static std::unique_ptr<AnimObjectWrapper> Load(const P3DChunk& chunk) { return std::make_unique<AnimObjectWrapper>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint16_t& GetUnknown() const { return _unknown; }
         const std::vector<std::unique_ptr<CompositeDrawable>>& GetCompositeDrawables() const { return _compositeDrawables; }
         const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
@@ -578,6 +595,7 @@ namespace Donut::P3D
     private:
 
         std::string _name;
+        uint16_t _unknown;
         std::vector<std::unique_ptr<CompositeDrawable>> _compositeDrawables;
         std::vector<std::unique_ptr<Skeleton>> _skeletons;
         std::vector<std::unique_ptr<Mesh>> _meshes;
@@ -612,11 +630,13 @@ namespace Donut::P3D
         static std::unique_ptr<SceneGraph> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraph>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetUnknown() const { return _unknown; }
         const std::unique_ptr<SceneGraphRoot>& GetRoot() const { return _root; }
 
     private:
 
         std::string _name;
+        uint32_t _unknown;
         std::unique_ptr<SceneGraphRoot> _root;
 
     };
@@ -646,11 +666,13 @@ namespace Donut::P3D
         static std::unique_ptr<SceneGraphBranch> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphBranch>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetNumChildren() const { return _numChildren; }
         const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
 
     private:
 
         std::string _name;
+        uint32_t _numChildren;
         std::vector<std::unique_ptr<SceneGraphTransform>> _children;
 
     };
@@ -688,11 +710,15 @@ namespace Donut::P3D
         static std::unique_ptr<SceneGraphDrawable> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphDrawable>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const std::string& GetDrawableName() const { return _drawableName; }
+        const uint32_t& GetTranslucent() const { return _translucent; }
         const float& GetSortOrder() const { return _sortOrder; }
 
     private:
 
         std::string _name;
+        std::string _drawableName;
+        uint32_t _translucent;
         float _sortOrder;
 
     };
@@ -937,6 +963,7 @@ namespace Donut::P3D
         const float& GetDistance() const { return _distance; }
         const glm::vec2& GetUvOffset() const { return _uvOffset; }
         const std::unique_ptr<BillboardDisplayInfo>& GetDisplayInfo() const { return _displayInfo; }
+        const std::unique_ptr<BillboardPerspectiveInfo>& GetPerspectiveInfo() const { return _perspectiveInfo; }
 
     private:
 
@@ -954,6 +981,7 @@ namespace Donut::P3D
         float _distance;
         glm::vec2 _uvOffset;
         std::unique_ptr<BillboardDisplayInfo> _displayInfo;
+        std::unique_ptr<BillboardPerspectiveInfo> _perspectiveInfo;
 
     };
 
@@ -997,11 +1025,37 @@ namespace Donut::P3D
 
         const uint32_t& GetVersion() const { return _version; }
         const glm::quat& GetRotation() const { return _rotation; }
+        const std::string& GetCutOffMode() const { return _cutOffMode; }
+        const glm::vec2& GetUvOffsetRange() const { return _uvOffsetRange; }
+        const float& GetSourceRange() const { return _sourceRange; }
+        const float& GetEdgeRange() const { return _edgeRange; }
 
     private:
 
         uint32_t _version;
         glm::quat _rotation;
+        std::string _cutOffMode;
+        glm::vec2 _uvOffsetRange;
+        float _sourceRange;
+        float _edgeRange;
+
+    };
+
+    class BillboardPerspectiveInfo
+    {
+    public:
+
+        BillboardPerspectiveInfo(const P3DChunk&);
+
+        static std::unique_ptr<BillboardPerspectiveInfo> Load(const P3DChunk& chunk) { return std::make_unique<BillboardPerspectiveInfo>(chunk); }
+
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetValue() const { return _value; }
+
+    private:
+
+        uint32_t _version;
+        uint32_t _value;
 
     };
 
@@ -1332,10 +1386,62 @@ namespace Donut::P3D
         static std::unique_ptr<FrontendMultiText> Load(const P3DChunk& chunk) { return std::make_unique<FrontendMultiText>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const int32_t& GetPositionX() const { return _positionX; }
+        const int32_t& GetPositionY() const { return _positionY; }
+        const uint32_t& GetDimensionX() const { return _dimensionX; }
+        const uint32_t& GetDimensionY() const { return _dimensionY; }
+        const uint32_t& GetAlignX() const { return _alignX; }
+        const uint32_t& GetAlignY() const { return _alignY; }
+        const uint32_t& GetColor() const { return _color; }
+        const uint32_t& GetTranslucent() const { return _translucent; }
+        const float& GetRotation() const { return _rotation; }
+        const std::string& GetFontName() const { return _fontName; }
+        const uint8_t& GetShadowEnabled() const { return _shadowEnabled; }
+        const uint32_t& GetShadowColor() const { return _shadowColor; }
+        const int32_t& GetShadowOffsetX() const { return _shadowOffsetX; }
+        const int32_t& GetShadowOffsetY() const { return _shadowOffsetY; }
+        const uint32_t& GetCurrent() const { return _current; }
+        const std::vector<std::unique_ptr<FrontendStringTextBible>>& GetTextBibles() const { return _textBibles; }
 
     private:
 
         std::string _name;
+        uint32_t _version;
+        int32_t _positionX;
+        int32_t _positionY;
+        uint32_t _dimensionX;
+        uint32_t _dimensionY;
+        uint32_t _alignX;
+        uint32_t _alignY;
+        uint32_t _color;
+        uint32_t _translucent;
+        float _rotation;
+        std::string _fontName;
+        uint8_t _shadowEnabled;
+        uint32_t _shadowColor;
+        int32_t _shadowOffsetX;
+        int32_t _shadowOffsetY;
+        uint32_t _current;
+        std::vector<std::unique_ptr<FrontendStringTextBible>> _textBibles;
+
+    };
+
+    class FrontendStringTextBible
+    {
+    public:
+
+        FrontendStringTextBible(const P3DChunk&);
+
+        static std::unique_ptr<FrontendStringTextBible> Load(const P3DChunk& chunk) { return std::make_unique<FrontendStringTextBible>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const std::string& GetKey() const { return _key; }
+
+    private:
+
+        std::string _name;
+        std::string _key;
 
     };
 
@@ -1432,10 +1538,16 @@ namespace Donut::P3D
         static std::unique_ptr<TriggerVolume> Load(const P3DChunk& chunk) { return std::make_unique<TriggerVolume>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetIsRect() const { return _isRect; }
+        const glm::vec3& GetBounds() const { return _bounds; }
+        const glm::mat4& GetTransform() const { return _transform; }
 
     private:
 
         std::string _name;
+        uint32_t _isRect;
+        glm::vec3 _bounds;
+        glm::mat4 _transform;
 
     };
 
@@ -1505,10 +1617,20 @@ namespace Donut::P3D
 
         static std::unique_ptr<MultiControllerTracks> Load(const P3DChunk& chunk) { return std::make_unique<MultiControllerTracks>(chunk); }
 
-        
+        const uint32_t& GetNumTracks() const { return _numTracks; }
+        const std::vector<std::string>& GetTrackNames() const { return _trackNames; }
+        const std::vector<float>& GetTrackStartTimes() const { return _trackStartTimes; }
+        const std::vector<float>& GetTrackEndTimes() const { return _trackEndTimes; }
+        const std::vector<float>& GetTrackScales() const { return _trackScales; }
+
     private:
 
-        
+        uint32_t _numTracks;
+        std::vector<std::string> _trackNames;
+        std::vector<float> _trackStartTimes;
+        std::vector<float> _trackEndTimes;
+        std::vector<float> _trackScales;
+
     };
 
     class CollisionObject

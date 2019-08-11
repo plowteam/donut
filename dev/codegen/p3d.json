@@ -132,29 +132,37 @@
 
   "StaticPhysics": {
     "name": "string",
+    "unknown": "u32",
     "collisionObject": "child CollisionObject"
   },
 
   "InstancedStaticPhysics": {
     "name": "string",
+    "unknown": "u32",
+    "renderOrder": "u32",
     "meshes": "children Mesh",
     "instanceList": "child InstanceList"
   },
 
   "DynamicPhysics": {
     "name": "string",
+    "unknown": "u32",
+    "renderOrder": "u32",
     "meshes": "children Mesh",
     "instanceList": "child InstanceList"
   },
 
   "AnimDynamicPhysics": {
     "name": "string",
+    "unknown": "u32",
+    "renderOrder": "u32",
     "animObjectWrapper": "child AnimObjectWrapper",
     "instanceList": "child InstanceList"
   },
 
   "AnimObjectWrapper": {
     "name": "string",
+    "unknown": "u16",
     "compositeDrawables": "children CompositeDrawable",
     "skeletons": "children Skeleton",
     "meshes": "children Mesh",
@@ -168,6 +176,7 @@
 
   "SceneGraph": {
     "name": "string",
+    "unknown": "u32",
     "root": "child SceneGraphRoot"
   },
 
@@ -177,6 +186,7 @@
 
   "SceneGraphBranch": {
     "name": "string",
+    "numChildren": "u32",
     "children": "children SceneGraphTransform"
   },
 
@@ -190,6 +200,8 @@
 
   "SceneGraphDrawable": {
     "name": "string",
+    "drawableName": "string",
+    "translucent": "u32",
     "sortOrder": "child<float> SceneGraphSortOrder"
   },
 
@@ -276,7 +288,8 @@
     "height": "float",
     "distance": "float",
     "uvOffset": "vec2",
-    "displayInfo": "child BillboardDisplayInfo"
+    "displayInfo": "child BillboardDisplayInfo",
+    "perspectiveInfo": "child BillboardPerspectiveInfo"
   },
 
   "BillboardQuadGroup": {
@@ -292,7 +305,16 @@
 
   "BillboardDisplayInfo": {
     "version": "u32",
-    "rotation": "quat"
+    "rotation": "quat",
+    "cutOffMode": "string[4]",
+    "uvOffsetRange": "vec2",
+    "sourceRange": "float",
+    "edgeRange": "float"
+  },
+
+  "BillboardPerspectiveInfo": {
+    "version": "u32",
+    "value": "u32"
   },
 
   "Texture": {
@@ -376,7 +398,6 @@
   },
 
   "FrontendLayer": {
-    "!log": true,
     "name": "string",
     "version": "u32",
     "visible": "u32",
@@ -390,7 +411,6 @@
   },
 
   "FrontendGroup": {
-    "!log": true,
     "name": "string",
     "version": "u32",
     "alpha": "u32",
@@ -417,7 +437,29 @@
   },
 
   "FrontendMultiText": {
-    "name": "string"
+    "name": "string",
+    "version": "u32",
+    "positionX": "s32",
+    "positionY": "s32",
+    "dimensionX": "u32",
+    "dimensionY": "u32",
+    "alignX": "u32",
+    "alignY": "u32",
+    "color": "u32",
+    "translucent": "u32",
+    "rotation": "float",
+    "fontName": "string",
+    "shadowEnabled": "u8",
+    "shadowColor": "u32",
+    "shadowOffsetX": "s32",
+    "shadowOffsetY": "s32",
+    "current": "u32",
+    "textBibles": "children FrontendStringTextBible"
+  },
+
+  "FrontendStringTextBible": {
+    "name": "string",
+    "key": "string"
   },
 
   "FrontendObject": {
@@ -443,11 +485,15 @@
     "name": "string",
     "type": "u32",
     "dataSize": "u32",
+
     "triggers": "children TriggerVolume"
   },
 
   "TriggerVolume": {
-    "name": "string"
+    "name": "string",
+    "isRect": "u32",
+    "bounds": "vec3",
+    "transform": "mat4"
   },
 
   "Camera": {
@@ -472,6 +518,11 @@
   },
 
   "MultiControllerTracks": {
+    "numTracks": "u32",
+    "trackNames": "buffer<string[numTracks]>",
+    "trackStartTimes": "buffer<float[numTracks]>",
+    "trackEndTimes": "buffer<float[numTracks]>",
+    "trackScales": "buffer<float[numTracks]>"
   },
 
   "CollisionObject": {

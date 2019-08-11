@@ -40,6 +40,7 @@ class MemoryStream
 	void Seek(std::size_t position, SeekMode mode);
 	std::size_t Position() { return std::distance(_data.begin(), _position); }
 	std::size_t Size() const { return _data.size(); }
+	bool End() const { return _position == _data.end(); }
 
   protected:
 	std::vector<uint8_t> _data;
