@@ -102,6 +102,7 @@ namespace Donut::P3D
 	class FenceWrapper;
 	class Fence;
 	class Set;
+	class Path;
 
     class Animation
     {
@@ -1902,6 +1903,24 @@ namespace Donut::P3D
         std::string _name;
         uint32_t _numTextures;
         std::vector<std::unique_ptr<Texture>> _textures;
+
+    };
+
+    class Path
+    {
+    public:
+
+        Path(const P3DChunk&);
+
+        static std::unique_ptr<Path> Load(const P3DChunk& chunk) { return std::make_unique<Path>(chunk); }
+
+        const uint32_t& GetNumPoints() const { return _numPoints; }
+        const std::vector<glm::vec3>& GetPoints() const { return _points; }
+
+    private:
+
+        uint32_t _numPoints;
+        std::vector<glm::vec3> _points;
 
     };
 }

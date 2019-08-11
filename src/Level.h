@@ -22,7 +22,7 @@ class ShaderProgram;
 }
 
 class ResourceManager;
-
+class LineRenderer;
 
 class Level
 {
@@ -49,6 +49,16 @@ public:
 	std::unique_ptr<GL::ShaderProgram> _billboardBatchShader;
 
 	std::vector<std::unique_ptr<CompositeModel>> _compositeModels;
+
+	class Path
+	{
+	public:
+
+		std::vector<glm::vec3> points;
+	};
+
+	std::vector<Path> _paths;
+	std::unique_ptr<LineRenderer> _lineRenderer;
 };
 
 } // namespace Donut

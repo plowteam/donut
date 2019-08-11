@@ -196,6 +196,26 @@ enum class ChunkType : uint32_t
 	P3DRoot = 0xFF443350,
 };
 
+enum class LocatorType : uint32_t
+{
+	Event,
+	Script,
+	Location,
+	CarStart,
+	Spline,
+	ZoneEvent,
+	Occlusion,
+	Interior,
+	Directional,
+	ActionEvent,
+	FOV,
+	Unknown,
+	StaticCam,
+	PedGroup,
+	Coin,
+	SpawnPoint
+};
+
 std::ostream& operator<<(std::ostream& os, ChunkType chunktype);
 
 class P3DChunk

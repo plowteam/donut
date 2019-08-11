@@ -607,5 +607,10 @@
     "name": "string",
     "numTextures": "u32",
     "textures": "children Texture"
+  },
+
+  "Path": {
+    "numPoints": "u32",
+    "points": "buffer<vec3[numPoints]>"
   }
 }

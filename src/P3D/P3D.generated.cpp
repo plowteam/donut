@@ -1720,4 +1720,14 @@ namespace Donut::P3D
             }
         }
     }
+
+    Path::Path(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Path));
+
+        MemoryStream stream(chunk.GetData());
+        _numPoints = stream.Read<uint32_t>();
+        _points.resize(_numPoints);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(glm::vec3));
+    }
 }

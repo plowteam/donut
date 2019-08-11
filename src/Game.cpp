@@ -450,7 +450,7 @@ void Game::Run()
 		}
 
 		sprites.Flush(proj);
-		frontend->Draw(proj);
+		//frontend->Draw(proj);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();
