@@ -9,6 +9,7 @@ donut is an open source reimplementation of The Simpsons: Hit & Run.
 
 ## Docs
 [Chunks](dev/Chunks.md)
+[Commands](dev/Commands.md)
 
 # Building
 
