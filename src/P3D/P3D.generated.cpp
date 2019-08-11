@@ -31,11 +31,6 @@ namespace Donut::P3D
         _numFrames = stream.Read<float>();
         _frameRate = stream.Read<float>();
         _looping = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Animation chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -59,11 +54,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _version = stream.Read<uint32_t>();
         _numGroups = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("AnimationGroupList chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -89,11 +79,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _groupId = stream.Read<uint32_t>();
         _numChannels = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("AnimationGroup chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -143,11 +128,6 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec2));
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Vector2Channel chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     Vector3Channel::Vector3Channel(const P3DChunk& chunk)
@@ -162,11 +142,6 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec3));
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Vector3Channel chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     QuaternionChannel::QuaternionChannel(const P3DChunk& chunk)
@@ -181,11 +156,6 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::quat));
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("QuaternionChannel chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     CompressedQuaternionChannel::CompressedQuaternionChannel(const P3DChunk& chunk)
@@ -200,11 +170,6 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(uint64_t));
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CompressedQuaternionChannel chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     Mesh::Mesh(const P3DChunk& chunk)
@@ -215,11 +180,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _version = stream.Read<uint32_t>();
         _numPrimGroups = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Mesh chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -245,11 +205,6 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _skeletonName = stream.ReadLPString();
         _numPrimGroups = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("PolySkin chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -283,11 +238,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _min = stream.Read<glm::vec3>();
         _max = stream.Read<glm::vec3>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("BoundingBox chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     BoundingSphere::BoundingSphere(const P3DChunk& chunk)
@@ -297,11 +247,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _centre = stream.Read<glm::vec3>();
         _radius = stream.Read<float>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("BoundingSphere chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     PrimitiveGroup::PrimitiveGroup(const P3DChunk& chunk)
@@ -316,11 +261,6 @@ namespace Donut::P3D
         _numVerts = stream.Read<uint32_t>();
         _numIndices = stream.Read<uint32_t>();
         _numMatrices = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("PrimitiveGroup chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -393,11 +333,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _version = stream.Read<uint32_t>();
         _numJoints = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Skeleton chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -427,11 +362,6 @@ namespace Donut::P3D
         _secondaryAxis = stream.Read<int32_t>();
         _twistAxis = stream.Read<int32_t>();
         _restPose = stream.Read<glm::mat4>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("SkeletonJoint chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     StaticEntity::StaticEntity(const P3DChunk& chunk)
@@ -442,11 +372,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _version = stream.Read<uint32_t>();
         _renderOrder = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("StaticEntity chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -470,11 +395,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _unknown = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("StaticPhysics chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -499,11 +419,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _unknown = stream.Read<uint32_t>();
         _renderOrder = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("InstancedStaticPhysics chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -533,11 +448,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _unknown = stream.Read<uint32_t>();
         _renderOrder = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("DynamicPhysics chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -567,11 +477,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _unknown = stream.Read<uint32_t>();
         _renderOrder = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("AnimDynamicPhysics chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -600,11 +505,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _unknown = stream.Read<uint16_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("AnimObjectWrapper chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -642,11 +542,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("InstanceList chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -670,11 +565,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _unknown = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("SceneGraph chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -696,12 +586,7 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::SceneGraphRoot));
 
         MemoryStream stream(chunk.GetData());
-        		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("SceneGraphRoot chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
-
+        
         for (auto const& child : chunk.GetChildren())
         {
             switch (child->GetType())
@@ -724,11 +609,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _numChildren = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("SceneGraphBranch chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -753,11 +633,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _numChildren = stream.Read<uint32_t>();
         _transform = stream.Read<glm::mat4>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("SceneGraphTransform chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -787,11 +662,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _drawableName = stream.ReadLPString();
         _translucent = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("SceneGraphDrawable chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -822,11 +692,6 @@ namespace Donut::P3D
         _vertexNeeds = stream.Read<uint32_t>();
         _vertexMask = stream.Read<uint32_t>();
         _numParams = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Shader chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -865,11 +730,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _key = stream.ReadString(4);
         _value = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("ShaderTextureParam chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     ShaderIntParam::ShaderIntParam(const P3DChunk& chunk)
@@ -879,11 +739,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _key = stream.ReadString(4);
         _value = stream.Read<int32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("ShaderIntParam chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     ShaderFloatParam::ShaderFloatParam(const P3DChunk& chunk)
@@ -893,11 +748,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _key = stream.ReadString(4);
         _value = stream.Read<float>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("ShaderFloatParam chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     ShaderColorParam::ShaderColorParam(const P3DChunk& chunk)
@@ -910,11 +760,6 @@ namespace Donut::P3D
         _g = stream.Read<uint8_t>();
         _b = stream.Read<uint8_t>();
         _a = stream.Read<uint8_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("ShaderColorParam chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     CompositeDrawable::CompositeDrawable(const P3DChunk& chunk)
@@ -924,11 +769,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _skeletonName = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CompositeDrawable chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -951,11 +791,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _numElements = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CompositeDrawablePropList chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -980,11 +815,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _isTrans = stream.Read<uint32_t>();
         _skeletonJoint = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CompositeDrawableProp chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     Intersect::Intersect(const P3DChunk& chunk)
@@ -998,11 +828,6 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(glm::vec3));
         _normals.resize(stream.Read<uint32_t>());
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(glm::vec3));
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Intersect chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1028,11 +853,6 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _meshCount = stream.Read<uint32_t>();
         _billboardCount = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("WorldSphere chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1067,11 +887,6 @@ namespace Donut::P3D
         _height = stream.Read<float>();
         _distance = stream.Read<float>();
         _uvOffset = stream.Read<glm::vec2>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("BillboardQuad chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1105,11 +920,6 @@ namespace Donut::P3D
         _zWrite = stream.Read<uint32_t>();
         _fog = stream.Read<uint32_t>();
         _quadCount = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("BillboardQuadGroup chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1137,11 +947,6 @@ namespace Donut::P3D
         _uvOffsetRange = stream.Read<glm::vec2>();
         _sourceRange = stream.Read<float>();
         _edgeRange = stream.Read<float>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("BillboardDisplayInfo chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     BillboardPerspectiveInfo::BillboardPerspectiveInfo(const P3DChunk& chunk)
@@ -1151,11 +956,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _version = stream.Read<uint32_t>();
         _value = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("BillboardPerspectiveInfo chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     Texture::Texture(const P3DChunk& chunk)
@@ -1173,11 +973,6 @@ namespace Donut::P3D
         _textureType = stream.Read<uint32_t>();
         _usage = stream.Read<uint32_t>();
         _priority = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Texture chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1207,11 +1002,6 @@ namespace Donut::P3D
         _palettized = stream.Read<uint32_t>();
         _hasAlpha = stream.Read<uint32_t>();
         _format = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Image chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1244,11 +1034,6 @@ namespace Donut::P3D
         _height = stream.Read<float>();
         _baseLine = stream.Read<float>();
         _numTextures = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("TextureFont chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1286,11 +1071,6 @@ namespace Donut::P3D
         _height = stream.Read<uint32_t>();
         _imageCount = stream.Read<uint32_t>();
         _blitBorder = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Sprite chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1320,11 +1100,6 @@ namespace Donut::P3D
         {
             _pageNames[i] = stream.ReadLPString();
         }
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendScreen chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     FrontendProject::FrontendProject(const P3DChunk& chunk)
@@ -1340,11 +1115,6 @@ namespace Donut::P3D
         _pagePath = stream.ReadLPString();
         _resourcePath = stream.ReadLPString();
         _screenPath = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendProject chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1375,11 +1145,6 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _resX = stream.Read<uint32_t>();
         _resY = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendPage chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1411,11 +1176,6 @@ namespace Donut::P3D
         _visible = stream.Read<uint32_t>();
         _editable = stream.Read<uint32_t>();
         _alpha = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendLayer chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1460,11 +1220,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _version = stream.Read<uint32_t>();
         _alpha = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendGroup chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1518,11 +1273,6 @@ namespace Donut::P3D
         {
             _imageNames[i] = stream.ReadLPString();
         }
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendMultiSprite chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     FrontendMultiText::FrontendMultiText(const P3DChunk& chunk)
@@ -1547,11 +1297,6 @@ namespace Donut::P3D
         _shadowOffsetX = stream.Read<int32_t>();
         _shadowOffsetY = stream.Read<int32_t>();
         _current = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendMultiText chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1575,11 +1320,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _key = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendStringTextBible chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     FrontendObject::FrontendObject(const P3DChunk& chunk)
@@ -1588,11 +1328,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendObject chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     FrontendPolygon::FrontendPolygon(const P3DChunk& chunk)
@@ -1608,11 +1343,6 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(glm::vec3));
         _colors.resize(_numPoints);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendPolygon chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     FrontendImageResource::FrontendImageResource(const P3DChunk& chunk)
@@ -1623,11 +1353,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _version = stream.Read<uint32_t>();
         _filepath = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FrontendImageResource chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     Locator2::Locator2(const P3DChunk& chunk)
@@ -1638,11 +1363,6 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _type = stream.Read<uint32_t>();
         _dataSize = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Locator2 chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1668,11 +1388,6 @@ namespace Donut::P3D
         _isRect = stream.Read<uint32_t>();
         _bounds = stream.Read<glm::vec3>();
         _transform = stream.Read<glm::mat4>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("TriggerVolume chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     Camera::Camera(const P3DChunk& chunk)
@@ -1689,11 +1404,6 @@ namespace Donut::P3D
         _position = stream.Read<glm::vec3>();
         _forward = stream.Read<glm::vec3>();
         _up = stream.Read<glm::vec3>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Camera chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     MultiController::MultiController(const P3DChunk& chunk)
@@ -1706,11 +1416,6 @@ namespace Donut::P3D
         _length = stream.Read<float>();
         _frameRate = stream.Read<float>();
         _numTracks = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("MultiController chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1744,11 +1449,6 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackEndTimes.data()), _trackEndTimes.size() * sizeof(float));
         _trackScales.resize(_numTracks);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackScales.data()), _trackScales.size() * sizeof(float));
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("MultiControllerTracks chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     CollisionObject::CollisionObject(const P3DChunk& chunk)
@@ -1761,11 +1461,6 @@ namespace Donut::P3D
         _materialName = stream.ReadLPString();
         _numSubObjects = stream.Read<uint32_t>();
         _numVolumeOwners = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionObject chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1800,11 +1495,6 @@ namespace Donut::P3D
         _objectRefIndex = stream.Read<uint32_t>();
         _ownerIndex = stream.Read<int32_t>();
         _numSubVolumes = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionVolume chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1847,11 +1537,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _radius = stream.Read<float>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionSphere chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1878,11 +1563,6 @@ namespace Donut::P3D
         _radius = stream.Read<float>();
         _length = stream.Read<float>();
         _flatEnd = stream.Read<uint16_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionCylinder chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1907,11 +1587,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _halfExtents = stream.Read<glm::vec3>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionOBBoxVolume chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1936,11 +1611,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _nothing = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionBBoxVolume chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     CollisionVector::CollisionVector(const P3DChunk& chunk)
@@ -1949,11 +1619,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _value = stream.Read<glm::vec3>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionVector chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     CollisionVolumeOwner::CollisionVolumeOwner(const P3DChunk& chunk)
@@ -1962,11 +1627,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _numNames = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionVolumeOwner chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1989,11 +1649,6 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionVolumeOwnerName chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     CollisionObjectAttribute::CollisionObjectAttribute(const P3DChunk& chunk)
@@ -2010,11 +1665,6 @@ namespace Donut::P3D
         _unknown1 = stream.Read<uint32_t>();
         _unknown2 = stream.Read<uint32_t>();
         _unknown3 = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("CollisionObjectAttribute chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     FenceWrapper::FenceWrapper(const P3DChunk& chunk)
@@ -2022,12 +1672,7 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::FenceWrapper));
 
         MemoryStream stream(chunk.GetData());
-        		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("FenceWrapper chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
-
+        
         for (auto const& child : chunk.GetChildren())
         {
             switch (child->GetType())
@@ -2051,11 +1696,6 @@ namespace Donut::P3D
         _start = stream.Read<glm::vec3>();
         _end = stream.Read<glm::vec3>();
         _normal = stream.Read<glm::vec3>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Fence chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
     }
 
     Set::Set(const P3DChunk& chunk)
@@ -2065,11 +1705,6 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _numTextures = stream.Read<uint32_t>();
-		
-        if (!stream.End())
-		{
-            std::cout << fmt::format("Set chunk only read {0} out of {1} bytes!", stream.Position(), chunk.GetDataSize()) << std::endl;
-        }
 
         for (auto const& child : chunk.GetChildren())
         {
