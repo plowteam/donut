@@ -48,8 +48,8 @@
 |`mapping`|`u16`|
 |`constants`|`vec3`|
 |`numFrames`|`u32`|
-|`frames`|`u16[numFrames][]`|
-|`values`|`vec2[numFrames][]`|
+|`frames`|`u16[numFrames]`|
+|`values`|`vec2[numFrames]`|
 
 ## Vector3Channel
 |Name|Type|
@@ -57,8 +57,8 @@
 |`version`|`u32`|
 |`param`|`string[4]`|
 |`numFrames`|`u32`|
-|`frames`|`u16[numFrames][]`|
-|`values`|`vec3[numFrames][]`|
+|`frames`|`u16[numFrames]`|
+|`values`|`vec3[numFrames]`|
 
 ## QuaternionChannel
 |Name|Type|
@@ -66,8 +66,8 @@
 |`version`|`u32`|
 |`param`|`string[4]`|
 |`numFrames`|`u32`|
-|`frames`|`u16[numFrames][]`|
-|`values`|`quat[numFrames][]`|
+|`frames`|`u16[numFrames]`|
+|`values`|`quat[numFrames]`|
 
 ## CompressedQuaternionChannel
 |Name|Type|
@@ -75,8 +75,8 @@
 |`version`|`u32`|
 |`param`|`string[4]`|
 |`numFrames`|`u32`|
-|`frames`|`u16[numFrames][]`|
-|`values`|`u64[numFrames][]`|
+|`frames`|`u16[numFrames]`|
+|`values`|`u64[numFrames]`|
 
 ## Mesh
 |Name|Type|
@@ -131,14 +131,14 @@
 ### Children
 |Name|Chunk|
 |--|--|
-|`vertices`|`PositionList[]`|
-|`indices`|`IndexList[]`|
-|`normals`|`NormalList[]`|
-|`uvs`|`UVList[][]`|
-|`matrixList`|`MatrixList[]`|
-|`weightList`|`WeightList[]`|
-|`matrixPalette`|`MatrixPalette[]`|
-|`colors`|`ColorList[]`|
+|`vertices`|`PositionList<vec3>[u32]`|
+|`indices`|`IndexList<u32>[u32]`|
+|`normals`|`NormalList<vec3>[u32]`|
+|`uvs`|`UVList<vec2>[u32][u32]`|
+|`matrixList`|`MatrixList<u32>[u32]`|
+|`weightList`|`WeightList<vec3>[u32]`|
+|`matrixPalette`|`MatrixPalette<u32>[u32]`|
+|`colors`|`ColorList<u32>[u32]`|
 
 ## Skeleton
 |Name|Type|
@@ -180,6 +180,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`unknown`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -190,6 +191,8 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`unknown`|`u32`|
+|`renderOrder`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -201,6 +204,8 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`unknown`|`u32`|
+|`renderOrder`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -212,6 +217,8 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`unknown`|`u32`|
+|`renderOrder`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -223,6 +230,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`unknown`|`u16`|
 
 ### Children
 |Name|Chunk|
@@ -246,6 +254,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`unknown`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -265,6 +274,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`numChildren`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -288,6 +298,8 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`drawableName`|`string`|
+|`translucent`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -371,9 +383,9 @@
 ## Intersect
 |Name|Type|
 |--|--|
-|`indices`|`u32[]`|
-|`positions`|`vec3[]`|
-|`normals`|`vec3[]`|
+|`indices`|`u32[u32]`|
+|`positions`|`vec3[u32]`|
+|`normals`|`vec3[u32]`|
 
 ### Children
 |Name|Chunk|
@@ -410,6 +422,12 @@
 |`distance`|`float`|
 |`uvOffset`|`vec2`|
 
+### Children
+|Name|Chunk|
+|--|--|
+|`displayInfo`|`BillboardDisplayInfo`|
+|`perspectiveInfo`|`BillboardPerspectiveInfo`|
+
 ## BillboardQuadGroup
 |Name|Type|
 |--|--|
@@ -425,6 +443,22 @@
 |Name|Chunk|
 |--|--|
 |`quads`|`BillboardQuad[]`|
+
+## BillboardDisplayInfo
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`rotation`|`quat`|
+|`cutOffMode`|`string[4]`|
+|`uvOffsetRange`|`vec2`|
+|`sourceRange`|`float`|
+|`edgeRange`|`float`|
+
+## BillboardPerspectiveInfo
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`value`|`u32`|
 
 ## Texture
 |Name|Type|
@@ -460,7 +494,7 @@
 ### Children
 |Name|Chunk|
 |--|--|
-|`data`|`ImageData[]`|
+|`data`|`ImageData<u8>[u32]`|
 
 ## TextureFont
 |Name|Type|
@@ -478,7 +512,7 @@
 |Name|Chunk|
 |--|--|
 |`textures`|`Texture[]`|
-|`glyphs`|`FontGlyphs[]`|
+|`glyphs`|`FontGlyphs<FontGlyph>[u32]`|
 
 ## Sprite
 |Name|Type|
@@ -503,7 +537,7 @@
 |`name`|`string`|
 |`version`|`u32`|
 |`numPages`|`u32`|
-|`pageNames`|`string[numPages][]`|
+|`pageNames`|`string[numPages]`|
 
 ## FrontendProject
 |Name|Type|
@@ -574,11 +608,50 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`version`|`u32`|
+|`positionX`|`s32`|
+|`positionY`|`s32`|
+|`dimensionX`|`u32`|
+|`dimensionY`|`u32`|
+|`alignX`|`u32`|
+|`alignY`|`u32`|
+|`color`|`u32`|
+|`translucent`|`u32`|
+|`rotation`|`float`|
+|`numImages`|`u32`|
+|`imageNames`|`string[numImages]`|
 
 ## FrontendMultiText
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`version`|`u32`|
+|`positionX`|`s32`|
+|`positionY`|`s32`|
+|`dimensionX`|`u32`|
+|`dimensionY`|`u32`|
+|`alignX`|`u32`|
+|`alignY`|`u32`|
+|`color`|`u32`|
+|`translucent`|`u32`|
+|`rotation`|`float`|
+|`fontName`|`string`|
+|`shadowEnabled`|`u8`|
+|`shadowColor`|`u32`|
+|`shadowOffsetX`|`s32`|
+|`shadowOffsetY`|`s32`|
+|`current`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`textBibles`|`FrontendStringTextBible[]`|
+
+## FrontendStringTextBible
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`key`|`string`|
 
 ## FrontendObject
 |Name|Type|
@@ -589,6 +662,11 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`version`|`u32`|
+|`translucent`|`u32`|
+|`numPoints`|`u32`|
+|`points`|`vec3[numPoints]`|
+|`colors`|`u32[numPoints]`|
 
 ## FrontendImageResource
 |Name|Type|
@@ -613,6 +691,9 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
+|`isRect`|`u32`|
+|`bounds`|`vec3`|
+|`transform`|`mat4`|
 
 ## Camera
 |Name|Type|
@@ -644,6 +725,11 @@
 ## MultiControllerTracks
 |Name|Type|
 |--|--|
+|`numTracks`|`u32`|
+|`trackNames`|`string[numTracks]`|
+|`trackStartTimes`|`float[numTracks]`|
+|`trackEndTimes`|`float[numTracks]`|
+|`trackScales`|`float[numTracks]`|
 
 ## CollisionObject
 |Name|Type|
@@ -773,4 +859,42 @@
 |Name|Chunk|
 |--|--|
 |`textures`|`Texture[]`|
+
+## Path
+|Name|Type|
+|--|--|
+|`numPoints`|`u32`|
+|`points`|`vec3[numPoints]`|
+
+## Intersection
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`position`|`vec3`|
+|`radius`|`float`|
+|`trafficBehaviour`|`u32`|
+
+## RoadDataSegment
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`unknown0`|`u32`|
+|`lanes`|`u32`|
+|`unknown1`|`u32`|
+|`position0`|`vec3`|
+|`position1`|`vec3`|
+|`position2`|`vec3`|
+
+## Road
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`unknown0`|`u32`|
+|`startIntersection`|`string`|
+|`endIntersection`|`string`|
+|`maxCars`|`u32`|
+|`unknown1`|`u8`|
+|`unknown2`|`u8`|
+|`noReset`|`u8`|
+|`unknown3`|`u8`|
 
