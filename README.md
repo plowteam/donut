@@ -7,6 +7,9 @@
 
 donut is an open source reimplementation of The Simpsons: Hit & Run.
 
+## Docs
+[Chunks](dev/Chunks.md)
+
 # Building
 
 Clone the code using: `git clone --recursive https://github.com/plowteam/donut.git`
