@@ -103,6 +103,9 @@ namespace Donut::P3D
 	class Fence;
 	class Set;
 	class Path;
+	class Intersection;
+	class RoadDataSegment;
+	class Road;
 
     class Animation
     {
@@ -1921,6 +1924,88 @@ namespace Donut::P3D
 
         uint32_t _numPoints;
         std::vector<glm::vec3> _points;
+
+    };
+
+    class Intersection
+    {
+    public:
+
+        Intersection(const P3DChunk&);
+
+        static std::unique_ptr<Intersection> Load(const P3DChunk& chunk) { return std::make_unique<Intersection>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const glm::vec3& GetPosition() const { return _position; }
+        const float& GetRadius() const { return _radius; }
+        const uint32_t& GetTrafficBehaviour() const { return _trafficBehaviour; }
+
+    private:
+
+        std::string _name;
+        glm::vec3 _position;
+        float _radius;
+        uint32_t _trafficBehaviour;
+
+    };
+
+    class RoadDataSegment
+    {
+    public:
+
+        RoadDataSegment(const P3DChunk&);
+
+        static std::unique_ptr<RoadDataSegment> Load(const P3DChunk& chunk) { return std::make_unique<RoadDataSegment>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetUnknown0() const { return _unknown0; }
+        const uint32_t& GetLanes() const { return _lanes; }
+        const uint32_t& GetUnknown1() const { return _unknown1; }
+        const glm::vec3& GetPosition0() const { return _position0; }
+        const glm::vec3& GetPosition1() const { return _position1; }
+        const glm::vec3& GetPosition2() const { return _position2; }
+
+    private:
+
+        std::string _name;
+        uint32_t _unknown0;
+        uint32_t _lanes;
+        uint32_t _unknown1;
+        glm::vec3 _position0;
+        glm::vec3 _position1;
+        glm::vec3 _position2;
+
+    };
+
+    class Road
+    {
+    public:
+
+        Road(const P3DChunk&);
+
+        static std::unique_ptr<Road> Load(const P3DChunk& chunk) { return std::make_unique<Road>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetUnknown0() const { return _unknown0; }
+        const std::string& GetStartIntersection() const { return _startIntersection; }
+        const std::string& GetEndIntersection() const { return _endIntersection; }
+        const uint32_t& GetMaxCars() const { return _maxCars; }
+        const uint8_t& GetUnknown1() const { return _unknown1; }
+        const uint8_t& GetUnknown2() const { return _unknown2; }
+        const uint8_t& GetNoReset() const { return _noReset; }
+        const uint8_t& GetUnknown3() const { return _unknown3; }
+
+    private:
+
+        std::string _name;
+        uint32_t _unknown0;
+        std::string _startIntersection;
+        std::string _endIntersection;
+        uint32_t _maxCars;
+        uint8_t _unknown1;
+        uint8_t _unknown2;
+        uint8_t _noReset;
+        uint8_t _unknown3;
 
     };
 }

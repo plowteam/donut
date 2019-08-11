@@ -1730,4 +1730,45 @@ namespace Donut::P3D
         _points.resize(_numPoints);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(glm::vec3));
     }
+
+    Intersection::Intersection(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Intersection));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _position = stream.Read<glm::vec3>();
+        _radius = stream.Read<float>();
+        _trafficBehaviour = stream.Read<uint32_t>();
+    }
+
+    RoadDataSegment::RoadDataSegment(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::RoadDataSegment));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _unknown0 = stream.Read<uint32_t>();
+        _lanes = stream.Read<uint32_t>();
+        _unknown1 = stream.Read<uint32_t>();
+        _position0 = stream.Read<glm::vec3>();
+        _position1 = stream.Read<glm::vec3>();
+        _position2 = stream.Read<glm::vec3>();
+    }
+
+    Road::Road(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::Road));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _unknown0 = stream.Read<uint32_t>();
+        _startIntersection = stream.ReadLPString();
+        _endIntersection = stream.ReadLPString();
+        _maxCars = stream.Read<uint32_t>();
+        _unknown1 = stream.Read<uint8_t>();
+        _unknown2 = stream.Read<uint8_t>();
+        _noReset = stream.Read<uint8_t>();
+        _unknown3 = stream.Read<uint8_t>();
+    }
 }

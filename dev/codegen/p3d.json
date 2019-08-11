@@ -612,5 +612,34 @@
   "Path": {
     "numPoints": "u32",
     "points": "buffer<vec3[numPoints]>"
+  },
+
+  "Intersection": {
+    "name": "string",
+    "position": "vec3",
+    "radius": "float",
+    "trafficBehaviour": "u32"
+  },
+
+  "RoadDataSegment": {
+    "name": "string",
+    "unknown0": "u32",
+    "lanes": "u32",
+    "unknown1": "u32",
+    "position0": "vec3",
+    "position1": "vec3",
+    "position2": "vec3"
+  },
+
+  "Road": {
+    "name": "string",
+    "unknown0": "u32",
+    "startIntersection": "string",
+    "endIntersection": "string",
+    "maxCars": "u32",
+    "unknown1": "u8",
+    "unknown2": "u8",
+    "noReset": "u8",
+    "unknown3": "u8"
   }
 }
