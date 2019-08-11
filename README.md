@@ -1,6 +1,9 @@
 # donut
 
-![](https://files.facepunch.com/Layla/2019/July/28/donut2.gif)
+## Screenshots:
+
+![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-12-28.png)  
+![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png)  
 
 donut is an open source reimplementation of The Simpsons: Hit & Run.
 
