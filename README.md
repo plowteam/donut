@@ -5,9 +5,10 @@
 ![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-12-28.png)  
 ![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png)  
 
-See chunk documentation [here](dev/Chunks.md)
-
 donut is an open source reimplementation of The Simpsons: Hit & Run.
+
+## Docs
+[Chunks](dev/Chunks.md)
 
 # Building
 
