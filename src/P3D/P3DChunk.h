@@ -271,6 +271,14 @@ struct P3DUtil
 		const glm::mat4&);
 
 	static std::string GetShaderTexture(const std::unique_ptr<class Shader>&);
+
+	static glm::vec4 ConvertColor(uint32_t v)
+	{
+		return glm::vec4(((v >> 16) & 255) / 255.0f,
+			((v >> 8) & 255) / 255.0f,
+			((v & 255)) / 255.0f,
+			((v >> 24) & 255) / 255.0f);
+	}
 };
 
 } // namespace Donut::P3D

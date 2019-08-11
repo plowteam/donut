@@ -118,6 +118,16 @@ ShaderPtr ResourceManager::GetShader(const std::string& name) const
 	return shader;
 }
 
+std::shared_ptr<Texture> ResourceManager::GetTexture(const std::string& name) const
+{
+	if (_textures.find(name) == _textures.end())
+	{
+		return nullptr;
+	}
+
+	return _textures.at(name);
+}
+
 const Font* ResourceManager::GetFont(const std::string& name) const
 {
 	if (_fonts.find(name) == _fonts.end())

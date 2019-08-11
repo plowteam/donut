@@ -1292,10 +1292,34 @@ namespace Donut::P3D
         static std::unique_ptr<FrontendMultiSprite> Load(const P3DChunk& chunk) { return std::make_unique<FrontendMultiSprite>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const int32_t& GetPositionX() const { return _positionX; }
+        const int32_t& GetPositionY() const { return _positionY; }
+        const uint32_t& GetDimensionX() const { return _dimensionX; }
+        const uint32_t& GetDimensionY() const { return _dimensionY; }
+        const uint32_t& GetAlignX() const { return _alignX; }
+        const uint32_t& GetAlignY() const { return _alignY; }
+        const uint32_t& GetColor() const { return _color; }
+        const uint32_t& GetTranslucent() const { return _translucent; }
+        const float& GetRotation() const { return _rotation; }
+        const uint32_t& GetNumImages() const { return _numImages; }
+        const std::vector<std::string>& GetImageNames() const { return _imageNames; }
 
     private:
 
         std::string _name;
+        uint32_t _version;
+        int32_t _positionX;
+        int32_t _positionY;
+        uint32_t _dimensionX;
+        uint32_t _dimensionY;
+        uint32_t _alignX;
+        uint32_t _alignY;
+        uint32_t _color;
+        uint32_t _translucent;
+        float _rotation;
+        uint32_t _numImages;
+        std::vector<std::string> _imageNames;
 
     };
 
@@ -1340,10 +1364,20 @@ namespace Donut::P3D
         static std::unique_ptr<FrontendPolygon> Load(const P3DChunk& chunk) { return std::make_unique<FrontendPolygon>(chunk); }
 
         const std::string& GetName() const { return _name; }
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetTranslucent() const { return _translucent; }
+        const uint32_t& GetNumPoints() const { return _numPoints; }
+        const std::vector<glm::vec3>& GetPoints() const { return _points; }
+        const std::vector<uint32_t>& GetColors() const { return _colors; }
 
     private:
 
         std::string _name;
+        uint32_t _version;
+        uint32_t _translucent;
+        uint32_t _numPoints;
+        std::vector<glm::vec3> _points;
+        std::vector<uint32_t> _colors;
 
     };
 

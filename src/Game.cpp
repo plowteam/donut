@@ -129,7 +129,7 @@ Game::Game(int argc, char** argv)
 
 	const std::string windowTitle = fmt::format("donut [{0}]", kBuildString);
 
-	const int windowWidth = 1280, windowHeight = 1024;
+	const int windowWidth = 1280, windowHeight = 960;
 	_window = std::make_unique<Window>(windowTitle, windowWidth, windowHeight);
 
 	glEnable(GL_DEBUG_OUTPUT);
@@ -322,7 +322,7 @@ void Game::Run()
 
 
 	auto frontend = std::make_unique<FrontendProject>();
-	frontend->LoadP3D("art/frontend/scrooby/frontend.p3d");
+	frontend->LoadP3D("art/frontend/scrooby/bootup.p3d");
 
 	Input::CaptureTextEntry(this, &Game::OnInputTextEntry);
 

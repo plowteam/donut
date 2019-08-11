@@ -3,6 +3,7 @@
 #include "Font.h"
 #include <P3D/P3DChunk.h>
 #include <P3D/p3d.generated.h>
+#include <Render/Texture.h>
 
 namespace Donut
 {
@@ -12,10 +13,7 @@ namespace Donut
 
 		for (const auto& texture : fontP3D.GetTextures())
 		{
-			auto texdata = P3D::ImageData::Decode(texture->GetImage()->GetData());
-			_textures.push_back(std::move((texdata.comp == 4) ?
-				std::make_unique<GL::GLTexture2D>(texdata.width, texdata.height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, texdata.data.data()) :
-				std::make_unique<GL::GLTexture2D>(texdata.width, texdata.height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, texdata.data.data())));
+			_textures.push_back(std::make_shared<Texture>(*texture));
 		}
 
 		for (const auto& glyph : fontP3D.GetGlyphs())

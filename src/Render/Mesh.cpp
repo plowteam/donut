@@ -10,14 +10,6 @@
 namespace Donut
 {
 
-static glm::vec4 ConvertColor(uint32_t v)
-{	
-	return glm::vec4(((v >> 16) & 255) / 255.0f,
-					 ((v >> 8) & 255) / 255.0f,
-					 ((v & 255)) / 255.0f,
-					 ((v >> 24) & 255) / 255.0f);
-}
-
 Mesh::Mesh(const P3D::Mesh& mesh):
     _name(mesh.GetName())
 {
@@ -64,7 +56,7 @@ void Mesh::CreateMeshBuffers(const P3D::Mesh& mesh)
 			allVerts.push_back(Vertex{
 				verts[i],
 				glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
-				hasColors ? ConvertColor(colors[i]) : glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+				hasColors ? P3D::P3DUtil::ConvertColor(colors[i]) : glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
 				});
 		}
 
@@ -140,7 +132,7 @@ void Mesh::Draw(GL::ShaderProgram& shader, bool opaque)
 		shader.SetUniformValue("alphaMask", (prim.cacheShader->IsAlphaTested()) ? 0.5f : 0.0f);
 		prim.cacheShader->Bind(0);
 
-		DrawPrimGroup(prim);	
+		DrawPrimGroup(prim);
 	}
 
 	_vertexBinding->Unbind();

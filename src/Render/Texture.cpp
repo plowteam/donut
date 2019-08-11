@@ -96,9 +96,14 @@ Texture::~Texture()
 		glDeleteTextures(1, &_glTexture);
 }
 
-void Texture::Bind(const GLenum texture) const
+void Texture::Bind() const
 {
-	glActiveTexture(texture);
+	glBindTexture(GL_TEXTURE_2D, _glTexture);
+}
+
+void Texture::Bind(GLuint slot) const
+{
+	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, _glTexture);
 }
 

@@ -401,7 +401,19 @@
   },
 
   "FrontendMultiSprite": {
-    "name": "string"
+    "name": "string",
+    "version": "u32",
+    "positionX": "s32",
+    "positionY": "s32",
+    "dimensionX": "u32",
+    "dimensionY": "u32",
+    "alignX": "u32",
+    "alignY": "u32",
+    "color": "u32",
+    "translucent": "u32",
+    "rotation": "float",
+    "numImages": "u32",
+    "imageNames": "buffer<string[numImages]>"
   },
 
   "FrontendMultiText": {
@@ -413,7 +425,12 @@
   },
 
   "FrontendPolygon": {
-    "name": "string"
+    "name": "string",
+    "version": "u32",
+    "translucent": "u32",
+    "numPoints": "u32",
+    "points": "buffer<vec3[numPoints]>",
+    "colors": "buffer<u32[numPoints]>"
   },
 
   "FrontendImageResource": {

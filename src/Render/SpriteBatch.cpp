@@ -1,11 +1,11 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
 #include "SpriteBatch.h"
-#include <Render/OpenGL/GLTexture2D.h>
 #include <Render/OpenGL/VertexBuffer.h>
 #include <Render/OpenGL/VertexBinding.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/Font.h>
+#include <Render/Texture.h>
 
 namespace Donut
 {
@@ -75,7 +75,7 @@ namespace Donut
 
 			if (!font->TryGetGlyph(c, glyph)) continue;
 
-			GL::GLTexture2D* glyphTexture = font->GetTexture(glyph.textureId);
+			Texture* glyphTexture = font->GetTexture(glyph.textureId);
 
 			Draw(glyphTexture,
 				 curPosition + glm::vec2(glyph.leftBearing),
@@ -89,7 +89,7 @@ namespace Donut
 	}
 
 	SpriteBatch::Sprite::Sprite(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		float angle,
@@ -105,7 +105,7 @@ namespace Donut
 	}
 
 	SpriteBatch::Sprite::Sprite(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec2& uv1,
@@ -146,7 +146,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		float angle,
 		const glm::vec4& colour)
@@ -155,15 +155,15 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec4& colour)
 	{
 		float u1 = 0.0f;
-		float v1 = 1.0f;
+		float v1 = 0.0f;
 		float u2 = 1.0f;
-		float v2 = 0.0f;
+		float v2 = 1.0f;
 		glm::vec2 newPosition = position;
 		glm::vec2 newSize = size;
 
@@ -205,7 +205,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		float angle,
@@ -215,7 +215,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		const glm::vec2& uv1,
 		const glm::vec2& uv2,
@@ -283,7 +283,7 @@ namespace Donut
 
 	}
 
-	void SpriteBatch::DrawSlice(GL::GLTexture2D* texture, const SpriteBatch::Slice& slice, const glm::vec4& colour)
+	void SpriteBatch::DrawSlice(Texture* texture, const SpriteBatch::Slice& slice, const glm::vec4& colour)
 	{
 		Draw(texture, slice._drawPosition, slice._uv1, slice._uv2, slice._drawSize, colour);
 	}
@@ -391,7 +391,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw9Slice(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec4& margin,
@@ -444,7 +444,7 @@ namespace Donut
 	}
 
 	void SpriteBatch::Draw9Slice(
-		GL::GLTexture2D* texture,
+		Texture* texture,
 		const glm::vec2& position,
 		const glm::vec2& size,
 		const glm::vec2& glyphPosition,
@@ -497,7 +497,7 @@ namespace Donut
 		}
 	}
 
-	void SpriteBatch::Flush(const glm::mat4& proj)
+	void SpriteBatch::Flush(const glm::mat4& proj, float scale)
 	{
 		if (_spritesToDraw.empty())
 		{
@@ -586,8 +586,8 @@ namespace Donut
 					size_t bufferIndex = j * vertSize;
 					size_t vertexIndex = faceIndices[j];
 
-					buffer[bufferIndex] = vertexPositions[vertexIndex].x;
-					buffer[bufferIndex + 1] = vertexPositions[vertexIndex].y;
+					buffer[bufferIndex] = vertexPositions[vertexIndex].x * scale;
+					buffer[bufferIndex + 1] = vertexPositions[vertexIndex].y * scale;
 					buffer[bufferIndex + 2] = vertexTextureCoords[vertexIndex].x;
 					buffer[bufferIndex + 3] = vertexTextureCoords[vertexIndex].y;
 				}

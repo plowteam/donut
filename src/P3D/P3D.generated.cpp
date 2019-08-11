@@ -1229,6 +1229,22 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _positionX = stream.Read<int32_t>();
+        _positionY = stream.Read<int32_t>();
+        _dimensionX = stream.Read<uint32_t>();
+        _dimensionY = stream.Read<uint32_t>();
+        _alignX = stream.Read<uint32_t>();
+        _alignY = stream.Read<uint32_t>();
+        _color = stream.Read<uint32_t>();
+        _translucent = stream.Read<uint32_t>();
+        _rotation = stream.Read<float>();
+        _numImages = stream.Read<uint32_t>();
+        _imageNames.resize(_numImages);
+        for (size_t i = 0; i < _imageNames.size(); ++i)
+        {
+            _imageNames[i] = stream.ReadLPString();
+        }
     }
 
     FrontendMultiText::FrontendMultiText(const P3DChunk& chunk)
@@ -1253,6 +1269,13 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
+        _version = stream.Read<uint32_t>();
+        _translucent = stream.Read<uint32_t>();
+        _numPoints = stream.Read<uint32_t>();
+        _points.resize(_numPoints);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(glm::vec3));
+        _colors.resize(_numPoints);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
     }
 
     FrontendImageResource::FrontendImageResource(const P3DChunk& chunk)

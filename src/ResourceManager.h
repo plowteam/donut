@@ -39,6 +39,7 @@ class ResourceManager
 	void ImGuiDebugWindow(bool* p_open) const;
 
 	ShaderPtr GetShader(const std::string& name) const;
+	std::shared_ptr<Texture> GetTexture(const std::string& name) const;
 	const Font* GetFont(const std::string& name) const;
 
 	const std::unordered_map<std::string, std::unique_ptr<Font>>& GetFonts() const { return _fonts; }

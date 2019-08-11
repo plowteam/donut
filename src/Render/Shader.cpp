@@ -105,7 +105,7 @@ void Shader::SetDiffuseTexture(TexturePtr diffuseTexture)
 
 void Shader::Bind(GLuint unit) const
 {
-	_diffuseTexture->Bind(GL_TEXTURE0 + unit);
+	_diffuseTexture->Bind(unit);
 	glBindSampler(unit, _glSampler);
 }
 

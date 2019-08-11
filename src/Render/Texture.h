@@ -1,7 +1,9 @@
 #pragma once
+
 #include <memory>
 #include <string>
 #include "glad/glad.h"
+#include <glm/glm.hpp>
 
 namespace Donut
 {
@@ -19,10 +21,12 @@ class Texture
 	Texture(const P3D::Sprite&);
 	~Texture();
 
-	void Bind(GLenum texture) const;
+	void Bind() const;
+	void Bind(GLuint slot) const;
 
 	std::size_t GetWidth() const { return _width; }
 	std::size_t GetHeight() const { return _height; }
+	glm::ivec2 GetSize() const { return glm::ivec2(_width, _height); }
 
 	// bool HasAlpha() const;
 	GLuint GetOpenGLHandle() const { return _glTexture; }
