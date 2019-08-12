@@ -3,7 +3,7 @@
 #pragma once
 
 #include <Render/Mesh.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <ResourceManager.h>
 #include <string>
 #include <vector>

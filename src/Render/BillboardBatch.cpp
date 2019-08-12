@@ -5,7 +5,7 @@
 #include <Render/OpenGL/IndexBuffer.h>
 #include <Render/OpenGL/VertexBinding.h>
 #include <Render/OpenGL/ShaderProgram.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <Game.h>
 #include <ResourceManager.h>
 #include <glm/glm.hpp>

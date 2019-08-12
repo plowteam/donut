@@ -4,7 +4,7 @@
 #include <Render/SkinAnimation.h>
 #include <glm/gtx/quaternion.hpp>
 #include <P3D/P3DFile.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <iostream>
 
 namespace Donut

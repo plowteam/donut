@@ -2,7 +2,7 @@
 
 #include <Render/CompositeModel.h>
 #include <P3D/P3DFile.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <iostream>
 #include "Game.h"
 

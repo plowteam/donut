@@ -2,7 +2,7 @@
 
 #include "Font.h"
 #include <P3D/P3DChunk.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <Render/Texture.h>
 
 namespace Donut

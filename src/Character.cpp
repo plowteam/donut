@@ -3,7 +3,7 @@
 #include <Character.h>
 #include <CharacterController.h>
 #include <Game.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Physics/BulletCast.h>
 #include <Render/OpenGL/ShaderProgram.h>

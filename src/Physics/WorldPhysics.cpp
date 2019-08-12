@@ -1,6 +1,6 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <Physics/BulletCast.h>
 #include <Physics/BulletDebugDraw.h>
 #include <Physics/WorldPhysics.h>

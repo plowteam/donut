@@ -14,7 +14,7 @@
   +---------------------------------------------------+
 */
 
-#include "p3d.generated.h"
+#include "P3D.generated.h"
 #include <Core/MemoryStream.h>
 #include <iostream>
 

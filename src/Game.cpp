@@ -10,7 +10,7 @@
 #include <Level.h>
 #include <FrontendProject.h>
 #include <P3D/P3DFile.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <Physics/WorldPhysics.h>
 #include <RCL/RCFFile.h>
 #include <RCL/RSDFile.h>

@@ -3,7 +3,7 @@
 #include <Game.h>
 #include <Level.h>
 #include <P3D/P3DFile.h>
-#include <P3D/p3d.generated.h>
+#include <P3D/P3D.generated.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/LineRenderer.h>
