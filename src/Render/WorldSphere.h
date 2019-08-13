@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <Render/BillboardBatch.h>
+#include <Render/CompositeModel.h>
 #include <Render/Mesh.h>
 #include <P3D/P3D.generated.h>
 #include <ResourceManager.h>
@@ -19,7 +21,9 @@ class WorldSphere
 	void Draw(GL::ShaderProgram&, bool opaque) const;
   private:
 	std::string _name;
+	std::vector<std::unique_ptr<BillboardBatch>> _billboardBatches;
 	std::vector<std::unique_ptr<Mesh>> _meshes;
+	std::unique_ptr<CompositeModel> _compositeModel;
 };
 
 } // namespace Donut
