@@ -380,6 +380,16 @@
 |`isTrans`|`u32`|
 |`skeletonJoint`|`u32`|
 
+### Children
+|Name|Chunk|
+|--|--|
+|`sortOrder`|`CompositeDrawableSortOrder<float>`|
+
+## CompositeDrawableSortOrder
+|Name|Type|
+|--|--|
+|`value`|`float`|
+
 ## Intersect
 |Name|Type|
 |--|--|
@@ -403,7 +413,24 @@
 ### Children
 |Name|Chunk|
 |--|--|
+|`animation`|`Animation`|
+|`skeletons`|`Skeleton[]`|
+|`billboards`|`BillboardQuadGroup[]`|
 |`meshes`|`Mesh[]`|
+|`compositeDrawable`|`CompositeDrawable`|
+|`lensFlare`|`LensFlare`|
+
+## LensFlare
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`billboardCount`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`billboards`|`BillboardQuadGroup[]`|
+|`compositeDrawable`|`CompositeDrawable`|
 
 ## BillboardQuad
 |Name|Type|

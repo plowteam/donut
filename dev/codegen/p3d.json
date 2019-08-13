@@ -289,7 +289,7 @@
     "billboardCount": "u32",
     "billboards": "children BillboardQuadGroup",
     "compositeDrawable": "child CompositeDrawable"
-  }
+  },
 
   "BillboardQuad": {
     "version": "u32",
