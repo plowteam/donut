@@ -66,6 +66,7 @@ namespace Donut::P3D
 	class CompositeDrawableSortOrder;
 	class Intersect;
 	class WorldSphere;
+	class LensFlare;
 	class BillboardQuad;
 	class BillboardQuadGroup;
 	class BillboardDisplayInfo;
@@ -952,7 +953,12 @@ namespace Donut::P3D
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetMeshCount() const { return _meshCount; }
         const uint32_t& GetBillboardCount() const { return _billboardCount; }
+        const std::unique_ptr<Animation>& GetAnimation() const { return _animation; }
+        const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
+        const std::vector<std::unique_ptr<BillboardQuadGroup>>& GetBillboards() const { return _billboards; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::unique_ptr<CompositeDrawable>& GetCompositeDrawable() const { return _compositeDrawable; }
+        const std::unique_ptr<LensFlare>& GetLensFlare() const { return _lensFlare; }
 
     private:
 
@@ -960,7 +966,34 @@ namespace Donut::P3D
         uint32_t _version;
         uint32_t _meshCount;
         uint32_t _billboardCount;
+        std::unique_ptr<Animation> _animation;
+        std::vector<std::unique_ptr<Skeleton>> _skeletons;
+        std::vector<std::unique_ptr<BillboardQuadGroup>> _billboards;
         std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::unique_ptr<CompositeDrawable> _compositeDrawable;
+        std::unique_ptr<LensFlare> _lensFlare;
+
+    };
+
+    class LensFlare
+    {
+    public:
+
+        LensFlare(const P3DChunk&);
+
+        static std::unique_ptr<LensFlare> Load(const P3DChunk& chunk) { return std::make_unique<LensFlare>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetBillboardCount() const { return _billboardCount; }
+        const std::vector<std::unique_ptr<BillboardQuadGroup>>& GetBillboards() const { return _billboards; }
+        const std::unique_ptr<CompositeDrawable>& GetCompositeDrawable() const { return _compositeDrawable; }
+
+    private:
+
+        std::string _name;
+        uint32_t _billboardCount;
+        std::vector<std::unique_ptr<BillboardQuadGroup>> _billboards;
+        std::unique_ptr<CompositeDrawable> _compositeDrawable;
 
     };
 

@@ -882,9 +882,62 @@ namespace Donut::P3D
         {
             switch (child->GetType())
             {
+                case ChunkType::Animation:
+                    {
+                        _animation = std::make_unique<Animation>(*child);
+                        break;
+                    }
+                case ChunkType::Skeleton:
+                    {
+                        _skeletons.push_back(std::make_unique<Skeleton>(*child));
+                        break;
+                    }
+                case ChunkType::BillboardQuadGroup:
+                    {
+                        _billboards.push_back(std::make_unique<BillboardQuadGroup>(*child));
+                        break;
+                    }
                 case ChunkType::Mesh:
                     {
                         _meshes.push_back(std::make_unique<Mesh>(*child));
+                        break;
+                    }
+                case ChunkType::CompositeDrawable:
+                    {
+                        _compositeDrawable = std::make_unique<CompositeDrawable>(*child);
+                        break;
+                    }
+                case ChunkType::LensFlare:
+                    {
+                        _lensFlare = std::make_unique<LensFlare>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    LensFlare::LensFlare(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::LensFlare));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _billboardCount = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::BillboardQuadGroup:
+                    {
+                        _billboards.push_back(std::make_unique<BillboardQuadGroup>(*child));
+                        break;
+                    }
+                case ChunkType::CompositeDrawable:
+                    {
+                        _compositeDrawable = std::make_unique<CompositeDrawable>(*child);
                         break;
                     }
                 default:
