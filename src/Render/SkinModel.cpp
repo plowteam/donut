@@ -2,6 +2,7 @@
 
 #include <Render/SkinModel.h>
 #include <P3D/P3D.generated.h>
+#include <Game.h>
 
 namespace Donut
 {
@@ -121,17 +122,13 @@ void SkinModel::Draw()
 	_vertexBinding->Bind();
 
 	glActiveTexture(GL_TEXTURE0);
-	/*for (auto const& primGroup : _primGroups)
+	for (auto const& primGroup : _primGroups)
 	{
-		auto const& textureName = shaderMap.at(primGroup.shaderName);
-
-		if (textureMap.find(textureName) == textureMap.end())
-			rm.GetTexture(textureName).Bind();
-		else
-			textureMap.at(textureName)->Bind();
+		auto const& shader = Game::GetInstance().GetResourceManager().GetShader(primGroup.shaderName);
+		shader->Bind(0);
 
 		glDrawElements(primGroup.mode, primGroup.indicesCount, _indexBuffer->GetType(), reinterpret_cast<const void*>(primGroup.indicesOffset * 4));
-	}*/
+	}
 
 	_vertexBinding->Unbind();
 }
