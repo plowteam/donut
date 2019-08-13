@@ -2,8 +2,8 @@
 
 ### Screenshots
 
-![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-12-28.png)  
-![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png)  
+![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-12-28.png)
+![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png)
 
 donut is an open source reimplementation of The Simpsons: Hit & Run.
 
@@ -45,11 +45,13 @@ cmake ../
 make
 ```
 
+**Mesa drivers on Linux:** if you are trying to run with Mesa drivers and are getting issues with OpenGL context try messing with `MESA_GL_VERSION_OVERRIDE` when running like so: `MESA_GL_VERSION_OVERRIDE=4.3FC MESA_GLSL_VERSION_OVERRIDE=430 bin/donut`
+
 ### Contributing
 Contributions are always welcome, whether it's modifying source code to add new
 features or bug fixes, documenting new file formats or simply editing some
 grammar.
 
 ## License
-donut is released as open source software under the [GPL v3](https://opensource.org/licenses/gpl-3.0.html) 
+donut is released as open source software under the [GPL v3](https://opensource.org/licenses/gpl-3.0.html)
 license, see the [LICENSE.md](./LICENSE.md) file in the project root for the full license text.
