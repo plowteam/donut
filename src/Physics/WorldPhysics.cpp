@@ -61,7 +61,7 @@ WorldPhysics::~WorldPhysics()
 
 void WorldPhysics::Update(const float dt) const
 {
-	_dynamicsWorld->stepSimulation(dt);
+	// _dynamicsWorld->stepSimulation(dt);
 	_dynamicsWorld->debugDrawWorld();
 
 	// _char->Update(_dynamicsWorld, dt);
