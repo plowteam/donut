@@ -276,8 +276,20 @@
     "version": "u32",
     "meshCount": "u32",
     "billboardCount": "u32",
-    "meshes": "children Mesh"
+    "animation": "child Animation",
+    "skeletons": "children Skeleton",
+    "billboards": "children BillboardQuadGroup",
+    "meshes": "children Mesh",
+    "compositeDrawable": "child CompositeDrawable",
+    "lensFlare": "child LensFlare"
   },
+
+  "LensFlare": {
+    "name": "string",
+    "billboardCount": "u32",
+    "billboards": "children BillboardQuadGroup",
+    "compositeDrawable": "child CompositeDrawable"
+  }
 
   "BillboardQuad": {
     "version": "u32",
