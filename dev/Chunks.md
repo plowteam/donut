@@ -1,231 +1,17 @@
 # Chunks (98 / 182)
 
-## Animation `0x121000`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`name`|`string`|
-|`type`|`string[4]`|
-|`numFrames`|`float`|
-|`frameRate`|`float`|
-|`looping`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`groupList`|`AnimationGroupList`|
-|`size`|`AnimationSize`|
-
-## AnimationSize `0x121004`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`PC`|`u32`|
-|`PS2`|`u32`|
-|`XBOX`|`u32`|
-|`GC`|`u32`|
-
-## AnimationGroupList `0x121002`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`numGroups`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`groups`|`AnimationGroup[]`|
-
-## AnimationGroup `0x121001`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`name`|`string`|
-|`groupId`|`u32`|
-|`numChannels`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`vector2Channels`|`Vector2Channel[]`|
-|`vector3Channels`|`Vector3Channel[]`|
-|`quaternionChannels`|`QuaternionChannel[]`|
-|`compressedQuaternionChannels`|`CompressedQuaternionChannel[]`|
-
-## ChannelInterpolationMode `0x121110`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`mode`|`u32`|
-
-## Vector2Channel `0x121103`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`param`|`string[4]`|
-|`mapping`|`u16`|
-|`constants`|`vec3`|
-|`numFrames`|`u32`|
-|`frames`|`u16[numFrames]`|
-|`values`|`vec2[numFrames]`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`interpolationMode`|`ChannelInterpolationMode`|
-
-## Vector3Channel `0x121104`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`param`|`string[4]`|
-|`numFrames`|`u32`|
-|`frames`|`u16[numFrames]`|
-|`values`|`vec3[numFrames]`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`interpolationMode`|`ChannelInterpolationMode`|
-
-## QuaternionChannel `0x121105`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`param`|`string[4]`|
-|`numFrames`|`u32`|
-|`frames`|`u16[numFrames]`|
-|`values`|`quat[numFrames]`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`interpolationMode`|`ChannelInterpolationMode`|
-
-## CompressedQuaternionChannel `0x121111`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`param`|`string[4]`|
-|`numFrames`|`u32`|
-|`frames`|`u16[numFrames]`|
-|`values`|`u64[numFrames]`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`interpolationMode`|`ChannelInterpolationMode`|
-
-## Mesh `0x10000`
+## Camera `0x2200`
 |Name|Type|
 |--|--|
 |`name`|`string`|
 |`version`|`u32`|
-|`numPrimGroups`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`primitiveGroups`|`PrimitiveGroup[]`|
-
-## PolySkin `0x10001`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`version`|`u32`|
-|`skeletonName`|`string`|
-|`numPrimGroups`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`primitiveGroups`|`PrimitiveGroup[]`|
-|`boundingBox`|`BoundingBox`|
-|`boundingSphere`|`BoundingSphere`|
-
-## BoundingBox `0x10003`
-|Name|Type|
-|--|--|
-|`min`|`vec3`|
-|`max`|`vec3`|
-
-## BoundingSphere `0x10004`
-|Name|Type|
-|--|--|
-|`centre`|`vec3`|
-|`radius`|`float`|
-
-## PrimitiveGroup `0x10002`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`shaderName`|`string`|
-|`primType`|`u32`|
-|`hasDataFlags`|`u32`|
-|`numVerts`|`u32`|
-|`numIndices`|`u32`|
-|`numMatrices`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`vertices`|`PositionList<vec3>[u32]`|
-|`indices`|`IndexList<u32>[u32]`|
-|`normals`|`NormalList<vec3>[u32]`|
-|`uvs`|`UVList<vec2>[u32][u32]`|
-|`matrixList`|`MatrixList<u32>[u32]`|
-|`matrixPalette`|`MatrixPalette<u32>[u32]`|
-|`weightList`|`WeightList<vec3>[u32]`|
-|`colors`|`ColorList<u32>[u32]`|
-
-## PositionList `0x10005`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`positions`|`vec3[size]`|
-
-## IndexList `0x1000A`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`indices`|`u32[size]`|
-
-## NormalList `0x10006`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`normals`|`vec3[size]`|
-
-## UVList `0x10007`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`channel`|`u32`|
-|`uvs`|`vec2[size]`|
-
-## MatrixList `0x1000B`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`uvs`|`u32[size]`|
-
-## MatrixPalette `0x1000D`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`uvs`|`u32[size]`|
-
-## WeightList `0x1000C`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`uvs`|`vec3[size]`|
-
-## ColorList `0x10008`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`uvs`|`u32[size]`|
+|`fov`|`float`|
+|`aspectRatio`|`float`|
+|`nearClip`|`float`|
+|`farClip`|`float`|
+|`position`|`vec3`|
+|`forward`|`vec3`|
+|`up`|`vec3`|
 
 ## Skeleton `0x4500`
 |Name|Type|
@@ -268,152 +54,183 @@
 |--|--|
 |`depth`|`u32`|
 
-## StaticEntity `0x3F00000`
+## CompositeDrawable `0x4512`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`skeletonName`|`string`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`propList`|`CompositeDrawablePropList`|
+
+## CompositeDrawablePropList `0x4514`
+|Name|Type|
+|--|--|
+|`numElements`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`props`|`CompositeDrawableProp[]`|
+
+## CompositeDrawableProp `0x4516`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`isTrans`|`u32`|
+|`skeletonJoint`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`sortOrder`|`CompositeDrawableSortOrder<float>`|
+
+## CompositeDrawableSortOrder `0x4519`
+|Name|Type|
+|--|--|
+|`value`|`float`|
+
+## MultiController `0x48A0`
 |Name|Type|
 |--|--|
 |`name`|`string`|
 |`version`|`u32`|
-|`renderOrder`|`u32`|
+|`length`|`float`|
+|`frameRate`|`float`|
+|`numTracks`|`u32`|
 
 ### Children
 |Name|Chunk|
 |--|--|
-|`mesh`|`Mesh`|
+|`tracks`|`MultiControllerTracks`|
 
-## StaticPhysics `0x3F00001`
+## MultiControllerTracks `0x48A1`
+|Name|Type|
+|--|--|
+|`numTracks`|`u32`|
+|`trackNames`|`string[numTracks]`|
+|`trackStartTimes`|`float[numTracks]`|
+|`trackEndTimes`|`float[numTracks]`|
+|`trackScales`|`float[numTracks]`|
+
+## History `0x7000`
+|Name|Type|
+|--|--|
+|`numLines`|`u32`|
+|`lines`|`string[u32]`|
+
+## Mesh `0x10000`
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`todo`|`u32`|
+|`version`|`u32`|
+|`numPrimGroups`|`u32`|
 
 ### Children
 |Name|Chunk|
 |--|--|
-|`collisionObject`|`CollisionObject`|
+|`primitiveGroups`|`PrimitiveGroup[]`|
 
-## InstancedStaticPhysics `0x3F0000A`
+## PolySkin `0x10001`
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`todo`|`u32`|
-|`renderOrder`|`u32`|
+|`version`|`u32`|
+|`skeletonName`|`string`|
+|`numPrimGroups`|`u32`|
 
 ### Children
 |Name|Chunk|
 |--|--|
-|`meshes`|`Mesh[]`|
-|`instanceList`|`InstanceList`|
+|`primitiveGroups`|`PrimitiveGroup[]`|
+|`boundingBox`|`BoundingBox`|
+|`boundingSphere`|`BoundingSphere`|
 
-## DynamicPhysics `0x3F00002`
+## PrimitiveGroup `0x10002`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`todo`|`u32`|
-|`renderOrder`|`u32`|
+|`version`|`u32`|
+|`shaderName`|`string`|
+|`primType`|`u32`|
+|`hasDataFlags`|`u32`|
+|`numVerts`|`u32`|
+|`numIndices`|`u32`|
+|`numMatrices`|`u32`|
 
 ### Children
 |Name|Chunk|
 |--|--|
-|`meshes`|`Mesh[]`|
-|`instanceList`|`InstanceList`|
+|`vertices`|`PositionList<vec3>[u32]`|
+|`indices`|`IndexList<u32>[u32]`|
+|`normals`|`NormalList<vec3>[u32]`|
+|`uvs`|`UVList<vec2>[u32][u32]`|
+|`matrixList`|`MatrixList<u32>[u32]`|
+|`matrixPalette`|`MatrixPalette<u32>[u32]`|
+|`weightList`|`WeightList<vec3>[u32]`|
+|`colors`|`ColorList<u32>[u32]`|
 
-## AnimDynamicPhysics `0x3F0000E`
+## BoundingBox `0x10003`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`todo`|`u32`|
-|`renderOrder`|`u32`|
+|`min`|`vec3`|
+|`max`|`vec3`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`animObjectWrapper`|`AnimObjectWrapper`|
-|`instanceList`|`InstanceList`|
-
-## AnimObjectWrapper `0x3F00010`
+## BoundingSphere `0x10004`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`todo`|`u16`|
+|`centre`|`vec3`|
+|`radius`|`float`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`compositeDrawables`|`CompositeDrawable[]`|
-|`skeletons`|`Skeleton[]`|
-|`meshes`|`Mesh[]`|
-|`animations`|`Animation[]`|
-
-## InstanceList `0x3000008`
+## PositionList `0x10005`
 |Name|Type|
 |--|--|
-|`name`|`string`|
+|`size`|`u32`|
+|`positions`|`vec3[size]`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`sceneGraph`|`SceneGraph`|
-
-## SceneGraph `0x120100`
+## NormalList `0x10006`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`todo`|`u32`|
+|`size`|`u32`|
+|`normals`|`vec3[size]`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`root`|`SceneGraphRoot`|
-
-## SceneGraphRoot `0x120101`
+## UVList `0x10007`
 |Name|Type|
 |--|--|
+|`size`|`u32`|
+|`channel`|`u32`|
+|`uvs`|`vec2[size]`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`branch`|`SceneGraphBranch`|
-
-## SceneGraphBranch `0x120102`
+## ColorList `0x10008`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`numChildren`|`u32`|
+|`size`|`u32`|
+|`uvs`|`u32[size]`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`children`|`SceneGraphTransform[]`|
-
-## SceneGraphTransform `0x120103`
+## IndexList `0x1000A`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`numChildren`|`u32`|
-|`transform`|`mat4`|
+|`size`|`u32`|
+|`indices`|`u32[size]`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`children`|`SceneGraphTransform[]`|
-|`drawables`|`SceneGraphDrawable[]`|
-
-## SceneGraphDrawable `0x120107`
+## MatrixList `0x1000B`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`drawableName`|`string`|
-|`translucent`|`u32`|
+|`size`|`u32`|
+|`uvs`|`u32[size]`|
 
-### Children
-|Name|Chunk|
-|--|--|
-|`sortOrder`|`SceneGraphSortOrder<float>`|
-
-## SceneGraphSortOrder `0x12010A`
+## WeightList `0x1000C`
 |Name|Type|
 |--|--|
-|`value`|`float`|
+|`size`|`u32`|
+|`uvs`|`vec3[size]`|
+
+## MatrixPalette `0x1000D`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`uvs`|`u32[size]`|
 
 ## Shader `0x11000`
 |Name|Type|
@@ -461,85 +278,23 @@
 |`b`|`u8`|
 |`a`|`u8`|
 
-## CompositeDrawable `0x4512`
+## GameAttr `0x12000`
 |Name|Type|
 |--|--|
-|`name`|`string`|
-|`skeletonName`|`string`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`propList`|`CompositeDrawablePropList`|
-
-## CompositeDrawablePropList `0x4514`
-|Name|Type|
-|--|--|
-|`numElements`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`props`|`CompositeDrawableProp[]`|
-
-## CompositeDrawableProp `0x4516`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`isTrans`|`u32`|
-|`skeletonJoint`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`sortOrder`|`CompositeDrawableSortOrder<float>`|
-
-## CompositeDrawableSortOrder `0x4519`
-|Name|Type|
-|--|--|
-|`value`|`float`|
-
-## Intersect `0x3F00003`
-|Name|Type|
-|--|--|
-|`indices`|`u32[u32]`|
-|`positions`|`vec3[u32]`|
-|`normals`|`vec3[u32]`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`bounds`|`BoundingBox`|
-
-## WorldSphere `0x3F0000B`
-|Name|Type|
-|--|--|
-|`name`|`string`|
 |`version`|`u32`|
-|`meshCount`|`u32`|
-|`billboardCount`|`u32`|
+|`name`|`string`|
+|`numParams`|`u32`|
 
 ### Children
 |Name|Chunk|
 |--|--|
-|`animation`|`Animation`|
-|`skeletons`|`Skeleton[]`|
-|`billboards`|`BillboardQuadGroup[]`|
-|`meshes`|`Mesh[]`|
-|`compositeDrawable`|`CompositeDrawable`|
-|`lensFlare`|`LensFlare`|
+|`params`|`GameAttrIntParam[]`|
 
-## LensFlare `0x3F0000D`
+## GameAttrIntParam `0x12001`
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`billboardCount`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`billboards`|`BillboardQuadGroup[]`|
-|`compositeDrawable`|`CompositeDrawable`|
+|`value`|`u32`|
 
 ## BillboardQuad `0x17001`
 |Name|Type|
@@ -596,97 +351,6 @@
 |`version`|`u32`|
 |`value`|`u32`|
 
-## Texture `0x19000`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`version`|`u32`|
-|`width`|`u32`|
-|`height`|`u32`|
-|`bpp`|`u32`|
-|`alphaDepth`|`u32`|
-|`numMipMaps`|`u32`|
-|`textureType`|`u32`|
-|`usage`|`u32`|
-|`priority`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`image`|`Image`|
-
-## Image `0x19001`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`version`|`u32`|
-|`width`|`u32`|
-|`height`|`u32`|
-|`bpp`|`u32`|
-|`palettized`|`u32`|
-|`hasAlpha`|`u32`|
-|`format`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`data`|`ImageData<u8>[u32]`|
-
-## ImageData `0x19002`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`data`|`u8[size]`|
-
-## TextureFont `0x22000`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`name`|`string`|
-|`shader`|`string`|
-|`size`|`float`|
-|`width`|`float`|
-|`height`|`float`|
-|`baseLine`|`float`|
-|`numTextures`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`textures`|`Texture[]`|
-|`glyphs`|`FontGlyphs<FontGlyph>[u32]`|
-
-## FontGlyphs `0x22001`
-|Name|Type|
-|--|--|
-|`size`|`u32`|
-|`glyphs`|`FontGlyph[size]`|
-
-## Sprite `0x19005`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`nativeX`|`u32`|
-|`nativeY`|`u32`|
-|`shader`|`string`|
-|`width`|`u32`|
-|`height`|`u32`|
-|`imageCount`|`u32`|
-|`blitBorder`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`images`|`Image[]`|
-
-## FrontendScreen `0x18001`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`version`|`u32`|
-|`numPages`|`u32`|
-|`pageNames`|`string[numPages]`|
-
 ## FrontendProject `0x18000`
 |Name|Type|
 |--|--|
@@ -704,6 +368,14 @@
 |--|--|
 |`pages`|`FrontendPage[]`|
 |`screens`|`FrontendScreen[]`|
+
+## FrontendScreen `0x18001`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`version`|`u32`|
+|`numPages`|`u32`|
+|`pageNames`|`string[numPages]`|
 
 ## FrontendPage `0x18002`
 |Name|Type|
@@ -795,12 +467,6 @@
 |--|--|
 |`textBibles`|`FrontendStringTextBible[]`|
 
-## FrontendStringTextBible `0x1800B`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`key`|`string`|
-
 ## FrontendObject `0x18008`
 |Name|Type|
 |--|--|
@@ -816,12 +482,314 @@
 |`points`|`vec3[numPoints]`|
 |`colors`|`u32[numPoints]`|
 
+## FrontendStringTextBible `0x1800B`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`key`|`string`|
+
 ## FrontendImageResource `0x18100`
 |Name|Type|
 |--|--|
 |`name`|`string`|
 |`version`|`u32`|
 |`filepath`|`string`|
+
+## Texture `0x19000`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`version`|`u32`|
+|`width`|`u32`|
+|`height`|`u32`|
+|`bpp`|`u32`|
+|`alphaDepth`|`u32`|
+|`numMipMaps`|`u32`|
+|`textureType`|`u32`|
+|`usage`|`u32`|
+|`priority`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`image`|`Image`|
+
+## Image `0x19001`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`version`|`u32`|
+|`width`|`u32`|
+|`height`|`u32`|
+|`bpp`|`u32`|
+|`palettized`|`u32`|
+|`hasAlpha`|`u32`|
+|`format`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`data`|`ImageData<u8>[u32]`|
+
+## ImageData `0x19002`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`data`|`u8[size]`|
+
+## Sprite `0x19005`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`nativeX`|`u32`|
+|`nativeY`|`u32`|
+|`shader`|`string`|
+|`width`|`u32`|
+|`height`|`u32`|
+|`imageCount`|`u32`|
+|`blitBorder`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`images`|`Image[]`|
+
+## TextureFont `0x22000`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`name`|`string`|
+|`shader`|`string`|
+|`size`|`float`|
+|`width`|`float`|
+|`height`|`float`|
+|`baseLine`|`float`|
+|`numTextures`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`textures`|`Texture[]`|
+|`glyphs`|`FontGlyphs<FontGlyph>[u32]`|
+
+## FontGlyphs `0x22001`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`glyphs`|`FontGlyph[size]`|
+
+## SceneGraph `0x120100`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`todo`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`root`|`SceneGraphRoot`|
+
+## SceneGraphRoot `0x120101`
+|Name|Type|
+|--|--|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`branch`|`SceneGraphBranch`|
+
+## SceneGraphBranch `0x120102`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`numChildren`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`children`|`SceneGraphTransform[]`|
+
+## SceneGraphTransform `0x120103`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`numChildren`|`u32`|
+|`transform`|`mat4`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`children`|`SceneGraphTransform[]`|
+|`drawables`|`SceneGraphDrawable[]`|
+
+## SceneGraphDrawable `0x120107`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`drawableName`|`string`|
+|`translucent`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`sortOrder`|`SceneGraphSortOrder<float>`|
+
+## SceneGraphSortOrder `0x12010A`
+|Name|Type|
+|--|--|
+|`value`|`float`|
+
+## Animation `0x121000`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`name`|`string`|
+|`type`|`string[4]`|
+|`numFrames`|`float`|
+|`frameRate`|`float`|
+|`looping`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`groupList`|`AnimationGroupList`|
+|`size`|`AnimationSize`|
+
+## AnimationGroup `0x121001`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`name`|`string`|
+|`groupId`|`u32`|
+|`numChannels`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`vector2Channels`|`Vector2Channel[]`|
+|`vector3Channels`|`Vector3Channel[]`|
+|`quaternionChannels`|`QuaternionChannel[]`|
+|`compressedQuaternionChannels`|`CompressedQuaternionChannel[]`|
+
+## AnimationGroupList `0x121002`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`numGroups`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`groups`|`AnimationGroup[]`|
+
+## AnimationSize `0x121004`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`PC`|`u32`|
+|`PS2`|`u32`|
+|`XBOX`|`u32`|
+|`GC`|`u32`|
+
+## Vector2Channel `0x121103`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`param`|`string[4]`|
+|`mapping`|`u16`|
+|`constants`|`vec3`|
+|`numFrames`|`u32`|
+|`frames`|`u16[numFrames]`|
+|`values`|`vec2[numFrames]`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
+
+## Vector3Channel `0x121104`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`param`|`string[4]`|
+|`numFrames`|`u32`|
+|`frames`|`u16[numFrames]`|
+|`values`|`vec3[numFrames]`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
+
+## QuaternionChannel `0x121105`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`param`|`string[4]`|
+|`numFrames`|`u32`|
+|`frames`|`u16[numFrames]`|
+|`values`|`quat[numFrames]`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
+
+## ChannelInterpolationMode `0x121110`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`mode`|`u32`|
+
+## CompressedQuaternionChannel `0x121111`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`param`|`string[4]`|
+|`numFrames`|`u32`|
+|`frames`|`u16[numFrames]`|
+|`values`|`u64[numFrames]`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
+
+## Fence `0x3000000`
+|Name|Type|
+|--|--|
+|`start`|`vec3`|
+|`end`|`vec3`|
+|`normal`|`vec3`|
+
+## RoadSegment `0x3000002`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`data`|`string`|
+|`transform`|`mat4`|
+|`transform2`|`mat4`|
+
+## Road `0x3000003`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`todo0`|`u32`|
+|`startIntersection`|`string`|
+|`endIntersection`|`string`|
+|`maxCars`|`u32`|
+|`todo1`|`u8`|
+|`todo2`|`u8`|
+|`noReset`|`u8`|
+|`todo3`|`u8`|
+
+## Intersection `0x3000004`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`position`|`vec3`|
+|`radius`|`float`|
+|`trafficBehaviour`|`u32`|
 
 ## Locator2 `0x3000005`
 |Name|Type|
@@ -843,41 +811,170 @@
 |`bounds`|`vec3`|
 |`transform`|`mat4`|
 
-## Camera `0x2200`
+## InstanceList `0x3000008`
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`version`|`u32`|
-|`fov`|`float`|
-|`aspectRatio`|`float`|
-|`nearClip`|`float`|
-|`farClip`|`float`|
-|`position`|`vec3`|
-|`forward`|`vec3`|
-|`up`|`vec3`|
-
-## MultiController `0x48A0`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`version`|`u32`|
-|`length`|`float`|
-|`frameRate`|`float`|
-|`numTracks`|`u32`|
 
 ### Children
 |Name|Chunk|
 |--|--|
-|`tracks`|`MultiControllerTracks`|
+|`sceneGraph`|`SceneGraph`|
 
-## MultiControllerTracks `0x48A1`
+## RoadDataSegment `0x3000009`
 |Name|Type|
 |--|--|
-|`numTracks`|`u32`|
-|`trackNames`|`string[numTracks]`|
-|`trackStartTimes`|`float[numTracks]`|
-|`trackEndTimes`|`float[numTracks]`|
-|`trackScales`|`float[numTracks]`|
+|`name`|`string`|
+|`todo0`|`u32`|
+|`lanes`|`u32`|
+|`todo1`|`u32`|
+|`position0`|`vec3`|
+|`position1`|`vec3`|
+|`position2`|`vec3`|
+
+## Path `0x300000B`
+|Name|Type|
+|--|--|
+|`numPoints`|`u32`|
+|`points`|`vec3[numPoints]`|
+
+## Set `0x3000110`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`numTextures`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`textures`|`Texture[]`|
+
+## StaticEntity `0x3F00000`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`version`|`u32`|
+|`renderOrder`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`mesh`|`Mesh`|
+
+## StaticPhysics `0x3F00001`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`todo`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`collisionObject`|`CollisionObject`|
+
+## DynamicPhysics `0x3F00002`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`todo`|`u32`|
+|`renderOrder`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`meshes`|`Mesh[]`|
+|`instanceList`|`InstanceList`|
+
+## Intersect `0x3F00003`
+|Name|Type|
+|--|--|
+|`indices`|`u32[u32]`|
+|`positions`|`vec3[u32]`|
+|`normals`|`vec3[u32]`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`bounds`|`BoundingBox`|
+
+## FenceWrapper `0x3F00007`
+|Name|Type|
+|--|--|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`fence`|`Fence`|
+
+## InstancedStaticPhysics `0x3F0000A`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`todo`|`u32`|
+|`renderOrder`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`meshes`|`Mesh[]`|
+|`instanceList`|`InstanceList`|
+
+## WorldSphere `0x3F0000B`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`version`|`u32`|
+|`meshCount`|`u32`|
+|`billboardCount`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`animation`|`Animation`|
+|`skeletons`|`Skeleton[]`|
+|`billboards`|`BillboardQuadGroup[]`|
+|`meshes`|`Mesh[]`|
+|`compositeDrawable`|`CompositeDrawable`|
+|`lensFlare`|`LensFlare`|
+
+## LensFlare `0x3F0000D`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`billboardCount`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`billboards`|`BillboardQuadGroup[]`|
+|`compositeDrawable`|`CompositeDrawable`|
+
+## AnimDynamicPhysics `0x3F0000E`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`todo`|`u32`|
+|`renderOrder`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`animObjectWrapper`|`AnimObjectWrapper`|
+|`instanceList`|`InstanceList`|
+
+## AnimObjectWrapper `0x3F00010`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`todo`|`u16`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`compositeDrawables`|`CompositeDrawable[]`|
+|`skeletons`|`Skeleton[]`|
+|`meshes`|`Mesh[]`|
+|`animations`|`Animation[]`|
 
 ## CollisionObject `0x7010000`
 |Name|Type|
@@ -980,103 +1077,6 @@
 |`todo1`|`u32`|
 |`todo2`|`u32`|
 |`todo3`|`u32`|
-
-## FenceWrapper `0x3F00007`
-|Name|Type|
-|--|--|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`fence`|`Fence`|
-
-## Fence `0x3000000`
-|Name|Type|
-|--|--|
-|`start`|`vec3`|
-|`end`|`vec3`|
-|`normal`|`vec3`|
-
-## Set `0x3000110`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`numTextures`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`textures`|`Texture[]`|
-
-## Path `0x300000B`
-|Name|Type|
-|--|--|
-|`numPoints`|`u32`|
-|`points`|`vec3[numPoints]`|
-
-## Intersection `0x3000004`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`position`|`vec3`|
-|`radius`|`float`|
-|`trafficBehaviour`|`u32`|
-
-## RoadDataSegment `0x3000009`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`todo0`|`u32`|
-|`lanes`|`u32`|
-|`todo1`|`u32`|
-|`position0`|`vec3`|
-|`position1`|`vec3`|
-|`position2`|`vec3`|
-
-## Road `0x3000003`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`todo0`|`u32`|
-|`startIntersection`|`string`|
-|`endIntersection`|`string`|
-|`maxCars`|`u32`|
-|`todo1`|`u8`|
-|`todo2`|`u8`|
-|`noReset`|`u8`|
-|`todo3`|`u8`|
-
-## RoadSegment `0x3000002`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`data`|`string`|
-|`transform`|`mat4`|
-|`transform2`|`mat4`|
-
-## GameAttr `0x12000`
-|Name|Type|
-|--|--|
-|`version`|`u32`|
-|`name`|`string`|
-|`numParams`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`params`|`GameAttrIntParam[]`|
-
-## GameAttrIntParam `0x12001`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`value`|`u32`|
-
-## History `0x7000`
-|Name|Type|
-|--|--|
-|`numLines`|`u32`|
-|`lines`|`string[u32]`|
 
 # TODO Chunks (84 / 182)
 #### LightGroup `0x2380`
