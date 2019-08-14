@@ -161,7 +161,18 @@
     "primaryAxis": "s32",
     "secondaryAxis": "s32",
     "twistAxis": "s32",
-    "restPose": "mat4"
+    "restPose": "mat4",
+    "mirrorMap": "child SkeletonJointMirrorMap",
+    "bonePreserve": "child SkeletonJointBonePreserve"
+  },
+
+  "SkeletonJointMirrorMap": {
+    "jointIndex": "u32",
+    "axis": "vec3"
+  },
+
+  "SkeletonJointBonePreserve": {
+    "depth": "u32"
   },
 
   "StaticEntity": {

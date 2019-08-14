@@ -1,4 +1,4 @@
-# Chunks (89 / 182)
+# Chunks (91 / 182)
 
 ## Animation `0x121000`
 |Name|Type|
@@ -214,6 +214,23 @@
 |`secondaryAxis`|`s32`|
 |`twistAxis`|`s32`|
 |`restPose`|`mat4`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`mirrorMap`|`SkeletonJointMirrorMap`|
+|`bonePreserve`|`SkeletonJointBonePreserve`|
+
+## SkeletonJointMirrorMap `0x4503`
+|Name|Type|
+|--|--|
+|`jointIndex`|`u32`|
+|`axis`|`vec3`|
+
+## SkeletonJointBonePreserve `0x4504`
+|Name|Type|
+|--|--|
+|`depth`|`u32`|
 
 ## StaticEntity `0x3F00000`
 |Name|Type|
@@ -987,10 +1004,8 @@
 |`noReset`|`u8`|
 |`todo3`|`u8`|
 
-# TODO Chunks (93 / 182)
+# TODO Chunks (91 / 182)
 #### LightGroup `0x2380`
-#### SkeletonJointMirrorMap `0x4503`
-#### SkeletonJointBonePreserve `0x4504`
 #### CompositeDrawableSkinList `0x4513`
 #### CompositeDrawableSkin `0x4515`
 #### CompositeDrawableEffectList `0x4517`

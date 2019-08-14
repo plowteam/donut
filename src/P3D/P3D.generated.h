@@ -51,6 +51,8 @@ namespace Donut::P3D
 	class ColorList;
 	class Skeleton;
 	class SkeletonJoint;
+	class SkeletonJointMirrorMap;
+	class SkeletonJointBonePreserve;
 	class StaticEntity;
 	class StaticPhysics;
 	class InstancedStaticPhysics;
@@ -611,6 +613,8 @@ namespace Donut::P3D
         const int32_t& GetSecondaryAxis() const { return _secondaryAxis; }
         const int32_t& GetTwistAxis() const { return _twistAxis; }
         const glm::mat4& GetRestPose() const { return _restPose; }
+        const std::unique_ptr<SkeletonJointMirrorMap>& GetMirrorMap() const { return _mirrorMap; }
+        const std::unique_ptr<SkeletonJointBonePreserve>& GetBonePreserve() const { return _bonePreserve; }
 
     private:
 
@@ -622,6 +626,42 @@ namespace Donut::P3D
         int32_t _secondaryAxis;
         int32_t _twistAxis;
         glm::mat4 _restPose;
+        std::unique_ptr<SkeletonJointMirrorMap> _mirrorMap;
+        std::unique_ptr<SkeletonJointBonePreserve> _bonePreserve;
+
+    };
+
+    class SkeletonJointMirrorMap
+    {
+    public:
+
+        SkeletonJointMirrorMap(const P3DChunk&);
+
+        static std::unique_ptr<SkeletonJointMirrorMap> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJointMirrorMap>(chunk); }
+
+        const uint32_t& GetJointIndex() const { return _jointIndex; }
+        const glm::vec3& GetAxis() const { return _axis; }
+
+    private:
+
+        uint32_t _jointIndex;
+        glm::vec3 _axis;
+
+    };
+
+    class SkeletonJointBonePreserve
+    {
+    public:
+
+        SkeletonJointBonePreserve(const P3DChunk&);
+
+        static std::unique_ptr<SkeletonJointBonePreserve> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJointBonePreserve>(chunk); }
+
+        const uint32_t& GetDepth() const { return _depth; }
+
+    private:
+
+        uint32_t _depth;
 
     };
 

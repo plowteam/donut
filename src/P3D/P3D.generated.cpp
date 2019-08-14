@@ -443,6 +443,42 @@ namespace Donut::P3D
         _secondaryAxis = stream.Read<int32_t>();
         _twistAxis = stream.Read<int32_t>();
         _restPose = stream.Read<glm::mat4>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::SkeletonJointMirrorMap:
+                    {
+                        _mirrorMap = std::make_unique<SkeletonJointMirrorMap>(*child);
+                        break;
+                    }
+                case ChunkType::SkeletonJointBonePreserve:
+                    {
+                        _bonePreserve = std::make_unique<SkeletonJointBonePreserve>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    SkeletonJointMirrorMap::SkeletonJointMirrorMap(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::SkeletonJointMirrorMap));
+
+        MemoryStream stream(chunk.GetData());
+        _jointIndex = stream.Read<uint32_t>();
+        _axis = stream.Read<glm::vec3>();
+    }
+
+    SkeletonJointBonePreserve::SkeletonJointBonePreserve(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::SkeletonJointBonePreserve));
+
+        MemoryStream stream(chunk.GetData());
+        _depth = stream.Read<uint32_t>();
     }
 
     StaticEntity::StaticEntity(const P3DChunk& chunk)
