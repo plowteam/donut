@@ -2076,6 +2076,17 @@ namespace Donut::P3D
         _todo3 = stream.Read<uint8_t>();
     }
 
+    RoadSegment::RoadSegment(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::RoadSegment));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _data = stream.ReadLPString();
+        _transform = stream.Read<glm::mat4>();
+        _transform2 = stream.Read<glm::mat4>();
+    }
+
     GameAttr::GameAttr(const P3DChunk& chunk)
     {
         assert(chunk.IsType(ChunkType::GameAttr));

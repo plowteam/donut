@@ -123,6 +123,7 @@ namespace Donut::P3D
 	class Intersection;
 	class RoadDataSegment;
 	class Road;
+	class RoadSegment;
 	class GameAttr;
 	class GameAttrIntParam;
 	class History;
@@ -2364,6 +2365,28 @@ namespace Donut::P3D
         uint8_t _todo2;
         uint8_t _noReset;
         uint8_t _todo3;
+
+    };
+
+    class RoadSegment
+    {
+    public:
+
+        RoadSegment(const P3DChunk&);
+
+        static std::unique_ptr<RoadSegment> Load(const P3DChunk& chunk) { return std::make_unique<RoadSegment>(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const std::string& GetData() const { return _data; }
+        const glm::mat4& GetTransform() const { return _transform; }
+        const glm::mat4& GetTransform2() const { return _transform2; }
+
+    private:
+
+        std::string _name;
+        std::string _data;
+        glm::mat4 _transform;
+        glm::mat4 _transform2;
 
     };
 

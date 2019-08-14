@@ -1,4 +1,4 @@
-# Chunks (97 / 182)
+# Chunks (98 / 182)
 
 ## Animation `0x121000`
 |Name|Type|
@@ -1046,6 +1046,14 @@
 |`noReset`|`u8`|
 |`todo3`|`u8`|
 
+## RoadSegment `0x3000002`
+|Name|Type|
+|--|--|
+|`name`|`string`|
+|`data`|`string`|
+|`transform`|`mat4`|
+|`transform2`|`mat4`|
+
 ## GameAttr `0x12000`
 |Name|Type|
 |--|--|
@@ -1070,7 +1078,7 @@
 |`numLines`|`u32`|
 |`lines`|`string[u32]`|
 
-# TODO Chunks (85 / 182)
+# TODO Chunks (84 / 182)
 #### LightGroup `0x2380`
 #### CompositeDrawableSkinList `0x4513`
 #### CompositeDrawableSkin `0x4515`
@@ -1126,7 +1134,6 @@
 #### Todo1 `0x121203`
 #### VectorOffsetList `0x121301`
 #### VertexAnimKeyFrame `0x121304`
-#### RoadSegment `0x3000002`
 #### Spline `0x3000007`
 #### Todo2 `0x300000A`
 #### LocatorMatrix `0x300000C`

@@ -744,6 +744,13 @@
     "todo3": "u8"
   },
 
+  "RoadSegment": {
+    "name": "string",
+    "data": "string",
+    "transform": "mat4",
+    "transform2": "mat4"
+  },
+
   "GameAttr": {
     "version": "u32",
     "name": "string",
