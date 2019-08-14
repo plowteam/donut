@@ -1,4 +1,4 @@
-# Chunks (80 / 182)
+# Chunks (88 / 182)
 
 ## Animation `0x121000`
 |Name|Type|
@@ -138,9 +138,58 @@
 |`normals`|`NormalList<vec3>[u32]`|
 |`uvs`|`UVList<vec2>[u32][u32]`|
 |`matrixList`|`MatrixList<u32>[u32]`|
-|`weightList`|`WeightList<vec3>[u32]`|
 |`matrixPalette`|`MatrixPalette<u32>[u32]`|
+|`weightList`|`WeightList<vec3>[u32]`|
 |`colors`|`ColorList<u32>[u32]`|
+
+## PositionList `0x10005`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`positions`|`vec3[size]`|
+
+## IndexList `0x1000A`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`indices`|`u32[size]`|
+
+## NormalList `0x10006`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`normals`|`vec3[size]`|
+
+## UVList `0x10007`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`channel`|`u32`|
+|`uvs`|`vec2[size]`|
+
+## MatrixList `0x1000B`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`uvs`|`u32[size]`|
+
+## MatrixPalette `0x1000D`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`uvs`|`u32[size]`|
+
+## WeightList `0x1000C`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`uvs`|`vec3[size]`|
+
+## ColorList `0x10008`
+|Name|Type|
+|--|--|
+|`size`|`u32`|
+|`uvs`|`u32[size]`|
 
 ## Skeleton `0x4500`
 |Name|Type|
@@ -933,7 +982,7 @@
 |`noReset`|`u8`|
 |`todo3`|`u8`|
 
-# TODO Chunks (102 / 182)
+# TODO Chunks (94 / 182)
 #### LightGroup `0x2380`
 #### SkeletonJointMirrorMap `0x4503`
 #### SkeletonJointBonePreserve `0x4504`
@@ -945,14 +994,6 @@
 #### ExportInfo `0x7030`
 #### ExportInfoNamedString `0x7031`
 #### ExportInfoNamedInteger `0x7032`
-#### PositionList `0x10005`
-#### NormalList `0x10006`
-#### UVList `0x10007`
-#### ColorList `0x10008`
-#### IndexList `0x1000A`
-#### MatrixList `0x1000B`
-#### WeightList `0x1000C`
-#### MatrixPalette `0x1000D`
 #### OffsetList `0x1000E`
 #### PackedNormalList `0x10010`
 #### VertexShader `0x10011`

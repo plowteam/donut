@@ -301,16 +301,16 @@ namespace Donut::P3D
                         data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixList.data()), _matrixList.size() * sizeof(uint32_t));
                         break;
                     }
-                case ChunkType::WeightList:
-                    {
-                        _weightList.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), _weightList.size() * sizeof(glm::vec3));
-                        break;
-                    }
                 case ChunkType::MatrixPalette:
                     {
                         _matrixPalette.resize(data.Read<uint32_t>());
                         data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixPalette.data()), _matrixPalette.size() * sizeof(uint32_t));
+                        break;
+                    }
+                case ChunkType::WeightList:
+                    {
+                        _weightList.resize(data.Read<uint32_t>());
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), _weightList.size() * sizeof(glm::vec3));
                         break;
                     }
                 case ChunkType::ColorList:
@@ -323,6 +323,87 @@ namespace Donut::P3D
                     break;
             }
         }
+    }
+
+    PositionList::PositionList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::PositionList));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _positions.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(glm::vec3));
+    }
+
+    IndexList::IndexList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::IndexList));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _indices.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
+    }
+
+    NormalList::NormalList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::NormalList));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _normals.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(glm::vec3));
+    }
+
+    UVList::UVList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::UVList));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _channel = stream.Read<uint32_t>();
+        _uvs.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(glm::vec2));
+    }
+
+    MatrixList::MatrixList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::MatrixList));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _uvs.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
+    }
+
+    MatrixPalette::MatrixPalette(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::MatrixPalette));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _uvs.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
+    }
+
+    WeightList::WeightList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::WeightList));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _uvs.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(glm::vec3));
+    }
+
+    ColorList::ColorList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::ColorList));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _uvs.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
     }
 
     Skeleton::Skeleton(const P3DChunk& chunk)

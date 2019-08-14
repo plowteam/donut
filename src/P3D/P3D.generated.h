@@ -41,6 +41,14 @@ namespace Donut::P3D
 	class BoundingBox;
 	class BoundingSphere;
 	class PrimitiveGroup;
+	class PositionList;
+	class IndexList;
+	class NormalList;
+	class UVList;
+	class MatrixList;
+	class MatrixPalette;
+	class WeightList;
+	class ColorList;
 	class Skeleton;
 	class SkeletonJoint;
 	class StaticEntity;
@@ -394,8 +402,8 @@ namespace Donut::P3D
         const std::vector<glm::vec3>& GetNormals() const { return _normals; }
         const std::vector<glm::vec2>& GetUvs(size_t index) const { return _uvs.at(index); }
         const std::vector<uint32_t>& GetMatrixList() const { return _matrixList; }
-        const std::vector<glm::vec3>& GetWeightList() const { return _weightList; }
         const std::vector<uint32_t>& GetMatrixPalette() const { return _matrixPalette; }
+        const std::vector<glm::vec3>& GetWeightList() const { return _weightList; }
         const std::vector<uint32_t>& GetColors() const { return _colors; }
 
     private:
@@ -412,9 +420,155 @@ namespace Donut::P3D
         std::vector<glm::vec3> _normals;
         std::vector<std::vector<glm::vec2>> _uvs;
         std::vector<uint32_t> _matrixList;
-        std::vector<glm::vec3> _weightList;
         std::vector<uint32_t> _matrixPalette;
+        std::vector<glm::vec3> _weightList;
         std::vector<uint32_t> _colors;
+
+    };
+
+    class PositionList
+    {
+    public:
+
+        PositionList(const P3DChunk&);
+
+        static std::unique_ptr<PositionList> Load(const P3DChunk& chunk) { return std::make_unique<PositionList>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<glm::vec3>& GetPositions() const { return _positions; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<glm::vec3> _positions;
+
+    };
+
+    class IndexList
+    {
+    public:
+
+        IndexList(const P3DChunk&);
+
+        static std::unique_ptr<IndexList> Load(const P3DChunk& chunk) { return std::make_unique<IndexList>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<uint32_t>& GetIndices() const { return _indices; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<uint32_t> _indices;
+
+    };
+
+    class NormalList
+    {
+    public:
+
+        NormalList(const P3DChunk&);
+
+        static std::unique_ptr<NormalList> Load(const P3DChunk& chunk) { return std::make_unique<NormalList>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<glm::vec3>& GetNormals() const { return _normals; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<glm::vec3> _normals;
+
+    };
+
+    class UVList
+    {
+    public:
+
+        UVList(const P3DChunk&);
+
+        static std::unique_ptr<UVList> Load(const P3DChunk& chunk) { return std::make_unique<UVList>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const uint32_t& GetChannel() const { return _channel; }
+        const std::vector<glm::vec2>& GetUvs() const { return _uvs; }
+
+    private:
+
+        uint32_t _size;
+        uint32_t _channel;
+        std::vector<glm::vec2> _uvs;
+
+    };
+
+    class MatrixList
+    {
+    public:
+
+        MatrixList(const P3DChunk&);
+
+        static std::unique_ptr<MatrixList> Load(const P3DChunk& chunk) { return std::make_unique<MatrixList>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<uint32_t>& GetUvs() const { return _uvs; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<uint32_t> _uvs;
+
+    };
+
+    class MatrixPalette
+    {
+    public:
+
+        MatrixPalette(const P3DChunk&);
+
+        static std::unique_ptr<MatrixPalette> Load(const P3DChunk& chunk) { return std::make_unique<MatrixPalette>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<uint32_t>& GetUvs() const { return _uvs; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<uint32_t> _uvs;
+
+    };
+
+    class WeightList
+    {
+    public:
+
+        WeightList(const P3DChunk&);
+
+        static std::unique_ptr<WeightList> Load(const P3DChunk& chunk) { return std::make_unique<WeightList>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<glm::vec3>& GetUvs() const { return _uvs; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<glm::vec3> _uvs;
+
+    };
+
+    class ColorList
+    {
+    public:
+
+        ColorList(const P3DChunk&);
+
+        static std::unique_ptr<ColorList> Load(const P3DChunk& chunk) { return std::make_unique<ColorList>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<uint32_t>& GetUvs() const { return _uvs; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<uint32_t> _uvs;
 
     };
 

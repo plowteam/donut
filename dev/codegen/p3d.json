@@ -100,9 +100,50 @@
     "normals": "buffer<vec3> NormalList",
     "uvs": "buffers<vec2> UVList",
     "matrixList": "buffer<u32> MatrixList",
-    "weightList": "buffer<vec3> WeightList",
     "matrixPalette": "buffer<u32> MatrixPalette",
+    "weightList": "buffer<vec3> WeightList",
     "colors": "buffer<u32> ColorList"
+  },
+
+  "PositionList": {
+    "size": "u32",
+    "positions": "buffer<vec3[size]>"
+  },
+
+  "IndexList": {
+    "size": "u32",
+    "indices": "buffer<u32[size]>"
+  },
+
+  "NormalList": {
+    "size": "u32",
+    "normals": "buffer<vec3[size]>"
+  },
+
+  "UVList": {
+    "size": "u32",
+    "channel": "u32",
+    "uvs": "buffer<vec2[size]>"
+  },
+
+  "MatrixList": {
+    "size": "u32",
+    "uvs": "buffer<u32[size]>"
+  },
+
+  "MatrixPalette": {
+    "size": "u32",
+    "uvs": "buffer<u32[size]>"
+  },
+
+  "WeightList": {
+    "size": "u32",
+    "uvs": "buffer<vec3[size]>"
+  },
+
+  "ColorList": {
+    "size": "u32",
+    "uvs": "buffer<u32[size]>"
   },
 
   "Skeleton": {
