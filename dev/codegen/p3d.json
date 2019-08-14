@@ -751,7 +751,7 @@
     "params": "children GameAttrIntParam"
   },
 
-  "GameAttrIntParam ": {
+  "GameAttrIntParam": {
     "name": "string",
     "value": "u32"
   },

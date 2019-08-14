@@ -2100,9 +2100,9 @@ namespace Donut::P3D
         }
     }
 
-    GameAttrIntParam ::GameAttrIntParam (const P3DChunk& chunk)
+    GameAttrIntParam::GameAttrIntParam(const P3DChunk& chunk)
     {
-        assert(chunk.IsType(ChunkType::GameAttrIntParam ));
+        assert(chunk.IsType(ChunkType::GameAttrIntParam));
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();

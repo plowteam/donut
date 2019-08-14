@@ -124,7 +124,7 @@ namespace Donut::P3D
 	class RoadDataSegment;
 	class Road;
 	class GameAttr;
-	class GameAttrIntParam ;
+	class GameAttrIntParam;
 	class History;
 
     class Animation
@@ -2389,13 +2389,13 @@ namespace Donut::P3D
 
     };
 
-    class GameAttrIntParam 
+    class GameAttrIntParam
     {
     public:
 
-        GameAttrIntParam (const P3DChunk&);
+        GameAttrIntParam(const P3DChunk&);
 
-        static std::unique_ptr<GameAttrIntParam > Load(const P3DChunk& chunk) { return std::make_unique<GameAttrIntParam >(chunk); }
+        static std::unique_ptr<GameAttrIntParam> Load(const P3DChunk& chunk) { return std::make_unique<GameAttrIntParam>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetValue() const { return _value; }

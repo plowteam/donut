@@ -1058,7 +1058,7 @@
 |--|--|
 |`params`|`GameAttrIntParam[]`|
 
-## GameAttrIntParam  `0x12001`
+## GameAttrIntParam `0x12001`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -1084,7 +1084,6 @@
 #### VertexShader `0x10011`
 #### DrawShadow `0x10017`
 #### ExpressionOffsets `0x10018`
-#### GameAttrIntParam `0x12001`
 #### Light `0x13000`
 #### LightDirection `0x13001`
 #### LightPosition `0x13002`
