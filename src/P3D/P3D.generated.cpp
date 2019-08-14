@@ -1352,6 +1352,16 @@ namespace Donut::P3D
         }
     }
 
+    FontGlyphs::FontGlyphs(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FontGlyphs));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _glyphs.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), _glyphs.size() * sizeof(FontGlyph));
+    }
+
     Sprite::Sprite(const P3DChunk& chunk)
     {
         assert(chunk.IsType(ChunkType::Sprite));
@@ -2064,5 +2074,51 @@ namespace Donut::P3D
         _todo2 = stream.Read<uint8_t>();
         _noReset = stream.Read<uint8_t>();
         _todo3 = stream.Read<uint8_t>();
+    }
+
+    GameAttr::GameAttr(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::GameAttr));
+
+        MemoryStream stream(chunk.GetData());
+        _version = stream.Read<uint32_t>();
+        _name = stream.ReadLPString();
+        _numParams = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::GameAttrIntParam:
+                    {
+                        _params.push_back(std::make_unique<GameAttrIntParam>(*child));
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    GameAttrIntParam ::GameAttrIntParam (const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::GameAttrIntParam ));
+
+        MemoryStream stream(chunk.GetData());
+        _name = stream.ReadLPString();
+        _value = stream.Read<uint32_t>();
+    }
+
+    History::History(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::History));
+
+        MemoryStream stream(chunk.GetData());
+        _numLines = stream.Read<uint32_t>();
+        _lines.resize(stream.Read<uint32_t>());
+        for (size_t i = 0; i < _lines.size(); ++i)
+        {
+            _lines[i] = stream.ReadLPString();
+        }
     }
 }

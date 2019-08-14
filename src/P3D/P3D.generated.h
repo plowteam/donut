@@ -88,6 +88,7 @@ namespace Donut::P3D
 	class Image;
 	class ImageData;
 	class TextureFont;
+	class FontGlyphs;
 	class Sprite;
 	class FrontendScreen;
 	class FrontendProject;
@@ -122,6 +123,9 @@ namespace Donut::P3D
 	class Intersection;
 	class RoadDataSegment;
 	class Road;
+	class GameAttr;
+	class GameAttrIntParam ;
+	class History;
 
     class Animation
     {
@@ -1501,6 +1505,24 @@ namespace Donut::P3D
 
     };
 
+    class FontGlyphs
+    {
+    public:
+
+        FontGlyphs(const P3DChunk&);
+
+        static std::unique_ptr<FontGlyphs> Load(const P3DChunk& chunk) { return std::make_unique<FontGlyphs>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<FontGlyph>& GetGlyphs() const { return _glyphs; }
+
+    private:
+
+        uint32_t _size;
+        std::vector<FontGlyph> _glyphs;
+
+    };
+
     class Sprite
     {
     public:
@@ -2342,6 +2364,64 @@ namespace Donut::P3D
         uint8_t _todo2;
         uint8_t _noReset;
         uint8_t _todo3;
+
+    };
+
+    class GameAttr
+    {
+    public:
+
+        GameAttr(const P3DChunk&);
+
+        static std::unique_ptr<GameAttr> Load(const P3DChunk& chunk) { return std::make_unique<GameAttr>(chunk); }
+
+        const uint32_t& GetVersion() const { return _version; }
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetNumParams() const { return _numParams; }
+        const std::vector<std::unique_ptr<GameAttrIntParam>>& GetParams() const { return _params; }
+
+    private:
+
+        uint32_t _version;
+        std::string _name;
+        uint32_t _numParams;
+        std::vector<std::unique_ptr<GameAttrIntParam>> _params;
+
+    };
+
+    class GameAttrIntParam 
+    {
+    public:
+
+        GameAttrIntParam (const P3DChunk&);
+
+        static std::unique_ptr<GameAttrIntParam > Load(const P3DChunk& chunk) { return std::make_unique<GameAttrIntParam >(chunk); }
+
+        const std::string& GetName() const { return _name; }
+        const uint32_t& GetValue() const { return _value; }
+
+    private:
+
+        std::string _name;
+        uint32_t _value;
+
+    };
+
+    class History
+    {
+    public:
+
+        History(const P3DChunk&);
+
+        static std::unique_ptr<History> Load(const P3DChunk& chunk) { return std::make_unique<History>(chunk); }
+
+        const uint32_t& GetNumLines() const { return _numLines; }
+        const std::vector<std::string>& GetLines() const { return _lines; }
+
+    private:
+
+        uint32_t _numLines;
+        std::vector<std::string> _lines;
 
     };
 }

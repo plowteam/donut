@@ -452,6 +452,11 @@
     "glyphs": "buffer<FontGlyph> FontGlyphs"
   },
 
+  "FontGlyphs": {
+    "size": "u32",
+    "glyphs": "buffer<FontGlyph[size]>"
+  },
+
   "Sprite": {
     "name": "string",
     "nativeX": "u32",
@@ -737,5 +742,22 @@
     "todo2": "u8",
     "noReset": "u8",
     "todo3": "u8"
+  },
+
+  "GameAttr": {
+    "version": "u32",
+    "name": "string",
+    "numParams": "u32",
+    "params": "children GameAttrIntParam"
+  },
+
+  "GameAttrIntParam ": {
+    "name": "string",
+    "value": "u32"
+  },
+
+  "History": {
+    "numLines": "u32",
+    "lines": "buffer<string>"
   }
 }
