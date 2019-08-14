@@ -34,6 +34,8 @@ void Skeleton::UpdatePose(SkinAnimation& animation, double time)
 {
 	time *= animation.GetFrameRate();
 
+	_joints[0].pose = glm::mat4(1.0f);
+
 	for (auto i = 0; i < _joints.size(); i++)
 		_joints[i].pose = _joints[_joints[i].parent].pose * animation.Evaluate(i, static_cast<float>(time));
 

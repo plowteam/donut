@@ -249,7 +249,7 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 	_character = std::make_unique<Character>("pc");
 	_character->LoadModel(name);
 	_character->LoadAnimations(anim);
-	_character->SetPosition(glm::vec3(220, 4, -172));
+	_character->SetPosition(glm::vec3(220, 4.5, -172));
 
 	if (anim == "homer")
 		_character->SetAnimation("hom_loco_walk");
