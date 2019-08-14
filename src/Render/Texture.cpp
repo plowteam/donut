@@ -23,7 +23,7 @@ Texture::Texture(const P3D::Texture& texture):
 	{
 	case 1: // PNG
 	{
-		auto imageData = P3D::ImageData::Decode(image->GetData());
+		auto imageData = P3D::ImageDecoder::Decode(image->GetData());
 
 		if (imageData.comp == 4)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.data.data());
@@ -55,7 +55,7 @@ Texture::Texture(const P3D::Sprite& sprite):
 	{
 		auto imageWidth  = image->GetWidth();
 		auto imageHeight = image->GetHeight();
-		auto texdata     = P3D::ImageData::Decode(image->GetData());
+		auto texdata     = P3D::ImageDecoder::Decode(image->GetData());
 
 		for (uint32_t row = 0; row < imageHeight - 2; ++row)
 		{

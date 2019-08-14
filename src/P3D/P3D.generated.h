@@ -501,13 +501,13 @@ namespace Donut::P3D
         static std::unique_ptr<StaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<StaticPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetTodo() const { return _todo; }
         const std::unique_ptr<CollisionObject>& GetCollisionObject() const { return _collisionObject; }
 
     private:
 
         std::string _name;
-        uint32_t _unknown;
+        uint32_t _todo;
         std::unique_ptr<CollisionObject> _collisionObject;
 
     };
@@ -521,7 +521,7 @@ namespace Donut::P3D
         static std::unique_ptr<InstancedStaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<InstancedStaticPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetTodo() const { return _todo; }
         const uint32_t& GetRenderOrder() const { return _renderOrder; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
@@ -529,7 +529,7 @@ namespace Donut::P3D
     private:
 
         std::string _name;
-        uint32_t _unknown;
+        uint32_t _todo;
         uint32_t _renderOrder;
         std::vector<std::unique_ptr<Mesh>> _meshes;
         std::unique_ptr<InstanceList> _instanceList;
@@ -545,7 +545,7 @@ namespace Donut::P3D
         static std::unique_ptr<DynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<DynamicPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetTodo() const { return _todo; }
         const uint32_t& GetRenderOrder() const { return _renderOrder; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
@@ -553,7 +553,7 @@ namespace Donut::P3D
     private:
 
         std::string _name;
-        uint32_t _unknown;
+        uint32_t _todo;
         uint32_t _renderOrder;
         std::vector<std::unique_ptr<Mesh>> _meshes;
         std::unique_ptr<InstanceList> _instanceList;
@@ -569,7 +569,7 @@ namespace Donut::P3D
         static std::unique_ptr<AnimDynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<AnimDynamicPhysics>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetTodo() const { return _todo; }
         const uint32_t& GetRenderOrder() const { return _renderOrder; }
         const std::unique_ptr<AnimObjectWrapper>& GetAnimObjectWrapper() const { return _animObjectWrapper; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
@@ -577,7 +577,7 @@ namespace Donut::P3D
     private:
 
         std::string _name;
-        uint32_t _unknown;
+        uint32_t _todo;
         uint32_t _renderOrder;
         std::unique_ptr<AnimObjectWrapper> _animObjectWrapper;
         std::unique_ptr<InstanceList> _instanceList;
@@ -593,7 +593,7 @@ namespace Donut::P3D
         static std::unique_ptr<AnimObjectWrapper> Load(const P3DChunk& chunk) { return std::make_unique<AnimObjectWrapper>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint16_t& GetUnknown() const { return _unknown; }
+        const uint16_t& GetTodo() const { return _todo; }
         const std::vector<std::unique_ptr<CompositeDrawable>>& GetCompositeDrawables() const { return _compositeDrawables; }
         const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
         const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
@@ -602,7 +602,7 @@ namespace Donut::P3D
     private:
 
         std::string _name;
-        uint16_t _unknown;
+        uint16_t _todo;
         std::vector<std::unique_ptr<CompositeDrawable>> _compositeDrawables;
         std::vector<std::unique_ptr<Skeleton>> _skeletons;
         std::vector<std::unique_ptr<Mesh>> _meshes;
@@ -637,13 +637,13 @@ namespace Donut::P3D
         static std::unique_ptr<SceneGraph> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraph>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint32_t& GetUnknown() const { return _unknown; }
+        const uint32_t& GetTodo() const { return _todo; }
         const std::unique_ptr<SceneGraphRoot>& GetRoot() const { return _root; }
 
     private:
 
         std::string _name;
-        uint32_t _unknown;
+        uint32_t _todo;
         std::unique_ptr<SceneGraphRoot> _root;
 
     };
@@ -1906,9 +1906,9 @@ namespace Donut::P3D
         const uint16_t& GetCanSlide() const { return _canSlide; }
         const uint16_t& GetCanSpin() const { return _canSpin; }
         const uint16_t& GetCanBounce() const { return _canBounce; }
-        const uint32_t& GetUnknown1() const { return _unknown1; }
-        const uint32_t& GetUnknown2() const { return _unknown2; }
-        const uint32_t& GetUnknown3() const { return _unknown3; }
+        const uint32_t& GetTodo1() const { return _todo1; }
+        const uint32_t& GetTodo2() const { return _todo2; }
+        const uint32_t& GetTodo3() const { return _todo3; }
 
     private:
 
@@ -1918,9 +1918,9 @@ namespace Donut::P3D
         uint16_t _canSlide;
         uint16_t _canSpin;
         uint16_t _canBounce;
-        uint32_t _unknown1;
-        uint32_t _unknown2;
-        uint32_t _unknown3;
+        uint32_t _todo1;
+        uint32_t _todo2;
+        uint32_t _todo3;
 
     };
 
@@ -2029,9 +2029,9 @@ namespace Donut::P3D
         static std::unique_ptr<RoadDataSegment> Load(const P3DChunk& chunk) { return std::make_unique<RoadDataSegment>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint32_t& GetUnknown0() const { return _unknown0; }
+        const uint32_t& GetTodo0() const { return _todo0; }
         const uint32_t& GetLanes() const { return _lanes; }
-        const uint32_t& GetUnknown1() const { return _unknown1; }
+        const uint32_t& GetTodo1() const { return _todo1; }
         const glm::vec3& GetPosition0() const { return _position0; }
         const glm::vec3& GetPosition1() const { return _position1; }
         const glm::vec3& GetPosition2() const { return _position2; }
@@ -2039,9 +2039,9 @@ namespace Donut::P3D
     private:
 
         std::string _name;
-        uint32_t _unknown0;
+        uint32_t _todo0;
         uint32_t _lanes;
-        uint32_t _unknown1;
+        uint32_t _todo1;
         glm::vec3 _position0;
         glm::vec3 _position1;
         glm::vec3 _position2;
@@ -2057,26 +2057,26 @@ namespace Donut::P3D
         static std::unique_ptr<Road> Load(const P3DChunk& chunk) { return std::make_unique<Road>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const uint32_t& GetUnknown0() const { return _unknown0; }
+        const uint32_t& GetTodo0() const { return _todo0; }
         const std::string& GetStartIntersection() const { return _startIntersection; }
         const std::string& GetEndIntersection() const { return _endIntersection; }
         const uint32_t& GetMaxCars() const { return _maxCars; }
-        const uint8_t& GetUnknown1() const { return _unknown1; }
-        const uint8_t& GetUnknown2() const { return _unknown2; }
+        const uint8_t& GetTodo1() const { return _todo1; }
+        const uint8_t& GetTodo2() const { return _todo2; }
         const uint8_t& GetNoReset() const { return _noReset; }
-        const uint8_t& GetUnknown3() const { return _unknown3; }
+        const uint8_t& GetTodo3() const { return _todo3; }
 
     private:
 
         std::string _name;
-        uint32_t _unknown0;
+        uint32_t _todo0;
         std::string _startIntersection;
         std::string _endIntersection;
         uint32_t _maxCars;
-        uint8_t _unknown1;
-        uint8_t _unknown2;
+        uint8_t _todo1;
+        uint8_t _todo2;
         uint8_t _noReset;
-        uint8_t _unknown3;
+        uint8_t _todo3;
 
     };
 }

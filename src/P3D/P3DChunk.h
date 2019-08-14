@@ -61,7 +61,7 @@ enum class ChunkType : uint32_t
 	LightDirection = 0x13001,
 	LightPosition = 0x13002,
 	LightShadow = 0x13004,
-	Unknown0 = 0x13008,
+	Todo0 = 0x13008,
 	Locator = 0x14000,
 	ParticleSystemFactory = 0x15800,
 	ParticleSystem = 0x15801,
@@ -132,7 +132,7 @@ enum class ChunkType : uint32_t
 	FrameController = 0x121200,
 	FrameController2 = 0x121201,
 	MultiController2 = 0x121202,
-	Unknown1 = 0x121203,
+	Todo1 = 0x121203,
 	VectorOffsetList = 0x121301,
 	VertexAnimKeyFrame = 0x121304,
 	Fence = 0x3000000,
@@ -144,7 +144,7 @@ enum class ChunkType : uint32_t
 	Spline = 0x3000007,
 	InstanceList = 0x3000008,
 	RoadDataSegment = 0x3000009,
-	Unknown2 = 0x300000A,
+	Todo2 = 0x300000A,
 	Path = 0x300000B,
 	LocatorMatrix = 0x300000C,
 	SurfaceTypeList = 0x300000E,
@@ -209,7 +209,7 @@ enum class LocatorType : uint32_t
 	Directional,
 	ActionEvent,
 	FOV,
-	Unknown,
+	Todo0,
 	StaticCam,
 	PedGroup,
 	Coin,
@@ -272,14 +272,14 @@ enum class PrimitiveType : uint32_t
 	LineStrip,
 };
 
-struct ImageData
+struct ImageDecoder
 {
 	int width;
 	int height;
 	int comp;
 	std::vector<uint8_t> data;
 
-	static ImageData Decode(const std::vector<uint8_t>& data);
+	static ImageDecoder Decode(const std::vector<uint8_t>& data);
 };
 
 struct P3DUtil

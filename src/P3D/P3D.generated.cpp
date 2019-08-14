@@ -394,7 +394,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown = stream.Read<uint32_t>();
+        _todo = stream.Read<uint32_t>();
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -417,7 +417,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown = stream.Read<uint32_t>();
+        _todo = stream.Read<uint32_t>();
         _renderOrder = stream.Read<uint32_t>();
 
         for (auto const& child : chunk.GetChildren())
@@ -446,7 +446,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown = stream.Read<uint32_t>();
+        _todo = stream.Read<uint32_t>();
         _renderOrder = stream.Read<uint32_t>();
 
         for (auto const& child : chunk.GetChildren())
@@ -475,7 +475,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown = stream.Read<uint32_t>();
+        _todo = stream.Read<uint32_t>();
         _renderOrder = stream.Read<uint32_t>();
 
         for (auto const& child : chunk.GetChildren())
@@ -504,7 +504,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown = stream.Read<uint16_t>();
+        _todo = stream.Read<uint16_t>();
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -564,7 +564,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown = stream.Read<uint32_t>();
+        _todo = stream.Read<uint32_t>();
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1749,9 +1749,9 @@ namespace Donut::P3D
         _canSlide = stream.Read<uint16_t>();
         _canSpin = stream.Read<uint16_t>();
         _canBounce = stream.Read<uint16_t>();
-        _unknown1 = stream.Read<uint32_t>();
-        _unknown2 = stream.Read<uint32_t>();
-        _unknown3 = stream.Read<uint32_t>();
+        _todo1 = stream.Read<uint32_t>();
+        _todo2 = stream.Read<uint32_t>();
+        _todo3 = stream.Read<uint32_t>();
     }
 
     FenceWrapper::FenceWrapper(const P3DChunk& chunk)
@@ -1835,9 +1835,9 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown0 = stream.Read<uint32_t>();
+        _todo0 = stream.Read<uint32_t>();
         _lanes = stream.Read<uint32_t>();
-        _unknown1 = stream.Read<uint32_t>();
+        _todo1 = stream.Read<uint32_t>();
         _position0 = stream.Read<glm::vec3>();
         _position1 = stream.Read<glm::vec3>();
         _position2 = stream.Read<glm::vec3>();
@@ -1849,13 +1849,13 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _unknown0 = stream.Read<uint32_t>();
+        _todo0 = stream.Read<uint32_t>();
         _startIntersection = stream.ReadLPString();
         _endIntersection = stream.ReadLPString();
         _maxCars = stream.Read<uint32_t>();
-        _unknown1 = stream.Read<uint8_t>();
-        _unknown2 = stream.Read<uint8_t>();
+        _todo1 = stream.Read<uint8_t>();
+        _todo2 = stream.Read<uint8_t>();
         _noReset = stream.Read<uint8_t>();
-        _unknown3 = stream.Read<uint8_t>();
+        _todo3 = stream.Read<uint8_t>();
     }
 }

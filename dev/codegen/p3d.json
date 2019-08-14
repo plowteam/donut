@@ -132,13 +132,13 @@
 
   "StaticPhysics": {
     "name": "string",
-    "unknown": "u32",
+    "todo": "u32",
     "collisionObject": "child CollisionObject"
   },
 
   "InstancedStaticPhysics": {
     "name": "string",
-    "unknown": "u32",
+    "todo": "u32",
     "renderOrder": "u32",
     "meshes": "children Mesh",
     "instanceList": "child InstanceList"
@@ -146,7 +146,7 @@
 
   "DynamicPhysics": {
     "name": "string",
-    "unknown": "u32",
+    "todo": "u32",
     "renderOrder": "u32",
     "meshes": "children Mesh",
     "instanceList": "child InstanceList"
@@ -154,7 +154,7 @@
 
   "AnimDynamicPhysics": {
     "name": "string",
-    "unknown": "u32",
+    "todo": "u32",
     "renderOrder": "u32",
     "animObjectWrapper": "child AnimObjectWrapper",
     "instanceList": "child InstanceList"
@@ -162,7 +162,7 @@
 
   "AnimObjectWrapper": {
     "name": "string",
-    "unknown": "u16",
+    "todo": "u16",
     "compositeDrawables": "children CompositeDrawable",
     "skeletons": "children Skeleton",
     "meshes": "children Mesh",
@@ -176,7 +176,7 @@
 
   "SceneGraph": {
     "name": "string",
-    "unknown": "u32",
+    "todo": "u32",
     "root": "child SceneGraphRoot"
   },
 
@@ -610,9 +610,9 @@
     "canSlide": "u16",
     "canSpin": "u16",
     "canBounce": "u16",
-    "unknown1": "u32",
-    "unknown2": "u32",
-    "unknown3": "u32"
+    "todo1": "u32",
+    "todo2": "u32",
+    "todo3": "u32"
   },
 
   "FenceWrapper": {
@@ -645,9 +645,9 @@
 
   "RoadDataSegment": {
     "name": "string",
-    "unknown0": "u32",
+    "todo0": "u32",
     "lanes": "u32",
-    "unknown1": "u32",
+    "todo1": "u32",
     "position0": "vec3",
     "position1": "vec3",
     "position2": "vec3"
@@ -655,13 +655,13 @@
 
   "Road": {
     "name": "string",
-    "unknown0": "u32",
+    "todo0": "u32",
     "startIntersection": "string",
     "endIntersection": "string",
     "maxCars": "u32",
-    "unknown1": "u8",
-    "unknown2": "u8",
+    "todo1": "u8",
+    "todo2": "u8",
     "noReset": "u8",
-    "unknown3": "u8"
+    "todo3": "u8"
   }
 }

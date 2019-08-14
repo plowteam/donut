@@ -182,7 +182,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown`|`u32`|
+|`todo`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -193,7 +193,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown`|`u32`|
+|`todo`|`u32`|
 |`renderOrder`|`u32`|
 
 ### Children
@@ -206,7 +206,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown`|`u32`|
+|`todo`|`u32`|
 |`renderOrder`|`u32`|
 
 ### Children
@@ -219,7 +219,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown`|`u32`|
+|`todo`|`u32`|
 |`renderOrder`|`u32`|
 
 ### Children
@@ -232,7 +232,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown`|`u16`|
+|`todo`|`u16`|
 
 ### Children
 |Name|Chunk|
@@ -256,7 +256,7 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown`|`u32`|
+|`todo`|`u32`|
 
 ### Children
 |Name|Chunk|
@@ -864,9 +864,9 @@
 |`canSlide`|`u16`|
 |`canSpin`|`u16`|
 |`canBounce`|`u16`|
-|`unknown1`|`u32`|
-|`unknown2`|`u32`|
-|`unknown3`|`u32`|
+|`todo1`|`u32`|
+|`todo2`|`u32`|
+|`todo3`|`u32`|
 
 ## FenceWrapper `0x3F00007`
 |Name|Type|
@@ -913,9 +913,9 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown0`|`u32`|
+|`todo0`|`u32`|
 |`lanes`|`u32`|
-|`unknown1`|`u32`|
+|`todo1`|`u32`|
 |`position0`|`vec3`|
 |`position1`|`vec3`|
 |`position2`|`vec3`|
@@ -924,14 +924,14 @@
 |Name|Type|
 |--|--|
 |`name`|`string`|
-|`unknown0`|`u32`|
+|`todo0`|`u32`|
 |`startIntersection`|`string`|
 |`endIntersection`|`string`|
 |`maxCars`|`u32`|
-|`unknown1`|`u8`|
-|`unknown2`|`u8`|
+|`todo1`|`u8`|
+|`todo2`|`u8`|
 |`noReset`|`u8`|
-|`unknown3`|`u8`|
+|`todo3`|`u8`|
 
 # TODO Chunks (102 / 182)
 #### LightGroup `0x2380`
@@ -964,7 +964,7 @@
 #### LightDirection `0x13001`
 #### LightPosition `0x13002`
 #### LightShadow `0x13004`
-#### Unknown0 `0x13008`
+#### Todo0 `0x13008`
 #### Locator `0x14000`
 #### ParticleSystemFactory `0x15800`
 #### ParticleSystem `0x15801`
@@ -1003,12 +1003,12 @@
 #### FrameController `0x121200`
 #### FrameController2 `0x121201`
 #### MultiController2 `0x121202`
-#### Unknown1 `0x121203`
+#### Todo1 `0x121203`
 #### VectorOffsetList `0x121301`
 #### VertexAnimKeyFrame `0x121304`
 #### RoadSegment `0x3000002`
 #### Spline `0x3000007`
-#### Unknown2 `0x300000A`
+#### Todo2 `0x300000A`
 #### LocatorMatrix `0x300000C`
 #### SurfaceTypeList `0x300000E`
 #### FollowCameraData `0x3000100`

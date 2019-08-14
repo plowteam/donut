@@ -10,9 +10,9 @@
 namespace Donut::P3D
 {
 	// just does png for now
-	ImageData ImageData::Decode(const std::vector<uint8_t>& data)
+	ImageDecoder ImageDecoder::Decode(const std::vector<uint8_t>& data)
 	{
-		ImageData ret;
+		ImageDecoder ret;
 		uint8_t* image = stbi_load_from_memory(data.data(), (std::int32_t)data.size(), &ret.width, &ret.height, &ret.comp, 0);
 		ret.data = std::vector<uint8_t>(image, image + (ret.width * ret.height * ret.comp));
 		stbi_image_free(image);
@@ -190,8 +190,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "LightPosition";
 		case ChunkType::LightShadow:
 			return os << "LightShadow";
-		case ChunkType::Unknown0:
-			return os << "Unknown0";
+		case ChunkType::Todo0:
+			return os << "Todo0";
 		case ChunkType::Locator:
 			return os << "Locator";
 		case ChunkType::ParticleSystemFactory:
@@ -332,8 +332,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "FrameController2";
 		case ChunkType::MultiController2:
 			return os << "MultiController2";
-		case ChunkType::Unknown1:
-			return os << "Unknown1";
+		case ChunkType::Todo1:
+			return os << "Todo1";
 		case ChunkType::VectorOffsetList:
 			return os << "VectorOffsetList";
 		case ChunkType::VertexAnimKeyFrame:
@@ -356,8 +356,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "InstanceList";
 		case ChunkType::RoadDataSegment:
 			return os << "RoadDataSegment";
-		case ChunkType::Unknown2:
-			return os << "Unknown2";
+		case ChunkType::Todo2:
+			return os << "Todo2";
 		case ChunkType::Path:
 			return os << "Path";
 		case ChunkType::LocatorMatrix:
