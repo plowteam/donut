@@ -1,4 +1,4 @@
-# Chunks (98 / 182)
+# Chunks (100 / 182)
 
 ## Camera `0x2200`
 |Name|Type|
@@ -554,6 +554,14 @@
 |--|--|
 |`images`|`Image[]`|
 
+## AnimatedObject `0x20001`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`name`|`string`|
+|`factoryName`|`string`|
+|`startAnimation`|`u32`|
+
 ## TextureFont `0x22000`
 |Name|Type|
 |--|--|
@@ -849,6 +857,21 @@
 |--|--|
 |`textures`|`Texture[]`|
 
+## BreakableObject `0x3001000`
+|Name|Type|
+|--|--|
+|`index`|`u32`|
+|`count`|`u32`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`animations`|`Animation[]`|
+|`skeletons`|`Skeleton[]`|
+|`meshes`|`Mesh[]`|
+|`drawable`|`CompositeDrawable`|
+|`animObjects`|`AnimatedObject`|
+
 ## StaticEntity `0x3F00000`
 |Name|Type|
 |--|--|
@@ -1078,7 +1101,7 @@
 |`todo2`|`u32`|
 |`todo3`|`u32`|
 
-# TODO Chunks (84 / 182)
+# TODO Chunks (82 / 182)
 #### LightGroup `0x2380`
 #### CompositeDrawableSkinList `0x4513`
 #### CompositeDrawableSkin `0x4515`
@@ -1113,7 +1136,6 @@
 #### FrontendTextStyleResource `0x18104`
 #### FrontendTextBibleResource `0x18105`
 #### AnimatedObjectFactory `0x20000`
-#### AnimatedObject `0x20001`
 #### AnimatedObjectAnimation `0x20002`
 #### Expression `0x21000`
 #### ExpressionGroup `0x21001`
@@ -1141,7 +1163,6 @@
 #### FollowCameraData `0x3000100`
 #### CollisionEffect `0x3000600`
 #### Atc `0x3000602`
-#### BreakableObject `0x3001000`
 #### InstParticleSystem `0x3001001`
 #### Tree `0x3F00004`
 #### TreeNode `0x3F00005`

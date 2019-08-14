@@ -766,5 +766,22 @@
   "History": {
     "numLines": "u32",
     "lines": "buffer<string>"
+  },
+
+  "BreakableObject": {
+    "index": "u32",
+    "count": "u32",
+    "animations": "children Animation",
+    "skeletons": "children Skeleton",
+    "meshes": "children Mesh",
+    "drawable": "child CompositeDrawable",
+    "animObjects": "child AnimatedObject"
+  },
+
+  "AnimatedObject": {
+    "version": "u32",
+    "name": "string",
+    "factoryName": "string",
+    "startAnimation": "u32"
   }
 }

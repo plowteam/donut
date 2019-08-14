@@ -2132,4 +2132,58 @@ namespace Donut::P3D
             _lines[i] = stream.ReadLPString();
         }
     }
+
+    BreakableObject::BreakableObject(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::BreakableObject));
+
+        MemoryStream stream(chunk.GetData());
+        _index = stream.Read<uint32_t>();
+        _count = stream.Read<uint32_t>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::Animation:
+                    {
+                        _animations.push_back(std::make_unique<Animation>(*child));
+                        break;
+                    }
+                case ChunkType::Skeleton:
+                    {
+                        _skeletons.push_back(std::make_unique<Skeleton>(*child));
+                        break;
+                    }
+                case ChunkType::Mesh:
+                    {
+                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        break;
+                    }
+                case ChunkType::CompositeDrawable:
+                    {
+                        _drawable = std::make_unique<CompositeDrawable>(*child);
+                        break;
+                    }
+                case ChunkType::AnimatedObject:
+                    {
+                        _animObjects = std::make_unique<AnimatedObject>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    AnimatedObject::AnimatedObject(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::AnimatedObject));
+
+        MemoryStream stream(chunk.GetData());
+        _version = stream.Read<uint32_t>();
+        _name = stream.ReadLPString();
+        _factoryName = stream.ReadLPString();
+        _startAnimation = stream.Read<uint32_t>();
+    }
 }

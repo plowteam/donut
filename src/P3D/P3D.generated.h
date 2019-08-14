@@ -127,6 +127,8 @@ namespace Donut::P3D
 	class GameAttr;
 	class GameAttrIntParam;
 	class History;
+	class BreakableObject;
+	class AnimatedObject;
 
     class Animation
     {
@@ -2445,6 +2447,56 @@ namespace Donut::P3D
 
         uint32_t _numLines;
         std::vector<std::string> _lines;
+
+    };
+
+    class BreakableObject
+    {
+    public:
+
+        BreakableObject(const P3DChunk&);
+
+        static std::unique_ptr<BreakableObject> Load(const P3DChunk& chunk) { return std::make_unique<BreakableObject>(chunk); }
+
+        const uint32_t& GetIndex() const { return _index; }
+        const uint32_t& GetCount() const { return _count; }
+        const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
+        const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
+        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::unique_ptr<CompositeDrawable>& GetDrawable() const { return _drawable; }
+        const std::unique_ptr<AnimatedObject>& GetAnimObjects() const { return _animObjects; }
+
+    private:
+
+        uint32_t _index;
+        uint32_t _count;
+        std::vector<std::unique_ptr<Animation>> _animations;
+        std::vector<std::unique_ptr<Skeleton>> _skeletons;
+        std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::unique_ptr<CompositeDrawable> _drawable;
+        std::unique_ptr<AnimatedObject> _animObjects;
+
+    };
+
+    class AnimatedObject
+    {
+    public:
+
+        AnimatedObject(const P3DChunk&);
+
+        static std::unique_ptr<AnimatedObject> Load(const P3DChunk& chunk) { return std::make_unique<AnimatedObject>(chunk); }
+
+        const uint32_t& GetVersion() const { return _version; }
+        const std::string& GetName() const { return _name; }
+        const std::string& GetFactoryName() const { return _factoryName; }
+        const uint32_t& GetStartAnimation() const { return _startAnimation; }
+
+    private:
+
+        uint32_t _version;
+        std::string _name;
+        std::string _factoryName;
+        uint32_t _startAnimation;
 
     };
 }
