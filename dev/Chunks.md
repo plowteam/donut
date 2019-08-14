@@ -1,4 +1,6 @@
-## Animation (`0x121000`)
+# Chunks (80 / 182)
+
+## Animation `0x121000`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -13,7 +15,7 @@
 |--|--|
 |`groupList`|`AnimationGroupList`|
 
-## AnimationGroupList (`0x121002`)
+## AnimationGroupList `0x121002`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -24,7 +26,7 @@
 |--|--|
 |`groups`|`AnimationGroup[]`|
 
-## AnimationGroup (`0x121001`)
+## AnimationGroup `0x121001`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -40,7 +42,7 @@
 |`quaternionChannels`|`QuaternionChannel[]`|
 |`compressedQuaternionChannels`|`CompressedQuaternionChannel[]`|
 
-## Vector2Channel (`0x121103`)
+## Vector2Channel `0x121103`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -51,7 +53,7 @@
 |`frames`|`u16[numFrames]`|
 |`values`|`vec2[numFrames]`|
 
-## Vector3Channel (`0x121104`)
+## Vector3Channel `0x121104`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -60,7 +62,7 @@
 |`frames`|`u16[numFrames]`|
 |`values`|`vec3[numFrames]`|
 
-## QuaternionChannel (`0x121105`)
+## QuaternionChannel `0x121105`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -69,7 +71,7 @@
 |`frames`|`u16[numFrames]`|
 |`values`|`quat[numFrames]`|
 
-## CompressedQuaternionChannel (`0x121111`)
+## CompressedQuaternionChannel `0x121111`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -78,7 +80,7 @@
 |`frames`|`u16[numFrames]`|
 |`values`|`u64[numFrames]`|
 
-## Mesh (`0x10000`)
+## Mesh `0x10000`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -90,7 +92,7 @@
 |--|--|
 |`primitiveGroups`|`PrimitiveGroup[]`|
 
-## PolySkin (`0x10001`)
+## PolySkin `0x10001`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -105,19 +107,19 @@
 |`boundingBox`|`BoundingBox`|
 |`boundingSphere`|`BoundingSphere`|
 
-## BoundingBox (`0x10003`)
+## BoundingBox `0x10003`
 |Name|Type|
 |--|--|
 |`min`|`vec3`|
 |`max`|`vec3`|
 
-## BoundingSphere (`0x10004`)
+## BoundingSphere `0x10004`
 |Name|Type|
 |--|--|
 |`centre`|`vec3`|
 |`radius`|`float`|
 
-## PrimitiveGroup (`0x10002`)
+## PrimitiveGroup `0x10002`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -140,7 +142,7 @@
 |`matrixPalette`|`MatrixPalette<u32>[u32]`|
 |`colors`|`ColorList<u32>[u32]`|
 
-## Skeleton (`0x4500`)
+## Skeleton `0x4500`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -152,7 +154,7 @@
 |--|--|
 |`joints`|`SkeletonJoint[]`|
 
-## SkeletonJoint (`0x4501`)
+## SkeletonJoint `0x4501`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -164,7 +166,7 @@
 |`twistAxis`|`s32`|
 |`restPose`|`mat4`|
 
-## StaticEntity (`0x3F00000`)
+## StaticEntity `0x3F00000`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -176,7 +178,7 @@
 |--|--|
 |`mesh`|`Mesh`|
 
-## StaticPhysics (`0x3F00001`)
+## StaticPhysics `0x3F00001`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -187,7 +189,7 @@
 |--|--|
 |`collisionObject`|`CollisionObject`|
 
-## InstancedStaticPhysics (`0x3F0000A`)
+## InstancedStaticPhysics `0x3F0000A`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -200,7 +202,7 @@
 |`meshes`|`Mesh[]`|
 |`instanceList`|`InstanceList`|
 
-## DynamicPhysics (`0x3F00002`)
+## DynamicPhysics `0x3F00002`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -213,7 +215,7 @@
 |`meshes`|`Mesh[]`|
 |`instanceList`|`InstanceList`|
 
-## AnimDynamicPhysics (`0x3F0000E`)
+## AnimDynamicPhysics `0x3F0000E`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -226,7 +228,7 @@
 |`animObjectWrapper`|`AnimObjectWrapper`|
 |`instanceList`|`InstanceList`|
 
-## AnimObjectWrapper (`0x3F00010`)
+## AnimObjectWrapper `0x3F00010`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -240,7 +242,7 @@
 |`meshes`|`Mesh[]`|
 |`animations`|`Animation[]`|
 
-## InstanceList (`0x3000008`)
+## InstanceList `0x3000008`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -250,7 +252,7 @@
 |--|--|
 |`sceneGraph`|`SceneGraph`|
 
-## SceneGraph (`0x120100`)
+## SceneGraph `0x120100`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -261,7 +263,7 @@
 |--|--|
 |`root`|`SceneGraphRoot`|
 
-## SceneGraphRoot (`0x120101`)
+## SceneGraphRoot `0x120101`
 |Name|Type|
 |--|--|
 
@@ -270,7 +272,7 @@
 |--|--|
 |`branch`|`SceneGraphBranch`|
 
-## SceneGraphBranch (`0x120102`)
+## SceneGraphBranch `0x120102`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -281,7 +283,7 @@
 |--|--|
 |`children`|`SceneGraphTransform[]`|
 
-## SceneGraphTransform (`0x120103`)
+## SceneGraphTransform `0x120103`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -294,7 +296,7 @@
 |`children`|`SceneGraphTransform[]`|
 |`drawables`|`SceneGraphDrawable[]`|
 
-## SceneGraphDrawable (`0x120107`)
+## SceneGraphDrawable `0x120107`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -306,7 +308,7 @@
 |--|--|
 |`sortOrder`|`SceneGraphSortOrder<float>`|
 
-## Shader (`0x11000`)
+## Shader `0x11000`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -325,25 +327,25 @@
 |`floatParams`|`ShaderFloatParam[]`|
 |`colorParams`|`ShaderColorParam[]`|
 
-## ShaderTextureParam (`0x11002`)
+## ShaderTextureParam `0x11002`
 |Name|Type|
 |--|--|
 |`key`|`string[4]`|
 |`value`|`string`|
 
-## ShaderIntParam (`0x11003`)
+## ShaderIntParam `0x11003`
 |Name|Type|
 |--|--|
 |`key`|`string[4]`|
 |`value`|`s32`|
 
-## ShaderFloatParam (`0x11004`)
+## ShaderFloatParam `0x11004`
 |Name|Type|
 |--|--|
 |`key`|`string[4]`|
 |`value`|`float`|
 
-## ShaderColorParam (`0x11005`)
+## ShaderColorParam `0x11005`
 |Name|Type|
 |--|--|
 |`key`|`string[4]`|
@@ -352,7 +354,7 @@
 |`b`|`u8`|
 |`a`|`u8`|
 
-## CompositeDrawable (`0x4512`)
+## CompositeDrawable `0x4512`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -363,7 +365,7 @@
 |--|--|
 |`propList`|`CompositeDrawablePropList`|
 
-## CompositeDrawablePropList (`0x4514`)
+## CompositeDrawablePropList `0x4514`
 |Name|Type|
 |--|--|
 |`numElements`|`u32`|
@@ -373,7 +375,7 @@
 |--|--|
 |`props`|`CompositeDrawableProp[]`|
 
-## CompositeDrawableProp (`0x4516`)
+## CompositeDrawableProp `0x4516`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -385,12 +387,12 @@
 |--|--|
 |`sortOrder`|`CompositeDrawableSortOrder<float>`|
 
-## CompositeDrawableSortOrder (`0x4519`)
+## CompositeDrawableSortOrder `0x4519`
 |Name|Type|
 |--|--|
 |`value`|`float`|
 
-## Intersect (`0x3F00003`)
+## Intersect `0x3F00003`
 |Name|Type|
 |--|--|
 |`indices`|`u32[u32]`|
@@ -402,7 +404,7 @@
 |--|--|
 |`bounds`|`BoundingBox`|
 
-## WorldSphere (`0x3F0000B`)
+## WorldSphere `0x3F0000B`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -420,7 +422,7 @@
 |`compositeDrawable`|`CompositeDrawable`|
 |`lensFlare`|`LensFlare`|
 
-## LensFlare (`0x3F0000D`)
+## LensFlare `0x3F0000D`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -432,7 +434,7 @@
 |`billboards`|`BillboardQuadGroup[]`|
 |`compositeDrawable`|`CompositeDrawable`|
 
-## BillboardQuad (`0x17001`)
+## BillboardQuad `0x17001`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -455,7 +457,7 @@
 |`displayInfo`|`BillboardDisplayInfo`|
 |`perspectiveInfo`|`BillboardPerspectiveInfo`|
 
-## BillboardQuadGroup (`0x17002`)
+## BillboardQuadGroup `0x17002`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -471,7 +473,7 @@
 |--|--|
 |`quads`|`BillboardQuad[]`|
 
-## BillboardDisplayInfo (`0x17003`)
+## BillboardDisplayInfo `0x17003`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -481,13 +483,13 @@
 |`sourceRange`|`float`|
 |`edgeRange`|`float`|
 
-## BillboardPerspectiveInfo (`0x17004`)
+## BillboardPerspectiveInfo `0x17004`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
 |`value`|`u32`|
 
-## Texture (`0x19000`)
+## Texture `0x19000`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -506,7 +508,7 @@
 |--|--|
 |`image`|`Image`|
 
-## Image (`0x19001`)
+## Image `0x19001`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -523,13 +525,13 @@
 |--|--|
 |`data`|`ImageData<u8>[u32]`|
 
-## ImageData (`0x19002`)
+## ImageData `0x19002`
 |Name|Type|
 |--|--|
 |`size`|`u32`|
 |`data`|`u8[size]`|
 
-## TextureFont (`0x22000`)
+## TextureFont `0x22000`
 |Name|Type|
 |--|--|
 |`version`|`u32`|
@@ -547,7 +549,7 @@
 |`textures`|`Texture[]`|
 |`glyphs`|`FontGlyphs<FontGlyph>[u32]`|
 
-## Sprite (`0x19005`)
+## Sprite `0x19005`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -564,7 +566,7 @@
 |--|--|
 |`images`|`Image[]`|
 
-## FrontendScreen (`0x18001`)
+## FrontendScreen `0x18001`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -572,7 +574,7 @@
 |`numPages`|`u32`|
 |`pageNames`|`string[numPages]`|
 
-## FrontendProject (`0x18000`)
+## FrontendProject `0x18000`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -590,7 +592,7 @@
 |`pages`|`FrontendPage[]`|
 |`screens`|`FrontendScreen[]`|
 
-## FrontendPage (`0x18002`)
+## FrontendPage `0x18002`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -604,7 +606,7 @@
 |`layers`|`FrontendLayer[]`|
 |`imageResources`|`FrontendImageResource[]`|
 
-## FrontendLayer (`0x18003`)
+## FrontendLayer `0x18003`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -622,7 +624,7 @@
 |`objects`|`FrontendObject[]`|
 |`polygons`|`FrontendPolygon[]`|
 
-## FrontendGroup (`0x18004`)
+## FrontendGroup `0x18004`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -637,7 +639,7 @@
 |`multiTexts`|`FrontendMultiText[]`|
 |`polygons`|`FrontendPolygon[]`|
 
-## FrontendMultiSprite (`0x18006`)
+## FrontendMultiSprite `0x18006`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -654,7 +656,7 @@
 |`numImages`|`u32`|
 |`imageNames`|`string[numImages]`|
 
-## FrontendMultiText (`0x18007`)
+## FrontendMultiText `0x18007`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -680,18 +682,18 @@
 |--|--|
 |`textBibles`|`FrontendStringTextBible[]`|
 
-## FrontendStringTextBible (`0x1800B`)
+## FrontendStringTextBible `0x1800B`
 |Name|Type|
 |--|--|
 |`name`|`string`|
 |`key`|`string`|
 
-## FrontendObject (`0x18008`)
+## FrontendObject `0x18008`
 |Name|Type|
 |--|--|
 |`name`|`string`|
 
-## FrontendPolygon (`0x18009`)
+## FrontendPolygon `0x18009`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -701,14 +703,14 @@
 |`points`|`vec3[numPoints]`|
 |`colors`|`u32[numPoints]`|
 
-## FrontendImageResource (`0x18100`)
+## FrontendImageResource `0x18100`
 |Name|Type|
 |--|--|
 |`name`|`string`|
 |`version`|`u32`|
 |`filepath`|`string`|
 
-## Locator2 (`0x3000005`)
+## Locator2 `0x3000005`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -720,7 +722,7 @@
 |--|--|
 |`triggers`|`TriggerVolume[]`|
 
-## TriggerVolume (`0x3000006`)
+## TriggerVolume `0x3000006`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -728,7 +730,7 @@
 |`bounds`|`vec3`|
 |`transform`|`mat4`|
 
-## Camera (`0x2200`)
+## Camera `0x2200`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -741,7 +743,7 @@
 |`forward`|`vec3`|
 |`up`|`vec3`|
 
-## MultiController (`0x48A0`)
+## MultiController `0x48A0`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -755,7 +757,7 @@
 |--|--|
 |`tracks`|`MultiControllerTracks`|
 
-## MultiControllerTracks (`0x48A1`)
+## MultiControllerTracks `0x48A1`
 |Name|Type|
 |--|--|
 |`numTracks`|`u32`|
@@ -764,7 +766,7 @@
 |`trackEndTimes`|`float[numTracks]`|
 |`trackScales`|`float[numTracks]`|
 
-## CollisionObject (`0x7010000`)
+## CollisionObject `0x7010000`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -780,7 +782,7 @@
 |`volume`|`CollisionVolume`|
 |`attribute`|`CollisionObjectAttribute`|
 
-## CollisionVolume (`0x7010001`)
+## CollisionVolume `0x7010001`
 |Name|Type|
 |--|--|
 |`objectRefIndex`|`u32`|
@@ -796,7 +798,7 @@
 |`sphere`|`CollisionSphere`|
 |`cylinder`|`CollisionCylinder`|
 
-## CollisionSphere (`0x7010002`)
+## CollisionSphere `0x7010002`
 |Name|Type|
 |--|--|
 |`radius`|`float`|
@@ -806,7 +808,7 @@
 |--|--|
 |`vectors`|`CollisionVector<vec3>[]`|
 
-## CollisionCylinder (`0x7010003`)
+## CollisionCylinder `0x7010003`
 |Name|Type|
 |--|--|
 |`radius`|`float`|
@@ -818,7 +820,7 @@
 |--|--|
 |`vectors`|`CollisionVector<vec3>[]`|
 
-## CollisionOBBoxVolume (`0x7010004`)
+## CollisionOBBoxVolume `0x7010004`
 |Name|Type|
 |--|--|
 |`halfExtents`|`vec3`|
@@ -828,17 +830,17 @@
 |--|--|
 |`vectors`|`CollisionVector<vec3>[]`|
 
-## CollisionBBoxVolume (`0x7010006`)
+## CollisionBBoxVolume `0x7010006`
 |Name|Type|
 |--|--|
 |`nothing`|`u32`|
 
-## CollisionVector (`0x7010007`)
+## CollisionVector `0x7010007`
 |Name|Type|
 |--|--|
 |`value`|`vec3`|
 
-## CollisionVolumeOwner (`0x7010021`)
+## CollisionVolumeOwner `0x7010021`
 |Name|Type|
 |--|--|
 |`numNames`|`u32`|
@@ -848,12 +850,12 @@
 |--|--|
 |`names`|`CollisionVolumeOwnerName[]`|
 
-## CollisionVolumeOwnerName (`0x7010022`)
+## CollisionVolumeOwnerName `0x7010022`
 |Name|Type|
 |--|--|
 |`name`|`string`|
 
-## CollisionObjectAttribute (`0x7010023`)
+## CollisionObjectAttribute `0x7010023`
 |Name|Type|
 |--|--|
 |`static`|`u16`|
@@ -866,7 +868,7 @@
 |`unknown2`|`u32`|
 |`unknown3`|`u32`|
 
-## FenceWrapper (`0x3F00007`)
+## FenceWrapper `0x3F00007`
 |Name|Type|
 |--|--|
 
@@ -875,14 +877,14 @@
 |--|--|
 |`fence`|`Fence`|
 
-## Fence (`0x3000000`)
+## Fence `0x3000000`
 |Name|Type|
 |--|--|
 |`start`|`vec3`|
 |`end`|`vec3`|
 |`normal`|`vec3`|
 
-## Set (`0x3000110`)
+## Set `0x3000110`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -893,13 +895,13 @@
 |--|--|
 |`textures`|`Texture[]`|
 
-## Path (`0x300000B`)
+## Path `0x300000B`
 |Name|Type|
 |--|--|
 |`numPoints`|`u32`|
 |`points`|`vec3[numPoints]`|
 
-## Intersection (`0x3000004`)
+## Intersection `0x3000004`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -907,7 +909,7 @@
 |`radius`|`float`|
 |`trafficBehaviour`|`u32`|
 
-## RoadDataSegment (`0x3000009`)
+## RoadDataSegment `0x3000009`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -918,7 +920,7 @@
 |`position1`|`vec3`|
 |`position2`|`vec3`|
 
-## Road (`0x3000003`)
+## Road `0x3000003`
 |Name|Type|
 |--|--|
 |`name`|`string`|
@@ -931,106 +933,107 @@
 |`noReset`|`u8`|
 |`unknown3`|`u8`|
 
-# TODO Chunks
-### LightGroup (`0x2380)`
-### SkeletonJointMirrorMap (`0x4503)`
-### SkeletonJointBonePreserve (`0x4504)`
-### CompositeDrawableSkinList (`0x4513)`
-### CompositeDrawableSkin (`0x4515)`
-### CompositeDrawableEffectList (`0x4517)`
-### CompositeDrawableEffect (`0x4518)`
-### History (`0x7000)`
-### ExportInfo (`0x7030)`
-### ExportInfoNamedString (`0x7031)`
-### ExportInfoNamedInteger (`0x7032)`
-### PositionList (`0x10005)`
-### NormalList (`0x10006)`
-### UVList (`0x10007)`
-### ColorList (`0x10008)`
-### IndexList (`0x1000A)`
-### MatrixList (`0x1000B)`
-### WeightList (`0x1000C)`
-### MatrixPalette (`0x1000D)`
-### OffsetList (`0x1000E)`
-### PackedNormalList (`0x10010)`
-### VertexShader (`0x10011)`
-### DrawShadow (`0x10017)`
-### ExpressionOffsets (`0x10018)`
-### GameAttr (`0x12000)`
-### GameAttrIntParam (`0x12001)`
-### Light (`0x13000)`
-### LightDirection (`0x13001)`
-### LightPosition (`0x13002)`
-### LightShadow (`0x13004)`
-### Unknown0 (`0x13008)`
-### Locator (`0x14000)`
-### ParticleSystemFactory (`0x15800)`
-### ParticleSystem (`0x15801)`
-### BaseEmitter (`0x15805)`
-### SpriteEmitter (`0x15806)`
-### ParticleAnimation (`0x15808)`
-### EmitterAnimation (`0x15809)`
-### GeneratorAnimation (`0x1580A)`
-### ParticleInstancingInfo (`0x1580B)`
-### FrontendStringHardCoded (`0x1800C)`
-### FrontendTextBible (`0x1800D)`
-### FrontendLanguage (`0x1800E)`
-### FrontendObjectResource (`0x18101)`
-### FrontendTextStyleResource (`0x18104)`
-### FrontendTextBibleResource (`0x18105)`
-### AnimatedObjectFactory (`0x20000)`
-### AnimatedObject (`0x20001)`
-### AnimatedObjectAnimation (`0x20002)`
-### Expression (`0x21000)`
-### ExpressionGroup (`0x21001)`
-### ExpressionMixer (`0x21002)`
-### FontGlyphs (`0x22001)`
-### SceneGraphVisibility (`0x120104)`
-### SceneGraphLightGroup (`0x120109)`
-### SceneGraphSortOrder (`0x12010A)`
-### AnimationSize (`0x121004)`
-### AnimationHeader (`0x121006)`
-### Float1Channel (`0x121100)`
-### Float2Channel (`0x121101)`
-### Vector1Channel (`0x121102)`
-### EntityChannel (`0x121107)`
-### BoolChannel (`0x121108)`
-### Color (`0x121109)`
-### IntChannel (`0x12110E)`
-### ChannelInterpolationMode (`0x121110)`
-### FrameController (`0x121200)`
-### FrameController2 (`0x121201)`
-### MultiController2 (`0x121202)`
-### Unknown1 (`0x121203)`
-### VectorOffsetList (`0x121301)`
-### VertexAnimKeyFrame (`0x121304)`
-### RoadSegment (`0x3000002)`
-### Spline (`0x3000007)`
-### Unknown2 (`0x300000A)`
-### LocatorMatrix (`0x300000C)`
-### SurfaceTypeList (`0x300000E)`
-### FollowCameraData (`0x3000100)`
-### CollisionEffect (`0x3000600)`
-### Atc (`0x3000602)`
-### BreakableObject (`0x3001000)`
-### InstParticleSystem (`0x3001001)`
-### Tree (`0x3F00004)`
-### TreeNode (`0x3F00005)`
-### TreeNode2 (`0x3F00006)`
-### AnimCollision (`0x3F00008)`
-### InstancedStaticEntity (`0x3F00009)`
-### Anim (`0x3F0000C)`
-### AnimDynamicPhysicsWrapper (`0x3F0000F)`
-### CollisionWallVolume (`0x7010005)`
-### PhysicsObject (`0x7011000)`
-### PhysicsInertiaMatrix (`0x7011001)`
-### PhysicsVector (`0x7011002)`
-### PhysicsJoint (`0x7011020)`
-### StaticPropData (`0x8020000)`
-### StaticPropStateData (`0x8020001)`
-### StaticPropVisibilityData (`0x8020002)`
-### StaticPropFrameControllerData (`0x8020003)`
-### StaticPropEventData (`0x8020004)`
-### StaticPropCallbackData (`0x8020005)`
-### P3DZRoot (`0x5A443350)`
-### P3DRoot (`0xFF443350)`
+# TODO Chunks (102 / 182)
+#### LightGroup `0x2380`
+#### SkeletonJointMirrorMap `0x4503`
+#### SkeletonJointBonePreserve `0x4504`
+#### CompositeDrawableSkinList `0x4513`
+#### CompositeDrawableSkin `0x4515`
+#### CompositeDrawableEffectList `0x4517`
+#### CompositeDrawableEffect `0x4518`
+#### History `0x7000`
+#### ExportInfo `0x7030`
+#### ExportInfoNamedString `0x7031`
+#### ExportInfoNamedInteger `0x7032`
+#### PositionList `0x10005`
+#### NormalList `0x10006`
+#### UVList `0x10007`
+#### ColorList `0x10008`
+#### IndexList `0x1000A`
+#### MatrixList `0x1000B`
+#### WeightList `0x1000C`
+#### MatrixPalette `0x1000D`
+#### OffsetList `0x1000E`
+#### PackedNormalList `0x10010`
+#### VertexShader `0x10011`
+#### DrawShadow `0x10017`
+#### ExpressionOffsets `0x10018`
+#### GameAttr `0x12000`
+#### GameAttrIntParam `0x12001`
+#### Light `0x13000`
+#### LightDirection `0x13001`
+#### LightPosition `0x13002`
+#### LightShadow `0x13004`
+#### Unknown0 `0x13008`
+#### Locator `0x14000`
+#### ParticleSystemFactory `0x15800`
+#### ParticleSystem `0x15801`
+#### BaseEmitter `0x15805`
+#### SpriteEmitter `0x15806`
+#### ParticleAnimation `0x15808`
+#### EmitterAnimation `0x15809`
+#### GeneratorAnimation `0x1580A`
+#### ParticleInstancingInfo `0x1580B`
+#### FrontendStringHardCoded `0x1800C`
+#### FrontendTextBible `0x1800D`
+#### FrontendLanguage `0x1800E`
+#### FrontendObjectResource `0x18101`
+#### FrontendTextStyleResource `0x18104`
+#### FrontendTextBibleResource `0x18105`
+#### AnimatedObjectFactory `0x20000`
+#### AnimatedObject `0x20001`
+#### AnimatedObjectAnimation `0x20002`
+#### Expression `0x21000`
+#### ExpressionGroup `0x21001`
+#### ExpressionMixer `0x21002`
+#### FontGlyphs `0x22001`
+#### SceneGraphVisibility `0x120104`
+#### SceneGraphLightGroup `0x120109`
+#### SceneGraphSortOrder `0x12010A`
+#### AnimationSize `0x121004`
+#### AnimationHeader `0x121006`
+#### Float1Channel `0x121100`
+#### Float2Channel `0x121101`
+#### Vector1Channel `0x121102`
+#### EntityChannel `0x121107`
+#### BoolChannel `0x121108`
+#### Color `0x121109`
+#### IntChannel `0x12110E`
+#### ChannelInterpolationMode `0x121110`
+#### FrameController `0x121200`
+#### FrameController2 `0x121201`
+#### MultiController2 `0x121202`
+#### Unknown1 `0x121203`
+#### VectorOffsetList `0x121301`
+#### VertexAnimKeyFrame `0x121304`
+#### RoadSegment `0x3000002`
+#### Spline `0x3000007`
+#### Unknown2 `0x300000A`
+#### LocatorMatrix `0x300000C`
+#### SurfaceTypeList `0x300000E`
+#### FollowCameraData `0x3000100`
+#### CollisionEffect `0x3000600`
+#### Atc `0x3000602`
+#### BreakableObject `0x3001000`
+#### InstParticleSystem `0x3001001`
+#### Tree `0x3F00004`
+#### TreeNode `0x3F00005`
+#### TreeNode2 `0x3F00006`
+#### AnimCollision `0x3F00008`
+#### InstancedStaticEntity `0x3F00009`
+#### Anim `0x3F0000C`
+#### AnimDynamicPhysicsWrapper `0x3F0000F`
+#### CollisionWallVolume `0x7010005`
+#### PhysicsObject `0x7011000`
+#### PhysicsInertiaMatrix `0x7011001`
+#### PhysicsVector `0x7011002`
+#### PhysicsJoint `0x7011020`
+#### StaticPropData `0x8020000`
+#### StaticPropStateData `0x8020001`
+#### StaticPropVisibilityData `0x8020002`
+#### StaticPropFrameControllerData `0x8020003`
+#### StaticPropEventData `0x8020004`
+#### StaticPropCallbackData `0x8020005`
+#### P3DZRoot `0x5A443350`
+#### P3DRoot `0xFF443350`
+
