@@ -12,6 +12,9 @@
 #include <Core/BoundingBox.h>
 #include "Core/BoundingSphere.h"
 
+#include <Skeleton.h>
+#include <Render/OpenGL/TextureBuffer.h>
+
 namespace Donut
 {
 namespace GL
@@ -71,10 +74,8 @@ class Character
 	const std::unordered_map<std::string, std::unique_ptr<SkinAnimation>>& GetAnimations() const { return _animations; }
 
   private:
-	void loadSkeleton(const P3D::Skeleton&);
 	void addAnimation(const P3D::Animation&);
 
-	void updateAnimation(SkinAnimation&, double time);
 	double _animTime;
 
 	// only used as an entity name for now
@@ -88,16 +89,13 @@ class Character
 
 	std::unique_ptr<CharacterController> _characterController;
 
-	std::unique_ptr<SkinModel> _skinModel;
-	// std::weak_ptr<SkinModel> _skinModel; // use when SkinModels are created as a shared_ptr
-	std::vector<SkeletonJoint> _skeletonJoints;
+	std::unique_ptr<SkinModel> _skinModel; // use std::weak_ptr when SkinModels are created as a shared_ptr
+	std::unique_ptr<Skeleton> _skeleton;
+
+	std::unique_ptr<GL::TextureBuffer> _boneBuffer;
 
 	// animations / bone buffers
 	std::unordered_map<std::string, std::unique_ptr<SkinAnimation>> _animations;
 	SkinAnimation* _currentAnimation;
-	std::unique_ptr<GL::TextureBuffer> _boneBuffer;
-	std::vector<glm::mat4> _boneMatrices;
-	std::vector<glm::mat4> _poseMatrices;
-	std::vector<glm::mat4> _finalMatrices;
 };
 } // namespace Donut
