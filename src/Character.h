@@ -66,6 +66,7 @@ class Character
 	const glm::quat& GetRotation() const { return _rotation; }
 	void SetAnimation(const std::string&);
 	CharacterController& GetCharacterController() const { return *_characterController; }
+	Skeleton& GetSkeleton() const { return *_skeleton; }
 
 	void Update(double deltatime);
 	void Draw(const glm::mat4& viewProjection, GL::ShaderProgram&, const ResourceManager&);

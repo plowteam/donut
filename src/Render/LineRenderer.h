@@ -10,14 +10,13 @@
 
 namespace Donut
 {
+	class Skeleton;
+
 	class LineRenderer
 	{
-
 	public:
+		LineRenderer(std::size_t maxVertexCount);
 
-		LineRenderer(size_t maxVertexCount);
-
-		void Flush(glm::mat4& viewProj);
 		void DrawLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec4& colour);
 		void DrawBox(const glm::mat4 transform, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
 		void DrawBox(const glm::vec3& position, const glm::vec3& angles, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
@@ -25,23 +24,25 @@ namespace Donut
 		void DrawAABBox(const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
 		void DrawAABBox(const glm::vec3& position, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
 		void DrawSphere(const glm::vec3& position, float radius, int thetaSegments, int phiSegments, const glm::vec4& colour);
-		void DrawCone(const glm::vec3& position, float radius, float height, size_t sides, const glm::vec4& colour);
-		void DrawCone(const glm::vec3& position, const glm::quat& rotation, float radius, float height, size_t sides, const glm::vec4& colour);
+	    void DrawCone(const glm::vec3& position, float radius, float height, std::size_t sides, const glm::vec4& colour);
+	    void DrawCone(const glm::vec3& position, const glm::quat& rotation, float radius, float height, std::size_t sides, const glm::vec4& colour);
+	    void DrawSkeleton(const glm::vec3& position, const Skeleton& skeleton);
 
-		inline size_t GetVertexCount() const { return m_vertexCount; }
-		inline size_t GetMaxVertexCount() const { return m_maxVertexCount; }
+		void Flush(glm::mat4& viewProj);
+
+		std::size_t GetVertexCount() const { return _vertexCount; }
+		std::size_t GetMaxVertexCount() const { return _maxVertexCount; }
 
 	private:
-
 		void BufferVertex(const glm::vec3& position, const glm::vec4& colour);
 
-		size_t m_vertexCount;
-		size_t m_maxVertexCount;
+	    static inline const std::size_t kVertexSize = 28;
+		std::size_t _vertexCount;
+		std::size_t _maxVertexCount;
 
-		std::unique_ptr<GL::VertexBuffer> m_vertexBuffer;
-		std::unique_ptr<GL::VertexBinding> m_vertexBinding;
-		std::vector<char> m_buffer;
-		static const size_t VertexSize;
+		std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
+		std::unique_ptr<GL::VertexBinding> _vertexBinding;
+		std::vector<uint8_t> _buffer;
 		std::unique_ptr<GL::ShaderProgram> _shader;
 	};
 }

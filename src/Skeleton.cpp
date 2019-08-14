@@ -47,7 +47,6 @@ void Skeleton::updateJoints()
 	for (auto i = 0; i < _joints.size(); i++)
 	{
 		Joint& j      = _joints[i];
-		// j.poseGlobal  = _joints[j.parent].poseGlobal * (j.rest * j.pose);
 		j.finalGlobal = j.pose * j.restGlobalInverse;
 	}
 }

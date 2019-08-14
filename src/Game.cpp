@@ -374,6 +374,8 @@ void Game::Run()
 
 		_worldPhysics->Update(static_cast<float>(deltaTime));
 
+		_lineRenderer->DrawSkeleton(_character->GetPosition(), _character->GetSkeleton());
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
@@ -437,7 +439,9 @@ void Game::Run()
 		if (_character != nullptr)
 			_character->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
 
+		glDisable(GL_DEPTH_TEST);
 		_lineRenderer->Flush(viewProjection);
+		glEnable(GL_DEPTH_TEST);
 
 		glm::mat4 proj = glm::ortho(0.0f, (float)viewportWidth, (float)viewportHeight, 0.0f);
 

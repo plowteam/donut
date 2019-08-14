@@ -77,7 +77,7 @@ void Character::LoadAnimations(const std::string& name)
 
 void Character::Draw(const glm::mat4& viewProjection, GL::ShaderProgram& shaderProgram, const ResourceManager& rm)
 {
-	const auto localPosition = _position - glm::vec3(0.0f, _characterController->GetShape().getHalfHeight() * 2, 0.0f);
+	const auto localPosition = _position; // -glm::vec3(0.0f, _characterController->GetShape().getHalfHeight() * 2, 0.0f);
 	const glm::mat4 mvp      = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
 
 	shaderProgram.Bind(); // todo optimize: should already be bound?
