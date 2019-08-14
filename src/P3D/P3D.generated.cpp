@@ -761,6 +761,14 @@ namespace Donut::P3D
         }
     }
 
+    SceneGraphSortOrder::SceneGraphSortOrder(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::SceneGraphSortOrder));
+
+        MemoryStream stream(chunk.GetData());
+        _value = stream.Read<float>();
+    }
+
     Shader::Shader(const P3DChunk& chunk)
     {
         assert(chunk.IsType(ChunkType::Shader));

@@ -246,6 +246,10 @@
     "sortOrder": "child<float> SceneGraphSortOrder"
   },
 
+  "SceneGraphSortOrder": {
+    "value": "float"
+  },
+
   "Shader": {
     "name": "string",
     "version": "u32",

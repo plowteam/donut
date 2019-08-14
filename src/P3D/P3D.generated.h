@@ -63,6 +63,7 @@ namespace Donut::P3D
 	class SceneGraphBranch;
 	class SceneGraphTransform;
 	class SceneGraphDrawable;
+	class SceneGraphSortOrder;
 	class Shader;
 	class ShaderTextureParam;
 	class ShaderIntParam;
@@ -881,6 +882,22 @@ namespace Donut::P3D
         std::string _drawableName;
         uint32_t _translucent;
         float _sortOrder;
+
+    };
+
+    class SceneGraphSortOrder
+    {
+    public:
+
+        SceneGraphSortOrder(const P3DChunk&);
+
+        static std::unique_ptr<SceneGraphSortOrder> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphSortOrder>(chunk); }
+
+        const float& GetValue() const { return _value; }
+
+    private:
+
+        float _value;
 
     };
 

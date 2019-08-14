@@ -1,4 +1,4 @@
-# Chunks (88 / 182)
+# Chunks (89 / 182)
 
 ## Animation `0x121000`
 |Name|Type|
@@ -356,6 +356,11 @@
 |Name|Chunk|
 |--|--|
 |`sortOrder`|`SceneGraphSortOrder<float>`|
+
+## SceneGraphSortOrder `0x12010A`
+|Name|Type|
+|--|--|
+|`value`|`float`|
 
 ## Shader `0x11000`
 |Name|Type|
@@ -982,7 +987,7 @@
 |`noReset`|`u8`|
 |`todo3`|`u8`|
 
-# TODO Chunks (94 / 182)
+# TODO Chunks (93 / 182)
 #### LightGroup `0x2380`
 #### SkeletonJointMirrorMap `0x4503`
 #### SkeletonJointBonePreserve `0x4504`
@@ -1030,7 +1035,6 @@
 #### FontGlyphs `0x22001`
 #### SceneGraphVisibility `0x120104`
 #### SceneGraphLightGroup `0x120109`
-#### SceneGraphSortOrder `0x12010A`
 #### AnimationSize `0x121004`
 #### AnimationHeader `0x121006`
 #### Float1Channel `0x121100`
