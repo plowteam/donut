@@ -1,4 +1,4 @@
-# Chunks (100 / 182)
+# Chunks (107 / 182)
 
 ## Camera `0x2200`
 |Name|Type|
@@ -64,6 +64,13 @@
 |Name|Chunk|
 |--|--|
 |`propList`|`CompositeDrawablePropList`|
+|`skins`|`CompositeDrawableSkinList`|
+|`effects`|`CompositeDrawableEffectList`|
+
+## CompositeDrawableSkinList `0x4513`
+|Name|Type|
+|--|--|
+|`numSkins`|`u32`|
 
 ## CompositeDrawablePropList `0x4514`
 |Name|Type|
@@ -86,6 +93,11 @@
 |Name|Chunk|
 |--|--|
 |`sortOrder`|`CompositeDrawableSortOrder<float>`|
+
+## CompositeDrawableEffectList `0x4517`
+|Name|Type|
+|--|--|
+|`numSkins`|`u32`|
 
 ## CompositeDrawableSortOrder `0x4519`
 |Name|Type|
@@ -846,6 +858,15 @@
 |`numPoints`|`u32`|
 |`points`|`vec3[numPoints]`|
 
+## FollowCameraData `0x3000100`
+|Name|Type|
+|--|--|
+|`index`|`u32`|
+|`yaw`|`float`|
+|`pitch`|`float`|
+|`distance`|`float`|
+|`offset`|`vec3`|
+
 ## Set `0x3000110`
 |Name|Type|
 |--|--|
@@ -1101,11 +1122,53 @@
 |`todo2`|`u32`|
 |`todo3`|`u32`|
 
-# TODO Chunks (82 / 182)
+## PhysicsObject `0x7011000`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`name`|`string`|
+|`materialName`|`string`|
+|`numJoints`|`u32`|
+|`volume`|`float`|
+|`sensitivity`|`float`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`joints`|`PhysicsJoint[]`|
+
+## PhysicsInertiaMatrix `0x7011001`
+|Name|Type|
+|--|--|
+|`position`|`vec3`|
+|`forward`|`vec3`|
+|`right`|`vec3`|
+|`up`|`vec3`|
+
+## PhysicsVector `0x7011002`
+|Name|Type|
+|--|--|
+|`value`|`vec3`|
+
+## PhysicsJoint `0x7011020`
+|Name|Type|
+|--|--|
+|`index`|`u32`|
+|`volume`|`float`|
+|`stiffness`|`float`|
+|`minAngle`|`float`|
+|`maxAngle`|`float`|
+|`DOF`|`float`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`vector`|`PhysicsVector<vec3>`|
+|`inertiaMatrix`|`PhysicsInertiaMatrix`|
+
+# TODO Chunks (75 / 182)
 #### LightGroup `0x2380`
-#### CompositeDrawableSkinList `0x4513`
 #### CompositeDrawableSkin `0x4515`
-#### CompositeDrawableEffectList `0x4517`
 #### CompositeDrawableEffect `0x4518`
 #### ExportInfo `0x7030`
 #### ExportInfoNamedString `0x7031`
@@ -1160,7 +1223,6 @@
 #### Todo2 `0x300000A`
 #### LocatorMatrix `0x300000C`
 #### SurfaceTypeList `0x300000E`
-#### FollowCameraData `0x3000100`
 #### CollisionEffect `0x3000600`
 #### Atc `0x3000602`
 #### InstParticleSystem `0x3001001`
@@ -1172,10 +1234,6 @@
 #### Anim `0x3F0000C`
 #### AnimDynamicPhysicsWrapper `0x3F0000F`
 #### CollisionWallVolume `0x7010005`
-#### PhysicsObject `0x7011000`
-#### PhysicsInertiaMatrix `0x7011001`
-#### PhysicsVector `0x7011002`
-#### PhysicsJoint `0x7011020`
 #### StaticPropData `0x8020000`
 #### StaticPropStateData `0x8020001`
 #### StaticPropVisibilityData `0x8020002`

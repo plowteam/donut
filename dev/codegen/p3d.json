@@ -319,7 +319,9 @@
   "CompositeDrawable": {
     "name": "string",
     "skeletonName": "string",
-    "propList": "child CompositeDrawablePropList"
+    "propList": "child CompositeDrawablePropList",
+    "skins": "child CompositeDrawableSkinList",
+    "effects": "child CompositeDrawableEffectList"
   },
 
   "CompositeDrawablePropList": {
@@ -783,5 +785,53 @@
     "name": "string",
     "factoryName": "string",
     "startAnimation": "u32"
+  },
+
+  "FollowCameraData": {
+    "index": "u32",
+    "yaw": "float",
+    "pitch": "float",
+    "distance": "float",
+    "offset": "vec3"
+  },
+
+  "PhysicsObject": {
+    "version": "u32",
+    "name": "string",
+    "materialName": "string",
+    "numJoints": "u32",
+    "volume": "float",
+    "sensitivity": "float",
+    "joints": "children PhysicsJoint"
+  },
+
+  "PhysicsJoint": {
+    "index": "u32",
+    "volume": "float",
+    "stiffness": "float",
+    "minAngle": "float",
+    "maxAngle": "float",
+    "DOF": "float",
+    "vector": "child<vec3> PhysicsVector",
+    "inertiaMatrix": "child PhysicsInertiaMatrix"
+  },
+
+  "PhysicsVector": {
+    "value": "vec3"
+  },
+
+  "PhysicsInertiaMatrix": {
+    "position": "vec3",
+    "forward": "vec3",
+    "right": "vec3",
+    "up": "vec3"
+  },
+
+  "CompositeDrawableSkinList": {
+    "numSkins": "u32"
+  },
+
+  "CompositeDrawableEffectList": {
+    "numSkins": "u32"
   }
 }

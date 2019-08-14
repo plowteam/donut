@@ -986,6 +986,16 @@ namespace Donut::P3D
                         _propList = std::make_unique<CompositeDrawablePropList>(*child);
                         break;
                     }
+                case ChunkType::CompositeDrawableSkinList:
+                    {
+                        _skins = std::make_unique<CompositeDrawableSkinList>(*child);
+                        break;
+                    }
+                case ChunkType::CompositeDrawableEffectList:
+                    {
+                        _effects = std::make_unique<CompositeDrawableEffectList>(*child);
+                        break;
+                    }
                 default:
                     break;
             }
@@ -2185,5 +2195,113 @@ namespace Donut::P3D
         _name = stream.ReadLPString();
         _factoryName = stream.ReadLPString();
         _startAnimation = stream.Read<uint32_t>();
+    }
+
+    FollowCameraData::FollowCameraData(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::FollowCameraData));
+
+        MemoryStream stream(chunk.GetData());
+        _index = stream.Read<uint32_t>();
+        _yaw = stream.Read<float>();
+        _pitch = stream.Read<float>();
+        _distance = stream.Read<float>();
+        _offset = stream.Read<glm::vec3>();
+    }
+
+    PhysicsObject::PhysicsObject(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::PhysicsObject));
+
+        MemoryStream stream(chunk.GetData());
+        _version = stream.Read<uint32_t>();
+        _name = stream.ReadLPString();
+        _materialName = stream.ReadLPString();
+        _numJoints = stream.Read<uint32_t>();
+        _volume = stream.Read<float>();
+        _sensitivity = stream.Read<float>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::PhysicsJoint:
+                    {
+                        _joints.push_back(std::make_unique<PhysicsJoint>(*child));
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    PhysicsJoint::PhysicsJoint(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::PhysicsJoint));
+
+        MemoryStream stream(chunk.GetData());
+        _index = stream.Read<uint32_t>();
+        _volume = stream.Read<float>();
+        _stiffness = stream.Read<float>();
+        _minAngle = stream.Read<float>();
+        _maxAngle = stream.Read<float>();
+        _DOF = stream.Read<float>();
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            MemoryStream data(child->GetData());
+
+            switch (child->GetType())
+            {
+                case ChunkType::PhysicsVector:
+                    {
+                        _vector = data.Read<glm::vec3>();
+                        break;
+                    }
+                case ChunkType::PhysicsInertiaMatrix:
+                    {
+                        _inertiaMatrix = std::make_unique<PhysicsInertiaMatrix>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    PhysicsVector::PhysicsVector(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::PhysicsVector));
+
+        MemoryStream stream(chunk.GetData());
+        _value = stream.Read<glm::vec3>();
+    }
+
+    PhysicsInertiaMatrix::PhysicsInertiaMatrix(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::PhysicsInertiaMatrix));
+
+        MemoryStream stream(chunk.GetData());
+        _position = stream.Read<glm::vec3>();
+        _forward = stream.Read<glm::vec3>();
+        _right = stream.Read<glm::vec3>();
+        _up = stream.Read<glm::vec3>();
+    }
+
+    CompositeDrawableSkinList::CompositeDrawableSkinList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CompositeDrawableSkinList));
+
+        MemoryStream stream(chunk.GetData());
+        _numSkins = stream.Read<uint32_t>();
+    }
+
+    CompositeDrawableEffectList::CompositeDrawableEffectList(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::CompositeDrawableEffectList));
+
+        MemoryStream stream(chunk.GetData());
+        _numSkins = stream.Read<uint32_t>();
     }
 }

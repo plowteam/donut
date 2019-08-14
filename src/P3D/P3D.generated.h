@@ -129,6 +129,13 @@ namespace Donut::P3D
 	class History;
 	class BreakableObject;
 	class AnimatedObject;
+	class FollowCameraData;
+	class PhysicsObject;
+	class PhysicsJoint;
+	class PhysicsVector;
+	class PhysicsInertiaMatrix;
+	class CompositeDrawableSkinList;
+	class CompositeDrawableEffectList;
 
     class Animation
     {
@@ -1127,12 +1134,16 @@ namespace Donut::P3D
         const std::string& GetName() const { return _name; }
         const std::string& GetSkeletonName() const { return _skeletonName; }
         const std::unique_ptr<CompositeDrawablePropList>& GetPropList() const { return _propList; }
+        const std::unique_ptr<CompositeDrawableSkinList>& GetSkins() const { return _skins; }
+        const std::unique_ptr<CompositeDrawableEffectList>& GetEffects() const { return _effects; }
 
     private:
 
         std::string _name;
         std::string _skeletonName;
         std::unique_ptr<CompositeDrawablePropList> _propList;
+        std::unique_ptr<CompositeDrawableSkinList> _skins;
+        std::unique_ptr<CompositeDrawableEffectList> _effects;
 
     };
 
@@ -2497,6 +2508,158 @@ namespace Donut::P3D
         std::string _name;
         std::string _factoryName;
         uint32_t _startAnimation;
+
+    };
+
+    class FollowCameraData
+    {
+    public:
+
+        FollowCameraData(const P3DChunk&);
+
+        static std::unique_ptr<FollowCameraData> Load(const P3DChunk& chunk) { return std::make_unique<FollowCameraData>(chunk); }
+
+        const uint32_t& GetIndex() const { return _index; }
+        const float& GetYaw() const { return _yaw; }
+        const float& GetPitch() const { return _pitch; }
+        const float& GetDistance() const { return _distance; }
+        const glm::vec3& GetOffset() const { return _offset; }
+
+    private:
+
+        uint32_t _index;
+        float _yaw;
+        float _pitch;
+        float _distance;
+        glm::vec3 _offset;
+
+    };
+
+    class PhysicsObject
+    {
+    public:
+
+        PhysicsObject(const P3DChunk&);
+
+        static std::unique_ptr<PhysicsObject> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsObject>(chunk); }
+
+        const uint32_t& GetVersion() const { return _version; }
+        const std::string& GetName() const { return _name; }
+        const std::string& GetMaterialName() const { return _materialName; }
+        const uint32_t& GetNumJoints() const { return _numJoints; }
+        const float& GetVolume() const { return _volume; }
+        const float& GetSensitivity() const { return _sensitivity; }
+        const std::vector<std::unique_ptr<PhysicsJoint>>& GetJoints() const { return _joints; }
+
+    private:
+
+        uint32_t _version;
+        std::string _name;
+        std::string _materialName;
+        uint32_t _numJoints;
+        float _volume;
+        float _sensitivity;
+        std::vector<std::unique_ptr<PhysicsJoint>> _joints;
+
+    };
+
+    class PhysicsJoint
+    {
+    public:
+
+        PhysicsJoint(const P3DChunk&);
+
+        static std::unique_ptr<PhysicsJoint> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsJoint>(chunk); }
+
+        const uint32_t& GetIndex() const { return _index; }
+        const float& GetVolume() const { return _volume; }
+        const float& GetStiffness() const { return _stiffness; }
+        const float& GetMinAngle() const { return _minAngle; }
+        const float& GetMaxAngle() const { return _maxAngle; }
+        const float& GetDOF() const { return _DOF; }
+        const glm::vec3& GetVector() const { return _vector; }
+        const std::unique_ptr<PhysicsInertiaMatrix>& GetInertiaMatrix() const { return _inertiaMatrix; }
+
+    private:
+
+        uint32_t _index;
+        float _volume;
+        float _stiffness;
+        float _minAngle;
+        float _maxAngle;
+        float _DOF;
+        glm::vec3 _vector;
+        std::unique_ptr<PhysicsInertiaMatrix> _inertiaMatrix;
+
+    };
+
+    class PhysicsVector
+    {
+    public:
+
+        PhysicsVector(const P3DChunk&);
+
+        static std::unique_ptr<PhysicsVector> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsVector>(chunk); }
+
+        const glm::vec3& GetValue() const { return _value; }
+
+    private:
+
+        glm::vec3 _value;
+
+    };
+
+    class PhysicsInertiaMatrix
+    {
+    public:
+
+        PhysicsInertiaMatrix(const P3DChunk&);
+
+        static std::unique_ptr<PhysicsInertiaMatrix> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsInertiaMatrix>(chunk); }
+
+        const glm::vec3& GetPosition() const { return _position; }
+        const glm::vec3& GetForward() const { return _forward; }
+        const glm::vec3& GetRight() const { return _right; }
+        const glm::vec3& GetUp() const { return _up; }
+
+    private:
+
+        glm::vec3 _position;
+        glm::vec3 _forward;
+        glm::vec3 _right;
+        glm::vec3 _up;
+
+    };
+
+    class CompositeDrawableSkinList
+    {
+    public:
+
+        CompositeDrawableSkinList(const P3DChunk&);
+
+        static std::unique_ptr<CompositeDrawableSkinList> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableSkinList>(chunk); }
+
+        const uint32_t& GetNumSkins() const { return _numSkins; }
+
+    private:
+
+        uint32_t _numSkins;
+
+    };
+
+    class CompositeDrawableEffectList
+    {
+    public:
+
+        CompositeDrawableEffectList(const P3DChunk&);
+
+        static std::unique_ptr<CompositeDrawableEffectList> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableEffectList>(chunk); }
+
+        const uint32_t& GetNumSkins() const { return _numSkins; }
+
+    private:
+
+        uint32_t _numSkins;
 
     };
 }
