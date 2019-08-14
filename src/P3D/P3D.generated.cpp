@@ -1098,6 +1098,16 @@ namespace Donut::P3D
         }
     }
 
+    ImageData::ImageData(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::ImageData));
+
+        MemoryStream stream(chunk.GetData());
+        _size = stream.Read<uint32_t>();
+        _data.resize(_size);
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_data.data()), _data.size() * sizeof(uint8_t));
+    }
+
     TextureFont::TextureFont(const P3DChunk& chunk)
     {
         assert(chunk.IsType(ChunkType::TextureFont));

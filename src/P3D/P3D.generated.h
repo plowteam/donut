@@ -73,6 +73,7 @@ namespace Donut::P3D
 	class BillboardPerspectiveInfo;
 	class Texture;
 	class Image;
+	class ImageData;
 	class TextureFont;
 	class Sprite;
 	class FrontendScreen;
@@ -1179,6 +1180,24 @@ namespace Donut::P3D
         uint32_t _palettized;
         uint32_t _hasAlpha;
         uint32_t _format;
+        std::vector<uint8_t> _data;
+
+    };
+
+    class ImageData
+    {
+    public:
+
+        ImageData(const P3DChunk&);
+
+        static std::unique_ptr<ImageData> Load(const P3DChunk& chunk) { return std::make_unique<ImageData>(chunk); }
+
+        const uint32_t& GetSize() const { return _size; }
+        const std::vector<uint8_t>& GetData() const { return _data; }
+
+    private:
+
+        uint32_t _size;
         std::vector<uint8_t> _data;
 
     };

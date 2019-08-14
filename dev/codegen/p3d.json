@@ -360,6 +360,11 @@
     "data": "buffer<u8> ImageData"
   },
 
+  "ImageData": {
+    "size": "u32",
+    "data": "buffer<u8[size]>"
+  },
+
   "TextureFont": {
     "version": "u32",
     "name": "string",
