@@ -2302,6 +2302,6 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::CompositeDrawableEffectList));
 
         MemoryStream stream(chunk.GetData());
-        _numSkins = stream.Read<uint32_t>();
+        _numEffects = stream.Read<uint32_t>();
     }
 }

@@ -97,7 +97,7 @@
 ## CompositeDrawableEffectList `0x4517`
 |Name|Type|
 |--|--|
-|`numSkins`|`u32`|
+|`numEffects`|`u32`|
 
 ## CompositeDrawableSortOrder `0x4519`
 |Name|Type|

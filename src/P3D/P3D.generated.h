@@ -2655,11 +2655,11 @@ namespace Donut::P3D
 
         static std::unique_ptr<CompositeDrawableEffectList> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableEffectList>(chunk); }
 
-        const uint32_t& GetNumSkins() const { return _numSkins; }
+        const uint32_t& GetNumEffects() const { return _numEffects; }
 
     private:
 
-        uint32_t _numSkins;
+        uint32_t _numEffects;
 
     };
 }
