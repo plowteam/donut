@@ -1,4 +1,4 @@
-# Chunks (91 / 182)
+# Chunks (93 / 182)
 
 ## Animation `0x121000`
 |Name|Type|
@@ -14,6 +14,16 @@
 |Name|Chunk|
 |--|--|
 |`groupList`|`AnimationGroupList`|
+|`size`|`AnimationSize`|
+
+## AnimationSize `0x121004`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`PC`|`u32`|
+|`PS2`|`u32`|
+|`XBOX`|`u32`|
+|`GC`|`u32`|
 
 ## AnimationGroupList `0x121002`
 |Name|Type|
@@ -42,6 +52,12 @@
 |`quaternionChannels`|`QuaternionChannel[]`|
 |`compressedQuaternionChannels`|`CompressedQuaternionChannel[]`|
 
+## ChannelInterpolationMode `0x121110`
+|Name|Type|
+|--|--|
+|`version`|`u32`|
+|`mode`|`u32`|
+
 ## Vector2Channel `0x121103`
 |Name|Type|
 |--|--|
@@ -53,6 +69,11 @@
 |`frames`|`u16[numFrames]`|
 |`values`|`vec2[numFrames]`|
 
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
+
 ## Vector3Channel `0x121104`
 |Name|Type|
 |--|--|
@@ -61,6 +82,11 @@
 |`numFrames`|`u32`|
 |`frames`|`u16[numFrames]`|
 |`values`|`vec3[numFrames]`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
 
 ## QuaternionChannel `0x121105`
 |Name|Type|
@@ -71,6 +97,11 @@
 |`frames`|`u16[numFrames]`|
 |`values`|`quat[numFrames]`|
 
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
+
 ## CompressedQuaternionChannel `0x121111`
 |Name|Type|
 |--|--|
@@ -79,6 +110,11 @@
 |`numFrames`|`u32`|
 |`frames`|`u16[numFrames]`|
 |`values`|`u64[numFrames]`|
+
+### Children
+|Name|Chunk|
+|--|--|
+|`interpolationMode`|`ChannelInterpolationMode`|
 
 ## Mesh `0x10000`
 |Name|Type|
@@ -1004,7 +1040,7 @@
 |`noReset`|`u8`|
 |`todo3`|`u8`|
 
-# TODO Chunks (91 / 182)
+# TODO Chunks (89 / 182)
 #### LightGroup `0x2380`
 #### CompositeDrawableSkinList `0x4513`
 #### CompositeDrawableSkin `0x4515`
@@ -1050,7 +1086,6 @@
 #### FontGlyphs `0x22001`
 #### SceneGraphVisibility `0x120104`
 #### SceneGraphLightGroup `0x120109`
-#### AnimationSize `0x121004`
 #### AnimationHeader `0x121006`
 #### Float1Channel `0x121100`
 #### Float2Channel `0x121101`
@@ -1059,7 +1094,6 @@
 #### BoolChannel `0x121108`
 #### Color `0x121109`
 #### IntChannel `0x12110E`
-#### ChannelInterpolationMode `0x121110`
 #### FrameController `0x121200`
 #### FrameController2 `0x121201`
 #### MultiController2 `0x121202`

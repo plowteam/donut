@@ -6,7 +6,16 @@
     "numFrames": "float",
     "frameRate": "float",
     "looping": "u32",
-    "groupList": "child AnimationGroupList"
+    "groupList": "child AnimationGroupList",
+    "size": "child AnimationSize"
+  },
+
+  "AnimationSize": {
+    "version": "u32",
+    "PC": "u32",
+    "PS2": "u32",
+    "XBOX": "u32",
+    "GC": "u32"
   },
 
   "AnimationGroupList": {
@@ -26,6 +35,11 @@
     "compressedQuaternionChannels": "dictionary<string param> CompressedQuaternionChannel"
   },
 
+  "ChannelInterpolationMode": {
+    "version": "u32",
+    "mode": "u32"
+  },
+
   "Vector2Channel": {
     "version": "u32",
     "param": "string[4]",
@@ -33,7 +47,8 @@
     "constants": "vec3",
     "numFrames": "u32",
     "frames": "buffer<u16[numFrames]>",
-    "values": "buffer<vec2[numFrames]>"
+    "values": "buffer<vec2[numFrames]>",
+    "interpolationMode": "child ChannelInterpolationMode"
   },
 
   "Vector3Channel": {
@@ -41,7 +56,8 @@
     "param": "string[4]",
     "numFrames": "u32",
     "frames": "buffer<u16[numFrames]>",
-    "values": "buffer<vec3[numFrames]>"
+    "values": "buffer<vec3[numFrames]>",
+    "interpolationMode": "child ChannelInterpolationMode"
   },
 
   "QuaternionChannel": {
@@ -49,7 +65,8 @@
     "param": "string[4]",
     "numFrames": "u32",
     "frames": "buffer<u16[numFrames]>",
-    "values": "buffer<quat[numFrames]>"
+    "values": "buffer<quat[numFrames]>",
+    "interpolationMode": "child ChannelInterpolationMode"
   },
 
   "CompressedQuaternionChannel": {
@@ -57,7 +74,8 @@
     "param": "string[4]",
     "numFrames": "u32",
     "frames": "buffer<u16[numFrames]>",
-    "values": "buffer<u64[numFrames]>"
+    "values": "buffer<u64[numFrames]>",
+    "interpolationMode": "child ChannelInterpolationMode"
   },
 
   "Mesh": {

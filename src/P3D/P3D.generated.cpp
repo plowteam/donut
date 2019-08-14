@@ -41,10 +41,27 @@ namespace Donut::P3D
                         _groupList = std::make_unique<AnimationGroupList>(*child);
                         break;
                     }
+                case ChunkType::AnimationSize:
+                    {
+                        _size = std::make_unique<AnimationSize>(*child);
+                        break;
+                    }
                 default:
                     break;
             }
         }
+    }
+
+    AnimationSize::AnimationSize(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::AnimationSize));
+
+        MemoryStream stream(chunk.GetData());
+        _version = stream.Read<uint32_t>();
+        _PC = stream.Read<uint32_t>();
+        _PS2 = stream.Read<uint32_t>();
+        _XBOX = stream.Read<uint32_t>();
+        _GC = stream.Read<uint32_t>();
     }
 
     AnimationGroupList::AnimationGroupList(const P3DChunk& chunk)
@@ -114,6 +131,15 @@ namespace Donut::P3D
         }
     }
 
+    ChannelInterpolationMode::ChannelInterpolationMode(const P3DChunk& chunk)
+    {
+        assert(chunk.IsType(ChunkType::ChannelInterpolationMode));
+
+        MemoryStream stream(chunk.GetData());
+        _version = stream.Read<uint32_t>();
+        _mode = stream.Read<uint32_t>();
+    }
+
     Vector2Channel::Vector2Channel(const P3DChunk& chunk)
     {
         assert(chunk.IsType(ChunkType::Vector2Channel));
@@ -128,6 +154,20 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec2));
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::ChannelInterpolationMode:
+                    {
+                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
     }
 
     Vector3Channel::Vector3Channel(const P3DChunk& chunk)
@@ -142,6 +182,20 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec3));
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::ChannelInterpolationMode:
+                    {
+                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
     }
 
     QuaternionChannel::QuaternionChannel(const P3DChunk& chunk)
@@ -156,6 +210,20 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::quat));
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::ChannelInterpolationMode:
+                    {
+                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
     }
 
     CompressedQuaternionChannel::CompressedQuaternionChannel(const P3DChunk& chunk)
@@ -170,6 +238,20 @@ namespace Donut::P3D
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(uint64_t));
+
+        for (auto const& child : chunk.GetChildren())
+        {
+            switch (child->GetType())
+            {
+                case ChunkType::ChannelInterpolationMode:
+                    {
+                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
     }
 
     Mesh::Mesh(const P3DChunk& chunk)

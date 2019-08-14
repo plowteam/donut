@@ -30,8 +30,10 @@
 namespace Donut::P3D
 {
 	class Animation;
+	class AnimationSize;
 	class AnimationGroupList;
 	class AnimationGroup;
+	class ChannelInterpolationMode;
 	class Vector2Channel;
 	class Vector3Channel;
 	class QuaternionChannel;
@@ -136,6 +138,7 @@ namespace Donut::P3D
         const float& GetFrameRate() const { return _frameRate; }
         const uint32_t& GetLooping() const { return _looping; }
         const std::unique_ptr<AnimationGroupList>& GetGroupList() const { return _groupList; }
+        const std::unique_ptr<AnimationSize>& GetSize() const { return _size; }
 
     private:
 
@@ -146,6 +149,31 @@ namespace Donut::P3D
         float _frameRate;
         uint32_t _looping;
         std::unique_ptr<AnimationGroupList> _groupList;
+        std::unique_ptr<AnimationSize> _size;
+
+    };
+
+    class AnimationSize
+    {
+    public:
+
+        AnimationSize(const P3DChunk&);
+
+        static std::unique_ptr<AnimationSize> Load(const P3DChunk& chunk) { return std::make_unique<AnimationSize>(chunk); }
+
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetPC() const { return _PC; }
+        const uint32_t& GetPS2() const { return _PS2; }
+        const uint32_t& GetXBOX() const { return _XBOX; }
+        const uint32_t& GetGC() const { return _GC; }
+
+    private:
+
+        uint32_t _version;
+        uint32_t _PC;
+        uint32_t _PS2;
+        uint32_t _XBOX;
+        uint32_t _GC;
 
     };
 
@@ -199,6 +227,24 @@ namespace Donut::P3D
 
     };
 
+    class ChannelInterpolationMode
+    {
+    public:
+
+        ChannelInterpolationMode(const P3DChunk&);
+
+        static std::unique_ptr<ChannelInterpolationMode> Load(const P3DChunk& chunk) { return std::make_unique<ChannelInterpolationMode>(chunk); }
+
+        const uint32_t& GetVersion() const { return _version; }
+        const uint32_t& GetMode() const { return _mode; }
+
+    private:
+
+        uint32_t _version;
+        uint32_t _mode;
+
+    };
+
     class Vector2Channel
     {
     public:
@@ -214,6 +260,7 @@ namespace Donut::P3D
         const uint32_t& GetNumFrames() const { return _numFrames; }
         const std::vector<uint16_t>& GetFrames() const { return _frames; }
         const std::vector<glm::vec2>& GetValues() const { return _values; }
+        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
 
     private:
 
@@ -224,6 +271,7 @@ namespace Donut::P3D
         uint32_t _numFrames;
         std::vector<uint16_t> _frames;
         std::vector<glm::vec2> _values;
+        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
 
     };
 
@@ -240,6 +288,7 @@ namespace Donut::P3D
         const uint32_t& GetNumFrames() const { return _numFrames; }
         const std::vector<uint16_t>& GetFrames() const { return _frames; }
         const std::vector<glm::vec3>& GetValues() const { return _values; }
+        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
 
     private:
 
@@ -248,6 +297,7 @@ namespace Donut::P3D
         uint32_t _numFrames;
         std::vector<uint16_t> _frames;
         std::vector<glm::vec3> _values;
+        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
 
     };
 
@@ -264,6 +314,7 @@ namespace Donut::P3D
         const uint32_t& GetNumFrames() const { return _numFrames; }
         const std::vector<uint16_t>& GetFrames() const { return _frames; }
         const std::vector<glm::quat>& GetValues() const { return _values; }
+        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
 
     private:
 
@@ -272,6 +323,7 @@ namespace Donut::P3D
         uint32_t _numFrames;
         std::vector<uint16_t> _frames;
         std::vector<glm::quat> _values;
+        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
 
     };
 
@@ -288,6 +340,7 @@ namespace Donut::P3D
         const uint32_t& GetNumFrames() const { return _numFrames; }
         const std::vector<uint16_t>& GetFrames() const { return _frames; }
         const std::vector<uint64_t>& GetValues() const { return _values; }
+        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
 
     private:
 
@@ -296,6 +349,7 @@ namespace Donut::P3D
         uint32_t _numFrames;
         std::vector<uint16_t> _frames;
         std::vector<uint64_t> _values;
+        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
 
     };
 
