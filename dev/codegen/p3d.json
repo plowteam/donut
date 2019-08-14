@@ -832,6 +832,6 @@
   },
 
   "CompositeDrawableEffectList": {
-    "numSkins": "u32"
+    "numEffects": "u32"
   }
 }
