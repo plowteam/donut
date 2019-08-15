@@ -170,7 +170,7 @@ void WorldSphere::Update(double deltatime)
 	if (_animation != nullptr)
 		_skeleton->UpdatePose(*_animation, _animTime);
 
-	Game::GetInstance().GetLineRenderer().DrawSkeleton(glm::vec3(0.0, 0.0, 0.0), *_skeleton);
+	//Game::GetInstance().GetLineRenderer().DrawSkeleton(glm::vec3(0.0, 0.0, 0.0), *_skeleton);
 }
 
 } // namespace Donut

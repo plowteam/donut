@@ -59,7 +59,6 @@ public:
 	};
 
 	std::vector<Path> _paths;
-	std::unique_ptr<LineRenderer> _lineRenderer;
 };
 
 } // namespace Donut

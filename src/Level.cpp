@@ -26,8 +26,6 @@ Level::Level()
 	_worldInstancedShader = std::make_unique<GL::ShaderProgram>(worldInstancedVertSrc, worldFragSrc);
 	_billboardBatchShader = std::make_unique<GL::ShaderProgram>(billboardBatchVertSrc, worldFragSrc);
 
-	_lineRenderer = std::make_unique<LineRenderer>(1000000);
-
 	// todo: move this into Game.cpp or something else ?
 	/*std::array<std::string, 7> carFiles {
 		"art/cars/mrplo_v.p3d",
@@ -343,26 +341,6 @@ void Level::Draw(glm::mat4& viewProj)
 
 	for (const auto& ent : _instances)
 		ent->Draw(*_worldInstancedShader, false);
-
-	for (const auto& path : _paths)
-	{
-		for (size_t i = 0; i < path.points.size() - 1; ++i)
-		{
-			const auto& start = path.points[i];
-			const auto& end   = path.points[i + 1];
-
-			_lineRenderer->DrawAABBox(start - glm::vec3(0.1f), start + glm::vec3(0.1f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-			if (i == (path.points.size() - 2))
-			{
-				_lineRenderer->DrawAABBox(end - glm::vec3(0.1f), end + glm::vec3(0.1f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-			}
-			_lineRenderer->DrawLine(start, end, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-		}
-	}
-
-	glDisable(GL_DEPTH_TEST);
-	_lineRenderer->Flush(viewProj);
-	glEnable(GL_DEPTH_TEST);
 }
 
 } // namespace Donut
