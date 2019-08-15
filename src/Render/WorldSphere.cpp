@@ -1,6 +1,10 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
+#include <Game.h>
+#include <Render/LineRenderer.h>
+#include <Render/SkinAnimation.h>
 #include <Render/WorldSphere.h>
+#include <Skeleton.h>
 
 namespace Donut
 {
@@ -8,24 +12,111 @@ namespace Donut
 WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
     _name(worldSphere.GetName())
 {
-	auto meshes = std::vector<std::unique_ptr<Mesh>>(worldSphere.GetMeshCount());
-	auto billboards = std::vector<std::unique_ptr<BillboardBatch>>(worldSphere.GetBillboardCount());
-	
-	for (auto const& mesh : worldSphere.GetMeshes())
-		meshes.emplace_back(std::make_unique<Mesh>(*mesh))->Commit();
+	auto meshes     = std::unordered_map<std::string, std::unique_ptr<Mesh>>(worldSphere.GetMeshCount());
+	auto billboards = std::unordered_map<std::string, std::unique_ptr<BillboardBatch>>(worldSphere.GetBillboardCount());
 
-	for (auto const& billboard : worldSphere.GetBillboards())
-		billboards.emplace_back(std::make_unique<BillboardBatch>(*billboard));
-	
-	// worldSphere.GetCompositeDrawable
-
-	/*auto const& p3dMeshes = worldSphere.GetMeshes();
-	for (auto& p3dMesh : p3dMeshes)
+	for (auto const& p3dmesh : worldSphere.GetMeshes())
 	{
-		auto mesh = std::make_unique<Mesh>(*p3dMesh);
+		auto mesh = std::make_unique<Mesh>(*p3dmesh);
 		mesh->Commit();
-		_meshes.push_back(std::move(mesh));
-	}*/
+		meshes[p3dmesh->GetName()] = std::move(mesh);
+	}
+	
+	//for (auto const& billboard : worldSphere.GetBillboards())
+	//	billboards.emplace_back(std::make_unique<BillboardBatch>(*billboard));
+
+	auto const& compositeDrawableList = worldSphere.GetCompositeDrawable()->GetPropList()->GetProps();
+	for (auto const& p3dprop : compositeDrawableList)
+	{
+		if (meshes.find(p3dprop->GetName()) == meshes.end())
+			continue;
+
+		_props.emplace_back(std::move(meshes.at(p3dprop->GetName())), p3dprop->GetSkeletonJoint());
+	}
+
+	// should be horizon1
+	_skeleton = std::make_unique<Skeleton>(*worldSphere.GetSkeletons()[0]);
+
+	// load animation
+	auto const& p3dAnim = *worldSphere.GetAnimation();
+	_animation          = std::make_unique<SkinAnimation>(
+        p3dAnim.GetName(),
+        p3dAnim.GetNumFrames() / p3dAnim.GetFrameRate(),
+        static_cast<int32_t>(p3dAnim.GetNumFrames()),
+        p3dAnim.GetFrameRate());
+
+	const auto& animGroupList = p3dAnim.GetGroupList();
+	const auto& groups        = animGroupList->GetGroups();
+	std::map<std::string, size_t> groupNameIndex;
+	for (const auto& group : groups)
+	{
+		groupNameIndex.insert({ group->GetName(), groupNameIndex.size() });
+	}
+
+	for (auto const& joint : _skeleton->GetJoints())
+	{
+		auto track = std::make_unique<SkinAnimation::Track>(joint.name);
+
+		const auto& jointRestPose    = joint.rest;
+		const auto& jointTranslation = jointRestPose[3];
+		const auto& jointRotation    = glm::quat_cast(jointRestPose);
+
+		if (groupNameIndex.find(joint.name) == groupNameIndex.end())
+		{
+			track->AddTranslationKey(0, jointTranslation);
+			track->AddRotationKey(0, jointRotation);
+		}
+		else
+		{
+			const auto& animGroup                   = groups.at(groupNameIndex.at(joint.name));
+			const auto& vector2Channel              = animGroup->GetVector2ChannelsValue("TRAN");
+			const auto& vector3Channel              = animGroup->GetVector3ChannelsValue("TRAN");
+			const auto& quaternionChannel           = animGroup->GetQuaternionChannelsValue("ROT");
+			const auto& compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannelsValue("ROT");
+
+			if (vector3Channel)
+			{
+				const auto& frames = vector3Channel->GetFrames();
+				const auto& values = vector3Channel->GetValues();
+
+				for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
+				{
+					track->AddTranslationKey(frames[i], values[i]);
+				}
+			}
+			else
+			{
+				track->AddTranslationKey(0, jointTranslation);
+			}
+
+			if (compressedQuaternionChannel)
+			{
+				const auto& frames = compressedQuaternionChannel->GetFrames();
+				const auto& values = compressedQuaternionChannel->GetValues();
+
+				for (std::size_t i = 0; i < compressedQuaternionChannel->GetNumFrames(); ++i)
+				{
+					const uint64_t& value = values[i];
+					float z               = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
+					float y               = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
+					float x               = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
+					float w               = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
+
+					track->AddRotationKey(frames[i], glm::quat(w, x, y, z));
+				}
+			}
+			else
+			{
+				track->AddRotationKey(0, jointRotation);
+			}
+		}
+
+		_animation->AddTrack(track);
+	}
+
+	_animTime = 0.0;
+
+	// worldSphere.GetCompositeDrawable
 
 	// Animation
 	// Skeleton
@@ -40,8 +131,18 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 
 void WorldSphere::Draw(GL::ShaderProgram& shader, bool opaque) const
 {
-	for (auto const& mesh : _meshes)
-		mesh->Draw(shader, opaque);
+	for (auto const& prop : _props)
+		prop.mesh->Draw(shader, opaque);
+}
+
+void WorldSphere::Update(double deltatime)
+{
+	_animTime += deltatime;
+
+	if (_animation != nullptr)
+		_skeleton->UpdatePose(*_animation, _animTime);
+
+	Game::GetInstance().GetLineRenderer().DrawSkeleton(glm::vec3(0.0, 0.0, 0.0), *_skeleton);
 }
 
 } // namespace Donut

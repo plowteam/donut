@@ -29,6 +29,7 @@ class Level
 public:
 	Level();
 
+	void Update(double deltatime);
 	void Draw(glm::mat4& viewProj);
 	void LoadP3D(const std::string& filename);
 

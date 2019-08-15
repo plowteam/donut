@@ -54,6 +54,7 @@ class Game
 
 	ResourceManager& GetResourceManager() { return *_resourceManager; }
 	WorldPhysics& GetWorldPhysics() { return *_worldPhysics; }
+	LineRenderer& GetLineRenderer() { return *_lineRenderer; }
 
 	void LockMouse(bool lockMouse);
 

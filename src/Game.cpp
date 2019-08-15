@@ -375,6 +375,7 @@ void Game::Run()
 		_worldPhysics->Update(static_cast<float>(deltaTime));
 
 		_lineRenderer->DrawSkeleton(_character->GetPosition(), _character->GetSkeleton());
+		_level->Update(deltaTime);
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
