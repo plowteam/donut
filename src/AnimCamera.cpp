@@ -54,28 +54,6 @@ namespace Donut
 						}
 					}
 
-					if (const auto& vector3Channel = group->GetVector3ChannelsValue("LOOK"))
-					{
-						const auto& frames = vector3Channel->GetFrames();
-						const auto& values = vector3Channel->GetValues();
-
-						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
-						{
-							forwardTrack->AddDirectionKey(frames[i], glm::normalize(values[i]));
-						}
-					}
-
-					if (const auto& vector3Channel = group->GetVector3ChannelsValue("UP"))
-					{
-						const auto& frames = vector3Channel->GetFrames();
-						const auto& values = vector3Channel->GetValues();
-
-						for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
-						{
-							upTrack->AddDirectionKey(frames[i], glm::normalize(values[i]));
-						}
-					}
-
 					_trans->AddTrack(transTrack);
 					_forward->AddTrack(forwardTrack);
 					_up->AddTrack(upTrack);
@@ -115,15 +93,16 @@ namespace Donut
 
 	glm::mat4 AnimCamera::Update(double dt)
 	{
-		const auto& trans = _trans->Evaluate(0, (float)_time);
-		const auto& forward = _forward->EvaluateDirection(0, (float)_time);
-		const auto& up = glm::vec3(0, 1, 0);
-		const auto& right = glm::normalize(glm::cross(up, forward));
-		glm::mat3 rotation(right.x, up.x, forward.x, right.y, up.y, forward.y, right.z, up.z, forward.z);
-		auto lookAt = glm::quat_cast(rotation);
+		return glm::mat4(1.0f);
+		//const auto& trans = _trans->Evaluate(0, (float)_time);
+		//const auto& forward = _forward->EvaluateDirection(0, (float)_time);
+		//const auto& up = glm::vec3(0, 1, 0);
+		//const auto& right = glm::normalize(glm::cross(up, forward));
+		//glm::mat3 rotation(right.x, up.x, forward.x, right.y, up.y, forward.y, right.z, up.z, forward.z);
+		//auto lookAt = glm::quat_cast(rotation);
 
-		_time += dt;
+		//_time += dt;
 
-		return glm::toMat4(lookAt) * glm::translate(glm::mat4(1.0f), -glm::vec3(trans[3]));
+		//return glm::toMat4(lookAt) * glm::translate(glm::mat4(1.0f), -glm::vec3(trans[3]));
 	}
 }

@@ -297,9 +297,9 @@ void Level::Draw(glm::mat4& viewProj)
 	if (_worldSphere != nullptr)
 	{
 		glDisable(GL_BLEND);
-		_worldSphere->Draw(*_worldShader, true);
+		_worldSphere->Draw(*_worldShader, viewProj, true);
 		glEnable(GL_BLEND);
-		_worldSphere->Draw(*_worldShader, false);
+		_worldSphere->Draw(*_worldShader, viewProj, false);
 	}
 
 	glDisable(GL_BLEND);

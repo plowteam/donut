@@ -43,18 +43,6 @@ public:
 		}
 	};
 
-	class DirectionKey : public ValueKey<glm::vec3>
-	{
-	public:
-		DirectionKey(float time, const glm::vec3& value) :
-			ValueKey(time, value) {}
-
-		virtual glm::vec3 Lerp(const glm::vec3& b, float time) override
-		{		
-			return glm::slerp(glm::quatLookAt(_value, glm::vec3(0, 1, 0)), glm::quatLookAt(b, glm::vec3(0, 1, 0)), time) * glm::vec3(0.0f, 0.0f, 1.0f);
-		}
-	};
-
 	class RotationKey : public ValueKey<glm::quat>
 	{
 	public:
@@ -73,7 +61,6 @@ public:
 	public:
 
 		void AddTranslationKey(float time, const glm::vec3& value) { _keyValues.push_back(std::make_unique<TranslationKey>(time, value)); }
-		void AddDirectionKey(float time, const glm::vec3& value) { _keyValues.push_back(std::make_unique<DirectionKey>(time, value)); }
 		void AddRotationKey(float time, const glm::quat& value) { _keyValues.push_back(std::make_unique<RotationKey>(time, value)); }
 
 		T Evalulate(float time, T defaultValue)
@@ -157,16 +144,13 @@ public:
 			_name(name) {}
 
 		glm::mat4 Evaluate(float time);
-		glm::vec3 EvaluateDirection(float time);
 
 		void AddTranslationKey(float time, const glm::vec3& value) { _translationKeys.AddTranslationKey(time, value); }
-		void AddDirectionKey(float time, const glm::vec3& value) { _directionKeys.AddDirectionKey(time, value); }
 		void AddRotationKey(float time, const glm::quat& value) { _rotationKeys.AddRotationKey(time, value); }
 
 	private:
 		std::string _name;
 		ValueKeyCurve<glm::vec3> _translationKeys;
-		ValueKeyCurve<glm::vec3> _directionKeys;
 		ValueKeyCurve<glm::quat> _rotationKeys;
 	};
 
@@ -174,7 +158,6 @@ public:
 		_name(name), _length(length), _frameCount(frameCount), _frameRate(frameRate) {}
 
 	glm::mat4 Evaluate(size_t trackIndex, float time);
-	glm::vec3 EvaluateDirection(size_t trackIndex, float time);
 
 	void AddTrack(std::unique_ptr<Track>& track) { _tracks.push_back(std::move(track)); }
 	size_t GetNumTracks() const { return _tracks.size(); }

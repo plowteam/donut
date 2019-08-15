@@ -39,10 +39,13 @@ class Skeleton
 
 	const std::string& GetName() { return _name; }
 	const std::vector<Joint>& GetJoints() const { return _joints; }
+	const Joint& GetJoint(const std::string& name) const { return _joints.at(_jointNameIndexMap.at(name)); }
+	const Joint& GetJoint(uint32_t index) const { return _joints.at(index); }
   private:
 	void updateJoints();
 
 	std::string _name;
 	std::vector<Joint> _joints;
+	std::unordered_map<std::string, uint32_t> _jointNameIndexMap;
 };
 } // namespace Donut

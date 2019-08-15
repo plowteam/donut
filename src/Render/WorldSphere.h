@@ -31,7 +31,7 @@ class WorldSphere
   public:
 	WorldSphere(const P3D::WorldSphere&);
 
-	void Draw(GL::ShaderProgram&, bool opaque) const;
+	void Draw(GL::ShaderProgram&, const glm::mat4& viewProj, bool opaque) const;
 	void Update(double deltatime);
 
   private:

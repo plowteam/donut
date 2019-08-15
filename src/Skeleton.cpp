@@ -9,9 +9,13 @@ Skeleton::Skeleton(const P3D::Skeleton& skeleton):
 {
 	assert(skeleton.GetVersion() == 0);
 
+	uint32_t jointIndex = 0;
 	_joints.reserve(skeleton.GetNumJoints());
 	for (const auto& joint : skeleton.GetJoints())
+	{
 		_joints.emplace_back(joint->GetName(), joint->GetParent(), joint->GetRestPose());
+		_jointNameIndexMap[joint->GetName()] = jointIndex++;
+	}
 
 	// calculate global transforms through the hierarchy
 	for (auto i = 0; i < _joints.size(); i++)

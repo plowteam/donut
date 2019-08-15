@@ -74,7 +74,18 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 			const auto& quaternionChannel           = animGroup->GetQuaternionChannelsValue("ROT");
 			const auto& compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannelsValue("ROT");
 
-			if (vector3Channel)
+			if (vector2Channel)
+			{
+				const auto& frames = vector2Channel->GetFrames();
+				const auto& values = vector2Channel->GetValues();
+				const auto& constants = vector2Channel->GetConstants();
+
+				for (std::size_t i = 0; i < vector2Channel->GetNumFrames(); ++i)
+				{
+					track->AddTranslationKey(frames[i], constants + glm::vec3(values[i].x, 0.0f, values[i].y));
+				}
+			}
+			else if (vector3Channel)
 			{
 				const auto& frames = vector3Channel->GetFrames();
 				const auto& values = vector3Channel->GetValues();
@@ -89,7 +100,18 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 				track->AddTranslationKey(0, jointTranslation);
 			}
 
-			if (compressedQuaternionChannel)
+			if (quaternionChannel)
+			{
+				const auto& frames = quaternionChannel->GetFrames();
+				const auto& values = quaternionChannel->GetValues();
+
+				for (std::size_t i = 0; i < quaternionChannel->GetNumFrames(); ++i)
+				{
+					auto q = values[i];
+					track->AddRotationKey(frames[i], glm::quat(q.x, q.y, q.z, q.w));
+				}
+			}
+			else if (compressedQuaternionChannel)
 			{
 				const auto& frames = compressedQuaternionChannel->GetFrames();
 				const auto& values = compressedQuaternionChannel->GetValues();
@@ -129,10 +151,16 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 	// Lens Flare
 }
 
-void WorldSphere::Draw(GL::ShaderProgram& shader, bool opaque) const
+void WorldSphere::Draw(GL::ShaderProgram& shader, const glm::mat4& viewProj, bool opaque) const
 {
 	for (auto const& prop : _props)
+	{
+		const auto& joint = _skeleton->GetJoint(prop.skeleton_joint);
+		shader.SetUniformValue("viewProj", viewProj * joint.finalGlobal);
 		prop.mesh->Draw(shader, opaque);
+	}
+
+	shader.SetUniformValue("viewProj", viewProj);
 }
 
 void WorldSphere::Update(double deltatime)
