@@ -19,21 +19,33 @@ ResourceManager::ResourceManager()
 
 void ResourceManager::LoadTexture(const P3D::Texture& texture)
 {
+	if (_textures.find(texture.GetName()) != _textures.end())
+		fmt::print("Texture {0} already loaded\n", texture.GetName());
+
 	_textures[texture.GetName()] = std::make_shared<Texture>(texture);
 }
 
 void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
 {
+	if (_textures.find(sprite.GetName()) != _textures.end())
+		fmt::print("Sprite {0} already loaded\n", sprite.GetName());
+
 	_textures[sprite.GetName()] = std::make_shared<Texture>(sprite);
 }
 
 void ResourceManager::LoadShader(const P3D::Shader& shader)
 {
+	if (_shaders.find(shader.GetName()) != _shaders.end())
+		fmt::print("Shader {0} already loaded\n", shader.GetName());
+
 	_shaders[shader.GetName()] = std::make_shared<Shader>(shader);
 }
 
 void ResourceManager::LoadSet(const P3D::Set& set)
 {
+	if (_textures.find(set.GetName()) != _textures.end())
+		fmt::print("Set {0} already loaded\n", set.GetName());
+
 	std::srand((uint32_t)std::time(0));
 	int idx = std::rand() % set.GetTextures().size();
 	_textures[set.GetName()] = std::make_unique<Texture>(*set.GetTextures().at(idx));
