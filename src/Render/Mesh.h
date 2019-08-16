@@ -8,12 +8,13 @@
 #include <Render/OpenGL/VertexBinding.h>
 #include <Render/SkinAnimation.h>
 #include <P3D/P3D.generated.h>
-#include <ResourceManager.h>
 #include <glm/glm.hpp>
 #include <string>
 
 namespace Donut
 {
+
+class Shader;
 
 class Mesh
 {

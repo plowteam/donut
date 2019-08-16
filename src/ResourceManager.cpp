@@ -1,12 +1,11 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
 #include <Entity.h>
-#include <ResourceManager.h>
-#include <Render/Texture.h>
 #include <Render/Shader.h>
-
-#include <imgui.h>
+#include <Render/Texture.h>
+#include <ResourceManager.h>
 #include <fmt/format.h>
+#include <imgui.h>
 
 namespace Donut
 {
@@ -47,8 +46,17 @@ void ResourceManager::LoadSet(const P3D::Set& set)
 		fmt::print("Set {0} already loaded\n", set.GetName());
 
 	std::srand((uint32_t)std::time(0));
-	int idx = std::rand() % set.GetTextures().size();
+	int idx                  = std::rand() % set.GetTextures().size();
 	_textures[set.GetName()] = std::make_unique<Texture>(*set.GetTextures().at(idx));
+}
+
+void ResourceManager::LoadGeometry(const P3D::Geometry& geo)
+{
+	if (_geometries.find(geo.GetName()) != _geometries.end())
+		fmt::print("Geometry {0} already loaded\n", geo.GetName());
+
+	auto mesh                  = std::make_shared<Mesh>(geo);
+	_geometries[geo.GetName()] = std::move(mesh);
 }
 
 void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<Texture> texture)
@@ -81,7 +89,7 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 	if (ImGui::BeginTabItem("Textures"))
 	{
 		const ImVec2 windowSize = ImGui::GetWindowSize();
-		int perLine       = static_cast<int>(windowSize.x) / 72;
+		int perLine             = static_cast<int>(windowSize.x) / 72;
 		if (perLine == 0)
 			perLine = 1;
 
@@ -112,7 +120,7 @@ ShaderPtr ResourceManager::GetShader(const std::string& name) const
 	if (_shaders.find(name) == _shaders.end())
 	{
 		fmt::print("could not find shader {0}\n", name);
-		return nullptr; // todo: return an error shader		
+		return nullptr; // todo: return an error shader
 	}
 
 	auto const& shader = _shaders.at(name);
@@ -124,7 +132,7 @@ ShaderPtr ResourceManager::GetShader(const std::string& name) const
 	else
 	{
 		fmt::print("could not find texture {1} for shader {0}\n", name, texName);
-		shader->SetDiffuseTexture(_textures.begin()->second); // todo: set an error texture	
+		shader->SetDiffuseTexture(_textures.begin()->second); // todo: set an error texture
 	}
 
 	return shader;
@@ -138,6 +146,14 @@ std::shared_ptr<Texture> ResourceManager::GetTexture(const std::string& name) co
 	}
 
 	return _textures.at(name);
+}
+
+std::shared_ptr<Mesh> ResourceManager::GetGeometry(const std::string& name) const
+{
+	if (_geometries.find(name) == _geometries.end())
+		return nullptr;
+
+	return _geometries.at(name);
 }
 
 const Font* ResourceManager::GetFont(const std::string& name) const

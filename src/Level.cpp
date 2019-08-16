@@ -66,19 +66,23 @@ void Level::LoadP3D(const std::string& filename)
 
 	const auto p3d = P3D::P3DFile(fullpath);
 
+	auto rm          = Game::GetInstance().GetResourceManager();
 	const auto& root = p3d.GetRoot();
 	for (const auto& chunk : root.GetChildren())
 	{
 		switch (chunk->GetType())
 		{
 		case P3D::ChunkType::Shader:
-			Game::GetInstance().GetResourceManager().LoadShader(*P3D::Shader::Load(*chunk));
+			rm.LoadShader(*P3D::Shader::Load(*chunk));
 			break;
 		case P3D::ChunkType::Texture:
-			Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk));
+			rm.LoadTexture(*P3D::Texture::Load(*chunk));
 			break;
 		case P3D::ChunkType::Set:
-			Game::GetInstance().GetResourceManager().LoadSet(*P3D::Set::Load(*chunk));
+			rm.LoadSet(*P3D::Set::Load(*chunk));
+			break;
+		case P3D::ChunkType::Geometry:
+			rm.LoadGeometry(*P3D::Geometry::Load(*chunk));
 			break;
 		case P3D::ChunkType::StaticEntity:
 			_entities.emplace_back(std::make_unique<StaticEntity>(*P3D::StaticEntity::Load(*chunk)));
