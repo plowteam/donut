@@ -1,6 +1,6 @@
 [submodule "thirdparty/glm"]
 	path = thirdparty/glm
-	url = git@github.com:g-truc/glm.git
+	url = https://github.com/g-truc/glm.git
 [submodule "thirdparty/fmt"]
 	path = thirdparty/fmt
-	url = git@github.com:fmtlib/fmt.git
+	url = https://github.com/fmtlib/fmt.git
