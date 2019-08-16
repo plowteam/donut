@@ -32,7 +32,7 @@ enum class ChunkType : uint32_t
 	ExportInfo = 0x7030,
 	ExportInfoNamedString = 0x7031,
 	ExportInfoNamedInteger = 0x7032,
-	Mesh = 0x10000,
+	Geometry = 0x10000,
 	PolySkin = 0x10001,
 	PrimitiveGroup = 0x10002,
 	BoundingBox = 0x10003,

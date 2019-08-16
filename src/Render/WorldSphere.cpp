@@ -12,10 +12,10 @@ namespace Donut
 WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
     _name(worldSphere.GetName())
 {
-	auto meshes     = std::unordered_map<std::string, std::unique_ptr<Mesh>>(worldSphere.GetMeshCount());
+	auto meshes     = std::unordered_map<std::string, std::unique_ptr<Mesh>>(worldSphere.GetGeometryCount());
 	auto billboards = std::unordered_map<std::string, std::unique_ptr<BillboardBatch>>(worldSphere.GetBillboardCount());
 
-	for (auto const& p3dmesh : worldSphere.GetMeshes())
+	for (auto const& p3dmesh : worldSphere.GetGeometries())
 	{
 		auto mesh = std::make_unique<Mesh>(*p3dmesh);
 		mesh->Commit();

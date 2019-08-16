@@ -24,9 +24,9 @@ namespace Donut
 				_skeletons.push_back(P3D::Skeleton::Load(*child));
 				break;
 			}
-			case P3D::ChunkType::Mesh:
+			case P3D::ChunkType::Geometry:
 			{
-				_meshes.push_back(P3D::Mesh::Load(*child));
+				_meshes.push_back(P3D::Geometry::Load(*child));
 				break;
 			}
 			case P3D::ChunkType::Shader:

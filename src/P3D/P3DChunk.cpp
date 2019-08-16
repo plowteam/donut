@@ -132,8 +132,8 @@ std::ostream& operator<<(std::ostream& os, ChunkType chunktype)
 			return os << "ExportInfoNamedString";
 		case ChunkType::ExportInfoNamedInteger:
 			return os << "ExportInfoNamedInteger";
-		case ChunkType::Mesh:
-			return os << "Mesh";
+		case ChunkType::Geometry:
+			return os << "Geometry";
 		case ChunkType::PolySkin:
 			return os << "PolySkin";
 		case ChunkType::PrimitiveGroup:

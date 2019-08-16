@@ -9,7 +9,7 @@ namespace Donut
 StaticEntity::StaticEntity(const P3D::StaticEntity& entity)
 {
 	_name = entity.GetName();
-	_mesh = std::make_unique<Mesh>(*entity.GetMesh());
+	_mesh = std::make_unique<Mesh>(*entity.GetGeometry());
 	_mesh->Commit();
 }
 
@@ -19,10 +19,10 @@ void StaticEntity::Draw(GL::ShaderProgram& shader, bool opaque)
 }
 
 
-InstancedStaticEntity::InstancedStaticEntity(const P3D::Mesh& mesh, const std::vector<glm::mat4>& transforms)
+InstancedStaticEntity::InstancedStaticEntity(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms)
 {
-	_name = mesh.GetName();
-	_mesh = std::make_unique<MeshInstanced>(mesh, transforms);
+	_name = geometry.GetName();
+	_mesh = std::make_unique<MeshInstanced>(geometry, transforms);
 	_mesh->Commit();
 }
 

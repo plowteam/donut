@@ -78,7 +78,7 @@
     "interpolationMode": "child ChannelInterpolationMode"
   },
 
-  "Mesh": {
+  "Geometry": {
     "name": "string",
     "version": "u32",
     "numPrimGroups": "u32",
@@ -197,7 +197,7 @@
     "name": "string",
     "version": "u32",
     "renderOrder": "u32",
-    "mesh": "child Mesh"
+    "geometry": "child Geometry"
   },
 
   "StaticPhysics": {
@@ -210,7 +210,7 @@
     "name": "string",
     "todo": "u32",
     "renderOrder": "u32",
-    "meshes": "children Mesh",
+    "geometries": "children Geometry",
     "instanceList": "child InstanceList"
   },
 
@@ -218,7 +218,7 @@
     "name": "string",
     "todo": "u32",
     "renderOrder": "u32",
-    "meshes": "children Mesh",
+    "geometries": "children Geometry",
     "instanceList": "child InstanceList"
   },
 
@@ -235,7 +235,7 @@
     "todo": "u16",
     "compositeDrawables": "children CompositeDrawable",
     "skeletons": "children Skeleton",
-    "meshes": "children Mesh",
+    "geometries": "children Geometry",
     "animations": "children Animation"
   },
 
@@ -350,12 +350,12 @@
   "WorldSphere": {
     "name": "string",
     "version": "u32",
-    "meshCount": "u32",
+    "geometryCount": "u32",
     "billboardCount": "u32",
     "animation": "child Animation",
     "skeletons": "children Skeleton",
     "billboards": "children BillboardQuadGroup",
-    "meshes": "children Mesh",
+    "geometries": "children Geometry",
     "compositeDrawable": "child CompositeDrawable",
     "lensFlare": "child LensFlare"
   },
@@ -775,7 +775,7 @@
     "count": "u32",
     "animations": "children Animation",
     "skeletons": "children Skeleton",
-    "meshes": "children Mesh",
+    "geometries": "children Geometry",
     "drawable": "child CompositeDrawable",
     "animObjects": "child AnimatedObject"
   },

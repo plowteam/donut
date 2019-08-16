@@ -100,11 +100,11 @@ void Level::LoadP3D(const std::string& filename)
 			std::vector<glm::mat4> transforms;
 			P3D::P3DUtil::GetDrawables(staticPhys->GetInstanceList(), drawables, transforms);
 
-			const auto& meshes = staticPhys->GetMeshes();
+			const auto& geometries = staticPhys->GetGeometries();
 			std::map<std::string, size_t> meshesNameIndex;
-			for (const auto& mesh : meshes)
+			for (const auto& geometry : geometries)
 			{
-				meshesNameIndex.insert({ mesh->GetName(), meshesNameIndex.size() });
+				meshesNameIndex.insert({ geometry->GetName(), meshesNameIndex.size() });
 			}
 
 			std::unordered_map<std::string, std::vector<glm::mat4>> meshTransforms;
@@ -121,8 +121,8 @@ void Level::LoadP3D(const std::string& filename)
 
 			for (const auto& meshTransformsPair : meshTransforms)
 			{
-				const auto& mesh = meshes.at(meshesNameIndex.at(meshTransformsPair.first));
-				_instances.emplace_back(std::make_unique<InstancedStaticEntity>(*mesh, meshTransformsPair.second));
+				const auto& geometry = geometries.at(meshesNameIndex.at(meshTransformsPair.first));
+				_instances.emplace_back(std::make_unique<InstancedStaticEntity>(*geometry, meshTransformsPair.second));
 			}
 
 			break;
@@ -134,11 +134,11 @@ void Level::LoadP3D(const std::string& filename)
 			std::vector<glm::mat4> transforms;
 			P3D::P3DUtil::GetDrawables(dynaPhys->GetInstanceList(), drawables, transforms);
 
-			const auto& meshes = dynaPhys->GetMeshes();
+			const auto& geometries = dynaPhys->GetGeometries();
 			std::map<std::string, size_t> meshesNameIndex;
-			for (const auto& mesh : meshes)
+			for (const auto& geometry : geometries)
 			{
-				meshesNameIndex.insert({ mesh->GetName(), meshesNameIndex.size() });
+				meshesNameIndex.insert({ geometry->GetName(), meshesNameIndex.size() });
 			}
 
 			std::unordered_map<std::string, std::vector<glm::mat4>> meshTransforms;
@@ -155,7 +155,7 @@ void Level::LoadP3D(const std::string& filename)
 
 			for (const auto& meshTransformsPair : meshTransforms)
 			{
-				const auto& mesh = meshes.at(meshesNameIndex.at(meshTransformsPair.first));
+				const auto& mesh = geometries.at(meshesNameIndex.at(meshTransformsPair.first));
 				_instances.emplace_back(std::make_unique<InstancedStaticEntity>(*mesh, meshTransformsPair.second));
 			}
 

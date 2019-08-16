@@ -10,10 +10,10 @@
 namespace Donut
 {
 
-Mesh::Mesh(const P3D::Mesh& mesh):
-    _name(mesh.GetName())
+Mesh::Mesh(const P3D::Geometry& geometry):
+    _name(geometry.GetName())
 {
-	CreateMeshBuffers(mesh);
+	CreateMeshBuffers(geometry);
 }
 
 void Mesh::Commit()
@@ -36,14 +36,14 @@ void Mesh::CreateVertexBinding()
 	_vertexBinding->Create(vertexLayout, 3, *_indexBuffer, GL::ElementType::AE_UINT);
 }
 
-void Mesh::CreateMeshBuffers(const P3D::Mesh& mesh)
+void Mesh::CreateMeshBuffers(const P3D::Geometry& geometry)
 {
 	std::vector<Vertex> allVerts;
 	std::vector<uint32_t> allIndices;
 
 	size_t vertOffset = 0;
 	size_t idxOffset = 0;
-	for (auto const& prim : mesh.GetPrimitiveGroups())
+	for (auto const& prim : geometry.GetPrimitiveGroups())
 	{
 		auto verts = prim->GetVertices();
 		auto uvs = prim->GetUvs(0);
@@ -151,8 +151,8 @@ void Mesh::DrawPrimGroup(const PrimGroup& primGroup)
 
 
 
-MeshInstanced::MeshInstanced(const P3D::Mesh& mesh, const std::vector<glm::mat4>& transforms) :
-	Mesh(mesh),
+MeshInstanced::MeshInstanced(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms) :
+    Mesh(geometry),
 	_transforms(std::move(transforms))
 {
 }

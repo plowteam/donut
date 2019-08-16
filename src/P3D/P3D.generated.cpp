@@ -254,9 +254,9 @@ namespace Donut::P3D
         }
     }
 
-    Mesh::Mesh(const P3DChunk& chunk)
+    Geometry::Geometry(const P3DChunk& chunk)
     {
-        assert(chunk.IsType(ChunkType::Mesh));
+        assert(chunk.IsType(ChunkType::Geometry));
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
@@ -576,9 +576,9 @@ namespace Donut::P3D
         {
             switch (child->GetType())
             {
-                case ChunkType::Mesh:
+                case ChunkType::Geometry:
                     {
-                        _mesh = std::make_unique<Mesh>(*child);
+                        _geometry = std::make_unique<Geometry>(*child);
                         break;
                     }
                 default:
@@ -623,9 +623,9 @@ namespace Donut::P3D
         {
             switch (child->GetType())
             {
-                case ChunkType::Mesh:
+                case ChunkType::Geometry:
                     {
-                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        _geometries.push_back(std::make_unique<Geometry>(*child));
                         break;
                     }
                 case ChunkType::InstanceList:
@@ -652,9 +652,9 @@ namespace Donut::P3D
         {
             switch (child->GetType())
             {
-                case ChunkType::Mesh:
+                case ChunkType::Geometry:
                     {
-                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        _geometries.push_back(std::make_unique<Geometry>(*child));
                         break;
                     }
                 case ChunkType::InstanceList:
@@ -719,9 +719,9 @@ namespace Donut::P3D
                         _skeletons.push_back(std::make_unique<Skeleton>(*child));
                         break;
                     }
-                case ChunkType::Mesh:
+                case ChunkType::Geometry:
                     {
-                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        _geometries.push_back(std::make_unique<Geometry>(*child));
                         break;
                     }
                 case ChunkType::Animation:
@@ -1092,7 +1092,7 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _version = stream.Read<uint32_t>();
-        _meshCount = stream.Read<uint32_t>();
+        _geometryCount = stream.Read<uint32_t>();
         _billboardCount = stream.Read<uint32_t>();
 
         for (auto const& child : chunk.GetChildren())
@@ -1114,9 +1114,9 @@ namespace Donut::P3D
                         _billboards.push_back(std::make_unique<BillboardQuadGroup>(*child));
                         break;
                     }
-                case ChunkType::Mesh:
+                case ChunkType::Geometry:
                     {
-                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        _geometries.push_back(std::make_unique<Geometry>(*child));
                         break;
                     }
                 case ChunkType::CompositeDrawable:
@@ -2165,9 +2165,9 @@ namespace Donut::P3D
                         _skeletons.push_back(std::make_unique<Skeleton>(*child));
                         break;
                     }
-                case ChunkType::Mesh:
+                case ChunkType::Geometry:
                     {
-                        _meshes.push_back(std::make_unique<Mesh>(*child));
+                        _geometries.push_back(std::make_unique<Geometry>(*child));
                         break;
                     }
                 case ChunkType::CompositeDrawable:

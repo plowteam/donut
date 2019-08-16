@@ -19,7 +19,7 @@ class Mesh
 {
 public:
 
-	Mesh(const P3D::Mesh& mesh);
+	Mesh(const P3D::Geometry& geometry);
 
 	void Commit();
 	void Draw(GL::ShaderProgram&, bool opaque);
@@ -42,7 +42,7 @@ protected:
 		glm::vec4 co0lor;
 	};
 
-	void CreateMeshBuffers(const P3D::Mesh& mesh);
+	void CreateMeshBuffers(const P3D::Geometry& geometry);
 	virtual void CreateVertexBinding();
 
 	virtual void DrawPrimGroup(const PrimGroup& primGroup);
@@ -62,7 +62,7 @@ class MeshInstanced : public Mesh
 {
 public:
 
-	MeshInstanced(const P3D::Mesh& mesh, const std::vector<glm::mat4>& transforms);
+	MeshInstanced(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms);
 
 protected:
 

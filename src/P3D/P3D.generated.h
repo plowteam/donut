@@ -38,7 +38,7 @@ namespace Donut::P3D
 	class Vector3Channel;
 	class QuaternionChannel;
 	class CompressedQuaternionChannel;
-	class Mesh;
+	class Geometry;
 	class PolySkin;
 	class BoundingBox;
 	class BoundingSphere;
@@ -367,13 +367,13 @@ namespace Donut::P3D
 
     };
 
-    class Mesh
+    class Geometry
     {
     public:
 
-        Mesh(const P3DChunk&);
+        Geometry(const P3DChunk&);
 
-        static std::unique_ptr<Mesh> Load(const P3DChunk& chunk) { return std::make_unique<Mesh>(chunk); }
+        static std::unique_ptr<Geometry> Load(const P3DChunk& chunk) { return std::make_unique<Geometry>(chunk); }
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
@@ -744,14 +744,14 @@ namespace Donut::P3D
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetRenderOrder() const { return _renderOrder; }
-        const std::unique_ptr<Mesh>& GetMesh() const { return _mesh; }
+        const std::unique_ptr<Geometry>& GetGeometry() const { return _geometry; }
 
     private:
 
         std::string _name;
         uint32_t _version;
         uint32_t _renderOrder;
-        std::unique_ptr<Mesh> _mesh;
+        std::unique_ptr<Geometry> _geometry;
 
     };
 
@@ -786,7 +786,7 @@ namespace Donut::P3D
         const std::string& GetName() const { return _name; }
         const uint32_t& GetTodo() const { return _todo; }
         const uint32_t& GetRenderOrder() const { return _renderOrder; }
-        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
 
     private:
@@ -794,7 +794,7 @@ namespace Donut::P3D
         std::string _name;
         uint32_t _todo;
         uint32_t _renderOrder;
-        std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::vector<std::unique_ptr<Geometry>> _geometries;
         std::unique_ptr<InstanceList> _instanceList;
 
     };
@@ -810,7 +810,7 @@ namespace Donut::P3D
         const std::string& GetName() const { return _name; }
         const uint32_t& GetTodo() const { return _todo; }
         const uint32_t& GetRenderOrder() const { return _renderOrder; }
-        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
         const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
 
     private:
@@ -818,7 +818,7 @@ namespace Donut::P3D
         std::string _name;
         uint32_t _todo;
         uint32_t _renderOrder;
-        std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::vector<std::unique_ptr<Geometry>> _geometries;
         std::unique_ptr<InstanceList> _instanceList;
 
     };
@@ -859,7 +859,7 @@ namespace Donut::P3D
         const uint16_t& GetTodo() const { return _todo; }
         const std::vector<std::unique_ptr<CompositeDrawable>>& GetCompositeDrawables() const { return _compositeDrawables; }
         const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
-        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
         const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
 
     private:
@@ -868,7 +868,7 @@ namespace Donut::P3D
         uint16_t _todo;
         std::vector<std::unique_ptr<CompositeDrawable>> _compositeDrawables;
         std::vector<std::unique_ptr<Skeleton>> _skeletons;
-        std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::vector<std::unique_ptr<Geometry>> _geometries;
         std::vector<std::unique_ptr<Animation>> _animations;
 
     };
@@ -1235,12 +1235,12 @@ namespace Donut::P3D
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetMeshCount() const { return _meshCount; }
+        const uint32_t& GetGeometryCount() const { return _geometryCount; }
         const uint32_t& GetBillboardCount() const { return _billboardCount; }
         const std::unique_ptr<Animation>& GetAnimation() const { return _animation; }
         const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
         const std::vector<std::unique_ptr<BillboardQuadGroup>>& GetBillboards() const { return _billboards; }
-        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
         const std::unique_ptr<CompositeDrawable>& GetCompositeDrawable() const { return _compositeDrawable; }
         const std::unique_ptr<LensFlare>& GetLensFlare() const { return _lensFlare; }
 
@@ -1248,12 +1248,12 @@ namespace Donut::P3D
 
         std::string _name;
         uint32_t _version;
-        uint32_t _meshCount;
+        uint32_t _geometryCount;
         uint32_t _billboardCount;
         std::unique_ptr<Animation> _animation;
         std::vector<std::unique_ptr<Skeleton>> _skeletons;
         std::vector<std::unique_ptr<BillboardQuadGroup>> _billboards;
-        std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::vector<std::unique_ptr<Geometry>> _geometries;
         std::unique_ptr<CompositeDrawable> _compositeDrawable;
         std::unique_ptr<LensFlare> _lensFlare;
 
@@ -2473,7 +2473,7 @@ namespace Donut::P3D
         const uint32_t& GetCount() const { return _count; }
         const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
         const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
-        const std::vector<std::unique_ptr<Mesh>>& GetMeshes() const { return _meshes; }
+        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
         const std::unique_ptr<CompositeDrawable>& GetDrawable() const { return _drawable; }
         const std::unique_ptr<AnimatedObject>& GetAnimObjects() const { return _animObjects; }
 
@@ -2483,7 +2483,7 @@ namespace Donut::P3D
         uint32_t _count;
         std::vector<std::unique_ptr<Animation>> _animations;
         std::vector<std::unique_ptr<Skeleton>> _skeletons;
-        std::vector<std::unique_ptr<Mesh>> _meshes;
+        std::vector<std::unique_ptr<Geometry>> _geometries;
         std::unique_ptr<CompositeDrawable> _drawable;
         std::unique_ptr<AnimatedObject> _animObjects;
 

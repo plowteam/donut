@@ -54,7 +54,7 @@ class StaticEntity: public Entity
 class InstancedStaticEntity : public Entity
 {
 public:
-	InstancedStaticEntity(const P3D::Mesh&, const std::vector<glm::mat4>&);
+	InstancedStaticEntity(const P3D::Geometry&, const std::vector<glm::mat4>&);
 
 	void Draw(GL::ShaderProgram&, bool opaque) override;
 
