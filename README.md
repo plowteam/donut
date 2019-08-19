@@ -5,15 +5,16 @@
 [![Discord chat](https://img.shields.io/discord/611594006803120148?logo=discord&logoColor=white)](https://discord.gg/xpdbWzG)
 [![License](https://img.shields.io/github/license/plowteam/donut)](LICENSE.md)
 
-![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-12-28.png)
-![](https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png)
+donut is an open source reimplementation of The Simpsons: Hit & Run written in modern C++ and modern OpenGL.
 
-donut is an open source reimplementation of The Simpsons: Hit & Run.
+---
 
-## Docs
-[Chunks](dev/Chunks.md)
-
-[Commands](dev/Commands.md)
+<a href="https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-12-28.png">
+    <img src="https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-12-28.png" width="45%">
+</a>
+<a href="https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png">
+    <img src="https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png" width="45%">
+</a>
 
 # Building
 
@@ -50,7 +51,11 @@ make
 
 **Mesa drivers on Linux:** if you are trying to run with Mesa drivers and are getting issues with OpenGL context try messing with `MESA_GL_VERSION_OVERRIDE` when running like so: `MESA_GL_VERSION_OVERRIDE=4.3FC MESA_GLSL_VERSION_OVERRIDE=430 bin/donut`
 
-### Contributing
+## Docs
+* [Chunks](dev/Chunks.md)
+* [Commands](dev/Commands.md)
+
+## Contributing
 Contributions are always welcome, whether it's modifying source code to add new
 features or bug fixes, documenting new file formats or simply editing some
 grammar.
