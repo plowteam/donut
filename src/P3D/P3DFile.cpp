@@ -2,6 +2,7 @@
 
 #include <Core/File.h>
 #include <P3D/P3DFile.h>
+#include <P3D/P3DChunk.h>
 
 namespace Donut::P3D
 {
@@ -29,5 +30,7 @@ P3DFile::P3DFile(const std::string& path):
 
 	_root = std::make_unique<P3DChunk>(_data);
 }
+
+P3DFile::~P3DFile() = default;
 
 } // namespace Donut::P3D

@@ -2,11 +2,14 @@
 
 #pragma once
 
-#include <P3D/P3DChunk.h>
+#include <memory>
 #include <string>
+#include <vector>
 
 namespace Donut::P3D
 {
+
+class P3DChunk;
 
 enum class FileTypes : uint32_t
 {
@@ -19,6 +22,7 @@ class P3DFile
 {
   public:
 	P3DFile(const std::string& file);
+	~P3DFile();
 
 	const P3DChunk& GetRoot() const
 	{

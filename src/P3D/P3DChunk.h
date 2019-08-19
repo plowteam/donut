@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <Core/File.h>
 #include <glm/mat4x4.hpp>
 #include <memory>
 #include <vector>

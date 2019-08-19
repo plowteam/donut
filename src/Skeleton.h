@@ -2,9 +2,6 @@
 
 #pragma once
 
-#include <P3D/P3D.generated.h>
-#include <Render/OpenGL/TextureBuffer.h>
-#include <Render/SkinAnimation.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <string>
@@ -13,6 +10,12 @@
 
 namespace Donut
 {
+
+namespace P3D {
+	class Skeleton;
+}
+
+class SkinAnimation;
 
 // Represents a Skeleton
 class Skeleton

@@ -9,12 +9,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include <Core/BoundingBox.h>
-#include "Core/BoundingSphere.h"
-
-#include <Skeleton.h>
-#include <Render/OpenGL/TextureBuffer.h>
-
 namespace Donut
 {
 namespace GL
@@ -37,6 +31,7 @@ class CharacterController;
 class SkinModel;
 class SkinAnimation;
 class ResourceManager;
+class Skeleton;
 
 struct SkeletonJoint
 {
@@ -54,6 +49,8 @@ class Character
 {
   public:
 	Character(std::string name);
+	~Character();
+
 	void LoadModel(const std::string& name);
 	void LoadAnimations(const std::string& name);
 

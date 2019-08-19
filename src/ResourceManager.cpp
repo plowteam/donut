@@ -10,15 +10,13 @@
 
 #include <fmt/format.h>
 #include <imgui.h>
+#include <chrono>
 
 namespace Donut
 {
 
-ResourceManager::ResourceManager()
-{
-	// constexpr GLuint errorTextureData[] = { 0xFFFF00FF, 0xFF000000, 0xFF000000, 0xFFFF00FF };
-	// _errorTexture                       = std::make_unique<GL::Texture2D>(2, 2, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, errorTextureData);
-}
+ResourceManager::ResourceManager() = default;
+ResourceManager::~ResourceManager() = default;
 
 void ResourceManager::LoadTexture(const P3D::Texture& texture)
 {
@@ -81,11 +79,11 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 		return;
 	}
 
-	ImGui::Text("Textures: %d", _textures.size());
+	ImGui::Text("Textures: %zu", _textures.size());
 	ImGui::SameLine();
-	ImGui::Text("Shaders: %d", _shaders.size());
+	ImGui::Text("Shaders: %zu", _shaders.size());
 	ImGui::SameLine();
-	ImGui::Text("Fonts: %d", _fonts.size());
+	ImGui::Text("Fonts: %zu", _fonts.size());
 
 	ImGui::BeginTabBar("rmtabs");
 
@@ -101,7 +99,7 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 		{
 			ImGui::Image((ImTextureID)(intptr_t)texture->GetOpenGLHandle(), ImVec2((float)texture->GetWidth(), (float)texture->GetHeight()));
 			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip(name.c_str());
+				ImGui::SetTooltip("%s", name.c_str());
 
 			if (++i % perLine != 0)
 				ImGui::SameLine();

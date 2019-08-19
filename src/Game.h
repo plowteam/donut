@@ -2,11 +2,6 @@
 
 #pragma once
 
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/alext.h>
-#include <AL/efx.h>
-
 #include <memory>
 #include <string>
 #include <vector>
@@ -85,7 +80,6 @@ class Game
 
 	std::unique_ptr<Character> _npcCharacter;
 
-
 	std::unique_ptr<GL::ShaderProgram> _skinShaderProgram;
 
 	bool _mouseLocked;
@@ -94,7 +88,7 @@ class Game
 
 	bool _debugResourceManagerWindowOpen = false;
 
-	ALuint buffer, source;
+	unsigned int buffer, source;
 
 	static Game* instance;
 };

@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 #include <Render/SpriteBatch.h>
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 namespace Donut
 {

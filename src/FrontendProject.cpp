@@ -11,6 +11,8 @@
 #include <fmt/format.h>
 #include <Render/Texture.h>
 
+#include <filesystem>
+
 namespace Donut
 {
 	enum class Alignment

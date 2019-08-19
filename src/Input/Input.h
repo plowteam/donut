@@ -6,7 +6,8 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "ButtonCodes.h"
+
+#include <Input/ButtonCodes.h>
 
 namespace Donut
 {

@@ -10,6 +10,9 @@
 #include <Render/SkinModel.h>
 #include <fmt/format.h>
 
+#include <Skeleton.h>
+#include <filesystem>
+
 namespace Donut
 {
 
@@ -19,6 +22,8 @@ Character::Character(std::string name):
 	_characterController = std::make_unique<CharacterController>(this, &Game::GetInstance().GetWorldPhysics());
 	_boneBuffer          = std::make_unique<GL::TextureBuffer>();
 }
+
+Character::~Character() = default;
 
 void Character::LoadModel(const std::string& name)
 {

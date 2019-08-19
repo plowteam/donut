@@ -2,6 +2,10 @@
 
 #include <Skeleton.h>
 
+#include <cassert>
+#include <P3D/P3D.generated.h>
+#include <Render/SkinAnimation.h>
+
 namespace Donut
 {
 Skeleton::Skeleton(const P3D::Skeleton& skeleton):

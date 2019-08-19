@@ -27,6 +27,7 @@ class ResourceManager
 {
   public:
 	ResourceManager();
+	~ResourceManager();
 
 	void LoadTexture(const P3D::Texture&);
 	void LoadTexture(const P3D::Sprite&);

@@ -1,17 +1,21 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Game.h>
 #include <Level.h>
+#include <Game.h>
 #include <ResourceManager.h>
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/LineRenderer.h>
 #include <Render/OpenGL/ShaderProgram.h>
+#include <Entity.h>
 
+#include <Core/File.h>
+#include <Render/BillboardBatch.h>
 #include <Render/Font.h>
 #include <Render/Mesh.h>
 #include <Render/Shader.h>
+#include <Render/WorldSphere.h>
 
 #include <array>
 #include <imgui.h>
@@ -55,6 +59,8 @@ Level::Level()
 	}*/
 }
 
+Level::~Level() = default;
+
 void Level::LoadP3D(const std::string& filename)
 {
 	std::string fullpath = "./art/" + filename;
@@ -71,8 +77,9 @@ void Level::LoadP3D(const std::string& filename)
 
 	const auto p3d = P3D::P3DFile(fullpath);
 
-	auto rm          = Game::GetInstance().GetResourceManager();
+	auto& rm = Game::GetInstance().GetResourceManager();
 	const auto& root = p3d.GetRoot();
+
 	for (const auto& chunk : root.GetChildren())
 	{
 		switch (chunk->GetType())
@@ -230,7 +237,7 @@ void Level::LoadP3D(const std::string& filename)
 
 void Level::DynaLoadData(const std::string& dynaLoadData)
 {
-	std::vector<std::string> regionsLoad, regionsUnload, interiorsLoad, interiorsUnload;
+/*	std::vector<std::string> regionsLoad, regionsUnload, interiorsLoad, interiorsUnload;
 
 	// todo: this will probably fuck up on an invalid string
 	std::size_t prev = 0, pos;
@@ -256,7 +263,7 @@ void Level::DynaLoadData(const std::string& dynaLoadData)
 
 	// load in more shit
 	for (auto const& region : regionsLoad)
-		loadRegion(region);
+		loadRegion(region);*/
 }
 
 void Level::ImGuiDebugWindow(bool* p_open) const
@@ -270,9 +277,9 @@ void Level::ImGuiDebugWindow(bool* p_open) const
 
 	for (const auto& ent : _entities)
 	{
-		ImGui::TextDisabled(ent->GetClassName().c_str());
+		ImGui::TextDisabled("%s", ent->GetClassName().c_str());
 		ImGui::SameLine();
-		ImGui::Text(ent->GetName().c_str());
+		ImGui::TextUnformatted(ent->GetName().c_str());
 	}
 
 	ImGui::End();
@@ -296,7 +303,7 @@ void Level::Update(double deltatime)
 
 void Level::Draw(glm::mat4& viewProj)
 {
-	_worldShader->Bind();
+/*	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
 
 	glDisable(GL_DEPTH_TEST);
@@ -349,7 +356,7 @@ void Level::Draw(glm::mat4& viewProj)
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
 
 	for (const auto& ent : _instances)
-		ent->Draw(*_worldInstancedShader, false);
+		ent->Draw(*_worldInstancedShader, false);*/
 }
 
 } // namespace Donut

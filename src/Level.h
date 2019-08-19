@@ -8,11 +8,6 @@
 #include <vector>
 #include <unordered_map>
 
-#include <Render/WorldSphere.h>
-#include <Render/CompositeModel.h>
-#include <Render/BillboardBatch.h>
-#include <Entity.h>
-
 namespace Donut
 {
 
@@ -21,13 +16,18 @@ namespace GL
 class ShaderProgram;
 }
 
-class ResourceManager;
+class BillboardBatch;
+class CompositeModel;
 class LineRenderer;
+class Entity;
+class ResourceManager;
+class WorldSphere;
 
 class Level
 {
 public:
 	Level();
+	~Level();
 
 	void Update(double deltatime);
 	void Draw(glm::mat4& viewProj);

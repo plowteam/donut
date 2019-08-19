@@ -40,6 +40,11 @@
 #include <Render/Font.h>
 #include <Render/Shader.h>
 
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/alext.h>
+#include <AL/efx.h>
+
 namespace Donut
 {
 
@@ -191,7 +196,7 @@ Game::Game(int argc, char** argv)
 	//
 	_level->LoadP3D("L1_TERRA.p3d");
 
-	// simpsons house 
+	// simpsons house
 	_level->LoadP3D("l1z1.p3d");
 	_level->LoadP3D("l1r1.p3d");
 	_level->LoadP3D("l1r7.p3d");
