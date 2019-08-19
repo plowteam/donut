@@ -449,7 +449,7 @@ void Game::Run()
 		if (_textureFontP3D != nullptr)
 		{
 			std::string fps = fmt::format("{0} fps", timer.GetFps());
-			auto font       = _resourceManager->GetFont("boulder_16");
+			auto font       = _resourceManager->GetFont("boulder_16").get();
 			sprites.DrawText(font, fps, glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		}

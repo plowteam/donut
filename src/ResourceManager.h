@@ -43,17 +43,17 @@ class ResourceManager
 
 	ShaderPtr GetShader(const std::string& name) const;
 	std::shared_ptr<Texture> GetTexture(const std::string& name) const;
-	const Font* GetFont(const std::string& name) const;
+	std::shared_ptr<Font> GetFont(const std::string& name) const;
 
 	std::shared_ptr<Mesh> GetGeometry(const std::string& name) const;
 
-	const std::unordered_map<std::string, std::unique_ptr<Font>>& GetFonts() const { return _fonts; }
+	const std::unordered_map<std::string, std::shared_ptr<Font>>& GetFonts() const { return _fonts; }
 
   protected:
 	std::unordered_map<std::string, std::shared_ptr<Texture>> _textures;
 	std::unordered_map<std::string, std::shared_ptr<Shader>> _shaders;
 	std::unordered_map<std::string, std::shared_ptr<Mesh>> _geometries;
-	std::unordered_map<std::string, std::unique_ptr<Font>> _fonts;
+	std::unordered_map<std::string, std::shared_ptr<Font>> _fonts;
 };
 
 } // namespace Donut

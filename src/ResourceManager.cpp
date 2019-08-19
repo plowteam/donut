@@ -156,14 +156,14 @@ std::shared_ptr<Mesh> ResourceManager::GetGeometry(const std::string& name) cons
 	return _geometries.at(name);
 }
 
-const Font* ResourceManager::GetFont(const std::string& name) const
+std::shared_ptr<Font> ResourceManager::GetFont(const std::string& name) const
 {
 	if (_fonts.find(name) == _fonts.end())
 	{
 		return nullptr;
 	}
 
-	return _fonts.at(name).get();
+	return _fonts.at(name);
 }
 
 } // namespace Donut
