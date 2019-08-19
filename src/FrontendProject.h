@@ -35,7 +35,7 @@ namespace Donut
 
 		struct Sprite
 		{
-			std::shared_ptr<Texture> texture;
+			Texture* texture;
 			int32_t positionX;
 			int32_t positionY;
 			int32_t width;

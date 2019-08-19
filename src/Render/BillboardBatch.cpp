@@ -10,6 +10,7 @@
 #include <ResourceManager.h>
 #include <glm/glm.hpp>
 #include <array>
+#include <Render/Shader.h>
 
 namespace Donut
 {

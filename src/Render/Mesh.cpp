@@ -101,7 +101,7 @@ void Mesh::Draw(GL::ShaderProgram& shader, bool opaque)
 	for (auto& prim : _primGroups)
 	{
 		if (prim.cacheShader == nullptr)
-			prim.cacheShader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName).get();
+			prim.cacheShader = Game::GetInstance().GetResourceManager().GetShader(prim.shaderName);
 
 		bool trans = (!prim.cacheShader->IsAlphaTested() && prim.cacheShader->IsTranslucent());
 

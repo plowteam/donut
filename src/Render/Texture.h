@@ -39,5 +39,4 @@ class Texture
 	GLuint _glTexture;
 };
 
-using TexturePtr = std::shared_ptr<Texture>;
 }

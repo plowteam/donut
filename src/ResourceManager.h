@@ -2,10 +2,6 @@
 
 #pragma once
 
-// #include <Entity.h>
-#include <Render/Font.h>
-#include <Render/Shader.h>
-#include <Render/Mesh.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -23,7 +19,9 @@ class Set;
 }
 
 class Texture;
-// class Shader;
+class Shader;
+class Mesh;
+class Font;
 
 class ResourceManager
 {
@@ -41,19 +39,18 @@ class ResourceManager
 
 	void ImGuiDebugWindow(bool* p_open) const;
 
-	ShaderPtr GetShader(const std::string& name) const;
-	std::shared_ptr<Texture> GetTexture(const std::string& name) const;
-	std::shared_ptr<Font> GetFont(const std::string& name) const;
+	Shader* GetShader(const std::string& name) const;
+	Texture* GetTexture(const std::string& name) const;
+	Font* GetFont(const std::string& name) const;
+	Mesh* GetGeometry(const std::string& name) const;
 
-	std::shared_ptr<Mesh> GetGeometry(const std::string& name) const;
-
-	const std::unordered_map<std::string, std::shared_ptr<Font>>& GetFonts() const { return _fonts; }
+	const std::unordered_map<std::string, std::unique_ptr<Font>>& GetFonts() const { return _fonts; }
 
   protected:
-	std::unordered_map<std::string, std::shared_ptr<Texture>> _textures;
-	std::unordered_map<std::string, std::shared_ptr<Shader>> _shaders;
-	std::unordered_map<std::string, std::shared_ptr<Mesh>> _geometries;
-	std::unordered_map<std::string, std::shared_ptr<Font>> _fonts;
+	std::unordered_map<std::string, std::unique_ptr<Texture>> _textures;
+	std::unordered_map<std::string, std::unique_ptr<Shader>> _shaders;
+	std::unordered_map<std::string, std::unique_ptr<Mesh>> _geometries;
+	std::unordered_map<std::string, std::unique_ptr<Font>> _fonts;
 };
 
 } // namespace Donut

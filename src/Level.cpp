@@ -2,12 +2,17 @@
 
 #include <Game.h>
 #include <Level.h>
+#include <ResourceManager.h>
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Physics/WorldPhysics.h>
 #include <Render/LineRenderer.h>
 #include <Render/OpenGL/ShaderProgram.h>
-#include <ResourceManager.h>
+
+#include <Render/Font.h>
+#include <Render/Mesh.h>
+#include <Render/Shader.h>
+
 #include <array>
 #include <imgui.h>
 #include <iostream>

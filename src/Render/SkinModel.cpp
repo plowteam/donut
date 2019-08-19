@@ -3,6 +3,7 @@
 #include <Render/SkinModel.h>
 #include <P3D/P3D.generated.h>
 #include <Game.h>
+#include <Render/Shader.h>
 
 namespace Donut
 {

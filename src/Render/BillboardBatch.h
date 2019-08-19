@@ -38,7 +38,7 @@ namespace Donut
 
 		uint32_t _numQuads;
 
-		std::shared_ptr<Shader> _shader;
+		Shader* _shader;
 		bool _zTest;
 		bool _zWrite;
 	};

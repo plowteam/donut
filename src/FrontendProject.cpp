@@ -9,6 +9,7 @@
 #include <Entity.h>
 #include <iostream>
 #include <fmt/format.h>
+#include <Render/Texture.h>
 
 namespace Donut
 {
@@ -166,7 +167,7 @@ namespace Donut
 		for (const auto& sprite : _sprites)
 		{
 			_spriteBatch.Draw(
-				sprite.texture.get(),
+				sprite.texture,
 				glm::vec2(sprite.positionX, sprite.positionY),
 				glm::vec2(sprite.width, sprite.height),
 				sprite.color);

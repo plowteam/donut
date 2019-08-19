@@ -98,9 +98,9 @@ Shader::~Shader()
 		glDeleteSamplers(1, &_glSampler);
 }
 
-void Shader::SetDiffuseTexture(TexturePtr diffuseTexture)
+void Shader::SetDiffuseTexture(Texture* diffuseTexture)
 {
-	_diffuseTexture = std::move(diffuseTexture);
+	_diffuseTexture = diffuseTexture;
 }
 
 void Shader::Bind(GLuint unit) const

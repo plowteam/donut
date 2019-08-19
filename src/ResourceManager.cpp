@@ -1,9 +1,13 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Entity.h>
+#include <ResourceManager.h>
+#include <P3D/P3D.generated.h>
+
+#include <Render/Font.h>
 #include <Render/Shader.h>
 #include <Render/Texture.h>
-#include <ResourceManager.h>
+#include <Render/Mesh.h>
+
 #include <fmt/format.h>
 #include <imgui.h>
 
@@ -21,7 +25,7 @@ void ResourceManager::LoadTexture(const P3D::Texture& texture)
 	if (_textures.find(texture.GetName()) != _textures.end())
 		fmt::print("Texture {0} already loaded\n", texture.GetName());
 
-	_textures[texture.GetName()] = std::make_shared<Texture>(texture);
+	_textures[texture.GetName()] = std::make_unique<Texture>(texture);
 }
 
 void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
@@ -29,7 +33,7 @@ void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
 	if (_textures.find(sprite.GetName()) != _textures.end())
 		fmt::print("Sprite {0} already loaded\n", sprite.GetName());
 
-	_textures[sprite.GetName()] = std::make_shared<Texture>(sprite);
+	_textures[sprite.GetName()] = std::make_unique<Texture>(sprite);
 }
 
 void ResourceManager::LoadShader(const P3D::Shader& shader)
@@ -37,7 +41,7 @@ void ResourceManager::LoadShader(const P3D::Shader& shader)
 	if (_shaders.find(shader.GetName()) != _shaders.end())
 		fmt::print("Shader {0} already loaded\n", shader.GetName());
 
-	_shaders[shader.GetName()] = std::make_shared<Shader>(shader);
+	_shaders[shader.GetName()] = std::make_unique<Shader>(shader);
 }
 
 void ResourceManager::LoadSet(const P3D::Set& set)
@@ -55,8 +59,7 @@ void ResourceManager::LoadGeometry(const P3D::Geometry& geo)
 	if (_geometries.find(geo.GetName()) != _geometries.end())
 		fmt::print("Geometry {0} already loaded\n", geo.GetName());
 
-	auto mesh                  = std::make_shared<Mesh>(geo);
-	_geometries[geo.GetName()] = std::move(mesh);
+	_geometries[geo.GetName()] = std::make_unique<Mesh>(geo);
 }
 
 void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<Texture> texture)
@@ -115,7 +118,7 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 /*
  * Searches for the shader in the map, you should cache the result to avoid unnecessary lookups
  */
-ShaderPtr ResourceManager::GetShader(const std::string& name) const
+Shader* ResourceManager::GetShader(const std::string& name) const
 {
 	if (_shaders.find(name) == _shaders.end())
 	{
@@ -128,42 +131,39 @@ ShaderPtr ResourceManager::GetShader(const std::string& name) const
 	// todo: check if a texture is set/valid before setting texture again
 	const std::string texName = shader->GetDiffuseTextureName();
 	if (_textures.find(texName) != _textures.end())
-		shader->SetDiffuseTexture(_textures.at(texName));
+		shader->SetDiffuseTexture(_textures.at(texName).get());
 	else
 	{
 		fmt::print("could not find texture {1} for shader {0}\n", name, texName);
-		shader->SetDiffuseTexture(_textures.begin()->second); // todo: set an error texture
+		shader->SetDiffuseTexture(_textures.begin()->second.get()); // todo: set an error texture
 	}
 
-	return shader;
+	return shader.get();
 }
 
-std::shared_ptr<Texture> ResourceManager::GetTexture(const std::string& name) const
+Texture* ResourceManager::GetTexture(const std::string& name) const
 {
+	// todo: return missing texture
 	if (_textures.find(name) == _textures.end())
-	{
 		return nullptr;
-	}
 
-	return _textures.at(name);
+	return _textures.at(name).get();
 }
 
-std::shared_ptr<Mesh> ResourceManager::GetGeometry(const std::string& name) const
+Mesh* ResourceManager::GetGeometry(const std::string& name) const
 {
 	if (_geometries.find(name) == _geometries.end())
 		return nullptr;
 
-	return _geometries.at(name);
+	return _geometries.at(name).get();
 }
 
-std::shared_ptr<Font> ResourceManager::GetFont(const std::string& name) const
+Font* ResourceManager::GetFont(const std::string& name) const
 {
 	if (_fonts.find(name) == _fonts.end())
-	{
 		return nullptr;
-	}
 
-	return _fonts.at(name);
+	return _fonts.at(name).get();
 }
 
 } // namespace Donut

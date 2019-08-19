@@ -32,8 +32,8 @@ class Shader
 	// void SetShaderEffect(const std::string& effect);
 	// std::string GetShaderEffect() const { return _shaderEffect; }
 
-	void SetDiffuseTexture(TexturePtr diffuseTexture);
-	const TexturePtr& GetDiffuseTexture() const { return _diffuseTexture; }
+	void SetDiffuseTexture(Texture* diffuseTexture);
+	const Texture* GetDiffuseTexture() const { return _diffuseTexture; }
 
 	// used to SetDiffuseTexture, won't be needed if Shader is constructed independent of P3D::Shader
 	std::string GetDiffuseTextureName() const { return _textureName; }
@@ -57,8 +57,8 @@ class Shader
 
 	std::string _shaderEffect;
 
-	TexturePtr _diffuseTexture;
-	TexturePtr _envmapTexture;
+	Texture* _diffuseTexture;
+	Texture* _envmapTexture;
 
 	GLuint _glSampler;
 
@@ -71,7 +71,5 @@ class Shader
 	BlendMode _blendMode;
 
 };
-
-using ShaderPtr = std::shared_ptr<Shader>;
 
 } // namespace Donut
