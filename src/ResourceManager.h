@@ -29,6 +29,10 @@ class ResourceManager
 	ResourceManager();
 	~ResourceManager();
 
+	// no copying
+	ResourceManager(const ResourceManager&) = delete;
+	ResourceManager& operator=(ResourceManager const&) = delete;
+
 	void LoadTexture(const P3D::Texture&);
 	void LoadTexture(const P3D::Sprite&);
 	void LoadShader(const P3D::Shader&);
