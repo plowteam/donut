@@ -303,7 +303,7 @@ void Level::Update(double deltatime)
 
 void Level::Draw(glm::mat4& viewProj)
 {
-/*	_worldShader->Bind();
+	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
 
 	glDisable(GL_DEPTH_TEST);
@@ -356,7 +356,7 @@ void Level::Draw(glm::mat4& viewProj)
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
 
 	for (const auto& ent : _instances)
-		ent->Draw(*_worldInstancedShader, false);*/
+		ent->Draw(*_worldInstancedShader, false);
 }
 
 } // namespace Donut
