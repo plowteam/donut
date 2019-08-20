@@ -3,6 +3,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 namespace Donut
 {
@@ -38,7 +39,7 @@ namespace Donut
 
 		uint32_t _numQuads;
 
-		Shader* _shader;
+		std::string _shader;
 		bool _zTest;
 		bool _zWrite;
 	};

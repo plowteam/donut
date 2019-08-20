@@ -77,14 +77,16 @@ namespace Donut
 		_vertexBinding = std::make_shared<GL::VertexBinding>();
 		_vertexBinding->Create(vertexLayout, 8, *_indexBuffer, GL::ElementType::AE_UINT);
 
-		_shader = Game::GetInstance().GetResourceManager().GetShader(billboardQuadGroup.GetShader());
+		_shader = billboardQuadGroup.GetShader();
 		_zTest = billboardQuadGroup.GetZTest() == 1;
 		_zWrite = billboardQuadGroup.GetZWrite() == 1;
 	}
 
 	void BillboardBatch::Draw(GL::ShaderProgram& shader, bool opaque)
 	{
-		bool trans = (!_shader->IsAlphaTested() && _shader->IsTranslucent());
+	    auto const& material = Game::GetInstance().GetResourceManager().GetShader(_shader);
+
+		bool trans = (!material->IsAlphaTested() && material->IsTranslucent());
 
 		if (trans && opaque)
 		{
@@ -98,7 +100,7 @@ namespace Donut
 
 		if (!opaque)
 		{
-			auto blendMode = _shader->GetBlendMode();
+		    auto blendMode = material->GetBlendMode();
 
 			if (blendMode == BlendMode::Alpha)
 			{
@@ -121,10 +123,11 @@ namespace Donut
 
 		glDepthMask(_zWrite ? GL_TRUE : GL_FALSE);
 
-		shader.SetUniformValue("alphaMask", _shader->IsAlphaTested() ? 0.5f : 0.0f);
+		shader.SetUniformValue("alphaMask", material->IsAlphaTested() ? 0.5f : 0.0f);
 
 		_vertexBinding->Bind();
-		_shader->Bind(0);
+
+	    material->Bind(0);
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, _numQuads);
 		_vertexBinding->Unbind();
 
