@@ -21,7 +21,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 		mesh->Commit();
 		meshes[p3dmesh->GetName()] = std::move(mesh);
 	}
-	
+
 	//for (auto const& billboard : worldSphere.GetBillboards())
 	//	billboards.emplace_back(std::make_unique<BillboardBatch>(*billboard));
 
@@ -76,8 +76,8 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 
 			if (vector2Channel)
 			{
-				const auto& frames = vector2Channel->GetFrames();
-				const auto& values = vector2Channel->GetValues();
+				const auto& frames    = vector2Channel->GetFrames();
+				const auto& values    = vector2Channel->GetValues();
 				const auto& constants = vector2Channel->GetConstants();
 
 				for (std::size_t i = 0; i < vector2Channel->GetNumFrames(); ++i)

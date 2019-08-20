@@ -21,11 +21,11 @@ namespace P3D
 {
 class P3DFile;
 class TextureFont;
-}
+} // namespace P3D
 
 namespace RCL
 {
-	class RCFFile;
+class RCFFile;
 }
 
 namespace GL

@@ -1,9 +1,9 @@
 #pragma once
 #include "glad/glad.h"
 
+#include <Render/Texture.h>
 #include <memory>
 #include <string>
-#include <Render/Texture.h>
 #include <unordered_map>
 
 namespace Donut
@@ -39,7 +39,7 @@ class Shader
 	std::string GetDiffuseTextureName() const { return _textureName; }
 
 	// Diffuse Color
-	// 
+	//
 
 	void Bind(GLuint unit) const;
 
@@ -69,7 +69,6 @@ class Shader
 	bool _twoSided;
 
 	BlendMode _blendMode;
-
 };
 
 } // namespace Donut

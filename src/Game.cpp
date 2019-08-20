@@ -1,25 +1,32 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/alext.h>
+#include <AL/efx.h>
+#include <AnimCamera.h>
 #include <Character.h>
 #include <Core/FpsTimer.h>
-#include <AnimCamera.h>
 #include <FreeCamera.h>
+#include <FrontendProject.h>
 #include <Game.h>
 #include <Input/Input.h>
-#include <Scripting/Commands.h>
 #include <Level.h>
-#include <FrontendProject.h>
-#include <P3D/P3DFile.h>
 #include <P3D/P3D.generated.h>
+#include <P3D/P3DFile.h>
 #include <Physics/WorldPhysics.h>
 #include <RCL/RCFFile.h>
 #include <RCL/RSDFile.h>
+#include <Render/Font.h>
 #include <Render/LineRenderer.h>
+#include <Render/OpenGL/FrameBuffer.h>
 #include <Render/OpenGL/ShaderProgram.h>
+#include <Render/Shader.h>
 #include <Render/SkinModel.h>
 #include <Render/SpriteBatch.h>
 #include <ResourceManager.h>
 #include <SDL.h>
+#include <Scripting/Commands.h>
 #include <Window.h>
 #include <array>
 #include <fmt/format.h>
@@ -35,15 +42,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <Render/OpenGL/FrameBuffer.h>
-
-#include <Render/Font.h>
-#include <Render/Shader.h>
-
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/alext.h>
-#include <AL/efx.h>
 
 namespace Donut
 {
@@ -79,8 +77,6 @@ void Game::TestAudio()
 	alGenBuffers(1, &buffer);
 	alGenSources(1, &source);
 }
-
-
 
 void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 {
@@ -153,7 +149,7 @@ Game::Game(int argc, char** argv)
 	//const float dpi_scale = 2.0f;
 	//ImGuiIO& io = ImGui::GetIO();
 	//ImGui::GetStyle().ScaleAllSizes(dpi_scale);
-    //io.FontGlobalScale = dpi_scale;
+	//io.FontGlobalScale = dpi_scale;
 
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
@@ -328,7 +324,6 @@ void Game::Run()
 
 	auto animCamera = AnimCamera::LoadP3D("art/missions/level01/mission0cam.p3d");
 
-
 	auto frontend = std::make_unique<FrontendProject>();
 	frontend->LoadP3D("art/frontend/scrooby/bootup.p3d");
 
@@ -423,10 +418,10 @@ void Game::Run()
 
 		ImGui::Render();
 
-		int viewportWidth = 0;
+		int viewportWidth  = 0;
 		int viewportHeight = 0;
 
-		viewportWidth = (int)io.DisplaySize.x;
+		viewportWidth  = (int)io.DisplaySize.x;
 		viewportHeight = (int)io.DisplaySize.y;
 
 		glViewport(0, 0, viewportWidth, viewportHeight);

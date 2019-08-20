@@ -1,7 +1,7 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Render/Texture.h>
 #include <P3D/P3D.generated.h>
+#include <Render/Texture.h>
 
 namespace Donut
 {

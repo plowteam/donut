@@ -69,7 +69,7 @@ class SkinModel
 	std::unique_ptr<GL::VertexBinding> _vertexBinding;
 	std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
 	std::unique_ptr<GL::IndexBuffer> _indexBuffer;
-    std::vector<PrimGroup> _primGroups;
+	std::vector<PrimGroup> _primGroups;
 };
 
 } // namespace Donut

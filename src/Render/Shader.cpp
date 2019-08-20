@@ -1,7 +1,7 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Render/Shader.h>
 #include <P3D/P3D.generated.h>
+#include <Render/Shader.h>
 #include <fmt/format.h>
 #include <iostream>
 
@@ -69,7 +69,7 @@ Shader::Shader(const P3D::Shader& shader):
 		}
 		else if (param->GetKey() == "UVMD")
 		{
-			uvmd = param->GetValue();
+			uvmd          = param->GetValue();
 			GLint glparam = (uvmd == 0) ? GL_REPEAT : GL_CLAMP_TO_EDGE;
 
 			glSamplerParameteri(_glSampler, GL_TEXTURE_WRAP_S, glparam);

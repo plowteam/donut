@@ -80,7 +80,7 @@ class Character
 	std::string _name;
 
 	std::string _modelName; // just for debug select
-	std::string _animName; // just for debug select
+	std::string _animName;  // just for debug select
 
 	glm::vec3 _position;
 	glm::quat _rotation;

@@ -14,7 +14,7 @@ BulletFenceShape::BulletFenceShape(const btVector3& start, const btVector3& end,
 void BulletFenceShape::getAabb(const btTransform& t, btVector3& aabbMin, btVector3& aabbMax) const
 {
 	const btScalar yMin(-100.f); // BT_LARGE_FLOAT
-	const btScalar yMax(100.f); // BT_LARGE_FLOAT
+	const btScalar yMax(100.f);  // BT_LARGE_FLOAT
 
 	aabbMin.setValue(m_start.getX(), yMin, m_start.getZ());
 	aabbMax.setValue(m_end.getX(), yMax, m_end.getZ());
@@ -51,4 +51,4 @@ const btVector3& BulletFenceShape::getLocalScaling() const
 	return m_localScaling;
 }
 
-}
+} // namespace Donut

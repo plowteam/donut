@@ -1,22 +1,20 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Level.h>
+#include <Core/File.h>
+#include <Entity.h>
 #include <Game.h>
-#include <ResourceManager.h>
+#include <Level.h>
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Physics/WorldPhysics.h>
-#include <Render/LineRenderer.h>
-#include <Render/OpenGL/ShaderProgram.h>
-#include <Entity.h>
-
-#include <Core/File.h>
 #include <Render/BillboardBatch.h>
 #include <Render/Font.h>
+#include <Render/LineRenderer.h>
 #include <Render/Mesh.h>
+#include <Render/OpenGL/ShaderProgram.h>
 #include <Render/Shader.h>
 #include <Render/WorldSphere.h>
-
+#include <ResourceManager.h>
 #include <array>
 #include <imgui.h>
 #include <iostream>
@@ -77,7 +75,7 @@ void Level::LoadP3D(const std::string& filename)
 
 	const auto p3d = P3D::P3DFile(fullpath);
 
-	auto& rm = Game::GetInstance().GetResourceManager();
+	auto& rm         = Game::GetInstance().GetResourceManager();
 	const auto& root = p3d.GetRoot();
 
 	for (const auto& chunk : root.GetChildren())
@@ -237,7 +235,7 @@ void Level::LoadP3D(const std::string& filename)
 
 void Level::DynaLoadData(const std::string& dynaLoadData)
 {
-/*	std::vector<std::string> regionsLoad, regionsUnload, interiorsLoad, interiorsUnload;
+	/*	std::vector<std::string> regionsLoad, regionsUnload, interiorsLoad, interiorsUnload;
 
 	// todo: this will probably fuck up on an invalid string
 	std::size_t prev = 0, pos;

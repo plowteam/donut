@@ -4,8 +4,8 @@
 
 #include <BulletCollision/CollisionDispatch/btCollisionWorld.h>
 #include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
-#include <Physics/BulletDebugDraw.h>
 #include <CharacterController.h>
+#include <Physics/BulletDebugDraw.h>
 
 namespace Donut
 {
@@ -21,24 +21,24 @@ class CollisionSphere;
 class CollisionCylinder;
 class CollisionVolume;
 class Fence;
-};
+}; // namespace P3D
 
 enum class PhysicsDebugDrawMode
 {
-	NoDebug = 0,
-	DrawWireframe = (1 << 0),
-	DrawAABB = (1 << 1),
-	DrawFeaturesText = (1 << 2),
+	NoDebug           = 0,
+	DrawWireframe     = (1 << 0),
+	DrawAABB          = (1 << 1),
+	DrawFeaturesText  = (1 << 2),
 	DrawContactPoints = (1 << 3),
-	DrawText = (1 << 6),
-	FastWireframe  = (1 << 13),
-	DrawNormals    = (1 << 14),
-	DrawFrames     = (1 << 15)
+	DrawText          = (1 << 6),
+	FastWireframe     = (1 << 13),
+	DrawNormals       = (1 << 14),
+	DrawFrames        = (1 << 15)
 };
 
 class WorldPhysics
 {
-public:
+  public:
 	WorldPhysics(LineRenderer*);
 	~WorldPhysics();
 
@@ -54,9 +54,9 @@ public:
 	btDiscreteDynamicsWorld* GetDynamicsWorld() const { return _dynamicsWorld; }
 
 	void SetDebugDrawMode(PhysicsDebugDrawMode mode) const { _debugDraw->setDebugMode((int)mode); }
-	PhysicsDebugDrawMode GetDebugDrawMode() const {return (PhysicsDebugDrawMode)_debugDraw->getDebugMode(); }
+	PhysicsDebugDrawMode GetDebugDrawMode() const { return (PhysicsDebugDrawMode)_debugDraw->getDebugMode(); }
 
-private:
+  private:
 	btDiscreteDynamicsWorld* _dynamicsWorld;
 
 	btDefaultCollisionConfiguration* _collisionConfiguration;
@@ -68,7 +68,7 @@ private:
 
 	// allocated objects for cleanup
 	std::vector<btCollisionObject*> _allocatedCollisionObjects;
-	std::vector <std::vector<uint32_t>*> _allocatedIndexArrays;
+	std::vector<std::vector<uint32_t>*> _allocatedIndexArrays;
 	std::vector<std::vector<glm::vec3>*> _allocatedVertexArrays;
 };
 } // namespace Donut

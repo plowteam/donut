@@ -11,8 +11,9 @@
 namespace Donut
 {
 
-namespace P3D {
-	class Skeleton;
+namespace P3D
+{
+class Skeleton;
 }
 
 class SkinAnimation;
@@ -44,6 +45,7 @@ class Skeleton
 	const std::vector<Joint>& GetJoints() const { return _joints; }
 	const Joint& GetJoint(const std::string& name) const { return _joints.at(_jointNameIndexMap.at(name)); }
 	const Joint& GetJoint(uint32_t index) const { return _joints.at(index); }
+
   private:
 	void updateJoints();
 

@@ -16,7 +16,7 @@ class Texture;
 class Sprite;
 class Shader;
 class Set;
-}
+} // namespace P3D
 
 class Texture;
 class Shader;

@@ -1,9 +1,9 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Render/SkinModel.h>
-#include <P3D/P3D.generated.h>
 #include <Game.h>
+#include <P3D/P3D.generated.h>
 #include <Render/Shader.h>
+#include <Render/SkinModel.h>
 
 namespace Donut
 {
@@ -37,15 +37,15 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 			if (primHasBoneIndices)
 			{
 				const auto m = primMatrixList[i];
-				auto i0 = (m >> 24) & 0xFF;
-				auto i1 = (m >> 16) & 0xFF;
-				auto i2 = (m >> 8) & 0xFF;
-				auto i3 = m & 0xFF;
+				auto i0      = (m >> 24) & 0xFF;
+				auto i1      = (m >> 16) & 0xFF;
+				auto i2      = (m >> 8) & 0xFF;
+				auto i3      = m & 0xFF;
 
 				boneIndices = glm::ivec3(
-					primMatrixPalette[i0],
-					primMatrixPalette[i1],
-					primMatrixPalette[i2]);
+				    primMatrixPalette[i0],
+				    primMatrixPalette[i1],
+				    primMatrixPalette[i2]);
 			}
 
 			const auto weight = primHasWeights ? primWeights[i] : glm::vec3(1, 0, 0);
@@ -73,7 +73,7 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 	}
 
 	_vertexBuffer = std::make_unique<GL::VertexBuffer>(vertices.data(), vertices.size(), sizeof(Vertex));
-	_indexBuffer = std::make_unique<GL::IndexBuffer>(indices.data(), indices.size(), GL_UNSIGNED_INT);
+	_indexBuffer  = std::make_unique<GL::IndexBuffer>(indices.data(), indices.size(), GL_UNSIGNED_INT);
 
 	GL::ArrayElement vertexLayout[] = {
 		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, sizeof(Vertex), offsetof(Vertex, pos)),

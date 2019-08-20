@@ -15,7 +15,7 @@ class ICompositeModel
   public:
 	virtual const std::vector<std::unique_ptr<P3D::CompositeDrawable>>& GetDrawables() const = 0;
 	virtual const std::vector<std::unique_ptr<P3D::Skeleton>>& GetSkeletons() const          = 0;
-	virtual const std::vector<std::unique_ptr<P3D::Geometry>>& GetMeshes() const                 = 0;
+	virtual const std::vector<std::unique_ptr<P3D::Geometry>>& GetMeshes() const             = 0;
 	virtual const std::vector<std::unique_ptr<P3D::Shader>>& GetShaders() const              = 0;
 	virtual const std::vector<std::unique_ptr<P3D::Texture>>& GetTextures() const            = 0;
 };

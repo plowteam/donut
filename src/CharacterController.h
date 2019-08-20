@@ -2,13 +2,12 @@
 
 #pragma once
 
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletCollision/CollisionShapes/btCapsuleShape.h>
+#include <BulletDynamics/Character/btKinematicCharacterController.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <memory>
-
-#include <BulletCollision/CollisionShapes/btCapsuleShape.h>
-#include <BulletDynamics/Character/btKinematicCharacterController.h>
-#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 class btDiscreteDynamicsWorld;
 
@@ -23,8 +22,7 @@ class WorldPhysics;
  */
 class CharacterController: public btCharacterControllerInterface
 {
-public:
-
+  public:
 	CharacterController(Character* character, WorldPhysics* physics);
 	~CharacterController();
 
@@ -81,4 +79,4 @@ public:
 	std::unique_ptr<btCapsuleShape> _physShape;
 	std::unique_ptr<btPairCachingGhostObject> _physGhostObject;
 };
-}
+} // namespace Donut

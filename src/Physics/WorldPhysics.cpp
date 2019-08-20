@@ -1,13 +1,11 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
+#include <BulletCollision/CollisionShapes/btBox2dShape.h>
 #include <P3D/P3D.generated.h>
 #include <Physics/BulletCast.h>
 #include <Physics/BulletDebugDraw.h>
-#include <Physics/WorldPhysics.h>
-
-#include <BulletCollision/CollisionShapes/btBox2dShape.h>
 #include <Physics/BulletFenceShape.h>
-
+#include <Physics/WorldPhysics.h>
 #include <glm/gtx/quaternion.hpp>
 
 namespace Donut
@@ -110,8 +108,8 @@ void WorldPhysics::AddCollisionVolume(const P3D::CollisionVolume& volume)
 	}
 
 	// process volume
-	auto const& obbox  = volume.GetObBox();
-	auto const& sphere = volume.GetSphere();
+	auto const& obbox    = volume.GetObBox();
+	auto const& sphere   = volume.GetSphere();
 	auto const& cylinder = volume.GetCylinder();
 
 	if (obbox != nullptr)
@@ -120,7 +118,6 @@ void WorldPhysics::AddCollisionVolume(const P3D::CollisionVolume& volume)
 		AddP3DSphere(*sphere);
 	else if (cylinder != nullptr)
 		AddP3DCylinder(*cylinder);
-
 }
 
 void WorldPhysics::AddP3DOBBoxVolume(const P3D::CollisionOBBoxVolume& volume)
@@ -171,8 +168,8 @@ void WorldPhysics::AddP3DSphere(const P3D::CollisionSphere& sphere)
 
 void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 {
-	const float radius = cylinder.GetRadius();
-	const float halfLength = cylinder.GetLength();
+	const float radius       = cylinder.GetRadius();
+	const float halfLength   = cylinder.GetLength();
 	const glm::quat rotation = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), cylinder.GetVectors()[1]);
 
 	btConvexShape* shape = nullptr;
@@ -197,18 +194,18 @@ void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 
 void WorldPhysics::AddP3DFence(const P3D::Fence& fence)
 {
-	glm::vec3 start = fence.GetStart();
-	glm::vec3 end   = fence.GetEnd();
-	glm::vec3 normal      = fence.GetNormal();
-	glm::vec3 center = end + (start - end)*0.5f;
+	glm::vec3 start  = fence.GetStart();
+	glm::vec3 end    = fence.GetEnd();
+	glm::vec3 normal = fence.GetNormal();
+	glm::vec3 center = end + (start - end) * 0.5f;
 
-	const float length = glm::distance(start, end);
+	const float length       = glm::distance(start, end);
 	const glm::quat rotation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), normal);
 
 	// tall box, very little thickness, might turn into a plane if possible
 	const btVector3 boxHalfExtents(length / 2, 50.0f, .0125f);
 
-	auto box = new btBoxShape(boxHalfExtents);
+	auto box          = new btBoxShape(boxHalfExtents);
 	const float angle = atan2f(normal.x, normal.z);
 
 	btTransform worldTransform;

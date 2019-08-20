@@ -1,13 +1,12 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <ResourceManager.h>
 #include <P3D/P3D.generated.h>
-
 #include <Render/Font.h>
+#include <Render/Mesh.h>
 #include <Render/Shader.h>
 #include <Render/Texture.h>
-#include <Render/Mesh.h>
-
+#include <ResourceManager.h>
+#include <chrono>
 #include <fmt/format.h>
 #include <imgui.h>
 #include <ctime>
@@ -15,7 +14,7 @@
 namespace Donut
 {
 
-ResourceManager::ResourceManager() = default;
+ResourceManager::ResourceManager()  = default;
 ResourceManager::~ResourceManager() = default;
 
 void ResourceManager::LoadTexture(const P3D::Texture& texture)

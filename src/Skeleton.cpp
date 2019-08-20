@@ -1,10 +1,9 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Skeleton.h>
-
-#include <cassert>
 #include <P3D/P3D.generated.h>
 #include <Render/SkinAnimation.h>
+#include <Skeleton.h>
+#include <cassert>
 
 namespace Donut
 {

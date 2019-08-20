@@ -2,11 +2,10 @@
 
 #pragma once
 
+#include <Render/Mesh.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
-
-#include <Render/Mesh.h>
 
 namespace Donut
 {
@@ -19,14 +18,12 @@ namespace P3D
 {
 class StaticEntity;
 class InstancedStaticPhysics;
-}
-
-
+} // namespace P3D
 
 class Entity
 {
   public:
-	Entity() = default;
+	Entity()          = default;
 	virtual ~Entity() = default;
 
 	virtual void Draw(GL::ShaderProgram&, bool opaque) {}
@@ -51,16 +48,16 @@ class StaticEntity: public Entity
 	std::unique_ptr<Mesh> _mesh;
 };
 
-class InstancedStaticEntity : public Entity
+class InstancedStaticEntity: public Entity
 {
-public:
+  public:
 	InstancedStaticEntity(const P3D::Geometry&, const std::vector<glm::mat4>&);
 
 	void Draw(GL::ShaderProgram&, bool opaque) override;
 
 	const std::string GetClassName() const override { return "InstancedStaticEntity"; }
 
-protected:
+  protected:
 	std::unique_ptr<MeshInstanced> _mesh;
 };
 

@@ -1,18 +1,20 @@
 #pragma once
 
+#include "glad/glad.h"
+
+#include <glm/glm.hpp>
 #include <memory>
 #include <string>
-#include "glad/glad.h"
-#include <glm/glm.hpp>
 
 namespace Donut
 {
 
 // forward declare
-namespace P3D {
+namespace P3D
+{
 class Sprite;
 class Texture;
-}
+} // namespace P3D
 
 class Texture
 {
@@ -39,4 +41,4 @@ class Texture
 	GLuint _glTexture;
 };
 
-}
+} // namespace Donut

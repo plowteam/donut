@@ -73,9 +73,9 @@ Window::Window(const std::string& title, const int width, const int height)
 		throw std::runtime_error("Failed to initialize the OpenGL context.");
 
 	std::cout << "OpenGL version loaded: " << GLVersion.major << "." << GLVersion.minor << "\n"
-			  << "Vendor: " << glGetString(GL_VENDOR) << "\n"
-			  << "Renderer: " << glGetString(GL_RENDERER) << "\n"
-			  << "Version: " << glGetString(GL_VERSION) << "\n"
+	          << "Vendor: " << glGetString(GL_VENDOR) << "\n"
+	          << "Renderer: " << glGetString(GL_RENDERER) << "\n"
+	          << "Version: " << glGetString(GL_VERSION) << "\n"
 	          << std::endl;
 
 	if (!GLAD_GL_VERSION_4_3)

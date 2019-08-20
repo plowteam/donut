@@ -4,42 +4,39 @@
 
 namespace Donut
 {
-	class FpsTimer
+class FpsTimer
+{
+
+  public:
+	FpsTimer():
+	    m_fps(0),
+	    m_oldFps(0.0),
+	    m_frameCount(0),
+	    m_frameTime(0.0)
 	{
+	}
 
-	public:
+	void Update(double time)
+	{
+		m_frameTime = time;
+		++m_frameCount;
+		m_oldFps += time;
 
-		FpsTimer() :
-			m_fps(0),
-			m_oldFps(0.0),
-			m_frameCount(0),
-			m_frameTime(0.0)
+		if (m_oldFps >= 1.0)
 		{
+			m_fps        = m_frameCount;
+			m_frameCount = 0;
+			m_oldFps     = 0.0;
 		}
+	}
 
-		void Update(double time)
-		{
-			m_frameTime = time;
-			++m_frameCount;
-			m_oldFps += time;
+	inline int GetFps() const { return m_fps; }
+	inline double GetFrameTime() const { return m_frameTime; }
 
-			if (m_oldFps >= 1.0)
-			{
-				m_fps = m_frameCount;
-				m_frameCount = 0;
-				m_oldFps = 0.0;
-			}
-		}
-
-		inline int GetFps() const { return m_fps; }
-		inline double GetFrameTime() const { return m_frameTime; }
-
-	private:
-
-		int m_fps;
-		double m_oldFps;
-		int m_frameCount;
-		double m_frameTime;
-
-	};
-}
+  private:
+	int m_fps;
+	double m_oldFps;
+	int m_frameCount;
+	double m_frameTime;
+};
+} // namespace Donut

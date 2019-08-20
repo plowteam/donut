@@ -23,7 +23,7 @@ CharacterController::CharacterController(Character* character, WorldPhysics* phy
 	_position       = character->GetPosition();
 	_targetPosition = BulletCast<btVector3>(character->GetPosition());
 
-	_physShape       = std::make_unique<btCapsuleShape>(0.4f, 0.95f);
+	_physShape = std::make_unique<btCapsuleShape>(0.4f, 0.95f);
 
 	_physGhostObject = std::make_unique<btPairCachingGhostObject>();
 	_physGhostObject->setWorldTransform(transform);

@@ -2,12 +2,12 @@
 
 #pragma once
 
+#include <P3D/P3D.generated.h>
 #include <Render/OpenGL/IndexBuffer.h>
 #include <Render/OpenGL/ShaderProgram.h>
-#include <Render/OpenGL/VertexBuffer.h>
 #include <Render/OpenGL/VertexBinding.h>
+#include <Render/OpenGL/VertexBuffer.h>
 #include <Render/SkinAnimation.h>
-#include <P3D/P3D.generated.h>
 #include <glm/glm.hpp>
 #include <string>
 
@@ -18,15 +18,13 @@ class Shader;
 
 class Mesh
 {
-public:
-
+  public:
 	Mesh(const P3D::Geometry& geometry);
 
 	void Commit();
 	void Draw(GL::ShaderProgram&, bool opaque);
 
-protected:
-
+  protected:
 	struct PrimGroup
 	{
 		std::string shaderName;
@@ -59,14 +57,12 @@ protected:
 	glm::vec3 _boundingBoxMax;
 };
 
-class MeshInstanced : public Mesh
+class MeshInstanced: public Mesh
 {
-public:
-
+  public:
 	MeshInstanced(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms);
 
-protected:
-
+  protected:
 	virtual void CreateVertexBinding() override;
 
 	virtual void DrawPrimGroup(const PrimGroup& primGroup) override;

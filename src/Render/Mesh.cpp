@@ -1,11 +1,10 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
+#include <Game.h>
 #include <Render/Mesh.h>
+#include <Render/Shader.h>
 #include <Render/SkinModel.h>
 #include <vector>
-
-#include <Game.h>
-#include <Render/Shader.h>
 
 namespace Donut
 {
@@ -25,8 +24,7 @@ void Mesh::CreateVertexBinding()
 {
 	static const size_t vertStride = sizeof(Vertex);
 
-	GL::ArrayElement vertexLayout[] =
-	{
+	GL::ArrayElement vertexLayout[] = {
 		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, vertStride, 0),
 		GL::ArrayElement(_vertexBuffer.get(), 1, 2, GL::AE_FLOAT, vertStride, 3 * sizeof(float)),
 		GL::ArrayElement(_vertexBuffer.get(), 2, 4, GL::AE_FLOAT, vertStride, 5 * sizeof(float)),
@@ -42,22 +40,22 @@ void Mesh::CreateMeshBuffers(const P3D::Geometry& geometry)
 	std::vector<uint32_t> allIndices;
 
 	size_t vertOffset = 0;
-	size_t idxOffset = 0;
+	size_t idxOffset  = 0;
 	for (auto const& prim : geometry.GetPrimitiveGroups())
 	{
-		auto verts = prim->GetVertices();
-		auto uvs = prim->GetUvs(0);
-		auto colors = prim->GetColors();
-		auto indices = prim->GetIndices();
+		auto verts     = prim->GetVertices();
+		auto uvs       = prim->GetUvs(0);
+		auto colors    = prim->GetColors();
+		auto indices   = prim->GetIndices();
 		bool hasColors = !colors.empty();
 
 		for (uint32_t i = 0; i < verts.size(); i++)
 		{
-			allVerts.push_back(Vertex{
-				verts[i],
-				glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
-				hasColors ? P3D::P3DUtil::ConvertColor(colors[i]) : glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
-				});
+			allVerts.push_back(Vertex {
+			    verts[i],
+			    glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
+			    hasColors ? P3D::P3DUtil::ConvertColor(colors[i]) : glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+			});
 		}
 
 		for (auto const& idx : prim->GetIndices())
@@ -84,14 +82,14 @@ void Mesh::CreateMeshBuffers(const P3D::Geometry& geometry)
 			break;
 		}
 
-		_primGroups.emplace_back(PrimGroup{ prim->GetShaderName(), mode, idxOffset, indices.size() });
+		_primGroups.emplace_back(PrimGroup { prim->GetShaderName(), mode, idxOffset, indices.size() });
 		idxOffset += indices.size();
 	}
 
 	_vertexBuffer =
-		std::make_shared<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
+	    std::make_shared<GL::VertexBuffer>(allVerts.data(), allVerts.size(), sizeof(Vertex));
 	_indexBuffer =
-		std::make_shared<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
+	    std::make_shared<GL::IndexBuffer>(allIndices.data(), allIndices.size(), GL_UNSIGNED_INT);
 }
 
 void Mesh::Draw(GL::ShaderProgram& shader, bool opaque)
@@ -141,32 +139,27 @@ void Mesh::Draw(GL::ShaderProgram& shader, bool opaque)
 void Mesh::DrawPrimGroup(const PrimGroup& primGroup)
 {
 	glDrawElements(
-		primGroup.type,
-		static_cast<GLsizei>(primGroup.indicesCount),
-		_indexBuffer->GetType(),
-		reinterpret_cast<void*>(primGroup.indicesOffset * 4));
+	    primGroup.type,
+	    static_cast<GLsizei>(primGroup.indicesCount),
+	    _indexBuffer->GetType(),
+	    reinterpret_cast<void*>(primGroup.indicesOffset * 4));
 }
 
-
-
-
-
-MeshInstanced::MeshInstanced(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms) :
+MeshInstanced::MeshInstanced(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms):
     Mesh(geometry),
-	_transforms(std::move(transforms))
+    _transforms(std::move(transforms))
 {
 }
 
 void MeshInstanced::CreateVertexBinding()
 {
-	static const size_t vertStride = sizeof(Mesh::Vertex);
+	static const size_t vertStride     = sizeof(Mesh::Vertex);
 	static const size_t instanceStride = sizeof(glm::mat4);
 
 	_instanceBuffer =
-		std::make_shared<GL::VertexBuffer>(_transforms.data(), _transforms.size(), instanceStride);
+	    std::make_shared<GL::VertexBuffer>(_transforms.data(), _transforms.size(), instanceStride);
 
-	GL::ArrayElement vertexLayout[] =
-	{
+	GL::ArrayElement vertexLayout[] = {
 		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, vertStride, 0),
 		GL::ArrayElement(_vertexBuffer.get(), 1, 2, GL::AE_FLOAT, vertStride, 3 * sizeof(float)),
 		GL::ArrayElement(_vertexBuffer.get(), 2, 4, GL::AE_FLOAT, vertStride, 5 * sizeof(float)),
@@ -184,13 +177,11 @@ void MeshInstanced::CreateVertexBinding()
 void MeshInstanced::DrawPrimGroup(const PrimGroup& primGroup)
 {
 	glDrawElementsInstanced(
-		primGroup.type,
-		static_cast<GLsizei>(primGroup.indicesCount),
-		_indexBuffer->GetType(),
-		reinterpret_cast<void*>(primGroup.indicesOffset * 4),
-		(GLsizei)_transforms.size());
+	    primGroup.type,
+	    static_cast<GLsizei>(primGroup.indicesCount),
+	    _indexBuffer->GetType(),
+	    reinterpret_cast<void*>(primGroup.indicesOffset * 4),
+	    (GLsizei)_transforms.size());
 }
-
-
 
 } // namespace Donut

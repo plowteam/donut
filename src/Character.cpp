@@ -8,10 +8,9 @@
 #include <Physics/BulletCast.h>
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
-#include <fmt/format.h>
-
 #include <Skeleton.h>
 #include <filesystem>
+#include <fmt/format.h>
 
 namespace Donut
 {
@@ -136,7 +135,6 @@ void Character::SetRotation(const glm::quat& rotation)
 	_rotation = rotation;
 }
 
-
 void Character::addAnimation(const P3D::Animation& p3dAnim)
 {
 	const auto& animGroupList = p3dAnim.GetGroupList();
@@ -170,7 +168,7 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 		}
 		else
 		{
-			const auto& animGroup = groups.at(groupNameIndex.at(joint.name));
+			const auto& animGroup                   = groups.at(groupNameIndex.at(joint.name));
 			const auto& vector2Channel              = animGroup->GetVector2ChannelsValue("TRAN");
 			const auto& vector3Channel              = animGroup->GetVector3ChannelsValue("TRAN");
 			const auto& quaternionChannel           = animGroup->GetQuaternionChannelsValue("ROT");
@@ -199,10 +197,10 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 				for (std::size_t i = 0; i < compressedQuaternionChannel->GetNumFrames(); ++i)
 				{
 					const uint64_t& value = values[i];
-					float z = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
-					float y = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
-					float x = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
-					float w = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
+					float z               = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
+					float y               = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
+					float x               = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
+					float w               = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
 
 					track->AddRotationKey(frames[i], glm::quat(w, x, y, z));
 				}

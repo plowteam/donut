@@ -7,7 +7,7 @@
 
 #ifdef _WIN32
 #include <Windows.h>
-#endif 
+#endif
 
 int main(int argc, char** argv)
 {
@@ -25,19 +25,20 @@ int main(int argc, char** argv)
 	             "+---------------------------------------------------+\n"
 	          << std::endl;
 
-	#ifdef NDEBUG
-	try {
-	#endif
+#ifdef NDEBUG
+	try
+	{
+#endif
 		const auto game = std::make_unique<Donut::Game>(argc, argv);
 		game->Run();
-	#ifdef NDEBUG
+#ifdef NDEBUG
 	}
 	catch (std::runtime_error& e)
 	{
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal error", e.what(), nullptr);
 		return EXIT_FAILURE;
 	}
-	#endif
+#endif
 
 	return EXIT_SUCCESS;
 }

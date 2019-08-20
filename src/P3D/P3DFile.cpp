@@ -1,8 +1,8 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
 #include <Core/File.h>
-#include <P3D/P3DFile.h>
 #include <P3D/P3DChunk.h>
+#include <P3D/P3DFile.h>
 
 namespace Donut::P3D
 {

@@ -3,10 +3,10 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <string>
 #include <memory>
-#include <vector>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace Donut
 {
@@ -25,7 +25,7 @@ class WorldSphere;
 
 class Level
 {
-public:
+  public:
 	Level();
 	~Level();
 
@@ -41,7 +41,7 @@ public:
 	void loadRegion(const std::string& filename);
 	void unloadRegion(const std::string& filename);
 
-    std::unique_ptr<WorldSphere> _worldSphere;
+	std::unique_ptr<WorldSphere> _worldSphere;
 	std::vector<std::unique_ptr<Entity>> _entities;
 	std::vector<std::unique_ptr<Entity>> _instances;
 	std::vector<std::unique_ptr<BillboardBatch>> _billboardBatches;
@@ -53,8 +53,7 @@ public:
 
 	class Path
 	{
-	public:
-
+	  public:
 		std::vector<glm::vec3> points;
 	};
 
