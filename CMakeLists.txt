@@ -94,7 +94,7 @@ if (OPENAL_FOUND)
     target_include_directories(OPENAL INTERFACE "${OPENAL_INCLUDE_DIR}")
 endif()
 
-find_package(Bullet REQUIRED COMPONENTS BulletCollision_Debug BulletDynamics_Debug LinearMath_Debug)
+find_package(Bullet REQUIRED COMPONENTS BulletCollision BulletDynamics LinearMath)
 
 # More Dependencies
 add_subdirectory(thirdparty)
