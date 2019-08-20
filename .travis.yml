@@ -1,0 +1,24 @@
+dist: bionic
+language: cpp
+compiler: gcc
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages: [
+      cmake, gcc-9, g++-9, ccache,
+      libsdl2-dev, libglm, libopenal-dev, libbullet-dev
+    ]
+
+cache:
+  directories:
+    - .cache
+    - $HOME/.ccache
+  apt: true
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+script: make
