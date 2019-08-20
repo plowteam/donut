@@ -7,14 +7,11 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install gcc-9 libsdl2-dev libglm-dev libopenal-dev libbullet-dev -y
 
-cache:
-  directories:
-    - .cache
-    - $HOME/.ccache
-  apt: true
-
 before_script:
-  - mkdir build
-  - cd build
+  - export CC=gcc-9
+  - export CXX=g++-9
+  - mkdir -p build && cd build
   - cmake ..
-script: make
+
+script:
+  -cmake --build .
