@@ -2,17 +2,10 @@ dist: bionic
 language: cpp
 compiler: gcc
 
-addons:
-  apt:
-    sources:
-      - ppa:ubuntu-toolchain-r/test
-    packages:
-      - gcc-9
-      - g++-9
-      - libsdl2-dev,
-      - libglm-dev
-      - libopenal-dev
-      - libbullet-dev
+before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -q
+  - sudo apt-get install gcc-9 libsdl2-dev libglm-dev libopenal-dev libbullet-dev -y
 
 cache:
   directories:
