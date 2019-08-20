@@ -75,30 +75,30 @@ BillboardBatch::BillboardBatch(const P3D::BillboardQuadGroup& billboardQuadGroup
 	_vertexBinding = std::make_shared<GL::VertexBinding>();
 	_vertexBinding->Create(vertexLayout, 8, *_indexBuffer, GL::ElementType::AE_UINT);
 
-	_shader = Game::GetInstance().GetResourceManager().GetShader(billboardQuadGroup.GetShader());
+	_shader = billboardQuadGroup.GetShader();
 	_zTest  = billboardQuadGroup.GetZTest() == 1;
 	_zWrite = billboardQuadGroup.GetZWrite() == 1;
 }
 
 void BillboardBatch::Draw(GL::ShaderProgram& shader, bool opaque)
 {
-	bool trans = (!_shader->IsAlphaTested() && _shader->IsTranslucent());
+	auto const& material = Game::GetInstance().GetResourceManager().GetShader(_shader);
 
-		_shader = billboardQuadGroup.GetShader();
-		_zTest = billboardQuadGroup.GetZTest() == 1;
-		_zWrite = billboardQuadGroup.GetZWrite() == 1;
+	bool trans = (!material->IsAlphaTested() && material->IsTranslucent());
+
+	if (trans && opaque)
+	{
+		return;
 	}
 
 	if (!trans && !opaque)
 	{
-	    auto const& material = Game::GetInstance().GetResourceManager().GetShader(_shader);
+		return;
+	}
 
-		bool trans = (!material->IsAlphaTested() && material->IsTranslucent());
-
-		if (trans && opaque)
-		{
-			return;
-		}
+	if (!opaque)
+	{
+		auto blendMode = material->GetBlendMode();
 
 		if (blendMode == BlendMode::Alpha)
 		{
@@ -106,16 +106,7 @@ void BillboardBatch::Draw(GL::ShaderProgram& shader, bool opaque)
 		}
 		else if (blendMode == BlendMode::Additive)
 		{
-		    auto blendMode = material->GetBlendMode();
-
-			if (blendMode == BlendMode::Alpha)
-			{
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			}
-			else if (blendMode == BlendMode::Additive)
-			{
-				glBlendFunc(GL_ONE, GL_ONE);
-			}
+			glBlendFunc(GL_ONE, GL_ONE);
 		}
 	}
 
@@ -130,13 +121,13 @@ void BillboardBatch::Draw(GL::ShaderProgram& shader, bool opaque)
 
 	glDepthMask(_zWrite ? GL_TRUE : GL_FALSE);
 
-		shader.SetUniformValue("alphaMask", material->IsAlphaTested() ? 0.5f : 0.0f);
+	shader.SetUniformValue("alphaMask", material->IsAlphaTested() ? 0.5f : 0.0f);
 
-		_vertexBinding->Bind();
+	_vertexBinding->Bind();
 
-	    material->Bind(0);
-		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, _numQuads);
-		_vertexBinding->Unbind();
+	material->Bind(0);
+	glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, _numQuads);
+	_vertexBinding->Unbind();
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);

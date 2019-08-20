@@ -37,16 +37,8 @@ class BillboardBatch
 
 	uint32_t _numQuads;
 
-	Shader* _shader;
+	std::string _shader;
 	bool _zTest;
 	bool _zWrite;
 };
 } // namespace Donut
-
-		uint32_t _numQuads;
-
-		std::string _shader;
-		bool _zTest;
-		bool _zWrite;
-	};
-}

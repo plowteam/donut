@@ -6,7 +6,7 @@
 
 namespace Donut
 {
-enum class Button : size_t
+enum class Button : std::size_t
 {
 	None = 0,
 
