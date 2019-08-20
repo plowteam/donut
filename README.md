@@ -2,7 +2,7 @@
 
 [![Travis Build](https://img.shields.io/travis/com/plowteam/donut?logo=travis)](https://travis-ci.com/plowteam/donut)
 [![Appveyor Build](https://img.shields.io/appveyor/ci/handsomematt/donut?logo=appveyor)](https://ci.appveyor.com/project/handsomematt/donut)
-![GitHub Stars](https://img.shields.io/github/stars/plowteam/donut?logo=github)
+[![GitHub Stars](https://img.shields.io/github/stars/plowteam/donut?logo=github)](https://github.com/plowteam/donut/stargazers)
 [![Discord chat](https://img.shields.io/discord/611594006803120148?logo=discord&logoColor=white)](https://discord.gg/xpdbWzG)
 [![License](https://img.shields.io/github/license/plowteam/donut)](LICENSE.md)
 
