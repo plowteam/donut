@@ -1,50 +1,6 @@
-## (c)make
-CMakeFiles
-*/CMakeFiles
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-makefile
-build*
-prebuilt
-/bin
+# cmake build directory
+/build/
 
-## windows build process
+# ide files
 .vs
-/deps
-/MSVC*
-
-# VSCode cache files
 /.vscode/
-/.vscode/ipch/
-
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-!/dev/codegen/*
