@@ -44,7 +44,7 @@ LineRenderer::LineRenderer(size_t maxVertexCount):
 {
 	_buffer.resize(kVertexSize * _maxVertexCount, 0);
 
-	_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, _maxVertexCount, kVertexSize);
+	_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, _maxVertexCount, kVertexSize, GL_DYNAMIC_DRAW);
 
 	GL::ArrayElement vertexLayout[] = {
 		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, kVertexSize, 0),

@@ -130,7 +130,7 @@ SpriteBatch::SpriteBatch(size_t maxSpriteCount):
 	static const size_t faceVertCount = 6;
 	static const size_t vertStride    = vertSize * sizeof(float);
 
-	_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, _maxSpriteCount * faceVertCount, vertStride);
+	_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, _maxSpriteCount * faceVertCount, vertStride, GL_DYNAMIC_DRAW);
 
 	GL::ArrayElement vertexLayout[] = {
 		GL::ArrayElement(_vertexBuffer.get(), 0, 2, GL::AE_FLOAT, vertStride, 0),
