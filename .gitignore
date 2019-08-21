@@ -15,6 +15,7 @@ prebuilt
 /MSVC*
 
 # VSCode cache files
+/.vscode/
 /.vscode/ipch/
 
 # Prerequisites
