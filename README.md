@@ -19,7 +19,7 @@ donut is an open source reimplementation of The Simpsons: Hit & Run written in m
 
 # Building
 
-Clone the code using: `git clone --recursive https://github.com/plowteam/donut.git`
+Clone the code using: `git clone --recursive https://github.com/plowteam/donut.git`, build following the instructions below and then copy the assets folder and the original game files into the `build/bin` folder.
 
 ## Windows
 
