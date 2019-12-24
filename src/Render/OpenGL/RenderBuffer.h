@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <glad/glad.h>
+#include "Render/OpenGL/glad/glad.h"
 
 namespace Donut::GL
 {

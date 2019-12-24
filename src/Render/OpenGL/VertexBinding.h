@@ -3,7 +3,7 @@
 #pragma once
 
 #include <cstddef>
-#include <glad/glad.h>
+#include "Render/OpenGL/glad/glad.h"
 
 namespace Donut::GL
 {

@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include <glad/glad.h>
+#include "Render/OpenGL/glad/glad.h"
+
 #include <glm/glm.hpp>
 #include <map>
 #include <string>

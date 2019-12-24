@@ -28,9 +28,9 @@
 #include <SDL.h>
 #include <Scripting/Commands.h>
 #include <Window.h>
+#include "Render/OpenGL/glad/glad.h"
 #include <array>
 #include <fmt/format.h>
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>

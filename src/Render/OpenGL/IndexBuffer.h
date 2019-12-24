@@ -2,8 +2,9 @@
 
 #pragma once
 
+#include "Render/OpenGL/glad/glad.h"
+
 #include <cstdio>
-#include <glad/glad.h>
 #include <memory>
 #include <stdint.h>
 
