@@ -28,7 +28,13 @@
 #include <SDL.h>
 #include <Scripting/Commands.h>
 #include <Window.h>
+
 #include "Render/OpenGL/glad/glad.h"
+
+#include "Render/imgui/imgui.h"
+#include "Render/imgui/imgui_impl_opengl3.h"
+#include "Render/imgui/imgui_impl_sdl.h"
+ 
 #include <array>
 #include <fmt/format.h>
 #include <glm/glm.hpp>
@@ -36,9 +42,6 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/transform.hpp>
-#include <imgui.h>
-#include <imgui_impl_opengl3.h>
-#include <imgui_impl_sdl.h>
 #include <iostream>
 #include <sstream>
 #include <string>

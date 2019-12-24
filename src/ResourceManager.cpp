@@ -6,11 +6,13 @@
 #include <Render/Shader.h>
 #include <Render/Texture.h>
 #include <ResourceManager.h>
+
 #include "Render/OpenGL/glad/glad.h"
+#include "Render/imgui/imgui.h"
+
 #include <chrono>
 #include <ctime>
 #include <fmt/format.h>
-#include <imgui.h>
 
 namespace Donut
 {
