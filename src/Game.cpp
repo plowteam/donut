@@ -575,7 +575,7 @@ void Game::guiDebugMenu()
 
 void Game::debugDrawP3D(const P3D::P3DFile& p3d)
 {
-	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiCond_Once);
 	ImGui::Begin(p3d.GetFileName().c_str());
 
 	ImGui::SetNextItemOpen(true); // open the root node
@@ -606,7 +606,7 @@ void Game::debugDrawRCF()
 {
 	if (_filesRCF.empty()) return;
 
-	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiSetCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiCond_Once);
 	ImGui::Begin("RADCORE CEMENT LIBRARY");
 
 	for (const auto& rcf : _filesRCF)

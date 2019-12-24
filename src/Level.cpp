@@ -266,7 +266,7 @@ void Level::DynaLoadData(const std::string& dynaLoadData)
 
 void Level::ImGuiDebugWindow(bool* p_open) const
 {
-	ImGui::SetNextWindowSize(ImVec2(300, 400), ImGuiSetCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(300, 400), ImGuiCond_FirstUseEver);
 	if (!ImGui::Begin("Level", p_open))
 	{
 		ImGui::End();
