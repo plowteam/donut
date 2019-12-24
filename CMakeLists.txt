@@ -98,6 +98,8 @@ find_package(Bullet REQUIRED COMPONENTS BulletCollision BulletDynamics LinearMat
 
 # More Dependencies
 add_subdirectory(thirdparty)
+find_package(fmt REQUIRED)
+find_package(glm REQUIRED)
 
 # The Code
 add_subdirectory(src)
