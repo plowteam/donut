@@ -7,10 +7,6 @@ file(GLOB_RECURSE DONUT_HEADERS "${CMAKE_CURRENT_LIST_DIR}/*.h")
 set(DONUT_RC ${CMAKE_SOURCE_DIR}/assets/windows/donut.rc)
 set(DONUT_MANIFEST ${CMAKE_SOURCE_DIR}/assets/windows/donut.exe.manifest)
 
-# force glm left handedness
-add_definitions(-DGLM_FORCE_LEFT_HANDED -DGLM_FORCE_RADIANS
-				-DGLM_ENABLE_EXPERIMENTAL)
-				
 # imgui use GLAD loader
 add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD)
 
@@ -49,7 +45,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
 		SDL2::SDL2
-		glm
 		fmt::fmt
 	)
 
