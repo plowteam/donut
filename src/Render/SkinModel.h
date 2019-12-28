@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include <Render/OpenGL/IndexBuffer.h>
-#include <Render/OpenGL/TextureBuffer.h>
-#include <Render/OpenGL/VertexBinding.h>
-#include <Render/OpenGL/VertexBuffer.h>
-#include <Render/SkinAnimation.h>
-#include <ResourceManager.h>
-#include <glm/glm.hpp>
+#include "Core/Math/Vector3Int.h"
+#include "Render/OpenGL/IndexBuffer.h"
+#include "Render/OpenGL/TextureBuffer.h"
+#include "Render/OpenGL/VertexBinding.h"
+#include "Render/OpenGL/VertexBuffer.h"
+#include "Render/SkinAnimation.h"
+#include "ResourceManager.h"
+
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -30,13 +31,13 @@ class SkinModel
 {
 	struct Vertex
 	{
-		glm::vec3 pos;
-		glm::vec3 normal;
-		glm::vec2 uv;
-		glm::vec3 boneWeights;
-		glm::ivec3 boneIndices;
+		Vector3 pos;
+		Vector3 normal;
+		Vector2 uv;
+		Vector3 boneWeights;
+		Vector3Int boneIndices;
 
-		Vertex(glm::vec3 pos, glm::vec3 normal, glm::vec2 uv, glm::vec3 boneWeights, glm::ivec3 boneIndices):
+		Vertex(Vector3 pos, Vector3 normal, Vector2 uv, Vector3 boneWeights, Vector3Int boneIndices):
 		    pos(pos), normal(normal), uv(uv), boneWeights(boneWeights), boneIndices(boneIndices)
 		{
 		}

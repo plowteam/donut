@@ -5,8 +5,7 @@
 #include <BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <BulletCollision/CollisionShapes/btCapsuleShape.h>
 #include <BulletDynamics/Character/btKinematicCharacterController.h>
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
+
 #include <memory>
 
 class btDiscreteDynamicsWorld;
@@ -64,12 +63,12 @@ class CharacterController: public btCharacterControllerInterface
 	btConvexShape* _convexShape;
 	btManifoldArray _manifoldArray;
 
-	glm::vec3 _position;
-	glm::quat _rotation;
+	Vector3 _position;
+	Quaternion _rotation;
 
 	btVector3 _targetPosition;
 
-	glm::vec3 _walkDirection;
+	Vector3 _walkDirection;
 	btScalar _verticalVelocity;
 	btScalar _verticalOffset;
 	btScalar _stepHeight;

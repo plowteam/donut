@@ -12,7 +12,7 @@ namespace Donut
 CharacterController::CharacterController(Character* character, WorldPhysics* physics):
     _character(character), _worldPhysics(physics)
 {
-	_walkDirection    = glm::vec3(0.0f, 0.0f, 0.0f);
+	_walkDirection    = Vector3(0.0f, 0.0f, 0.0f);
 	_verticalVelocity = 0.0f;
 	_verticalOffset   = 0.0f;
 	_stepHeight       = 0.05;
@@ -58,7 +58,7 @@ void CharacterController::reset(btCollisionWorld* collisionWorld) {}
 
 void CharacterController::setWalkDirection(const btVector3& walkDirection)
 {
-	_walkDirection = BulletCast<glm::vec3>(walkDirection);
+	_walkDirection = BulletCast<Vector3>(walkDirection);
 }
 
 void CharacterController::setVelocityForTimeInterval(const btVector3& velocity, btScalar timeInterval)
@@ -73,7 +73,7 @@ void CharacterController::warp(const btVector3& origin)
 	transform.setOrigin(origin);
 
 	_physGhostObject->setWorldTransform(transform);
-	_position       = BulletCast<glm::vec3>(origin);
+	_position       = BulletCast<Vector3>(origin);
 	_targetPosition = origin;
 }
 
@@ -83,7 +83,7 @@ void CharacterController::preStep(btCollisionWorld* collisionWorld)
 	while (recoverFromPenetration(collisionWorld) && numPenetrationLoops < 4)
 		numPenetrationLoops++;
 
-	_position       = BulletCast<glm::vec3>(_physGhostObject->getWorldTransform().getOrigin());
+	_position       = BulletCast<Vector3>(_physGhostObject->getWorldTransform().getOrigin());
 	_targetPosition = BulletCast<btVector3>(_position);
 }
 
@@ -108,7 +108,7 @@ void CharacterController::playerStep(btCollisionWorld* collisionWorld, btScalar 
 	// stepForwardAndStrafe()
 	stepDown(collisionWorld, dt);
 
-	_position = BulletCast<glm::vec3>(_targetPosition);
+	_position = BulletCast<Vector3>(_targetPosition);
 	transform.setOrigin(BulletCast<btVector3>(_position));
 	_physGhostObject->setWorldTransform(transform);
 	_character->SetPosition(_position);
@@ -191,7 +191,7 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 	    collisionWorld->getDispatchInfo(),
 	    collisionWorld->getDispatcher());
 
-	_position = BulletCast<glm::vec3>(_physGhostObject->getWorldTransform().getOrigin());
+	_position = BulletCast<Vector3>(_physGhostObject->getWorldTransform().getOrigin());
 
 	btScalar maxPenetration = 0.0;
 
@@ -233,7 +233,7 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 						_touchingNormal = pt.m_normalWorldOnB * directionSign;
 					}
 
-					_position += BulletCast<glm::vec3>(pt.m_normalWorldOnB * directionSign * dist * 0.2);
+					_position += BulletCast<Vector3>(pt.m_normalWorldOnB * directionSign * dist * 0.2);
 					penetration = true;
 				}
 			}
@@ -266,8 +266,8 @@ btVector3 CharacterController::perpendicularComponent(const btVector3& direction
 void CharacterController::stepUp(btCollisionWorld* world)
 {
 	btTransform start, end;
-	_targetPosition = BulletCast<btVector3>(_position + glm::vec3(0.0f, 1.0f, 0.0f) * _stepHeight);
-	_position       = BulletCast<glm::vec3>(_targetPosition);
+	_targetPosition = BulletCast<btVector3>(_position + Vector3(0.0f, 1.0f, 0.0f) * _stepHeight);
+	_position       = BulletCast<Vector3>(_targetPosition);
 }
 
 void CharacterController::updateTargetPositionBasedOnCollision(const btVector3& hitNormal,

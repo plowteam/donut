@@ -1,10 +1,11 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Game.h>
-#include <Render/LineRenderer.h>
-#include <Render/SkinAnimation.h>
-#include <Render/WorldSphere.h>
-#include <Skeleton.h>
+#include "WorldSphere.h"
+
+#include "Game.h"
+#include "Render/LineRenderer.h"
+#include "Render/SkinAnimation.h"
+#include "Skeleton.h"
 
 namespace Donut
 {
@@ -58,8 +59,8 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 		auto track = std::make_unique<SkinAnimation::Track>(joint.name);
 
 		const auto& jointRestPose    = joint.rest;
-		const auto& jointTranslation = jointRestPose[3];
-		const auto& jointRotation    = glm::quat_cast(jointRestPose);
+		const auto& jointTranslation = jointRestPose.Translation();
+		const auto& jointRotation    = jointRestPose.ToQuat();
 
 		if (groupNameIndex.find(joint.name) == groupNameIndex.end())
 		{
@@ -82,7 +83,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 
 				for (std::size_t i = 0; i < vector2Channel->GetNumFrames(); ++i)
 				{
-					track->AddTranslationKey(frames[i], constants + glm::vec3(values[i].x, 0.0f, values[i].y));
+					track->AddTranslationKey(frames[i], constants + Vector3(values[i].X, 0.0f, values[i].Y));
 				}
 			}
 			else if (vector3Channel)
@@ -107,8 +108,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 
 				for (std::size_t i = 0; i < quaternionChannel->GetNumFrames(); ++i)
 				{
-					auto q = values[i];
-					track->AddRotationKey(frames[i], glm::quat(q.x, q.y, q.z, q.w));
+					track->AddRotationKey(frames[i], values[i]);
 				}
 			}
 			else if (compressedQuaternionChannel)
@@ -124,7 +124,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 					float x               = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
 					float w               = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
 
-					track->AddRotationKey(frames[i], glm::quat(w, x, y, z));
+					track->AddRotationKey(frames[i], Quaternion(w, x, y, z));
 				}
 			}
 			else
@@ -151,7 +151,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 	// Lens Flare
 }
 
-void WorldSphere::Draw(GL::ShaderProgram& shader, const glm::mat4& viewProj, bool opaque) const
+void WorldSphere::Draw(GL::ShaderProgram& shader, const Matrix4x4& viewProj, bool opaque) const
 {
 	for (auto const& prop : _props)
 	{
@@ -170,7 +170,7 @@ void WorldSphere::Update(double deltatime)
 	if (_animation != nullptr)
 		_skeleton->UpdatePose(*_animation, _animTime);
 
-	//Game::GetInstance().GetLineRenderer().DrawSkeleton(glm::vec3(0.0, 0.0, 0.0), *_skeleton);
+	//Game::GetInstance().GetLineRenderer().DrawSkeleton(Vector3(0.0, 0.0, 0.0), *_skeleton);
 }
 
 } // namespace Donut

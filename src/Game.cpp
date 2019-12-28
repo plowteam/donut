@@ -1,47 +1,43 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
+#include "Game.h"
+
+#include "AnimCamera.h"
+#include "Character.h"
+#include "Core/Math/Math.h"
+#include "Core/FpsTimer.h"
+#include "FreeCamera.h"
+#include "FrontendProject.h"
+#include "Input/Input.h"
+#include "Level.h"
+#include "P3D/P3D.generated.h"
+#include "P3D/P3DFile.h"
+#include "Physics/WorldPhysics.h"
+#include "RCL/RCFFile.h"
+#include "RCL/RSDFile.h"
+#include "Render/imgui/imgui.h"
+#include "Render/imgui/imgui_impl_opengl3.h"
+#include "Render/imgui/imgui_impl_sdl.h"
+#include "Render/OpenGL/FrameBuffer.h"
+#include "Render/OpenGL/ShaderProgram.h"
+#include "Render/OpenGL/glad/glad.h"
+#include "Render/Font.h"
+#include "Render/LineRenderer.h"
+#include "Render/Shader.h"
+#include "Render/SkinModel.h"
+#include "Render/SpriteBatch.h"
+#include "ResourceManager.h"
+#include "Scripting/Commands.h"
+#include "Window.h"
+
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alext.h>
 #include <AL/efx.h>
-#include <AnimCamera.h>
-#include <Character.h>
-#include <Core/FpsTimer.h>
-#include <FreeCamera.h>
-#include <FrontendProject.h>
-#include <Game.h>
-#include <Input/Input.h>
-#include <Level.h>
-#include <P3D/P3D.generated.h>
-#include <P3D/P3DFile.h>
-#include <Physics/WorldPhysics.h>
-#include <RCL/RCFFile.h>
-#include <RCL/RSDFile.h>
-#include <Render/Font.h>
-#include <Render/LineRenderer.h>
-#include <Render/OpenGL/FrameBuffer.h>
-#include <Render/OpenGL/ShaderProgram.h>
-#include <Render/Shader.h>
-#include <Render/SkinModel.h>
-#include <Render/SpriteBatch.h>
-#include <ResourceManager.h>
-#include <SDL.h>
-#include <Scripting/Commands.h>
-#include <Window.h>
-
-#include "Render/OpenGL/glad/glad.h"
-
-#include "Render/imgui/imgui.h"
-#include "Render/imgui/imgui_impl_opengl3.h"
-#include "Render/imgui/imgui_impl_sdl.h"
- 
-#include <array>
 #include <fmt/format.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/gtx/string_cast.hpp>
-#include <glm/gtx/transform.hpp>
+#include <SDL.h>
+
+#include <array>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -207,7 +203,7 @@ Game::Game(int argc, char** argv)
 	// _level->LoadP3D("l1r3.p3d");
 	// _level->LoadP3D("l1r4a.p3d");
 	// _level->LoadP3D("l1r6.p3d");
-	// _level->LoadP3D("l1z2.p3d");
+	_level->LoadP3D("l1z2.p3d");
 	// _level->LoadP3D("l1z3.p3d");
 	// _level->LoadP3D("l1z4.p3d");
 	// _level->LoadP3D("l1z6.p3d");
@@ -221,7 +217,10 @@ Game::Game(int argc, char** argv)
 	LoadModel("homer", "homer");
 
 	_camera = std::make_unique<FreeCamera>();
-	_camera->MoveTo(glm::vec3(228.0f, 5.0f, -174.0f));
+	_camera->SetPosition(Vector3(228.0f, 5.0f, -174.0f));
+	_camera->SetFOV(70.0f);
+	_camera->SetZNear(1.0f);
+	_camera->SetZFar(100000.0f);
 
 	_mouseLocked = false;
 }
@@ -256,7 +255,7 @@ void Game::LoadModel(const std::string& name, const std::string& anim)
 	_character = std::make_unique<Character>("pc");
 	_character->LoadModel(name);
 	_character->LoadAnimations(anim);
-	_character->SetPosition(glm::vec3(220, 4.5, -172));
+	_character->SetPosition(Vector3(220, 4.5, -172));
 
 	if (anim == "homer")
 		_character->SetAnimation("hom_loco_walk");
@@ -283,19 +282,19 @@ void Game::LockMouse(bool lockMouse)
 	Input::ResetMouseDelta();
 }
 
-std::vector<std::tuple<std::string, glm::vec3, std::string>> locations {
-	{ "Simpsons' House", glm::vec3(220, 3.5, -172), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" },
-	{ "Kwik E Mart", glm::vec3(209, 3.6, -285), "l1z2.p3d;l1r1.p3d;l1r2.p3d;" },
-	{ "Church", glm::vec3(193.8, -0.9, -570), "l1r2.p3d;l1z2.p3d;l1z3.p3d;" },
-	{ "Springfield Elementary", glm::vec3(-11, 0.7, -586), "l1z3.p3d;l1r2.p3d;l1r3.p3d;" },
-	{ "Burns' Mansion", glm::vec3(-186, 3.5, -96), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
-	{ "Stonecutters Tunnel", glm::vec3(-405, 2, 60), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
-	{ "Power Plant Interior", glm::vec3(-80, 0.8, 297), "l1r4a.p3d;l1z6.p3d;l1r6.p3d;" },
-	{ "Power Plant Parking Lot", glm::vec3(40, 0, 296), "l1z6.p3d;l1r6.p3d;" },
-	{ "Tomacco", glm::vec3(190, -0.7, 425), "l1r6.p3d;l1z6.p3d;l1z7.p3d;" },
-	{ "Trailer Park", glm::vec3(391, -2.2, 494), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
-	{ "Cletus' House", glm::vec3(333.5, -1.8, 356), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
-	{ "Graveyard", glm::vec3(368, 5.1, 5.4), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" }
+std::vector<std::tuple<std::string, Vector3, std::string>> locations {
+	{ "Simpsons' House", Vector3(220, 3.5, -172), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" },
+	{ "Kwik E Mart", Vector3(209, 3.6, -285), "l1z2.p3d;l1r1.p3d;l1r2.p3d;" },
+	{ "Church", Vector3(193.8, -0.9, -570), "l1r2.p3d;l1z2.p3d;l1z3.p3d;" },
+	{ "Springfield Elementary", Vector3(-11, 0.7, -586), "l1z3.p3d;l1r2.p3d;l1r3.p3d;" },
+	{ "Burns' Mansion", Vector3(-186, 3.5, -96), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
+	{ "Stonecutters Tunnel", Vector3(-405, 2, 60), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
+	{ "Power Plant Interior", Vector3(-80, 0.8, 297), "l1r4a.p3d;l1z6.p3d;l1r6.p3d;" },
+	{ "Power Plant Parking Lot", Vector3(40, 0, 296), "l1z6.p3d;l1r6.p3d;" },
+	{ "Tomacco", Vector3(190, -0.7, 425), "l1r6.p3d;l1z6.p3d;l1z7.p3d;" },
+	{ "Trailer Park", Vector3(391, -2.2, 494), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
+	{ "Cletus' House", Vector3(333.5, -1.8, 356), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
+	{ "Graveyard", Vector3(368, 5.1, 5.4), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" }
 };
 
 std::vector<std::pair<std::string, std::string>> models {
@@ -363,14 +362,16 @@ void Game::Run()
 			_camera->LookDelta(mouseDeltaX * 0.25f, mouseDeltaY * 0.25f);
 		}
 
-		auto inputForce = glm::vec3(0.0f);
-		if (Input::IsDown(Button::KeyW)) inputForce -= glm::vec3(0.0f, 0.0f, 1.0f);
-		if (Input::IsDown(Button::KeyS)) inputForce += glm::vec3(0.0f, 0.0f, 1.0f);
-		if (Input::IsDown(Button::KeyA)) inputForce += glm::vec3(1.0f, 0.0f, 0.0f);
-		if (Input::IsDown(Button::KeyD)) inputForce -= glm::vec3(1.0f, 0.0f, 0.0f);
-		if (glm::length2(inputForce) > 0.0f)
+		auto inputForce = Vector3(0.0f);
+		if (Input::IsDown(Button::KeyW)) inputForce += Vector3::Forward;
+		if (Input::IsDown(Button::KeyS)) inputForce += Vector3::Backward;
+		if (Input::IsDown(Button::KeyA)) inputForce += Vector3::Left;
+		if (Input::IsDown(Button::KeyD)) inputForce += Vector3::Right;
+		if (Input::IsDown(Button::KeySPACE)) inputForce += Vector3::Up;
+		if (Input::IsDown(Button::KeyLCONTROL)) inputForce += Vector3::Down;
+		if (inputForce.LengthSquared() > 0.0f)
 		{
-			inputForce = glm::normalize(inputForce);
+			inputForce.Normalize();
 			inputForce *= Input::IsDown(Button::KeyLSHIFT) ? 60.0f : 10.0f;
 			_camera->Move(inputForce, static_cast<float>(deltaTime));
 		}
@@ -412,7 +413,14 @@ void Game::Run()
 		if (ImGui::Begin("Camera position overlay", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
 		{
 			auto const& camPos = _camera->GetPosition();
-			ImGui::Text("Camera Position: (%.1f,%.1f, %.1f)", camPos.x, camPos.y, camPos.z);
+			auto const& camRot = _camera->GetOrientation();
+			ImGui::Text("Camera Position: %s", camPos.ToString().c_str());
+			ImGui::Text("Camera Orientation: %s", camRot.ToString().c_str());
+
+			float fov = _camera->GetFOV();
+			if (ImGui::SliderFloat("FOV", &fov, 0.0f, 120.0f))
+				_camera->SetFOV(fov);
+
 		}
 		ImGui::End();
 
@@ -435,11 +443,11 @@ void Game::Run()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projectionMatrix = glm::perspective(
-		    glm::radians(70.0f), (float)viewportWidth / (float)viewportHeight, 0.1f, 10000.0f);
-
-		glm::mat4 viewMatrix     = _camera->GetViewMatrix();
-		glm::mat4 viewProjection = projectionMatrix * viewMatrix;
+		_camera->SetAspectRatio(static_cast<float>(viewportWidth) / static_cast<float>(viewportHeight));
+		
+		Matrix4x4 viewMatrix     = _camera->GetViewMatrix();
+		Matrix4x4 projMatrix     = _camera->GetProjectionMatrix();
+		Matrix4x4 viewProjection = projMatrix * viewMatrix;
 
 		if (_level != nullptr) _level->Draw(viewProjection);
 
@@ -450,17 +458,17 @@ void Game::Run()
 		_lineRenderer->Flush(viewProjection);
 		glEnable(GL_DEPTH_TEST);
 
-		glm::mat4 proj = glm::ortho(0.0f, (float)viewportWidth, (float)viewportHeight, 0.0f);
+		Matrix4x4 proj = Matrix4x4::MakeOrtho(0.0f, viewportWidth, viewportHeight, 0.0f);
 
 		if (_textureFontP3D != nullptr)
 		{
 			std::string fps = fmt::format("{0} fps", timer.GetFps());
 			auto font       = _resourceManager->GetFont("boulder_16");
-			sprites.DrawText(font, fps, glm::vec2(32 + 3, 32 + 3), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-			sprites.DrawText(font, fps, glm::vec2(32, 32), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+			sprites.DrawText(font, fps, Vector2(32 + 3, 32 + 3), Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+			sprites.DrawText(font, fps, Vector2(32, 32), Vector4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
-		sprites.Flush(proj);
+		 sprites.Flush(proj);
 		//frontend->Draw(proj);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -507,7 +515,7 @@ void Game::guiModelMenu(Character& character)
 		ImGui::EndCombo();
 	}
 
-	glm::vec3 pos = character.GetPosition();
+	Vector3 pos = character.GetPosition();
 	if (ImGui::InputFloat3("Position", &pos[0]))
 		character.SetPosition(pos);
 
@@ -525,14 +533,14 @@ void Game::guiTeleportMenu()
 		{
 			if (ImGui::MenuItem(std::get<0>(location).c_str()))
 			{
-				const glm::vec3& dest = std::get<1>(location);
+				const Vector3& dest = std::get<1>(location);
 				//_worldPhysics->GetCharacterController()->SetPosition(dest);
-				_camera->MoveTo(dest);
+				_camera->SetPosition(dest);
 			}
 			if (ImGui::IsItemHovered())
 			{
 				ImGui::BeginTooltip();
-				ImGui::TextUnformatted(glm::to_string(std::get<1>(location)).c_str());
+				ImGui::TextUnformatted(std::get<1>(location).ToString().c_str());
 				ImGui::TextUnformatted(std::get<2>(location).c_str());
 				ImGui::EndTooltip();
 			}

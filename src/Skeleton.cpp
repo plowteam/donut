@@ -26,13 +26,13 @@ Skeleton::Skeleton(const P3D::Skeleton& skeleton):
 
 	// inverse those globals afterwards
 	for (auto i = 0; i < _joints.size(); i++)
-		_joints[i].restGlobalInverse = glm::inverse(_joints[i].restGlobalInverse);
+		_joints[i].restGlobalInverse = _joints[i].restGlobalInverse.Inverse();
 }
 
 void Skeleton::ResetPose()
 {
 	for (auto& joint : _joints)
-		joint.pose = glm::mat4(1.0f);
+		joint.pose = Matrix4x4::Identity;
 
 	updateJoints();
 }
@@ -41,7 +41,7 @@ void Skeleton::UpdatePose(SkinAnimation& animation, double time)
 {
 	time *= animation.GetFrameRate();
 
-	_joints[0].pose = glm::mat4(1.0f);
+	_joints[0].pose = Matrix4x4::Identity;
 
 	for (auto i = 0; i < _joints.size(); i++)
 		_joints[i].pose = _joints[_joints[i].parent].pose * animation.Evaluate(i, static_cast<float>(time));

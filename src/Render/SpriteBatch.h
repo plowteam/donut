@@ -2,7 +2,10 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Core/Math/Fwd.h"
+#include "Core/Math/Vector2.h"
+#include "Core/Math/Vector4.h"
+
 #include <map>
 #include <memory>
 #include <stack>
@@ -26,17 +29,17 @@ class SpriteBatch
   public:
 	SpriteBatch(size_t = 1000);
 
-	void Flush(const glm::mat4&, float = 1.0f);
-	void DrawText(const class Font*, const std::string&, const glm::vec2&, const glm::vec4&);
-	void Draw(Texture*, const glm::vec2&, float, const glm::vec4&);
-	void Draw(Texture*, const glm::vec2&, const glm::vec2&, const glm::vec4&);
-	void Draw(Texture*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
-	void Draw(Texture*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
-	void Draw9Slice(Texture*, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
-	void Draw9Slice(Texture*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&, const glm::vec4&, bool = true);
+	void Flush(const Matrix4x4&, float = 1.0f);
+	void DrawText(const class Font*, const std::string&, const Vector2&, const Vector4&);
+	void Draw(Texture*, const Vector2&, float, const Vector4&);
+	void Draw(Texture*, const Vector2&, const Vector2&, const Vector4&);
+	void Draw(Texture*, const Vector2&, const Vector2&, float, const Vector4&);
+	void Draw(Texture*, const Vector2&, const Vector2&, const Vector2&, const Vector2&, const Vector4&);
+	void Draw9Slice(Texture*, const Vector2&, const Vector2&, const Vector4&, const Vector4&, bool = true);
+	void Draw9Slice(Texture*, const Vector2&, const Vector2&, const Vector2&, const Vector2&, const Vector4&, const Vector4&, bool = true);
 
 	void EnableClipping(bool clipping) { _clipping = clipping; }
-	void SetClippingRect(const glm::vec4& clippingRect) { _clippingRect = clippingRect; }
+	void SetClippingRect(const Vector4& clippingRect) { _clippingRect = clippingRect; }
 
 	size_t GetDrawCallCount() const { return _drawCallCount; }
 
@@ -45,34 +48,34 @@ class SpriteBatch
   private:
 	struct Sprite
 	{
-		Sprite(Texture*, const glm::vec2&, const glm::vec2&, float, const glm::vec4&);
-		Sprite(Texture*, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec4&);
+		Sprite(Texture*, const Vector2&, const Vector2&, float, const Vector4&);
+		Sprite(Texture*, const Vector2&, const Vector2&, const Vector2&, const Vector2&, const Vector4&);
 
 		Texture* _texture;
-		glm::vec2 _position;
-		glm::vec2 _size;
-		glm::vec2 _uv1;
-		glm::vec2 _uv2;
-		glm::vec4 _colour;
+		Vector2 _position;
+		Vector2 _size;
+		Vector2 _uv1;
+		Vector2 _uv2;
+		Vector4 _colour;
 		float _angle;
 	};
 
 	struct Slice
 	{
-		glm::vec2 _uv1;
-		glm::vec2 _uv2;
-		glm::vec2 _drawPosition;
-		glm::vec2 _drawSize;
+		Vector2 _uv1;
+		Vector2 _uv2;
+		Vector2 _drawPosition;
+		Vector2 _drawSize;
 	};
 
 	struct NineSliceProperties
 	{
 		NineSliceProperties(
-		    const glm::vec2&,
-		    const glm::vec2&,
-		    const glm::vec2&,
-		    const glm::vec2&,
-		    const glm::vec2&);
+		    const Vector2&,
+		    const Vector2&,
+		    const Vector2&,
+		    const Vector2&,
+		    const Vector2&);
 
 		void GetTopLeftSlice(Slice&) const;
 		void GetTopRightSlice(Slice&) const;
@@ -84,23 +87,23 @@ class SpriteBatch
 		void GetRightMidSlice(Slice&) const;
 		void GetMidSlice(Slice&) const;
 
-		const glm::vec2 _glyphSize;
-		const glm::vec2 _topLeftSlicePx;
-		const glm::vec2 _bottomRightSlicePx;
-		const glm::vec2 _topLeftSlice;
-		const glm::vec2 _bottomRightSlice;
-		const glm::vec2 _drawPosition;
-		const glm::vec2 _drawSize;
+		const Vector2 _glyphSize;
+		const Vector2 _topLeftSlicePx;
+		const Vector2 _bottomRightSlicePx;
+		const Vector2 _topLeftSlice;
+		const Vector2 _bottomRightSlice;
+		const Vector2 _drawPosition;
+		const Vector2 _drawSize;
 	};
 
-	void DrawSlice(Texture*, const Slice&, const glm::vec4&);
-	static void TransformUV(glm::vec2&, const glm::vec2&, const glm::vec2&, const glm::vec2&);
-	static void TransformUVs(Slice&, const glm::vec2&, const glm::vec2&, const glm::vec2&);
-	bool IsSpriteInsideClippingRect(const glm::vec2&, const glm::vec2&);
+	void DrawSlice(Texture*, const Slice&, const Vector4&);
+	static void TransformUV(Vector2&, const Vector2&, const Vector2&, const Vector2&);
+	static void TransformUVs(Slice&, const Vector2&, const Vector2&, const Vector2&);
+	bool IsSpriteInsideClippingRect(const Vector2&, const Vector2&);
 
 	std::vector<Sprite> _spritesToDraw;
 	bool _clipping;
-	glm::vec4 _clippingRect;
+	Vector4 _clippingRect;
 	size_t _drawCallCount;
 	size_t _maxSpriteCount;
 	std::vector<float> _vertexData;

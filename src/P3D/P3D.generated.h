@@ -16,12 +16,13 @@
   +---------------------------------------------------+
 */
 
-#include <P3D/P3DChunk.h>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/mat4x4.hpp>
+#include "Core/Math/Matrix4x4.h"
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector2.h"
+#include "Core/Math/Vector3.h"
+#include "Core/Math/Vector4.h"
+#include "P3D/P3DChunk.h"
+
 #include <string>
 #include <memory>
 #include <vector>
@@ -270,10 +271,10 @@ namespace Donut::P3D
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetParam() const { return _param; }
         const uint16_t& GetMapping() const { return _mapping; }
-        const glm::vec3& GetConstants() const { return _constants; }
+        const Vector3& GetConstants() const { return _constants; }
         const uint32_t& GetNumFrames() const { return _numFrames; }
         const std::vector<uint16_t>& GetFrames() const { return _frames; }
-        const std::vector<glm::vec2>& GetValues() const { return _values; }
+        const std::vector<Vector2>& GetValues() const { return _values; }
         const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
 
     private:
@@ -281,10 +282,10 @@ namespace Donut::P3D
         uint32_t _version;
         std::string _param;
         uint16_t _mapping;
-        glm::vec3 _constants;
+        Vector3 _constants;
         uint32_t _numFrames;
         std::vector<uint16_t> _frames;
-        std::vector<glm::vec2> _values;
+        std::vector<Vector2> _values;
         std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
 
     };
@@ -301,7 +302,7 @@ namespace Donut::P3D
         const std::string& GetParam() const { return _param; }
         const uint32_t& GetNumFrames() const { return _numFrames; }
         const std::vector<uint16_t>& GetFrames() const { return _frames; }
-        const std::vector<glm::vec3>& GetValues() const { return _values; }
+        const std::vector<Vector3>& GetValues() const { return _values; }
         const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
 
     private:
@@ -310,7 +311,7 @@ namespace Donut::P3D
         std::string _param;
         uint32_t _numFrames;
         std::vector<uint16_t> _frames;
-        std::vector<glm::vec3> _values;
+        std::vector<Vector3> _values;
         std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
 
     };
@@ -327,7 +328,7 @@ namespace Donut::P3D
         const std::string& GetParam() const { return _param; }
         const uint32_t& GetNumFrames() const { return _numFrames; }
         const std::vector<uint16_t>& GetFrames() const { return _frames; }
-        const std::vector<glm::quat>& GetValues() const { return _values; }
+        const std::vector<Quaternion>& GetValues() const { return _values; }
         const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
 
     private:
@@ -336,7 +337,7 @@ namespace Donut::P3D
         std::string _param;
         uint32_t _numFrames;
         std::vector<uint16_t> _frames;
-        std::vector<glm::quat> _values;
+        std::vector<Quaternion> _values;
         std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
 
     };
@@ -425,13 +426,13 @@ namespace Donut::P3D
 
         static std::unique_ptr<BoundingBox> Load(const P3DChunk& chunk) { return std::make_unique<BoundingBox>(chunk); }
 
-        const glm::vec3& GetMin() const { return _min; }
-        const glm::vec3& GetMax() const { return _max; }
+        const Vector3& GetMin() const { return _min; }
+        const Vector3& GetMax() const { return _max; }
 
     private:
 
-        glm::vec3 _min;
-        glm::vec3 _max;
+        Vector3 _min;
+        Vector3 _max;
 
     };
 
@@ -443,12 +444,12 @@ namespace Donut::P3D
 
         static std::unique_ptr<BoundingSphere> Load(const P3DChunk& chunk) { return std::make_unique<BoundingSphere>(chunk); }
 
-        const glm::vec3& GetCentre() const { return _centre; }
+        const Vector3& GetCentre() const { return _centre; }
         const float& GetRadius() const { return _radius; }
 
     private:
 
-        glm::vec3 _centre;
+        Vector3 _centre;
         float _radius;
 
     };
@@ -468,13 +469,13 @@ namespace Donut::P3D
         const uint32_t& GetNumVerts() const { return _numVerts; }
         const uint32_t& GetNumIndices() const { return _numIndices; }
         const uint32_t& GetNumMatrices() const { return _numMatrices; }
-        const std::vector<glm::vec3>& GetVertices() const { return _vertices; }
+        const std::vector<Vector3>& GetVertices() const { return _vertices; }
         const std::vector<uint32_t>& GetIndices() const { return _indices; }
-        const std::vector<glm::vec3>& GetNormals() const { return _normals; }
-        const std::vector<glm::vec2>& GetUvs(size_t index) const { return _uvs.at(index); }
+        const std::vector<Vector3>& GetNormals() const { return _normals; }
+        const std::vector<Vector2>& GetUvs(size_t index) const { return _uvs.at(index); }
         const std::vector<uint32_t>& GetMatrixList() const { return _matrixList; }
         const std::vector<uint32_t>& GetMatrixPalette() const { return _matrixPalette; }
-        const std::vector<glm::vec3>& GetWeightList() const { return _weightList; }
+        const std::vector<Vector3>& GetWeightList() const { return _weightList; }
         const std::vector<uint32_t>& GetColors() const { return _colors; }
 
     private:
@@ -486,13 +487,13 @@ namespace Donut::P3D
         uint32_t _numVerts;
         uint32_t _numIndices;
         uint32_t _numMatrices;
-        std::vector<glm::vec3> _vertices;
+        std::vector<Vector3> _vertices;
         std::vector<uint32_t> _indices;
-        std::vector<glm::vec3> _normals;
-        std::vector<std::vector<glm::vec2>> _uvs;
+        std::vector<Vector3> _normals;
+        std::vector<std::vector<Vector2>> _uvs;
         std::vector<uint32_t> _matrixList;
         std::vector<uint32_t> _matrixPalette;
-        std::vector<glm::vec3> _weightList;
+        std::vector<Vector3> _weightList;
         std::vector<uint32_t> _colors;
 
     };
@@ -506,12 +507,12 @@ namespace Donut::P3D
         static std::unique_ptr<PositionList> Load(const P3DChunk& chunk) { return std::make_unique<PositionList>(chunk); }
 
         const uint32_t& GetSize() const { return _size; }
-        const std::vector<glm::vec3>& GetPositions() const { return _positions; }
+        const std::vector<Vector3>& GetPositions() const { return _positions; }
 
     private:
 
         uint32_t _size;
-        std::vector<glm::vec3> _positions;
+        std::vector<Vector3> _positions;
 
     };
 
@@ -542,12 +543,12 @@ namespace Donut::P3D
         static std::unique_ptr<NormalList> Load(const P3DChunk& chunk) { return std::make_unique<NormalList>(chunk); }
 
         const uint32_t& GetSize() const { return _size; }
-        const std::vector<glm::vec3>& GetNormals() const { return _normals; }
+        const std::vector<Vector3>& GetNormals() const { return _normals; }
 
     private:
 
         uint32_t _size;
-        std::vector<glm::vec3> _normals;
+        std::vector<Vector3> _normals;
 
     };
 
@@ -561,13 +562,13 @@ namespace Donut::P3D
 
         const uint32_t& GetSize() const { return _size; }
         const uint32_t& GetChannel() const { return _channel; }
-        const std::vector<glm::vec2>& GetUvs() const { return _uvs; }
+        const std::vector<Vector2>& GetUvs() const { return _uvs; }
 
     private:
 
         uint32_t _size;
         uint32_t _channel;
-        std::vector<glm::vec2> _uvs;
+        std::vector<Vector2> _uvs;
 
     };
 
@@ -616,12 +617,12 @@ namespace Donut::P3D
         static std::unique_ptr<WeightList> Load(const P3DChunk& chunk) { return std::make_unique<WeightList>(chunk); }
 
         const uint32_t& GetSize() const { return _size; }
-        const std::vector<glm::vec3>& GetUvs() const { return _uvs; }
+        const std::vector<Vector3>& GetUvs() const { return _uvs; }
 
     private:
 
         uint32_t _size;
-        std::vector<glm::vec3> _uvs;
+        std::vector<Vector3> _uvs;
 
     };
 
@@ -680,7 +681,7 @@ namespace Donut::P3D
         const int32_t& GetPrimaryAxis() const { return _primaryAxis; }
         const int32_t& GetSecondaryAxis() const { return _secondaryAxis; }
         const int32_t& GetTwistAxis() const { return _twistAxis; }
-        const glm::mat4& GetRestPose() const { return _restPose; }
+        const Matrix4x4& GetRestPose() const { return _restPose; }
         const std::unique_ptr<SkeletonJointMirrorMap>& GetMirrorMap() const { return _mirrorMap; }
         const std::unique_ptr<SkeletonJointBonePreserve>& GetBonePreserve() const { return _bonePreserve; }
 
@@ -693,7 +694,7 @@ namespace Donut::P3D
         int32_t _primaryAxis;
         int32_t _secondaryAxis;
         int32_t _twistAxis;
-        glm::mat4 _restPose;
+        Matrix4x4 _restPose;
         std::unique_ptr<SkeletonJointMirrorMap> _mirrorMap;
         std::unique_ptr<SkeletonJointBonePreserve> _bonePreserve;
 
@@ -708,12 +709,12 @@ namespace Donut::P3D
         static std::unique_ptr<SkeletonJointMirrorMap> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJointMirrorMap>(chunk); }
 
         const uint32_t& GetJointIndex() const { return _jointIndex; }
-        const glm::vec3& GetAxis() const { return _axis; }
+        const Vector3& GetAxis() const { return _axis; }
 
     private:
 
         uint32_t _jointIndex;
-        glm::vec3 _axis;
+        Vector3 _axis;
 
     };
 
@@ -957,7 +958,7 @@ namespace Donut::P3D
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetNumChildren() const { return _numChildren; }
-        const glm::mat4& GetTransform() const { return _transform; }
+        const Matrix4x4& GetTransform() const { return _transform; }
         const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
         const std::vector<std::unique_ptr<SceneGraphDrawable>>& GetDrawables() const { return _drawables; }
 
@@ -965,7 +966,7 @@ namespace Donut::P3D
 
         std::string _name;
         uint32_t _numChildren;
-        glm::mat4 _transform;
+        Matrix4x4 _transform;
         std::vector<std::unique_ptr<SceneGraphTransform>> _children;
         std::vector<std::unique_ptr<SceneGraphDrawable>> _drawables;
 
@@ -1212,15 +1213,15 @@ namespace Donut::P3D
         static std::unique_ptr<Intersect> Load(const P3DChunk& chunk) { return std::make_unique<Intersect>(chunk); }
 
         const std::vector<uint32_t>& GetIndices() const { return _indices; }
-        const std::vector<glm::vec3>& GetPositions() const { return _positions; }
-        const std::vector<glm::vec3>& GetNormals() const { return _normals; }
+        const std::vector<Vector3>& GetPositions() const { return _positions; }
+        const std::vector<Vector3>& GetNormals() const { return _normals; }
         const std::unique_ptr<BoundingBox>& GetBounds() const { return _bounds; }
 
     private:
 
         std::vector<uint32_t> _indices;
-        std::vector<glm::vec3> _positions;
-        std::vector<glm::vec3> _normals;
+        std::vector<Vector3> _positions;
+        std::vector<Vector3> _normals;
         std::unique_ptr<BoundingBox> _bounds;
 
     };
@@ -1292,16 +1293,16 @@ namespace Donut::P3D
         const uint32_t& GetVersion() const { return _version; }
         const std::string& GetName() const { return _name; }
         const std::string& GetMode() const { return _mode; }
-        const glm::vec3& GetTranslation() const { return _translation; }
+        const Vector3& GetTranslation() const { return _translation; }
         const uint32_t& GetColor() const { return _color; }
-        const glm::vec2& GetUv0() const { return _uv0; }
-        const glm::vec2& GetUv1() const { return _uv1; }
-        const glm::vec2& GetUv2() const { return _uv2; }
-        const glm::vec2& GetUv3() const { return _uv3; }
+        const Vector2& GetUv0() const { return _uv0; }
+        const Vector2& GetUv1() const { return _uv1; }
+        const Vector2& GetUv2() const { return _uv2; }
+        const Vector2& GetUv3() const { return _uv3; }
         const float& GetWidth() const { return _width; }
         const float& GetHeight() const { return _height; }
         const float& GetDistance() const { return _distance; }
-        const glm::vec2& GetUvOffset() const { return _uvOffset; }
+        const Vector2& GetUvOffset() const { return _uvOffset; }
         const std::unique_ptr<BillboardDisplayInfo>& GetDisplayInfo() const { return _displayInfo; }
         const std::unique_ptr<BillboardPerspectiveInfo>& GetPerspectiveInfo() const { return _perspectiveInfo; }
 
@@ -1310,16 +1311,16 @@ namespace Donut::P3D
         uint32_t _version;
         std::string _name;
         std::string _mode;
-        glm::vec3 _translation;
+        Vector3 _translation;
         uint32_t _color;
-        glm::vec2 _uv0;
-        glm::vec2 _uv1;
-        glm::vec2 _uv2;
-        glm::vec2 _uv3;
+        Vector2 _uv0;
+        Vector2 _uv1;
+        Vector2 _uv2;
+        Vector2 _uv3;
         float _width;
         float _height;
         float _distance;
-        glm::vec2 _uvOffset;
+        Vector2 _uvOffset;
         std::unique_ptr<BillboardDisplayInfo> _displayInfo;
         std::unique_ptr<BillboardPerspectiveInfo> _perspectiveInfo;
 
@@ -1364,18 +1365,18 @@ namespace Donut::P3D
         static std::unique_ptr<BillboardDisplayInfo> Load(const P3DChunk& chunk) { return std::make_unique<BillboardDisplayInfo>(chunk); }
 
         const uint32_t& GetVersion() const { return _version; }
-        const glm::quat& GetRotation() const { return _rotation; }
+        const Quaternion& GetRotation() const { return _rotation; }
         const std::string& GetCutOffMode() const { return _cutOffMode; }
-        const glm::vec2& GetUvOffsetRange() const { return _uvOffsetRange; }
+        const Vector2& GetUvOffsetRange() const { return _uvOffsetRange; }
         const float& GetSourceRange() const { return _sourceRange; }
         const float& GetEdgeRange() const { return _edgeRange; }
 
     private:
 
         uint32_t _version;
-        glm::quat _rotation;
+        Quaternion _rotation;
         std::string _cutOffMode;
-        glm::vec2 _uvOffsetRange;
+        Vector2 _uvOffsetRange;
         float _sourceRange;
         float _edgeRange;
 
@@ -1849,7 +1850,7 @@ namespace Donut::P3D
         const uint32_t& GetVersion() const { return _version; }
         const uint32_t& GetTranslucent() const { return _translucent; }
         const uint32_t& GetNumPoints() const { return _numPoints; }
-        const std::vector<glm::vec3>& GetPoints() const { return _points; }
+        const std::vector<Vector3>& GetPoints() const { return _points; }
         const std::vector<uint32_t>& GetColors() const { return _colors; }
 
     private:
@@ -1858,7 +1859,7 @@ namespace Donut::P3D
         uint32_t _version;
         uint32_t _translucent;
         uint32_t _numPoints;
-        std::vector<glm::vec3> _points;
+        std::vector<Vector3> _points;
         std::vector<uint32_t> _colors;
 
     };
@@ -1915,15 +1916,15 @@ namespace Donut::P3D
 
         const std::string& GetName() const { return _name; }
         const uint32_t& GetIsRect() const { return _isRect; }
-        const glm::vec3& GetBounds() const { return _bounds; }
-        const glm::mat4& GetTransform() const { return _transform; }
+        const Vector3& GetBounds() const { return _bounds; }
+        const Matrix4x4& GetTransform() const { return _transform; }
 
     private:
 
         std::string _name;
         uint32_t _isRect;
-        glm::vec3 _bounds;
-        glm::mat4 _transform;
+        Vector3 _bounds;
+        Matrix4x4 _transform;
 
     };
 
@@ -1941,9 +1942,9 @@ namespace Donut::P3D
         const float& GetAspectRatio() const { return _aspectRatio; }
         const float& GetNearClip() const { return _nearClip; }
         const float& GetFarClip() const { return _farClip; }
-        const glm::vec3& GetPosition() const { return _position; }
-        const glm::vec3& GetForward() const { return _forward; }
-        const glm::vec3& GetUp() const { return _up; }
+        const Vector3& GetPosition() const { return _position; }
+        const Vector3& GetForward() const { return _forward; }
+        const Vector3& GetUp() const { return _up; }
 
     private:
 
@@ -1953,9 +1954,9 @@ namespace Donut::P3D
         float _aspectRatio;
         float _nearClip;
         float _farClip;
-        glm::vec3 _position;
-        glm::vec3 _forward;
-        glm::vec3 _up;
+        Vector3 _position;
+        Vector3 _forward;
+        Vector3 _up;
 
     };
 
@@ -2078,12 +2079,12 @@ namespace Donut::P3D
         static std::unique_ptr<CollisionSphere> Load(const P3DChunk& chunk) { return std::make_unique<CollisionSphere>(chunk); }
 
         const float& GetRadius() const { return _radius; }
-        const std::vector<glm::vec3>& GetVectors() const { return _vectors; }
+        const std::vector<Vector3>& GetVectors() const { return _vectors; }
 
     private:
 
         float _radius;
-        std::vector<glm::vec3> _vectors;
+        std::vector<Vector3> _vectors;
 
     };
 
@@ -2098,14 +2099,14 @@ namespace Donut::P3D
         const float& GetRadius() const { return _radius; }
         const float& GetLength() const { return _length; }
         const uint16_t& GetFlatEnd() const { return _flatEnd; }
-        const std::vector<glm::vec3>& GetVectors() const { return _vectors; }
+        const std::vector<Vector3>& GetVectors() const { return _vectors; }
 
     private:
 
         float _radius;
         float _length;
         uint16_t _flatEnd;
-        std::vector<glm::vec3> _vectors;
+        std::vector<Vector3> _vectors;
 
     };
 
@@ -2117,13 +2118,13 @@ namespace Donut::P3D
 
         static std::unique_ptr<CollisionOBBoxVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionOBBoxVolume>(chunk); }
 
-        const glm::vec3& GetHalfExtents() const { return _halfExtents; }
-        const std::vector<glm::vec3>& GetVectors() const { return _vectors; }
+        const Vector3& GetHalfExtents() const { return _halfExtents; }
+        const std::vector<Vector3>& GetVectors() const { return _vectors; }
 
     private:
 
-        glm::vec3 _halfExtents;
-        std::vector<glm::vec3> _vectors;
+        Vector3 _halfExtents;
+        std::vector<Vector3> _vectors;
 
     };
 
@@ -2151,11 +2152,11 @@ namespace Donut::P3D
 
         static std::unique_ptr<CollisionVector> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVector>(chunk); }
 
-        const glm::vec3& GetValue() const { return _value; }
+        const Vector3& GetValue() const { return _value; }
 
     private:
 
-        glm::vec3 _value;
+        Vector3 _value;
 
     };
 
@@ -2249,15 +2250,15 @@ namespace Donut::P3D
 
         static std::unique_ptr<Fence> Load(const P3DChunk& chunk) { return std::make_unique<Fence>(chunk); }
 
-        const glm::vec3& GetStart() const { return _start; }
-        const glm::vec3& GetEnd() const { return _end; }
-        const glm::vec3& GetNormal() const { return _normal; }
+        const Vector3& GetStart() const { return _start; }
+        const Vector3& GetEnd() const { return _end; }
+        const Vector3& GetNormal() const { return _normal; }
 
     private:
 
-        glm::vec3 _start;
-        glm::vec3 _end;
-        glm::vec3 _normal;
+        Vector3 _start;
+        Vector3 _end;
+        Vector3 _normal;
 
     };
 
@@ -2290,12 +2291,12 @@ namespace Donut::P3D
         static std::unique_ptr<Path> Load(const P3DChunk& chunk) { return std::make_unique<Path>(chunk); }
 
         const uint32_t& GetNumPoints() const { return _numPoints; }
-        const std::vector<glm::vec3>& GetPoints() const { return _points; }
+        const std::vector<Vector3>& GetPoints() const { return _points; }
 
     private:
 
         uint32_t _numPoints;
-        std::vector<glm::vec3> _points;
+        std::vector<Vector3> _points;
 
     };
 
@@ -2308,14 +2309,14 @@ namespace Donut::P3D
         static std::unique_ptr<Intersection> Load(const P3DChunk& chunk) { return std::make_unique<Intersection>(chunk); }
 
         const std::string& GetName() const { return _name; }
-        const glm::vec3& GetPosition() const { return _position; }
+        const Vector3& GetPosition() const { return _position; }
         const float& GetRadius() const { return _radius; }
         const uint32_t& GetTrafficBehaviour() const { return _trafficBehaviour; }
 
     private:
 
         std::string _name;
-        glm::vec3 _position;
+        Vector3 _position;
         float _radius;
         uint32_t _trafficBehaviour;
 
@@ -2333,9 +2334,9 @@ namespace Donut::P3D
         const uint32_t& GetTodo0() const { return _todo0; }
         const uint32_t& GetLanes() const { return _lanes; }
         const uint32_t& GetTodo1() const { return _todo1; }
-        const glm::vec3& GetPosition0() const { return _position0; }
-        const glm::vec3& GetPosition1() const { return _position1; }
-        const glm::vec3& GetPosition2() const { return _position2; }
+        const Vector3& GetPosition0() const { return _position0; }
+        const Vector3& GetPosition1() const { return _position1; }
+        const Vector3& GetPosition2() const { return _position2; }
 
     private:
 
@@ -2343,9 +2344,9 @@ namespace Donut::P3D
         uint32_t _todo0;
         uint32_t _lanes;
         uint32_t _todo1;
-        glm::vec3 _position0;
-        glm::vec3 _position1;
-        glm::vec3 _position2;
+        Vector3 _position0;
+        Vector3 _position1;
+        Vector3 _position2;
 
     };
 
@@ -2391,15 +2392,15 @@ namespace Donut::P3D
 
         const std::string& GetName() const { return _name; }
         const std::string& GetData() const { return _data; }
-        const glm::mat4& GetTransform() const { return _transform; }
-        const glm::mat4& GetTransform2() const { return _transform2; }
+        const Matrix4x4& GetTransform() const { return _transform; }
+        const Matrix4x4& GetTransform2() const { return _transform2; }
 
     private:
 
         std::string _name;
         std::string _data;
-        glm::mat4 _transform;
-        glm::mat4 _transform2;
+        Matrix4x4 _transform;
+        Matrix4x4 _transform2;
 
     };
 
@@ -2523,7 +2524,7 @@ namespace Donut::P3D
         const float& GetYaw() const { return _yaw; }
         const float& GetPitch() const { return _pitch; }
         const float& GetDistance() const { return _distance; }
-        const glm::vec3& GetOffset() const { return _offset; }
+        const Vector3& GetOffset() const { return _offset; }
 
     private:
 
@@ -2531,7 +2532,7 @@ namespace Donut::P3D
         float _yaw;
         float _pitch;
         float _distance;
-        glm::vec3 _offset;
+        Vector3 _offset;
 
     };
 
@@ -2577,7 +2578,7 @@ namespace Donut::P3D
         const float& GetMinAngle() const { return _minAngle; }
         const float& GetMaxAngle() const { return _maxAngle; }
         const float& GetDOF() const { return _DOF; }
-        const glm::vec3& GetVector() const { return _vector; }
+        const Vector3& GetVector() const { return _vector; }
         const std::unique_ptr<PhysicsInertiaMatrix>& GetInertiaMatrix() const { return _inertiaMatrix; }
 
     private:
@@ -2588,7 +2589,7 @@ namespace Donut::P3D
         float _minAngle;
         float _maxAngle;
         float _DOF;
-        glm::vec3 _vector;
+        Vector3 _vector;
         std::unique_ptr<PhysicsInertiaMatrix> _inertiaMatrix;
 
     };
@@ -2601,11 +2602,11 @@ namespace Donut::P3D
 
         static std::unique_ptr<PhysicsVector> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsVector>(chunk); }
 
-        const glm::vec3& GetValue() const { return _value; }
+        const Vector3& GetValue() const { return _value; }
 
     private:
 
-        glm::vec3 _value;
+        Vector3 _value;
 
     };
 
@@ -2617,17 +2618,17 @@ namespace Donut::P3D
 
         static std::unique_ptr<PhysicsInertiaMatrix> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsInertiaMatrix>(chunk); }
 
-        const glm::vec3& GetPosition() const { return _position; }
-        const glm::vec3& GetForward() const { return _forward; }
-        const glm::vec3& GetRight() const { return _right; }
-        const glm::vec3& GetUp() const { return _up; }
+        const Vector3& GetPosition() const { return _position; }
+        const Vector3& GetForward() const { return _forward; }
+        const Vector3& GetRight() const { return _right; }
+        const Vector3& GetUp() const { return _up; }
 
     private:
 
-        glm::vec3 _position;
-        glm::vec3 _forward;
-        glm::vec3 _right;
-        glm::vec3 _up;
+        Vector3 _position;
+        Vector3 _forward;
+        Vector3 _right;
+        Vector3 _up;
 
     };
 

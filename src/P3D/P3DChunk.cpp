@@ -23,7 +23,7 @@ ImageDecoder ImageDecoder::Decode(const std::vector<uint8_t>& data)
 void P3DUtil::GetDrawables(
     const std::unique_ptr<InstanceList>& instanceList,
     std::vector<SceneGraphDrawable*>& drawables,
-    std::vector<glm::mat4>& transforms)
+    std::vector<Matrix4x4>& transforms)
 {
 	if (!instanceList) return;
 
@@ -36,15 +36,15 @@ void P3DUtil::GetDrawables(
 
 	for (const auto& child : sceneGraphBranch->GetChildren())
 	{
-		GetDrawables(child, drawables, transforms, glm::mat4(1.0f));
+		GetDrawables(child, drawables, transforms, Matrix4x4::Identity);
 	}
 }
 
 void P3DUtil::GetDrawables(
     const std::unique_ptr<SceneGraphTransform>& transform,
     std::vector<SceneGraphDrawable*>& drawables,
-    std::vector<glm::mat4>& transforms,
-    const glm::mat4& parentTransform)
+    std::vector<Matrix4x4>& transforms,
+    const Matrix4x4& parentTransform)
 {
 	if (!transform) return;
 

@@ -2,14 +2,14 @@
 
 #pragma once
 
+#include "Core/File.h"
 #include "GameCommands.h"
 
-#include <Core/File.h>
+#include <fmt/format.h>
+
 #include <algorithm>
 #include <cctype>
 #include <charconv>
-#include <fmt/format.h>
-#include <glm/vec3.hpp>
 #include <iostream>
 #include <locale>
 #include <string>

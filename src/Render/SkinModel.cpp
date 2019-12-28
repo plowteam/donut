@@ -32,7 +32,7 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 
 		for (uint32_t i = 0; i < primVerts.size(); i++)
 		{
-			auto boneIndices = glm::ivec3(0);
+			auto boneIndices = Vector3Int::Zero;
 
 			if (primHasBoneIndices)
 			{
@@ -42,14 +42,14 @@ void SkinModel::LoadPolySkin(const P3D::PolySkin& polySkin)
 				auto i2      = (m >> 8) & 0xFF;
 				auto i3      = m & 0xFF;
 
-				boneIndices = glm::ivec3(
+				boneIndices = Vector3Int(
 				    primMatrixPalette[i0],
 				    primMatrixPalette[i1],
 				    primMatrixPalette[i2]);
 			}
 
-			const auto weight = primHasWeights ? primWeights[i] : glm::vec3(1, 0, 0);
-			const auto uv     = glm::vec2(primUV[i].x, 1.0f - primUV[i].y); // turn that frown upside down :)
+			const auto weight = primHasWeights ? primWeights[i] : Vector3(1, 0, 0);
+			const auto uv     = Vector2(primUV[i].X, 1.0f - primUV[i].Y); // turn that frown upside down :)
 
 			vertices.emplace_back(primVerts[i], primNormals[i], uv, weight, boneIndices);
 		}

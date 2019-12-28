@@ -5,7 +5,6 @@
 #include <P3D/P3DFile.h>
 #include <Render/SkinAnimation.h>
 #include <filesystem>
-#include <glm/gtx/quaternion.hpp>
 #include <iostream>
 
 namespace Donut
@@ -92,18 +91,18 @@ std::unique_ptr<AnimCamera> AnimCamera::LoadP3D(const std::string& filename)
 	return std::make_unique<AnimCamera>(p3d.GetRoot());
 }
 
-glm::mat4 AnimCamera::Update(double dt)
+Matrix4x4 AnimCamera::Update(double dt)
 {
-	return glm::mat4(1.0f);
+	return Matrix4x4::Identity;
 	//const auto& trans = _trans->Evaluate(0, (float)_time);
 	//const auto& forward = _forward->EvaluateDirection(0, (float)_time);
-	//const auto& up = glm::vec3(0, 1, 0);
+	//const auto& up = Vector3(0, 1, 0);
 	//const auto& right = glm::normalize(glm::cross(up, forward));
-	//glm::mat3 rotation(right.x, up.x, forward.x, right.y, up.y, forward.y, right.z, up.z, forward.z);
-	//auto lookAt = glm::quat_cast(rotation);
+	//Matrix3x3 rotation(right.x, up.x, forward.x, right.y, up.y, forward.y, right.z, up.z, forward.z);
+	//auto lookAt = Quat_cast(rotation);
 
 	//_time += dt;
 
-	//return glm::toMat4(lookAt) * glm::translate(glm::mat4(1.0f), -glm::vec3(trans[3]));
+	//return glm::toMat4(lookAt) * glm::translate(Matrix(1.0f), -Vector3(trans[3]));
 }
 } // namespace Donut

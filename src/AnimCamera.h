@@ -2,12 +2,15 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Core/Math/Fwd.h"
+
 #include <memory>
 #include <string>
 
 namespace Donut
 {
+
+/* forward declarations */
 class SkinAnimation;
 
 namespace P3D
@@ -22,7 +25,7 @@ class AnimCamera
 
 	static std::unique_ptr<AnimCamera> LoadP3D(const std::string& filename);
 
-	glm::mat4 Update(double dt);
+	Matrix4x4 Update(double dt);
 
   private:
 	double _time;

@@ -1,11 +1,18 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Render/OpenGL/ShaderProgram.h>
+#include "ShaderProgram.h"
+
+#include "Core/Math/Matrix4x4.h"
+#include "Core/Math/Matrix3x3.h"
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector2.h"
+#include "Core/Math/Vector3.h"
+#include "Core/Math/Vector4.h"
+
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <glm/gtc/type_ptr.hpp>
 
 namespace Donut::GL
 {
@@ -91,34 +98,34 @@ void ShaderProgram::SetUniformValue(const char* uniformName, float value)
 	glUniform1f(_uniforms[uniformName], value);
 }
 
-void ShaderProgram::SetUniformValue(const char* uniformName, const glm::vec2& v)
+void ShaderProgram::SetUniformValue(const char* uniformName, const Vector2& v)
 {
-	glUniform2fv(_uniforms[uniformName], 1, glm::value_ptr(v));
+	glUniform2fv(_uniforms[uniformName], 1, &v.X);
 }
 
-void ShaderProgram::SetUniformValue(const char* uniformName, const glm::vec3& v)
+void ShaderProgram::SetUniformValue(const char* uniformName, const Vector3& v)
 {
-	glUniform3fv(_uniforms[uniformName], 1, glm::value_ptr(v));
+	glUniform3fv(_uniforms[uniformName], 1, v.Data());
 }
 
-void ShaderProgram::SetUniformValue(const char* uniformName, const glm::vec4& v)
+void ShaderProgram::SetUniformValue(const char* uniformName, const Vector4& v)
 {
-	glUniform4fv(_uniforms[uniformName], 1, glm::value_ptr(v));
+	glUniform4fv(_uniforms[uniformName], 1, &v.X);
 }
 
-void ShaderProgram::SetUniformValue(const char* uniformName, const glm::mat3& m)
+void ShaderProgram::SetUniformValue(const char* uniformName, const Matrix3x3& m)
 {
-	glUniformMatrix3fv(_uniforms[uniformName], 1, GL_FALSE, glm::value_ptr(m));
+	glUniformMatrix3fv(_uniforms[uniformName], 1, GL_FALSE, &m.M[0][0]);
 }
 
-void ShaderProgram::SetUniformValue(const char* uniformName, const glm::mat4& m)
+void ShaderProgram::SetUniformValue(const char* uniformName, const Matrix4x4& m)
 {
-	glUniformMatrix4fv(_uniforms[uniformName], 1, GL_FALSE, glm::value_ptr(m));
+	glUniformMatrix4fv(_uniforms[uniformName], 1, GL_FALSE, m.M16);
 }
 
-void ShaderProgram::SetUniformValue(const char* uniformName, std::size_t count, const glm::mat4* m)
+void ShaderProgram::SetUniformValue(const char* uniformName, std::size_t count, const Matrix4x4* m)
 {
-	glUniformMatrix4fv(_uniforms[uniformName], (GLsizei)count, GL_FALSE, glm::value_ptr(m[0]));
+	glUniformMatrix4fv(_uniforms[uniformName], (GLsizei)count, GL_FALSE, &m[0].M[0][0]);
 }
 
 GLuint ShaderProgram::createSubShader(GLenum type, const std::string& source)

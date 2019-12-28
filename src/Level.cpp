@@ -49,7 +49,7 @@ Level::Level()
 	{
 		if (auto car = CompositeModel::LoadP3D(carFile))
 		{
-			auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(240 + offset, 4.6f, -160));
+			auto transform = glm::translate(Matrix(1.0f), Vector3(240 + offset, 4.6f, -160));
 			car->SetTransform(transform);
 			_compositeModels.push_back(std::move(car));
 			offset += 3.0f;
@@ -111,7 +111,7 @@ void Level::LoadP3D(const std::string& filename)
 		{
 			const auto& staticPhys = P3D::InstancedStaticPhysics::Load(*chunk);
 			std::vector<P3D::SceneGraphDrawable*> drawables;
-			std::vector<glm::mat4> transforms;
+			std::vector<Matrix4x4> transforms;
 			P3D::P3DUtil::GetDrawables(staticPhys->GetInstanceList(), drawables, transforms);
 
 			const auto& geometries = staticPhys->GetGeometries();
@@ -121,7 +121,7 @@ void Level::LoadP3D(const std::string& filename)
 				meshesNameIndex.insert({ geometry->GetName(), meshesNameIndex.size() });
 			}
 
-			std::unordered_map<std::string, std::vector<glm::mat4>> meshTransforms;
+			std::unordered_map<std::string, std::vector<Matrix4x4>> meshTransforms;
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
@@ -145,7 +145,7 @@ void Level::LoadP3D(const std::string& filename)
 		{
 			const auto& dynaPhys = P3D::DynamicPhysics::Load(*chunk);
 			std::vector<P3D::SceneGraphDrawable*> drawables;
-			std::vector<glm::mat4> transforms;
+			std::vector<Matrix4x4> transforms;
 			P3D::P3DUtil::GetDrawables(dynaPhys->GetInstanceList(), drawables, transforms);
 
 			const auto& geometries = dynaPhys->GetGeometries();
@@ -155,7 +155,7 @@ void Level::LoadP3D(const std::string& filename)
 				meshesNameIndex.insert({ geometry->GetName(), meshesNameIndex.size() });
 			}
 
-			std::unordered_map<std::string, std::vector<glm::mat4>> meshTransforms;
+			std::unordered_map<std::string, std::vector<Matrix4x4>> meshTransforms;
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
@@ -179,7 +179,7 @@ void Level::LoadP3D(const std::string& filename)
 		{
 			const auto& dynaPhys = P3D::AnimDynamicPhysics::Load(*chunk);
 			std::vector<P3D::SceneGraphDrawable*> drawables;
-			std::vector<glm::mat4> transforms;
+			std::vector<Matrix4x4> transforms;
 			P3D::P3DUtil::GetDrawables(dynaPhys->GetInstanceList(), drawables, transforms);
 
 			const auto& animObjectWrapper = dynaPhys->GetAnimObjectWrapper();
@@ -299,7 +299,7 @@ void Level::Update(double deltatime)
 	_worldSphere->Update(deltatime);
 }
 
-void Level::Draw(glm::mat4& viewProj)
+void Level::Draw(Matrix4x4& viewProj)
 {
 	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);

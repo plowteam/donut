@@ -2,42 +2,42 @@
 
 #include "BillboardBatch.h"
 
-#include <Game.h>
-#include <P3D/P3D.generated.h>
-#include <Render/OpenGL/IndexBuffer.h>
-#include <Render/OpenGL/ShaderProgram.h>
-#include <Render/OpenGL/VertexBinding.h>
-#include <Render/OpenGL/VertexBuffer.h>
-#include <Render/Shader.h>
-#include <ResourceManager.h>
+#include "Game.h"
+#include "P3D/P3D.generated.h"
+#include "Render/OpenGL/IndexBuffer.h"
+#include "Render/OpenGL/ShaderProgram.h"
+#include "Render/OpenGL/VertexBinding.h"
+#include "Render/OpenGL/VertexBuffer.h"
+#include "Render/Shader.h"
+#include "ResourceManager.h"
+
 #include <array>
-#include <glm/glm.hpp>
 
 namespace Donut
 {
 struct QuadInstance
 {
-	glm::vec3 pos;
-	glm::vec2 size;
-	glm::vec4 color;
-	glm::vec2 uv0;
-	glm::vec2 uv1;
-	glm::vec2 uv2;
-	glm::vec2 uv3;
+	Vector3 pos;
+	Vector2 size;
+	Vector4 color;
+	Vector2 uv0;
+	Vector2 uv1;
+	Vector2 uv2;
+	Vector2 uv3;
 };
 
-static std::array<glm::vec2, 4> quadVertices = {
-	glm::vec2(-0.5, 0.5),
-	glm::vec2(0.5, 0.5),
-	glm::vec2(0.5, -0.5),
-	glm::vec2(-0.5, -0.5),
+static std::array<Vector2, 4> quadVertices = {
+	Vector2(-0.5, 0.5),
+	Vector2(0.5, 0.5),
+	Vector2(0.5, -0.5),
+	Vector2(-0.5, -0.5),
 };
 
 static std::array<uint32_t, 6> indices = { 0, 1, 2, 2, 3, 0 };
 
 BillboardBatch::BillboardBatch(const P3D::BillboardQuadGroup& billboardQuadGroup)
 {
-	static const size_t vertStride     = sizeof(glm::vec2);
+	static const size_t vertStride     = sizeof(Vector2);
 	static const size_t instanceStride = sizeof(QuadInstance);
 
 	_numQuads = billboardQuadGroup.GetQuadCount();
@@ -48,7 +48,7 @@ BillboardBatch::BillboardBatch(const P3D::BillboardQuadGroup& billboardQuadGroup
 	{
 		quadInstances.push_back(QuadInstance {
 		    billboardQuad->GetTranslation(),
-		    glm::vec2(billboardQuad->GetWidth(), billboardQuad->GetHeight()),
+		    Vector2(billboardQuad->GetWidth(), billboardQuad->GetHeight()),
 		    P3D::P3DUtil::ConvertColor(billboardQuad->GetColor()),
 		    billboardQuad->GetUv0(),
 		    billboardQuad->GetUv1(),

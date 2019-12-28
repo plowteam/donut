@@ -1,10 +1,12 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
-#include <Render/LineRenderer.h>
-#include <Skeleton.h>
-#include <glm/gtc/constants.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/gtx/transform.hpp>
+#include "LineRenderer.h"
+
+#include "Skeleton.h"
+#include "Core/Math/Math.h"
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector3.h"
+#include "Core/Math/Vector4.h"
 
 namespace Donut
 {
@@ -57,7 +59,7 @@ LineRenderer::LineRenderer(size_t maxVertexCount):
 	_shader = std::make_unique<GL::ShaderProgram>(VertSrc, FragSrc);
 }
 
-void LineRenderer::Flush(glm::mat4& viewProj)
+void LineRenderer::Flush(Matrix4x4& viewProj)
 {
 	if (_vertexCount < 2)
 		return;
@@ -74,69 +76,67 @@ void LineRenderer::Flush(glm::mat4& viewProj)
 	_vertexCount = 0;
 }
 
-void LineRenderer::DrawLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec4& colour)
+void LineRenderer::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& colour)
 {
 	BufferVertex(p1, colour);
 	BufferVertex(p2, colour);
 }
 
-void LineRenderer::DrawBox(const glm::mat4 transform, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour)
+void LineRenderer::DrawBox(const Matrix4x4 transform, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
 {
-	DrawLine(transform * glm::vec4(mins.x, mins.y, mins.z, 1), transform * glm::vec4(maxs.x, mins.y, mins.z, 1), colour);
-	DrawLine(transform * glm::vec4(maxs.x, mins.y, mins.z, 1), transform * glm::vec4(maxs.x, maxs.y, mins.z, 1), colour);
-	DrawLine(transform * glm::vec4(maxs.x, maxs.y, mins.z, 1), transform * glm::vec4(mins.x, maxs.y, mins.z, 1), colour);
-	DrawLine(transform * glm::vec4(mins.x, maxs.y, mins.z, 1), transform * glm::vec4(mins.x, mins.y, mins.z, 1), colour);
-	DrawLine(transform * glm::vec4(mins.x, mins.y, mins.z, 1), transform * glm::vec4(mins.x, mins.y, maxs.z, 1), colour);
-	DrawLine(transform * glm::vec4(maxs.x, mins.y, mins.z, 1), transform * glm::vec4(maxs.x, mins.y, maxs.z, 1), colour);
-	DrawLine(transform * glm::vec4(maxs.x, maxs.y, mins.z, 1), transform * glm::vec4(maxs.x, maxs.y, maxs.z, 1), colour);
-	DrawLine(transform * glm::vec4(mins.x, maxs.y, mins.z, 1), transform * glm::vec4(mins.x, maxs.y, maxs.z, 1), colour);
-	DrawLine(transform * glm::vec4(mins.x, mins.y, maxs.z, 1), transform * glm::vec4(maxs.x, mins.y, maxs.z, 1), colour);
-	DrawLine(transform * glm::vec4(maxs.x, mins.y, maxs.z, 1), transform * glm::vec4(maxs.x, maxs.y, maxs.z, 1), colour);
-	DrawLine(transform * glm::vec4(maxs.x, maxs.y, maxs.z, 1), transform * glm::vec4(mins.x, maxs.y, maxs.z, 1), colour);
-	DrawLine(transform * glm::vec4(mins.x, maxs.y, maxs.z, 1), transform * glm::vec4(mins.x, mins.y, maxs.z, 1), colour);
+	//DrawLine(transform * Vector4(mins.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, mins.Y, mins.Z, 1), colour);
+	//DrawLine(transform * Vector4(maxs.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), colour);
+	//DrawLine(transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, maxs.Y, mins.Z, 1), colour);
+	//DrawLine(transform * Vector4(mins.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, mins.Y, mins.Z, 1), colour);
+	//DrawLine(transform * Vector4(mins.X, mins.Y, mins.Z, 1), transform * Vector4(mins.X, mins.Y, maxs.Z, 1), colour);
+	//DrawLine(transform * Vector4(maxs.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), colour);
+	//DrawLine(transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), colour);
+	//DrawLine(transform * Vector4(mins.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), colour);
+	//DrawLine(transform * Vector4(mins.X, mins.Y, maxs.Z, 1), transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), colour);
+	//DrawLine(transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), colour);
+	//DrawLine(transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), colour);
+	//DrawLine(transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), transform * Vector4(mins.X, mins.Y, maxs.Z, 1), colour);
 }
 
-void LineRenderer::DrawAABBox(const glm::vec3& position, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour)
+void LineRenderer::DrawAABBox(const Vector3& position, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
 {
 	DrawAABBox(position + mins, position + maxs, colour);
 }
 
-void LineRenderer::DrawAABBox(const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour)
+void LineRenderer::DrawAABBox(const Vector3& mins, const Vector3& maxs, const Vector4& colour)
 {
-	DrawLine(glm::vec3(mins.x, mins.y, mins.z), glm::vec3(maxs.x, mins.y, mins.z), colour);
-	DrawLine(glm::vec3(maxs.x, mins.y, mins.z), glm::vec3(maxs.x, maxs.y, mins.z), colour);
-	DrawLine(glm::vec3(maxs.x, maxs.y, mins.z), glm::vec3(mins.x, maxs.y, mins.z), colour);
-	DrawLine(glm::vec3(mins.x, maxs.y, mins.z), glm::vec3(mins.x, mins.y, mins.z), colour);
-	DrawLine(glm::vec3(mins.x, mins.y, mins.z), glm::vec3(mins.x, mins.y, maxs.z), colour);
-	DrawLine(glm::vec3(maxs.x, mins.y, mins.z), glm::vec3(maxs.x, mins.y, maxs.z), colour);
-	DrawLine(glm::vec3(maxs.x, maxs.y, mins.z), glm::vec3(maxs.x, maxs.y, maxs.z), colour);
-	DrawLine(glm::vec3(mins.x, maxs.y, mins.z), glm::vec3(mins.x, maxs.y, maxs.z), colour);
-	DrawLine(glm::vec3(mins.x, mins.y, maxs.z), glm::vec3(maxs.x, mins.y, maxs.z), colour);
-	DrawLine(glm::vec3(maxs.x, mins.y, maxs.z), glm::vec3(maxs.x, maxs.y, maxs.z), colour);
-	DrawLine(glm::vec3(maxs.x, maxs.y, maxs.z), glm::vec3(mins.x, maxs.y, maxs.z), colour);
-	DrawLine(glm::vec3(mins.x, maxs.y, maxs.z), glm::vec3(mins.x, mins.y, maxs.z), colour);
+	DrawLine(Vector3(mins.X, mins.Y, mins.Z), Vector3(maxs.X, mins.Y, mins.Z), colour);
+	DrawLine(Vector3(maxs.X, mins.Y, mins.Z), Vector3(maxs.X, maxs.Y, mins.Z), colour);
+	DrawLine(Vector3(maxs.X, maxs.Y, mins.Z), Vector3(mins.X, maxs.Y, mins.Z), colour);
+	DrawLine(Vector3(mins.X, maxs.Y, mins.Z), Vector3(mins.X, mins.Y, mins.Z), colour);
+	DrawLine(Vector3(mins.X, mins.Y, mins.Z), Vector3(mins.X, mins.Y, maxs.Z), colour);
+	DrawLine(Vector3(maxs.X, mins.Y, mins.Z), Vector3(maxs.X, mins.Y, maxs.Z), colour);
+	DrawLine(Vector3(maxs.X, maxs.Y, mins.Z), Vector3(maxs.X, maxs.Y, maxs.Z), colour);
+	DrawLine(Vector3(mins.X, maxs.Y, mins.Z), Vector3(mins.X, maxs.Y, maxs.Z), colour);
+	DrawLine(Vector3(mins.X, mins.Y, maxs.Z), Vector3(maxs.X, mins.Y, maxs.Z), colour);
+	DrawLine(Vector3(maxs.X, mins.Y, maxs.Z), Vector3(maxs.X, maxs.Y, maxs.Z), colour);
+	DrawLine(Vector3(maxs.X, maxs.Y, maxs.Z), Vector3(mins.X, maxs.Y, maxs.Z), colour);
+	DrawLine(Vector3(mins.X, maxs.Y, maxs.Z), Vector3(mins.X, mins.Y, maxs.Z), colour);
 }
 
-void LineRenderer::DrawBox(const glm::vec3& position, const glm::vec3& angles, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour)
+void LineRenderer::DrawBox(const Vector3& position, const Vector3& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
 {
-	DrawBox(position, glm::quat(glm::radians(angles)), mins, maxs, colour);
+	//DrawBox(position, Quaternion(Math::DegreesToRadians(angles)), mins, maxs, colour);
 }
 
-void LineRenderer::DrawBox(const glm::vec3& position, const glm::quat& angles, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour)
+void LineRenderer::DrawBox(const Vector3& position, const Quaternion& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
 {
-	glm::mat4 rot       = glm::toMat4(angles);
-	glm::mat4 trans     = glm::translate(glm::mat4(1.0f), position);
-	glm::mat4 transform = trans * rot;
+	//Matrix4x4 transform = Matrix4x4::MakeTranslate(position) * angles;
 
-	DrawBox(transform, mins, maxs, colour);
+	DrawBox(Matrix4x4::Identity, mins, maxs, colour);
 }
 
-void LineRenderer::DrawSphere(const glm::vec3& position, float radius, int thetaSegments, int phiSegments, const glm::vec4& colour)
+void LineRenderer::DrawSphere(const Vector3& position, float radius, int thetaSegments, int phiSegments, const Vector4& colour)
 {
 	int theta = thetaSegments + 1;
 	int phi   = phiSegments;
 
-	std::vector<glm::vec3> vertices;
+	std::vector<Vector3> vertices;
 	vertices.reserve(phi * theta);
 
 	for (int i = 0; i < phi; ++i)
@@ -145,10 +145,10 @@ void LineRenderer::DrawSphere(const glm::vec3& position, float radius, int theta
 		{
 			float u = j / (float)(theta - 1);
 			float v = i / (float)(phi - 1);
-			float t = glm::two_pi<float>() * u;
-			float p = glm::pi<float>() * v;
+			float t = Math::Pi2 * u;
+			float p = Math::Pi * v;
 
-			glm::vec3 vertex(radius * sin(p) * cos(t),
+			Vector3 vertex(radius * sin(p) * cos(t),
 			                 radius * cos(p),
 			                 radius * sin(p) * sin(t));
 
@@ -170,20 +170,20 @@ void LineRenderer::DrawSphere(const glm::vec3& position, float radius, int theta
 	}
 }
 
-void LineRenderer::DrawCone(const glm::vec3& position, float radius, float height, std::size_t sides, const glm::vec4& colour)
+void LineRenderer::DrawCone(const Vector3& position, float radius, float height, std::size_t sides, const Vector4& colour)
 {
 	if (sides < 3)
 		return;
 
-	std::vector<glm::vec3> vertices;
+	std::vector<Vector3> vertices;
 	vertices.reserve(sides + 1);
 
-	glm::vec3 topVertex = position + (glm::vec3(0, 1, 0) * height);
+	Vector3 topVertex = position + (Vector3(0, 1, 0) * height);
 
 	for (std::size_t i = 0; i <= sides; ++i)
 	{
-		float r = glm::two_pi<float>() * (i / (float)sides);
-		glm::vec3 vertex(radius * cos(r), 0.0f, radius * sin(r));
+		float r = Math::Pi2 * (i / (float)sides);
+		Vector3 vertex(radius * cos(r), 0.0f, radius * sin(r));
 		vertices.push_back(position + vertex);
 	}
 
@@ -194,20 +194,20 @@ void LineRenderer::DrawCone(const glm::vec3& position, float radius, float heigh
 	}
 }
 
-void LineRenderer::DrawCone(const glm::vec3& position, const glm::quat& rotation, float radius, float height, std::size_t sides, const glm::vec4& colour)
+void LineRenderer::DrawCone(const Vector3& position, const Quaternion& rotation, float radius, float height, std::size_t sides, const Vector4& colour)
 {
 	if (sides < 3)
 		return;
 
-	std::vector<glm::vec3> vertices;
+	std::vector<Vector3> vertices;
 	vertices.reserve(sides + 1);
 
-	glm::vec3 topVertex = position + (rotation * glm::vec3(0, height, 0));
+	Vector3 topVertex = position + (rotation * Vector3(0, height, 0));
 
 	for (std::size_t i = 0; i <= sides; ++i)
 	{
-		float r = glm::two_pi<float>() * (i / (float)sides);
-		glm::vec3 vertex(radius * cos(r), 0.0f, radius * sin(r));
+		float r = Math::Pi2 * (i / (float)sides);
+		Vector3 vertex(radius * cos(r), 0.0f, radius * sin(r));
 		vertices.push_back(position + (rotation * vertex));
 	}
 
@@ -218,32 +218,32 @@ void LineRenderer::DrawCone(const glm::vec3& position, const glm::quat& rotation
 	}
 }
 
-void LineRenderer::DrawSkeleton(const glm::vec3& position, const Skeleton& skeleton)
+void LineRenderer::DrawSkeleton(const Vector3& position, const Skeleton& skeleton)
 {
 	auto const& joints = skeleton.GetJoints();
 	for (auto const& joint : joints)
 	{
 		auto const& parent = joints[joint.parent];
 
-		glm::mat4 mParent = glm::translate(position) * parent.pose;
-		glm::mat4 mJoint  = glm::translate(position) * joint.pose;
+		Matrix4x4 mParent = Matrix4x4::MakeTranslate(position) * parent.pose;
+		Matrix4x4 mJoint  = Matrix4x4::MakeTranslate(position) * joint.pose;
 
-		const glm::vec4 lineColor(1.0f, 1.0f, 1.0f, 1.0f);
-		const glm::vec4 sphereColor(0.0f, 1.0f, 0.0f, 1.0f);
+		const Vector4 lineColor(1.0f, 1.0f, 1.0f, 1.0f);
+		const Vector4 sphereColor(0.0f, 1.0f, 0.0f, 1.0f);
 
-		DrawSphere(glm::vec3(mJoint[3]), 0.025f, 4, 4, sphereColor);
-		DrawLine(glm::vec3(mParent[3]), glm::vec3(mJoint[3]), lineColor);
+		DrawSphere(mJoint.Translation(), 0.025f, 4, 4, sphereColor);
+		DrawLine(mParent.Translation(), mJoint.Translation(), lineColor);
 	}
 }
 
-void LineRenderer::BufferVertex(const glm::vec3& position, const glm::vec4& colour)
+void LineRenderer::BufferVertex(const Vector3& position, const Vector4& colour)
 {
 	if (_vertexCount >= _maxVertexCount)
 		return;
 
-	uint8_t* vertexData                           = &_buffer[_vertexCount * kVertexSize];
-	*(glm::vec3*)(vertexData)                     = position;
-	*(glm::vec4*)(vertexData + sizeof(glm::vec3)) = colour;
+	uint8_t* vertexData = &_buffer[_vertexCount * kVertexSize];
+	*(Vector3*)(vertexData) = position;
+	*(Vector4*)(vertexData + sizeof(Vector3)) = colour;
 
 	_vertexCount++;
 }

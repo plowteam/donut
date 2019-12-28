@@ -2,8 +2,10 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include "Core/Math/Matrix4x4.h"
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector3.h"
+
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -37,9 +39,9 @@ struct SkeletonJoint
 {
 	std::string name;
 	uint32_t parent;
-	glm::mat4 restPose;
+	Matrix4x4 restPose;
 
-	SkeletonJoint(std::string name, const uint32_t parent, const glm::mat4 restPose):
+	SkeletonJoint(std::string name, const uint32_t parent, const Matrix4x4 restPose):
 	    name(std::move(name)), parent(parent), restPose(restPose)
 	{
 	}
@@ -57,16 +59,16 @@ class Character
 	const std::string& GetName() const { return _name; }
 	const std::string& GetModelName() const { return _modelName; }
 	const std::string& GetAnimName() const { return _animName; }
-	void SetPosition(const glm::vec3& position);
-	void SetRotation(const glm::quat& rotation);
-	const glm::vec3& GetPosition() const { return _position; }
-	const glm::quat& GetRotation() const { return _rotation; }
+	void SetPosition(const Vector3& position);
+	void SetRotation(const Quaternion& rotation);
+	const Vector3& GetPosition() const { return _position; }
+	const Quaternion& GetRotation() const { return _rotation; }
 	void SetAnimation(const std::string&);
 	CharacterController& GetCharacterController() const { return *_characterController; }
 	Skeleton& GetSkeleton() const { return *_skeleton; }
 
 	void Update(double deltatime);
-	void Draw(const glm::mat4& viewProjection, GL::ShaderProgram&, const ResourceManager&);
+	void Draw(const Matrix4x4& viewProjection, GL::ShaderProgram&, const ResourceManager&);
 
 	// maybe change this to just anim names
 	const std::unordered_map<std::string, std::unique_ptr<SkinAnimation>>& GetAnimations() const { return _animations; }
@@ -82,8 +84,8 @@ class Character
 	std::string _modelName; // just for debug select
 	std::string _animName;  // just for debug select
 
-	glm::vec3 _position;
-	glm::quat _rotation;
+	Vector3 _position;
+	Quaternion _rotation;
 
 	std::unique_ptr<CharacterController> _characterController;
 

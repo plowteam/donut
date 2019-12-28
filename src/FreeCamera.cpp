@@ -2,50 +2,111 @@
 
 #include "FreeCamera.h"
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
+#include "Core/Math/Math.h"
 
 namespace Donut
 {
 FreeCamera::FreeCamera():
-    Pitch(0.0f), Yaw(0.0f), Position(0.0f)
+    _position(0.0f), _orientation(Quaternion::Identity), _fov(70.0f),
+    _aspectRatio(1.0f), _znear(1.0f), _zfar(10000.0f),
+    _projectionMatrix(Matrix4x4::Zero), _viewMatrix(Matrix4x4::Identity)
 {
-	UpdateRotationQuat();
-	UpdateViewMatrix();
+	updateProjectionMatrix();
+	updateViewMatrix();
 }
 
-void FreeCamera::MoveTo(glm::vec3 position)
+void FreeCamera::SetPosition(const Vector3& position)
 {
-	Position = position;
-	UpdateViewMatrix();
+	_position = position;
+	updateViewMatrix();
 }
 
-void FreeCamera::Move(glm::vec3 force, float dt)
+void FreeCamera::SetQuaternion(const Quaternion& orientation)
 {
-	if (glm::length2(force) > 0.0f)
-	{
-		Position -= (glm::inverse(RotationQuat) * force) * dt;
-		UpdateViewMatrix();
-	}
+	_orientation = orientation;
+	updateViewMatrix();
+}
+
+void FreeCamera::Move(Vector3 force, float dt)
+{
+	if (force.LengthSquared() == 0)
+		return;
+
+	_position += _orientation.Inverse() * force * dt;
+	updateViewMatrix();
 }
 
 void FreeCamera::LookDelta(float x, float y)
 {
-	Yaw += x;
-	Yaw += glm::ceil(-Yaw / 360.0f) * 360.0f;
-	Pitch = glm::clamp(Pitch + y, -90.0f, 90.0f);
+	// up() = glm::vec3(glm::row(rotation(), 1));
+	// right() = glm::vec3(glm::row(rotation(), 0));
+	// glm::fquat rot = glm::normalize(glm::angleAxis(angle, up())); (yaw)
+	// glm::fquat rot = glm::normalize(glm::angleAxis(angle, right())); (pitch)
 
-	UpdateRotationQuat();
-	UpdateViewMatrix();
+	Vector3 xAxis = _orientation.GetXAxis(); // pitch axis
+	Vector3 yAxis = _orientation.GetYAxis(); // yaw axis
+	
+	rotate(xAxis, Math::DegreesToRadians(y));
+	rotate(yAxis, Math::DegreesToRadians(-x));
+
+	updateViewMatrix();
 }
 
-void FreeCamera::UpdateViewMatrix()
+void FreeCamera::rotate(const Quaternion& q)
 {
-	ViewMatrix = glm::toMat4(RotationQuat) * glm::translate(glm::mat4(1.0f), -Position);
+	// Quaternion qres = q * _orientation;
+	// _orientation    = qres.Normal();
 }
 
-void FreeCamera::UpdateRotationQuat()
+void FreeCamera::rotate(const Vector3& axis, const float angle)
 {
-	RotationQuat = glm::inverse(glm::quat(glm::vec3(glm::radians(Pitch), glm::radians(Yaw), 0.0f)));
+	Quaternion q(axis, angle);
+	q = q.Normal();
+
+	_orientation = _orientation * q;
 }
+
+void FreeCamera::updateProjectionMatrix()
+{
+	float tanHalfFovY = Math::Tan(Math::DegreesToRadians(_fov) / 2.0f);
+
+	_projectionMatrix       = Matrix4x4::Zero;
+	_projectionMatrix[0][0] = 1.0f / (_aspectRatio * tanHalfFovY);
+	_projectionMatrix[1][1] = 1.0f / (tanHalfFovY);
+	_projectionMatrix[2][2] = (_zfar + _znear) / (_zfar - _znear);
+	_projectionMatrix[2][3] = 1.0f;
+	_projectionMatrix[3][2] = -(2.0f * _zfar * _znear) / (_zfar - _znear);
+}
+
+void FreeCamera::updateViewMatrix()
+{
+	Matrix4x4 rotM(_orientation);
+	Matrix4x4 transM = Matrix4x4::MakeTranslate(-_position);
+	_viewMatrix      = rotM * transM;
+}
+
+void FreeCamera::SetFOV(const float fov)
+{
+	_fov = fov;
+	updateProjectionMatrix();
+}
+
+void FreeCamera::SetZNear(const float znear)
+{
+	_znear = znear;
+	updateProjectionMatrix();
+}
+
+void FreeCamera::SetZFar(const float zfar)
+{
+	_zfar = zfar;
+	updateProjectionMatrix();
+}
+
+void FreeCamera::SetAspectRatio(const float aspect)
+{
+	_aspectRatio = aspect;
+	updateProjectionMatrix();
+}
+
 } // namespace Donut

@@ -2,8 +2,10 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
+#include "Core/Math/Matrix4x4.h"
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector3.h"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -31,27 +33,29 @@ class SkinAnimation
 		T _value;
 	};
 
-	class TranslationKey: public ValueKey<glm::vec3>
+	class TranslationKey: public ValueKey<Vector3>
 	{
 	  public:
-		TranslationKey(float time, const glm::vec3& value):
+		TranslationKey(float time, const Vector3& value):
 		    ValueKey(time, value) {}
 
-		virtual glm::vec3 Lerp(const glm::vec3& b, float time) override
+		virtual Vector3 Lerp(const Vector3& b, float time) override
 		{
-			return glm::mix(_value, b, time);
+			return b; // TODO
+			// return glm::mix(_value, b, time);
 		}
 	};
 
-	class RotationKey: public ValueKey<glm::quat>
+	class RotationKey: public ValueKey<Quaternion>
 	{
 	  public:
-		RotationKey(float time, const glm::quat& value):
+		RotationKey(float time, const Quaternion& value):
 		    ValueKey(time, value) {}
 
-		virtual glm::quat Lerp(const glm::quat& b, float time) override
+		virtual Quaternion Lerp(const Quaternion& b, float time) override
 		{
-			return glm::slerp(_value, b, time);
+			return b; // TODO
+			// return glm::slerp(_value, b, time);
 		}
 	};
 
@@ -59,8 +63,8 @@ class SkinAnimation
 	class ValueKeyCurve
 	{
 	  public:
-		void AddTranslationKey(float time, const glm::vec3& value) { _keyValues.push_back(std::make_unique<TranslationKey>(time, value)); }
-		void AddRotationKey(float time, const glm::quat& value) { _keyValues.push_back(std::make_unique<RotationKey>(time, value)); }
+		void AddTranslationKey(float time, const Vector3& value) { _keyValues.push_back(std::make_unique<TranslationKey>(time, value)); }
+		void AddRotationKey(float time, const Quaternion& value) { _keyValues.push_back(std::make_unique<RotationKey>(time, value)); }
 
 		T Evalulate(float time, T defaultValue)
 		{
@@ -86,7 +90,7 @@ class SkinAnimation
 			if (delta > 0.0f)
 			{
 				auto fraction = (time - prevPoint->GetTime()) / delta;
-				fraction      = glm::clamp(fraction, 0.0f, 1.0f);
+				fraction      = Math::Clamp(fraction, 0.0f, 1.0f);
 
 				return prevPoint->Lerp(nextPoint->GetValue(), fraction);
 			}
@@ -141,21 +145,21 @@ class SkinAnimation
 		Track(std::string name):
 		    _name(name) {}
 
-		glm::mat4 Evaluate(float time);
+		Matrix4x4 Evaluate(float time);
 
-		void AddTranslationKey(float time, const glm::vec3& value) { _translationKeys.AddTranslationKey(time, value); }
-		void AddRotationKey(float time, const glm::quat& value) { _rotationKeys.AddRotationKey(time, value); }
+		void AddTranslationKey(float time, const Vector3& value) { _translationKeys.AddTranslationKey(time, value); }
+		void AddRotationKey(float time, const Quaternion& value) { _rotationKeys.AddRotationKey(time, value); }
 
 	  private:
 		std::string _name;
-		ValueKeyCurve<glm::vec3> _translationKeys;
-		ValueKeyCurve<glm::quat> _rotationKeys;
+		ValueKeyCurve<Vector3> _translationKeys;
+		ValueKeyCurve<Quaternion> _rotationKeys;
 	};
 
 	SkinAnimation(std::string name, float length, int32_t frameCount, float frameRate):
 	    _name(name), _length(length), _frameCount(frameCount), _frameRate(frameRate) {}
 
-	glm::mat4 Evaluate(size_t trackIndex, float time);
+	Matrix4x4 Evaluate(size_t trackIndex, float time);
 
 	void AddTrack(std::unique_ptr<Track>& track) { _tracks.push_back(std::move(track)); }
 	size_t GetNumTracks() const { return _tracks.size(); }

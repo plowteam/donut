@@ -54,7 +54,7 @@ CompositeModel::CompositeModel(const ICompositeModel& provider)
 	const auto& textures  = provider.GetTextures();
 
 	std::map<std::string, size_t> meshNames;
-	std::map<std::string, std::vector<glm::mat4>> jointTransforms;
+	std::map<std::string, std::vector<Matrix4x4>> jointTransforms;
 
 	for (const auto& meshP3D : meshes)
 	{
@@ -68,10 +68,10 @@ CompositeModel::CompositeModel(const ICompositeModel& provider)
 	{
 		const auto& skeletonJoints = skeleton->GetJoints();
 
-		std::vector<glm::mat4> transforms;
+		std::vector<Matrix4x4> transforms;
 		transforms.reserve(skeletonJoints.size());
 		for (const auto& joint : skeletonJoints)
-			transforms.push_back(transforms.empty() ? glm::mat4(1.0f) : transforms[joint->GetParent()] * joint->GetRestPose());
+			transforms.push_back(transforms.empty() ? Matrix4x4::Identity : transforms[joint->GetParent()] * joint->GetRestPose());
 
 		const auto& skeletonName = skeleton->GetName();
 		jointTransforms.insert({ skeletonName, std::move(transforms) });
@@ -118,7 +118,7 @@ std::unique_ptr<CompositeModel> CompositeModel::LoadP3D(const std::string& filen
 	return std::make_unique<CompositeModel>(CompositeModel_Chunk(p3d.GetRoot()));
 }
 
-void CompositeModel::Draw(GL::ShaderProgram& shader, const glm::mat4& viewProj, const glm::mat4& modelMatrix, bool opaque)
+void CompositeModel::Draw(GL::ShaderProgram& shader, const Matrix4x4& viewProj, const Matrix4x4& modelMatrix, bool opaque)
 {
 	for (const auto& prop : _props)
 	{

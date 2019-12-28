@@ -165,14 +165,14 @@ void FrontendProject::LoadP3D(const std::string& filename)
 	}
 }
 
-void FrontendProject::Draw(const glm::mat4& proj)
+void FrontendProject::Draw(const Matrix4x4& proj)
 {
 	for (const auto& sprite : _sprites)
 	{
 		_spriteBatch.Draw(
 		    sprite.texture,
-		    glm::vec2(sprite.positionX, sprite.positionY),
-		    glm::vec2(sprite.width, sprite.height),
+		    Vector2(sprite.positionX, sprite.positionY),
+		    Vector2(sprite.width, sprite.height),
 		    sprite.color);
 	}
 

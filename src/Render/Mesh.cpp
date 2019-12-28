@@ -53,8 +53,8 @@ void Mesh::CreateMeshBuffers(const P3D::Geometry& geometry)
 		{
 			allVerts.push_back(Vertex {
 			    verts[i],
-			    glm::vec2(uvs[i].x, 1.0f - uvs[i].y),
-			    hasColors ? P3D::P3DUtil::ConvertColor(colors[i]) : glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+			    Vector2(uvs[i].X, 1.0f - uvs[i].Y),
+			    hasColors ? P3D::P3DUtil::ConvertColor(colors[i]) : Vector4(1.0f, 1.0f, 1.0f, 1.0f),
 			});
 		}
 
@@ -145,7 +145,7 @@ void Mesh::DrawPrimGroup(const PrimGroup& primGroup)
 	    reinterpret_cast<void*>(primGroup.indicesOffset * 4));
 }
 
-MeshInstanced::MeshInstanced(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms):
+MeshInstanced::MeshInstanced(const P3D::Geometry& geometry, const std::vector<Matrix4x4>& transforms):
     Mesh(geometry),
     _transforms(std::move(transforms))
 {
@@ -154,7 +154,7 @@ MeshInstanced::MeshInstanced(const P3D::Geometry& geometry, const std::vector<gl
 void MeshInstanced::CreateVertexBinding()
 {
 	static const size_t vertStride     = sizeof(Mesh::Vertex);
-	static const size_t instanceStride = sizeof(glm::mat4);
+	static const size_t instanceStride = sizeof(Matrix4x4);
 
 	_instanceBuffer =
 	    std::make_shared<GL::VertexBuffer>(_transforms.data(), _transforms.size(), instanceStride);

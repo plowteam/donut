@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Core/Math/Vector2Int.h"
 #include "OpenGL/glad/glad.h"
 
-#include <glm/glm.hpp>
 #include <memory>
 #include <string>
 
@@ -28,7 +28,7 @@ class Texture
 
 	std::size_t GetWidth() const { return _width; }
 	std::size_t GetHeight() const { return _height; }
-	glm::ivec2 GetSize() const { return glm::ivec2(_width, _height); }
+	Vector2Int GetSize() const { return Vector2Int(_width, _height); }
 
 	// bool HasAlpha() const;
 	GLuint GetOpenGLHandle() const { return _glTexture; }

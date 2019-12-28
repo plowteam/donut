@@ -148,12 +148,12 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _param = stream.ReadString(4);
         _mapping = stream.Read<uint16_t>();
-        _constants = stream.Read<glm::vec3>();
+        _constants = stream.Read<Vector3>();
         _numFrames = stream.Read<uint32_t>();
         _frames.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec2));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Vector2));
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -181,7 +181,7 @@ namespace Donut::P3D
         _frames.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Vector3));
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -209,7 +209,7 @@ namespace Donut::P3D
         _frames.resize(_numFrames);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
         _values.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(glm::quat));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Quaternion));
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -318,8 +318,8 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::BoundingBox));
 
         MemoryStream stream(chunk.GetData());
-        _min = stream.Read<glm::vec3>();
-        _max = stream.Read<glm::vec3>();
+        _min = stream.Read<Vector3>();
+        _max = stream.Read<Vector3>();
     }
 
     BoundingSphere::BoundingSphere(const P3DChunk& chunk)
@@ -327,7 +327,7 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::BoundingSphere));
 
         MemoryStream stream(chunk.GetData());
-        _centre = stream.Read<glm::vec3>();
+        _centre = stream.Read<Vector3>();
         _radius = stream.Read<float>();
     }
 
@@ -353,7 +353,7 @@ namespace Donut::P3D
                 case ChunkType::PositionList:
                     {
                         _vertices.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_vertices.data()), _vertices.size() * sizeof(glm::vec3));
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_vertices.data()), _vertices.size() * sizeof(Vector3));
                         break;
                     }
                 case ChunkType::IndexList:
@@ -365,7 +365,7 @@ namespace Donut::P3D
                 case ChunkType::NormalList:
                     {
                         _normals.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(glm::vec3));
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
                         break;
                     }
                 case ChunkType::UVList:
@@ -374,7 +374,7 @@ namespace Donut::P3D
                         uint32_t channel = data.Read<uint32_t>();
                         _uvs.resize(channel + 1);
                         _uvs.at(channel).resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.at(channel).data()), length * sizeof(glm::vec2));
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.at(channel).data()), length * sizeof(Vector2));
                         break;
                     }
                 case ChunkType::MatrixList:
@@ -392,7 +392,7 @@ namespace Donut::P3D
                 case ChunkType::WeightList:
                     {
                         _weightList.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), _weightList.size() * sizeof(glm::vec3));
+                        data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), _weightList.size() * sizeof(Vector3));
                         break;
                     }
                 case ChunkType::ColorList:
@@ -414,7 +414,7 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _size = stream.Read<uint32_t>();
         _positions.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(Vector3));
     }
 
     IndexList::IndexList(const P3DChunk& chunk)
@@ -434,7 +434,7 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _size = stream.Read<uint32_t>();
         _normals.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
     }
 
     UVList::UVList(const P3DChunk& chunk)
@@ -445,7 +445,7 @@ namespace Donut::P3D
         _size = stream.Read<uint32_t>();
         _channel = stream.Read<uint32_t>();
         _uvs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(glm::vec2));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(Vector2));
     }
 
     MatrixList::MatrixList(const P3DChunk& chunk)
@@ -475,7 +475,7 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _size = stream.Read<uint32_t>();
         _uvs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(Vector3));
     }
 
     ColorList::ColorList(const P3DChunk& chunk)
@@ -524,7 +524,7 @@ namespace Donut::P3D
         _primaryAxis = stream.Read<int32_t>();
         _secondaryAxis = stream.Read<int32_t>();
         _twistAxis = stream.Read<int32_t>();
-        _restPose = stream.Read<glm::mat4>();
+        _restPose = stream.Read<Matrix4x4>();
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -552,7 +552,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _jointIndex = stream.Read<uint32_t>();
-        _axis = stream.Read<glm::vec3>();
+        _axis = stream.Read<Vector3>();
     }
 
     SkeletonJointBonePreserve::SkeletonJointBonePreserve(const P3DChunk& chunk)
@@ -831,7 +831,7 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _numChildren = stream.Read<uint32_t>();
-        _transform = stream.Read<glm::mat4>();
+        _transform = stream.Read<Matrix4x4>();
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1066,9 +1066,9 @@ namespace Donut::P3D
         _indices.resize(stream.Read<uint32_t>());
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
         _positions.resize(stream.Read<uint32_t>());
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(Vector3));
         _normals.resize(stream.Read<uint32_t>());
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1171,16 +1171,16 @@ namespace Donut::P3D
         _version = stream.Read<uint32_t>();
         _name = stream.ReadLPString();
         _mode = stream.ReadString(4);
-        _translation = stream.Read<glm::vec3>();
+        _translation = stream.Read<Vector3>();
         _color = stream.Read<uint32_t>();
-        _uv0 = stream.Read<glm::vec2>();
-        _uv1 = stream.Read<glm::vec2>();
-        _uv2 = stream.Read<glm::vec2>();
-        _uv3 = stream.Read<glm::vec2>();
+        _uv0 = stream.Read<Vector2>();
+        _uv1 = stream.Read<Vector2>();
+        _uv2 = stream.Read<Vector2>();
+        _uv3 = stream.Read<Vector2>();
         _width = stream.Read<float>();
         _height = stream.Read<float>();
         _distance = stream.Read<float>();
-        _uvOffset = stream.Read<glm::vec2>();
+        _uvOffset = stream.Read<Vector2>();
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1236,9 +1236,9 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _version = stream.Read<uint32_t>();
-        _rotation = stream.Read<glm::quat>();
+        _rotation = stream.Read<Quaternion>();
         _cutOffMode = stream.ReadString(4);
-        _uvOffsetRange = stream.Read<glm::vec2>();
+        _uvOffsetRange = stream.Read<Vector2>();
         _sourceRange = stream.Read<float>();
         _edgeRange = stream.Read<float>();
     }
@@ -1654,7 +1654,7 @@ namespace Donut::P3D
         _translucent = stream.Read<uint32_t>();
         _numPoints = stream.Read<uint32_t>();
         _points.resize(_numPoints);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(Vector3));
         _colors.resize(_numPoints);
         stream.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
     }
@@ -1700,8 +1700,8 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _isRect = stream.Read<uint32_t>();
-        _bounds = stream.Read<glm::vec3>();
-        _transform = stream.Read<glm::mat4>();
+        _bounds = stream.Read<Vector3>();
+        _transform = stream.Read<Matrix4x4>();
     }
 
     Camera::Camera(const P3DChunk& chunk)
@@ -1715,9 +1715,9 @@ namespace Donut::P3D
         _aspectRatio = stream.Read<float>();
         _nearClip = stream.Read<float>();
         _farClip = stream.Read<float>();
-        _position = stream.Read<glm::vec3>();
-        _forward = stream.Read<glm::vec3>();
-        _up = stream.Read<glm::vec3>();
+        _position = stream.Read<Vector3>();
+        _forward = stream.Read<Vector3>();
+        _up = stream.Read<Vector3>();
     }
 
     MultiController::MultiController(const P3DChunk& chunk)
@@ -1860,7 +1860,7 @@ namespace Donut::P3D
             {
                 case ChunkType::CollisionVector:
                     {
-                        _vectors.push_back(data.Read<glm::vec3>());
+                        _vectors.push_back(data.Read<Vector3>());
                         break;
                     }
                 default:
@@ -1886,7 +1886,7 @@ namespace Donut::P3D
             {
                 case ChunkType::CollisionVector:
                     {
-                        _vectors.push_back(data.Read<glm::vec3>());
+                        _vectors.push_back(data.Read<Vector3>());
                         break;
                     }
                 default:
@@ -1900,7 +1900,7 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::CollisionOBBoxVolume));
 
         MemoryStream stream(chunk.GetData());
-        _halfExtents = stream.Read<glm::vec3>();
+        _halfExtents = stream.Read<Vector3>();
 
         for (auto const& child : chunk.GetChildren())
         {
@@ -1910,7 +1910,7 @@ namespace Donut::P3D
             {
                 case ChunkType::CollisionVector:
                     {
-                        _vectors.push_back(data.Read<glm::vec3>());
+                        _vectors.push_back(data.Read<Vector3>());
                         break;
                     }
                 default:
@@ -1932,7 +1932,7 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::CollisionVector));
 
         MemoryStream stream(chunk.GetData());
-        _value = stream.Read<glm::vec3>();
+        _value = stream.Read<Vector3>();
     }
 
     CollisionVolumeOwner::CollisionVolumeOwner(const P3DChunk& chunk)
@@ -2007,9 +2007,9 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::Fence));
 
         MemoryStream stream(chunk.GetData());
-        _start = stream.Read<glm::vec3>();
-        _end = stream.Read<glm::vec3>();
-        _normal = stream.Read<glm::vec3>();
+        _start = stream.Read<Vector3>();
+        _end = stream.Read<Vector3>();
+        _normal = stream.Read<Vector3>();
     }
 
     Set::Set(const P3DChunk& chunk)
@@ -2042,7 +2042,7 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _numPoints = stream.Read<uint32_t>();
         _points.resize(_numPoints);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(glm::vec3));
+        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(Vector3));
     }
 
     Intersection::Intersection(const P3DChunk& chunk)
@@ -2051,7 +2051,7 @@ namespace Donut::P3D
 
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
-        _position = stream.Read<glm::vec3>();
+        _position = stream.Read<Vector3>();
         _radius = stream.Read<float>();
         _trafficBehaviour = stream.Read<uint32_t>();
     }
@@ -2065,9 +2065,9 @@ namespace Donut::P3D
         _todo0 = stream.Read<uint32_t>();
         _lanes = stream.Read<uint32_t>();
         _todo1 = stream.Read<uint32_t>();
-        _position0 = stream.Read<glm::vec3>();
-        _position1 = stream.Read<glm::vec3>();
-        _position2 = stream.Read<glm::vec3>();
+        _position0 = stream.Read<Vector3>();
+        _position1 = stream.Read<Vector3>();
+        _position2 = stream.Read<Vector3>();
     }
 
     Road::Road(const P3DChunk& chunk)
@@ -2093,8 +2093,8 @@ namespace Donut::P3D
         MemoryStream stream(chunk.GetData());
         _name = stream.ReadLPString();
         _data = stream.ReadLPString();
-        _transform = stream.Read<glm::mat4>();
-        _transform2 = stream.Read<glm::mat4>();
+        _transform = stream.Read<Matrix4x4>();
+        _transform2 = stream.Read<Matrix4x4>();
     }
 
     GameAttr::GameAttr(const P3DChunk& chunk)
@@ -2206,7 +2206,7 @@ namespace Donut::P3D
         _yaw = stream.Read<float>();
         _pitch = stream.Read<float>();
         _distance = stream.Read<float>();
-        _offset = stream.Read<glm::vec3>();
+        _offset = stream.Read<Vector3>();
     }
 
     PhysicsObject::PhysicsObject(const P3DChunk& chunk)
@@ -2256,7 +2256,7 @@ namespace Donut::P3D
             {
                 case ChunkType::PhysicsVector:
                     {
-                        _vector = data.Read<glm::vec3>();
+                        _vector = data.Read<Vector3>();
                         break;
                     }
                 case ChunkType::PhysicsInertiaMatrix:
@@ -2275,7 +2275,7 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::PhysicsVector));
 
         MemoryStream stream(chunk.GetData());
-        _value = stream.Read<glm::vec3>();
+        _value = stream.Read<Vector3>();
     }
 
     PhysicsInertiaMatrix::PhysicsInertiaMatrix(const P3DChunk& chunk)
@@ -2283,10 +2283,10 @@ namespace Donut::P3D
         assert(chunk.IsType(ChunkType::PhysicsInertiaMatrix));
 
         MemoryStream stream(chunk.GetData());
-        _position = stream.Read<glm::vec3>();
-        _forward = stream.Read<glm::vec3>();
-        _right = stream.Read<glm::vec3>();
-        _up = stream.Read<glm::vec3>();
+        _position = stream.Read<Vector3>();
+        _forward = stream.Read<Vector3>();
+        _right = stream.Read<Vector3>();
+        _up = stream.Read<Vector3>();
     }
 
     CompositeDrawableSkinList::CompositeDrawableSkinList(const P3DChunk& chunk)

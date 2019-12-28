@@ -69,6 +69,6 @@ class WorldPhysics
 	// allocated objects for cleanup
 	std::vector<btCollisionObject*> _allocatedCollisionObjects;
 	std::vector<std::vector<uint32_t>*> _allocatedIndexArrays;
-	std::vector<std::vector<glm::vec3>*> _allocatedVertexArrays;
+	std::vector<std::vector<Vector3>*> _allocatedVertexArrays;
 };
 } // namespace Donut

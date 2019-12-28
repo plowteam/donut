@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <Render/BillboardBatch.h>
-#include <Render/Mesh.h>
-#include <ResourceManager.h>
-#include <glm/mat4x4.hpp>
+#include "Render/BillboardBatch.h"
+#include "Render/Mesh.h"
+#include "ResourceManager.h"
+
 #include <string>
 
 namespace Donut
@@ -65,19 +65,19 @@ class CompositeModel
 
 	static std::unique_ptr<CompositeModel> LoadP3D(const std::string&);
 
-	void Draw(GL::ShaderProgram&, const glm::mat4&, const glm::mat4&, bool);
+	void Draw(GL::ShaderProgram&, const Matrix4x4&, const Matrix4x4&, bool);
 
-	void SetTransform(const glm::mat4& transform) { _transform = transform; }
-	const glm::mat4& GetTransform() const { return _transform; }
+	void SetTransform(const Matrix4x4& transform) { _transform = transform; }
+	const Matrix4x4& GetTransform() const { return _transform; }
 
   private:
 	struct DrawableProp
 	{
 		size_t meshIndex;
-		glm::mat4 transform;
+		Matrix4x4 transform;
 	};
 
-	glm::mat4 _transform;
+	Matrix4x4 _transform;
 	std::vector<std::unique_ptr<Mesh>> _meshes;
 	std::vector<std::unique_ptr<BillboardBatch>> _billboards;
 	std::vector<DrawableProp> _props;

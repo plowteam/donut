@@ -16,7 +16,7 @@ namespace Donut
 {
 
 Character::Character(std::string name):
-    _name(std::move(name)), _position(glm::vec3(0.0f)), _rotation(glm::quat())
+    _name(std::move(name)), _position(Vector3(0.0f)), _rotation(Quaternion())
 {
 	_characterController = std::make_unique<CharacterController>(this, &Game::GetInstance().GetWorldPhysics());
 	_boneBuffer          = std::make_unique<GL::TextureBuffer>();
@@ -79,13 +79,15 @@ void Character::LoadAnimations(const std::string& name)
 	SetAnimation(_animations.begin()->first);
 }
 
-void Character::Draw(const glm::mat4& viewProjection, GL::ShaderProgram& shaderProgram, const ResourceManager& rm)
+void Character::Draw(const Matrix4x4& viewProjection, GL::ShaderProgram& shaderProgram, const ResourceManager& rm)
 {
-	const auto localPosition = _position; // -glm::vec3(0.0f, _characterController->GetShape().getHalfHeight() * 2, 0.0f);
-	const glm::mat4 mvp      = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
+	// wtf just 
+	const auto localPosition = _position; // -Vector3(0.0f, _characterController->GetShape().getHalfHeight() * 2, 0.0f);
+	//const Matrix4x4 mvp        = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
+	//const Matrix4x4 mvp        = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
 
 	shaderProgram.Bind(); // todo optimize: should already be bound?
-	shaderProgram.SetUniformValue("viewProj", mvp);
+	shaderProgram.SetUniformValue("viewProj", viewProjection);
 	shaderProgram.SetUniformValue("diffuseTex", 0); // todo optimize: should already be set
 	shaderProgram.SetUniformValue("boneBuffer", 1); // todo optimize: should already be set
 
@@ -118,19 +120,19 @@ void Character::Update(double deltatime)
 
 	// update our bonebuffer
 	auto joints = _skeleton->GetJoints();
-	std::vector<glm::mat4> matrices(joints.size());
+	std::vector<Matrix4x4> matrices(joints.size());
 	for (auto i = 0; i < joints.size(); i++)
 		matrices[i] = joints[i].finalGlobal;
 
-	_boneBuffer->SetBuffer(matrices.data(), matrices.size() * sizeof(glm::mat4));
+	_boneBuffer->SetBuffer(matrices.data(), matrices.size() * sizeof(Matrix4x4));
 }
 
-void Character::SetPosition(const glm::vec3& position)
+void Character::SetPosition(const Vector3& position)
 {
 	_position = position;
 	_characterController->warp(BulletCast<btVector3>(position));
 }
-void Character::SetRotation(const glm::quat& rotation)
+void Character::SetRotation(const Quaternion& rotation)
 {
 	_rotation = rotation;
 }
@@ -158,8 +160,8 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 		auto track = std::make_unique<SkinAnimation::Track>(joint.name);
 
 		const auto& jointRestPose    = joint.rest;
-		const auto& jointTranslation = jointRestPose[3];
-		const auto& jointRotation    = glm::quat_cast(jointRestPose);
+		const auto& jointTranslation = jointRestPose.Translation();
+		const auto& jointRotation    = jointRestPose.ToQuat();
 
 		if (groupNameIndex.find(joint.name) == groupNameIndex.end())
 		{
@@ -202,7 +204,7 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 					float x               = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
 					float w               = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
 
-					track->AddRotationKey(frames[i], glm::quat(w, x, y, z));
+					track->AddRotationKey(frames[i], Quaternion(w, x, y, z));
 				}
 			}
 			else

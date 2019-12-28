@@ -3,6 +3,7 @@
 #include "BulletDebugDraw.h"
 
 #include "BulletCast.h"
+#include "Core/Math/Vector4.h"
 
 namespace Donut
 {
@@ -16,10 +17,10 @@ void BulletDebugDraw::drawLine(const btVector3& from, const btVector3& to, const
 {
 	if (m_lineRenderer == nullptr) return;
 
-	glm::vec3 c = BulletCast<glm::vec3>(color);
-	glm::vec4 drawColour(c.x, c.y, c.z, 0.75f);
+	Vector3 c = BulletCast<Vector3>(color);
+	Vector4 drawColour(c.X, c.Y, c.Z, 0.75f);
 
-	m_lineRenderer->DrawLine(BulletCast<glm::vec3>(from), BulletCast<glm::vec3>(to), drawColour);
+	m_lineRenderer->DrawLine(BulletCast<Vector3>(from), BulletCast<Vector3>(to), drawColour);
 }
 
 void BulletDebugDraw::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)

@@ -2,10 +2,11 @@
 
 #pragma once
 
-#include <Render/OpenGL/ShaderProgram.h>
-#include <Render/OpenGL/VertexBinding.h>
-#include <Render/OpenGL/VertexBuffer.h>
-#include <glm/glm.hpp>
+#include "Core/Math/Fwd.h"
+#include "Render/OpenGL/ShaderProgram.h"
+#include "Render/OpenGL/VertexBinding.h"
+#include "Render/OpenGL/VertexBuffer.h"
+
 #include <vector>
 
 namespace Donut
@@ -17,24 +18,24 @@ class LineRenderer
   public:
 	LineRenderer(std::size_t maxVertexCount);
 
-	void DrawLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec4& colour);
-	void DrawBox(const glm::mat4 transform, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
-	void DrawBox(const glm::vec3& position, const glm::vec3& angles, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
-	void DrawBox(const glm::vec3& position, const glm::quat& angles, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
-	void DrawAABBox(const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
-	void DrawAABBox(const glm::vec3& position, const glm::vec3& mins, const glm::vec3& maxs, const glm::vec4& colour);
-	void DrawSphere(const glm::vec3& position, float radius, int thetaSegments, int phiSegments, const glm::vec4& colour);
-	void DrawCone(const glm::vec3& position, float radius, float height, std::size_t sides, const glm::vec4& colour);
-	void DrawCone(const glm::vec3& position, const glm::quat& rotation, float radius, float height, std::size_t sides, const glm::vec4& colour);
-	void DrawSkeleton(const glm::vec3& position, const Skeleton& skeleton);
+	void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& colour);
+	void DrawBox(const Matrix4x4 transform, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
+	void DrawBox(const Vector3& position, const Vector3& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
+	void DrawBox(const Vector3& position, const Quaternion& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
+	void DrawAABBox(const Vector3& mins, const Vector3& maxs, const Vector4& colour);
+	void DrawAABBox(const Vector3& position, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
+	void DrawSphere(const Vector3& position, float radius, int thetaSegments, int phiSegments, const Vector4& colour);
+	void DrawCone(const Vector3& position, float radius, float height, std::size_t sides, const Vector4& colour);
+	void DrawCone(const Vector3& position, const Quaternion& rotation, float radius, float height, std::size_t sides, const Vector4& colour);
+	void DrawSkeleton(const Vector3& position, const Skeleton& skeleton);
 
-	void Flush(glm::mat4& viewProj);
+	void Flush(Matrix4x4& viewProj);
 
 	std::size_t GetVertexCount() const { return _vertexCount; }
 	std::size_t GetMaxVertexCount() const { return _maxVertexCount; }
 
   private:
-	void BufferVertex(const glm::vec3& position, const glm::vec4& colour);
+	void BufferVertex(const Vector3& position, const Vector4& colour);
 
 	static inline const std::size_t kVertexSize = 28;
 	std::size_t _vertexCount;

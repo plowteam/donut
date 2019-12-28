@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include "Core/Math/Matrix4x4.h"
+
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -25,14 +25,14 @@ class Skeleton
 	{
 		std::string name;
 		int parent;
-		glm::mat4 rest;
-		glm::mat4 restGlobalInverse;
-		glm::mat4 pose;
-		glm::mat4 finalGlobal;
+		Matrix4x4 rest;
+		Matrix4x4 restGlobalInverse;
+		Matrix4x4 pose;
+		Matrix4x4 finalGlobal;
 
-		Joint(std::string pName, int pParent, glm::mat4 pRest):
+		Joint(std::string pName, int pParent, Matrix4x4 pRest):
 		    name(std::move(pName)), parent(pParent), rest(pRest),
-		    restGlobalInverse(glm::mat4(1.0f)), pose(glm::mat4(1.0f)), finalGlobal(glm::mat4(1.0f)) {}
+		    restGlobalInverse(Matrix4x4::Identity), pose(Matrix4x4::Identity), finalGlobal(Matrix4x4::Identity) {}
 	};
 
   public:

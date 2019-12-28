@@ -2,9 +2,9 @@
 
 #pragma once
 
+#include "Core/Math/Fwd.h"
 #include "Render/OpenGL/glad/glad.h"
 
-#include <glm/glm.hpp>
 #include <map>
 #include <string>
 
@@ -23,12 +23,12 @@ class ShaderProgram
 
 	void SetUniformValue(const char* uniformName, int value);
 	void SetUniformValue(const char* uniformName, float value);
-	void SetUniformValue(const char* uniformName, const glm::vec2& v);
-	void SetUniformValue(const char* uniformName, const glm::vec3& v);
-	void SetUniformValue(const char* uniformName, const glm::vec4& v);
-	void SetUniformValue(const char* uniformName, const glm::mat3& m);
-	void SetUniformValue(const char* uniformName, const glm::mat4& m);
-	void SetUniformValue(const char* uniformName, std::size_t count, const glm::mat4* m);
+	void SetUniformValue(const char* uniformName, const Vector2& v);
+	void SetUniformValue(const char* uniformName, const Vector3& v);
+	void SetUniformValue(const char* uniformName, const Vector4& v);
+	void SetUniformValue(const char* uniformName, const Matrix3x3& m);
+	void SetUniformValue(const char* uniformName, const Matrix4x4& m);
+	void SetUniformValue(const char* uniformName, std::size_t count, const Matrix4x4* m);
 
 	GLuint GetRawHandle() const { return _program; }
 

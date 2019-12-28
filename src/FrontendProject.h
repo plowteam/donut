@@ -25,7 +25,7 @@ class FrontendProject
 	~FrontendProject();
 
 	void LoadP3D(const std::string&);
-	void Draw(const glm::mat4& proj);
+	void Draw(const Matrix4x4& proj);
 
   private:
 	void AddGroup(const P3D::FrontendGroup& group, int32_t resX, int32_t resY);
@@ -38,7 +38,7 @@ class FrontendProject
 		int32_t positionY;
 		int32_t width;
 		int32_t height;
-		glm::vec4 color;
+		Vector4 color;
 	};
 
 	SpriteBatch _spriteBatch;

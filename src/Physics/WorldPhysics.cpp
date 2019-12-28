@@ -1,12 +1,12 @@
 // Copyright 2019 the donut authors. See AUTHORS.md
 
+#include "P3D/P3D.generated.h"
+#include "Physics/BulletCast.h"
+#include "Physics/BulletDebugDraw.h"
+#include "Physics/BulletFenceShape.h"
+#include "Physics/WorldPhysics.h"
+
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
-#include <P3D/P3D.generated.h>
-#include <Physics/BulletCast.h>
-#include <Physics/BulletDebugDraw.h>
-#include <Physics/BulletFenceShape.h>
-#include <Physics/WorldPhysics.h>
-#include <glm/gtx/quaternion.hpp>
 
 namespace Donut
 {
@@ -25,7 +25,7 @@ WorldPhysics::WorldPhysics(LineRenderer* lineRenderer)
 	_dynamicsWorld->setDebugDrawer(_debugDraw.get());
 	_dynamicsWorld->setGravity(btVector3(0.0f, -1.0f, 0.0f));
 
-	// _char = std::make_unique<CharacterController>(this, glm::vec3(glm::vec3(229.0f, 4.5f, -182.0f)));
+	// _char = std::make_unique<CharacterController>(this, Vector3(Vector3(229.0f, 4.5f, -182.0f)));
 }
 
 WorldPhysics::~WorldPhysics()
@@ -68,12 +68,12 @@ void WorldPhysics::Update(const float dt) const
 void WorldPhysics::AddIntersect(const P3D::Intersect& intersect)
 {
 	// copy this shit over first (todo: free it?)
-	auto verts   = new std::vector<glm::vec3>(intersect.GetPositions());
+	auto verts   = new std::vector<Vector3>(intersect.GetPositions());
 	auto indices = new std::vector<uint32_t>(intersect.GetIndices());
 
 	btIndexedMesh indexedMesh;
 	indexedMesh.m_vertexBase          = reinterpret_cast<const unsigned char*>(verts->data());
-	indexedMesh.m_vertexStride        = sizeof(glm::vec3);
+	indexedMesh.m_vertexStride        = sizeof(Vector3);
 	indexedMesh.m_numVertices         = (int)verts->size();
 	indexedMesh.m_triangleIndexBase   = reinterpret_cast<const unsigned char*>(indices->data());
 	indexedMesh.m_triangleIndexStride = sizeof(uint32_t) * 3;
@@ -127,10 +127,11 @@ void WorldPhysics::AddP3DOBBoxVolume(const P3D::CollisionOBBoxVolume& volume)
 	const auto rotY   = volume.GetVectors()[2];
 	const auto rotZ   = volume.GetVectors()[3];
 
-	const glm::quat rotation = glm::toQuat(glm::mat3(
-	    rotX.x, rotX.y, rotX.z,
-	    rotY.x, rotY.y, rotY.z,
-	    rotZ.x, rotZ.y, rotZ.z));
+	const Quaternion rotation = Matrix3x3(
+		rotX.X, rotX.Y, rotX.Z,
+		rotY.X, rotY.Y, rotY.Z,
+		rotZ.X, rotZ.Y, rotZ.Z
+	).Quat();
 
 	const auto he          = volume.GetHalfExtents();
 	const auto bulletShape = new btBoxShape(BulletCast<btVector3>(volume.GetHalfExtents()));
@@ -170,7 +171,8 @@ void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 {
 	const float radius       = cylinder.GetRadius();
 	const float halfLength   = cylinder.GetLength();
-	const glm::quat rotation = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), cylinder.GetVectors()[1]);
+	const Quaternion rotation      = Quaternion(Vector3::Up, cylinder.GetVectors()[1].Y); // todo: not right
+	//const Quaternion rotation = glm::rotation(Vector3(0.0f, 1.0f, 0.0f), cylinder.GetVectors()[1]);
 
 	btConvexShape* shape = nullptr;
 	if (cylinder.GetFlatEnd() == 1)
@@ -194,19 +196,20 @@ void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 
 void WorldPhysics::AddP3DFence(const P3D::Fence& fence)
 {
-	glm::vec3 start  = fence.GetStart();
-	glm::vec3 end    = fence.GetEnd();
-	glm::vec3 normal = fence.GetNormal();
-	glm::vec3 center = end + (start - end) * 0.5f;
+	Vector3 start  = fence.GetStart();
+	Vector3 end    = fence.GetEnd();
+	Vector3 normal = fence.GetNormal();
+	Vector3 center = end + (start - end) * 0.5f;
 
-	const float length       = glm::distance(start, end);
-	const glm::quat rotation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), normal);
+	const float length        = start.DistanceTo(end);
+	const Quaternion rotation = Quaternion(Vector3::Forward, normal.X); // todo: wrong
+	//const Quaternion rotation = glm::rotation(Vector3(0.0f, 0.0f, 1.0f), normal);
 
 	// tall box, very little thickness, might turn into a plane if possible
 	const btVector3 boxHalfExtents(length / 2, 50.0f, .0125f);
 
 	auto box          = new btBoxShape(boxHalfExtents);
-	const float angle = atan2f(normal.x, normal.z);
+	const float angle = atan2f(normal.X, normal.Z);
 
 	btTransform worldTransform;
 	worldTransform.setIdentity();

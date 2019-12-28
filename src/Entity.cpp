@@ -18,7 +18,7 @@ void StaticEntity::Draw(GL::ShaderProgram& shader, bool opaque)
 	_mesh->Draw(shader, opaque);
 }
 
-InstancedStaticEntity::InstancedStaticEntity(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms)
+InstancedStaticEntity::InstancedStaticEntity(const P3D::Geometry& geometry, const std::vector<Matrix4x4>& transforms)
 {
 	_name = geometry.GetName();
 	_mesh = std::make_unique<MeshInstanced>(geometry, transforms);

@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Core/Math/Fwd.h"
+
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -30,7 +31,7 @@ class Level
 	~Level();
 
 	void Update(double deltatime);
-	void Draw(glm::mat4& viewProj);
+	void Draw(Matrix4x4& viewProj);
 	void LoadP3D(const std::string& filename);
 
 	void DynaLoadData(const std::string& dynaLoadData);
@@ -54,7 +55,7 @@ class Level
 	class Path
 	{
 	  public:
-		std::vector<glm::vec3> points;
+		std::vector<Vector3> points;
 	};
 
 	std::vector<Path> _paths;

@@ -2,8 +2,10 @@
 
 #pragma once
 
+#include "Core/Math/Matrix4x4.h"
+#include "Core/Math/Vector4.h"
+
 #include <fmt/format.h>
-#include <glm/mat4x4.hpp>
 #include <memory>
 #include <vector>
 
@@ -286,19 +288,19 @@ struct P3DUtil
 	static void GetDrawables(
 	    const std::unique_ptr<class InstanceList>&,
 	    std::vector<class SceneGraphDrawable*>&,
-	    std::vector<glm::mat4>&);
+	    std::vector<Matrix4x4>&);
 
 	static void GetDrawables(
 	    const std::unique_ptr<class SceneGraphTransform>&,
 	    std::vector<class SceneGraphDrawable*>&,
-	    std::vector<glm::mat4>&,
-	    const glm::mat4&);
+	    std::vector<Matrix4x4>&,
+	    const Matrix4x4&);
 
 	static std::string GetShaderTexture(const std::unique_ptr<class Shader>&);
 
-	static glm::vec4 ConvertColor(uint32_t v)
+	static Vector4 ConvertColor(uint32_t v)
 	{
-		return glm::vec4(((v >> 16) & 255) / 255.0f,
+		return Vector4(((v >> 16) & 255) / 255.0f,
 		                 ((v >> 8) & 255) / 255.0f,
 		                 ((v & 255)) / 255.0f,
 		                 ((v >> 24) & 255) / 255.0f);

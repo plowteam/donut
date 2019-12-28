@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include <P3D/P3D.generated.h>
-#include <Render/OpenGL/IndexBuffer.h>
-#include <Render/OpenGL/ShaderProgram.h>
-#include <Render/OpenGL/VertexBinding.h>
-#include <Render/OpenGL/VertexBuffer.h>
-#include <Render/SkinAnimation.h>
-#include <glm/glm.hpp>
+#include "Core/Math/Fwd.h"
+#include "P3D/P3D.generated.h"
+#include "Render/OpenGL/IndexBuffer.h"
+#include "Render/OpenGL/ShaderProgram.h"
+#include "Render/OpenGL/VertexBinding.h"
+#include "Render/OpenGL/VertexBuffer.h"
+#include "Render/SkinAnimation.h"
+
 #include <string>
 
 namespace Donut
@@ -36,9 +37,9 @@ class Mesh
 
 	struct Vertex
 	{
-		glm::vec3 pos;
-		glm::vec2 uv;
-		glm::vec4 co0lor;
+		Vector3 pos;
+		Vector2 uv;
+		Vector4 co0lor;
 	};
 
 	void CreateMeshBuffers(const P3D::Geometry& geometry);
@@ -53,21 +54,21 @@ class Mesh
 	std::shared_ptr<GL::IndexBuffer> _indexBuffer;
 	std::shared_ptr<GL::VertexBinding> _vertexBinding;
 
-	glm::vec3 _boundingBoxMin;
-	glm::vec3 _boundingBoxMax;
+	Vector3 _boundingBoxMin;
+	Vector3 _boundingBoxMax;
 };
 
 class MeshInstanced: public Mesh
 {
   public:
-	MeshInstanced(const P3D::Geometry& geometry, const std::vector<glm::mat4>& transforms);
+	MeshInstanced(const P3D::Geometry& geometry, const std::vector<Matrix4x4>& transforms);
 
   protected:
 	virtual void CreateVertexBinding() override;
 
 	virtual void DrawPrimGroup(const PrimGroup& primGroup) override;
 
-	std::vector<glm::mat4> _transforms;
+	std::vector<Matrix4x4> _transforms;
 	std::shared_ptr<GL::VertexBuffer> _instanceBuffer;
 };
 
