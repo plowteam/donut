@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <P3D/P3D.generated.h>
 #include <Render/Shader.h>
@@ -8,8 +8,7 @@
 namespace Donut
 {
 
-Shader::Shader(const P3D::Shader& shader):
-    _name(shader.GetName())
+Shader::Shader(const P3D::Shader& shader): _name(shader.GetName())
 {
 	auto const& pddiName = shader.GetPddiShaderName();
 	if (pddiName != "simple")
@@ -27,9 +26,7 @@ Shader::Shader(const P3D::Shader& shader):
 
 	for (const auto& param : shader.GetFloatParams())
 	{
-		if (param->GetKey() == "CBVV")
-		{
-		}
+		if (param->GetKey() == "CBVV") {}
 		else if (param->GetKey() == "MSHP")
 		{
 		}
@@ -63,13 +60,12 @@ Shader::Shader(const P3D::Shader& shader):
 				glSamplerParameteri(_glSampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 				glSamplerParameteri(_glSampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				break;
-			default:
-				throw std::runtime_error("bad filter mode");
+			default: throw std::runtime_error("bad filter mode");
 			}
 		}
 		else if (param->GetKey() == "UVMD")
 		{
-			uvmd          = param->GetValue();
+			uvmd = param->GetValue();
 			GLint glparam = (uvmd == 0) ? GL_REPEAT : GL_CLAMP_TO_EDGE;
 
 			glSamplerParameteri(_glSampler, GL_TEXTURE_WRAP_S, glparam);

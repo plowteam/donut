@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -17,7 +17,7 @@ class Texture;
 
 class Font
 {
-  public:
+public:
 	struct Glyph
 	{
 		uint32_t textureId;
@@ -38,7 +38,7 @@ class Font
 
 	bool TryGetGlyph(int32_t id, Glyph& glyph) const;
 
-  private:
+private:
 	float _height;
 	std::vector<std::shared_ptr<Texture>> _textures;
 	std::map<int32_t, Glyph> _glyphs;

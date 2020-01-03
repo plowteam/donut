@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -15,18 +15,21 @@ class Skeleton;
 
 class LineRenderer
 {
-  public:
+public:
 	LineRenderer(std::size_t maxVertexCount);
 
 	void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& colour);
 	void DrawBox(const Matrix4x4 transform, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
-	void DrawBox(const Vector3& position, const Vector3& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
-	void DrawBox(const Vector3& position, const Quaternion& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
+	void DrawBox(const Vector3& position, const Vector3& angles, const Vector3& mins, const Vector3& maxs,
+	             const Vector4& colour);
+	void DrawBox(const Vector3& position, const Quaternion& angles, const Vector3& mins, const Vector3& maxs,
+	             const Vector4& colour);
 	void DrawAABBox(const Vector3& mins, const Vector3& maxs, const Vector4& colour);
 	void DrawAABBox(const Vector3& position, const Vector3& mins, const Vector3& maxs, const Vector4& colour);
 	void DrawSphere(const Vector3& position, float radius, int thetaSegments, int phiSegments, const Vector4& colour);
 	void DrawCone(const Vector3& position, float radius, float height, std::size_t sides, const Vector4& colour);
-	void DrawCone(const Vector3& position, const Quaternion& rotation, float radius, float height, std::size_t sides, const Vector4& colour);
+	void DrawCone(const Vector3& position, const Quaternion& rotation, float radius, float height, std::size_t sides,
+	              const Vector4& colour);
 	void DrawSkeleton(const Vector3& position, const Skeleton& skeleton);
 
 	void Flush(Matrix4x4& viewProj);
@@ -34,7 +37,7 @@ class LineRenderer
 	std::size_t GetVertexCount() const { return _vertexCount; }
 	std::size_t GetMaxVertexCount() const { return _maxVertexCount; }
 
-  private:
+private:
 	void BufferVertex(const Vector3& position, const Vector4& colour);
 
 	static inline const std::size_t kVertexSize = 28;

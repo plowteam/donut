@@ -1,10 +1,10 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
+#include "Physics/WorldPhysics.h"
 #include "P3D/P3D.generated.h"
 #include "Physics/BulletCast.h"
 #include "Physics/BulletDebugDraw.h"
 #include "Physics/BulletFenceShape.h"
-#include "Physics/WorldPhysics.h"
 
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
 
@@ -13,9 +13,9 @@ namespace Donut
 WorldPhysics::WorldPhysics(LineRenderer* lineRenderer)
 {
 	_collisionConfiguration = new btDefaultCollisionConfiguration();
-	_collisionDispatcher    = new btCollisionDispatcher(_collisionConfiguration);
-	_broadphase             = new btDbvtBroadphase();
-	_constraintSolver       = new btSequentialImpulseConstraintSolver();
+	_collisionDispatcher = new btCollisionDispatcher(_collisionConfiguration);
+	_broadphase = new btDbvtBroadphase();
+	_constraintSolver = new btSequentialImpulseConstraintSolver();
 
 	_dynamicsWorld = new btDiscreteDynamicsWorld(_collisionDispatcher, _broadphase, _constraintSolver, _collisionConfiguration);
 
@@ -40,13 +40,11 @@ WorldPhysics::~WorldPhysics()
 
 	_allocatedCollisionObjects.clear();
 
-	for (auto i = 0; i < _allocatedVertexArrays.size(); i++)
-		delete _allocatedVertexArrays[i];
+	for (auto i = 0; i < _allocatedVertexArrays.size(); i++) delete _allocatedVertexArrays[i];
 
 	_allocatedVertexArrays.clear();
 
-	for (auto i = 0; i < _allocatedIndexArrays.size(); i++)
-		delete _allocatedIndexArrays[i];
+	for (auto i = 0; i < _allocatedIndexArrays.size(); i++) delete _allocatedIndexArrays[i];
 
 	_allocatedIndexArrays.clear();
 
@@ -68,16 +66,16 @@ void WorldPhysics::Update(const float dt) const
 void WorldPhysics::AddIntersect(const P3D::Intersect& intersect)
 {
 	// copy this shit over first (todo: free it?)
-	auto verts   = new std::vector<Vector3>(intersect.GetPositions());
+	auto verts = new std::vector<Vector3>(intersect.GetPositions());
 	auto indices = new std::vector<uint32_t>(intersect.GetIndices());
 
 	btIndexedMesh indexedMesh;
-	indexedMesh.m_vertexBase          = reinterpret_cast<const unsigned char*>(verts->data());
-	indexedMesh.m_vertexStride        = sizeof(Vector3);
-	indexedMesh.m_numVertices         = (int)verts->size();
-	indexedMesh.m_triangleIndexBase   = reinterpret_cast<const unsigned char*>(indices->data());
+	indexedMesh.m_vertexBase = reinterpret_cast<const unsigned char*>(verts->data());
+	indexedMesh.m_vertexStride = sizeof(Vector3);
+	indexedMesh.m_numVertices = (int)verts->size();
+	indexedMesh.m_triangleIndexBase = reinterpret_cast<const unsigned char*>(indices->data());
 	indexedMesh.m_triangleIndexStride = sizeof(uint32_t) * 3;
-	indexedMesh.m_numTriangles        = (int)indices->size() / 3;
+	indexedMesh.m_numTriangles = (int)indices->size() / 3;
 
 	auto meshInterface = new btTriangleIndexVertexArray();
 	meshInterface->addIndexedMesh(indexedMesh, PHY_INTEGER);
@@ -100,16 +98,15 @@ void WorldPhysics::AddCollisionVolume(const P3D::CollisionVolume& volume)
 	// process subvolumes
 	if (volume.GetNumSubVolumes() > 0)
 	{
-		for (auto const& subvolume : volume.GetSubVolumes())
-			AddCollisionVolume(*subvolume);
+		for (auto const& subvolume : volume.GetSubVolumes()) AddCollisionVolume(*subvolume);
 
 		// if it has sub volumes it probably doesn't have an actual volume so just return
 		return;
 	}
 
 	// process volume
-	auto const& obbox    = volume.GetObBox();
-	auto const& sphere   = volume.GetSphere();
+	auto const& obbox = volume.GetObBox();
+	auto const& sphere = volume.GetSphere();
 	auto const& cylinder = volume.GetCylinder();
 
 	if (obbox != nullptr)
@@ -123,17 +120,13 @@ void WorldPhysics::AddCollisionVolume(const P3D::CollisionVolume& volume)
 void WorldPhysics::AddP3DOBBoxVolume(const P3D::CollisionOBBoxVolume& volume)
 {
 	const auto centre = volume.GetVectors()[0];
-	const auto rotX   = volume.GetVectors()[1];
-	const auto rotY   = volume.GetVectors()[2];
-	const auto rotZ   = volume.GetVectors()[3];
+	const auto rotX = volume.GetVectors()[1];
+	const auto rotY = volume.GetVectors()[2];
+	const auto rotZ = volume.GetVectors()[3];
 
-	const Quaternion rotation = Matrix3x3(
-		rotX.X, rotX.Y, rotX.Z,
-		rotY.X, rotY.Y, rotY.Z,
-		rotZ.X, rotZ.Y, rotZ.Z
-	).Quat();
+	const Quaternion rotation = Matrix3x3(rotX.X, rotX.Y, rotX.Z, rotY.X, rotY.Y, rotY.Z, rotZ.X, rotZ.Y, rotZ.Z).Quat();
 
-	const auto he          = volume.GetHalfExtents();
+	const auto he = volume.GetHalfExtents();
 	const auto bulletShape = new btBoxShape(BulletCast<btVector3>(volume.GetHalfExtents()));
 
 	btTransform worldTransform;
@@ -169,10 +162,10 @@ void WorldPhysics::AddP3DSphere(const P3D::CollisionSphere& sphere)
 
 void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 {
-	const float radius       = cylinder.GetRadius();
-	const float halfLength   = cylinder.GetLength();
-	const Quaternion rotation      = Quaternion(Vector3::Up, cylinder.GetVectors()[1].Y); // todo: not right
-	//const Quaternion rotation = glm::rotation(Vector3(0.0f, 1.0f, 0.0f), cylinder.GetVectors()[1]);
+	const float radius = cylinder.GetRadius();
+	const float halfLength = cylinder.GetLength();
+	const Quaternion rotation = Quaternion(Vector3::Up, cylinder.GetVectors()[1].Y); // todo: not right
+	// const Quaternion rotation = glm::rotation(Vector3(0.0f, 1.0f, 0.0f), cylinder.GetVectors()[1]);
 
 	btConvexShape* shape = nullptr;
 	if (cylinder.GetFlatEnd() == 1)
@@ -196,19 +189,19 @@ void WorldPhysics::AddP3DCylinder(const P3D::CollisionCylinder& cylinder)
 
 void WorldPhysics::AddP3DFence(const P3D::Fence& fence)
 {
-	Vector3 start  = fence.GetStart();
-	Vector3 end    = fence.GetEnd();
+	Vector3 start = fence.GetStart();
+	Vector3 end = fence.GetEnd();
 	Vector3 normal = fence.GetNormal();
 	Vector3 center = end + (start - end) * 0.5f;
 
-	const float length        = start.DistanceTo(end);
+	const float length = start.DistanceTo(end);
 	const Quaternion rotation = Quaternion(Vector3::Forward, normal.X); // todo: wrong
-	//const Quaternion rotation = glm::rotation(Vector3(0.0f, 0.0f, 1.0f), normal);
+	// const Quaternion rotation = glm::rotation(Vector3(0.0f, 0.0f, 1.0f), normal);
 
 	// tall box, very little thickness, might turn into a plane if possible
 	const btVector3 boxHalfExtents(length / 2, 50.0f, .0125f);
 
-	auto box          = new btBoxShape(boxHalfExtents);
+	auto box = new btBoxShape(boxHalfExtents);
 	const float angle = atan2f(normal.X, normal.Z);
 
 	btTransform worldTransform;

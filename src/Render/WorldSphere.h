@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -14,7 +14,7 @@
 namespace Donut
 {
 
-//class Skeleton;
+// class Skeleton;
 
 class WorldSphere
 {
@@ -24,17 +24,16 @@ class WorldSphere
 		bool translucent;
 		std::unique_ptr<Mesh> mesh;
 
-		Prop(std::unique_ptr<Mesh> pMesh, int pJoint):
-		    mesh(std::move(pMesh)), skeleton_joint(pJoint) {}
+		Prop(std::unique_ptr<Mesh> pMesh, int pJoint): mesh(std::move(pMesh)), skeleton_joint(pJoint) {}
 	};
 
-  public:
+public:
 	WorldSphere(const P3D::WorldSphere&);
 
 	void Draw(GL::ShaderProgram&, const Matrix4x4& viewProj, bool opaque) const;
 	void Update(double deltatime);
 
-  private:
+private:
 	std::string _name;
 	std::vector<std::unique_ptr<BillboardBatch>> _billboardBatches;
 	std::vector<Prop> _props;

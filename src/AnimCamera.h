@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -20,14 +20,14 @@ class P3DChunk;
 
 class AnimCamera
 {
-  public:
+public:
 	AnimCamera(const P3D::P3DChunk& chunk);
 
 	static std::unique_ptr<AnimCamera> LoadP3D(const std::string& filename);
 
 	Matrix4x4 Update(double dt);
 
-  private:
+private:
 	double _time;
 	std::unique_ptr<SkinAnimation> _trans;
 	std::unique_ptr<SkinAnimation> _forward;

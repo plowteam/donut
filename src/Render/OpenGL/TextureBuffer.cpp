@@ -1,14 +1,12 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
-#include <Render/OpenGL/TextureBuffer.h>
 #include "Render/OpenGL/glad/glad.h"
+#include <Render/OpenGL/TextureBuffer.h>
 
 namespace Donut::GL
 {
 
-TextureBuffer::TextureBuffer():
-    m_handle(0),
-    m_bufferHandle(0)
+TextureBuffer::TextureBuffer(): m_handle(0), m_bufferHandle(0)
 {
 	glGenTextures(1, &m_handle);
 	glGenBuffers(1, &m_bufferHandle);

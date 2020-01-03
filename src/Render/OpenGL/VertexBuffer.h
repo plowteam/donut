@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -10,10 +10,10 @@ namespace Donut::GL
 
 class VertexBuffer
 {
-  public:
-	VertexBuffer()                          = delete;
+public:
+	VertexBuffer() = delete;
 	VertexBuffer(const VertexBuffer& other) = delete;
-	VertexBuffer(VertexBuffer&&)            = default;
+	VertexBuffer(VertexBuffer&&) = default;
 
 	VertexBuffer(const void* vertices, std::size_t vertexCount, size_t strideBytes, GLuint hint = GL_STATIC_DRAW);
 
@@ -28,12 +28,12 @@ class VertexBuffer
 	GLuint GetHint() const noexcept;
 	GLuint GetVBO() const noexcept;
 
-	//const std::unique_ptr<GLvoid*> GetData() const;
+	// const std::unique_ptr<GLvoid*> GetData() const;
 
 	inline void Bind() { glBindBuffer(GL_ARRAY_BUFFER, _vbo); }
 	void UpdateBuffer(const void* data, size_t offset, size_t size);
 
-  private:
+private:
 	GLuint _vbo;
 	std::size_t _vertexCount;
 	std::size_t _strideBytes;

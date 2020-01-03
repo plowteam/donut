@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -11,7 +11,7 @@ namespace Donut::GL
 class TextureBuffer
 {
 
-  public:
+public:
 	TextureBuffer();
 	~TextureBuffer();
 
@@ -19,7 +19,7 @@ class TextureBuffer
 	void Unbind();
 	void SetBuffer(void* buffer, size_t length);
 
-  protected:
+protected:
 	GLuint m_handle;
 	GLuint m_bufferHandle;
 };

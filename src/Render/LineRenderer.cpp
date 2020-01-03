@@ -1,12 +1,12 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "LineRenderer.h"
 
-#include "Skeleton.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Quaternion.h"
 #include "Core/Math/Vector3.h"
 #include "Core/Math/Vector4.h"
+#include "Skeleton.h"
 
 namespace Donut
 {
@@ -40,18 +40,15 @@ std::string FragSrc = R"glsl(
 	}
 )glsl";
 
-LineRenderer::LineRenderer(size_t maxVertexCount):
-    _maxVertexCount(maxVertexCount),
-    _vertexCount(0)
+LineRenderer::LineRenderer(size_t maxVertexCount): _maxVertexCount(maxVertexCount), _vertexCount(0)
 {
 	_buffer.resize(kVertexSize * _maxVertexCount, 0);
 
 	_vertexBuffer = std::make_unique<GL::VertexBuffer>(nullptr, _maxVertexCount, kVertexSize, GL_DYNAMIC_DRAW);
 
 	GL::ArrayElement vertexLayout[] = {
-		GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, kVertexSize, 0),
-		GL::ArrayElement(_vertexBuffer.get(), 1, 4, GL::AE_FLOAT, kVertexSize, 3 * sizeof(float))
-	};
+	    GL::ArrayElement(_vertexBuffer.get(), 0, 3, GL::AE_FLOAT, kVertexSize, 0),
+	    GL::ArrayElement(_vertexBuffer.get(), 1, 4, GL::AE_FLOAT, kVertexSize, 3 * sizeof(float))};
 
 	_vertexBinding = std::make_unique<GL::VertexBinding>();
 	_vertexBinding->Create(vertexLayout, 2, *_vertexBuffer);
@@ -84,18 +81,18 @@ void LineRenderer::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4&
 
 void LineRenderer::DrawBox(const Matrix4x4 transform, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
 {
-	//DrawLine(transform * Vector4(mins.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, mins.Y, mins.Z, 1), colour);
-	//DrawLine(transform * Vector4(maxs.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), colour);
-	//DrawLine(transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, maxs.Y, mins.Z, 1), colour);
-	//DrawLine(transform * Vector4(mins.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, mins.Y, mins.Z, 1), colour);
-	//DrawLine(transform * Vector4(mins.X, mins.Y, mins.Z, 1), transform * Vector4(mins.X, mins.Y, maxs.Z, 1), colour);
-	//DrawLine(transform * Vector4(maxs.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), colour);
-	//DrawLine(transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), colour);
-	//DrawLine(transform * Vector4(mins.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), colour);
-	//DrawLine(transform * Vector4(mins.X, mins.Y, maxs.Z, 1), transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), colour);
-	//DrawLine(transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), colour);
-	//DrawLine(transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), colour);
-	//DrawLine(transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), transform * Vector4(mins.X, mins.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(mins.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, mins.Y, mins.Z, 1), colour);
+	// DrawLine(transform * Vector4(maxs.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), colour);
+	// DrawLine(transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, maxs.Y, mins.Z, 1), colour);
+	// DrawLine(transform * Vector4(mins.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, mins.Y, mins.Z, 1), colour);
+	// DrawLine(transform * Vector4(mins.X, mins.Y, mins.Z, 1), transform * Vector4(mins.X, mins.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(maxs.X, mins.Y, mins.Z, 1), transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(maxs.X, maxs.Y, mins.Z, 1), transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(mins.X, maxs.Y, mins.Z, 1), transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(mins.X, mins.Y, maxs.Z, 1), transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(maxs.X, mins.Y, maxs.Z, 1), transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(maxs.X, maxs.Y, maxs.Z, 1), transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), colour);
+	// DrawLine(transform * Vector4(mins.X, maxs.Y, maxs.Z, 1), transform * Vector4(mins.X, mins.Y, maxs.Z, 1), colour);
 }
 
 void LineRenderer::DrawAABBox(const Vector3& position, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
@@ -119,14 +116,16 @@ void LineRenderer::DrawAABBox(const Vector3& mins, const Vector3& maxs, const Ve
 	DrawLine(Vector3(mins.X, maxs.Y, maxs.Z), Vector3(mins.X, mins.Y, maxs.Z), colour);
 }
 
-void LineRenderer::DrawBox(const Vector3& position, const Vector3& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
+void LineRenderer::DrawBox(const Vector3& position, const Vector3& angles, const Vector3& mins, const Vector3& maxs,
+                           const Vector4& colour)
 {
-	//DrawBox(position, Quaternion(Math::DegreesToRadians(angles)), mins, maxs, colour);
+	// DrawBox(position, Quaternion(Math::DegreesToRadians(angles)), mins, maxs, colour);
 }
 
-void LineRenderer::DrawBox(const Vector3& position, const Quaternion& angles, const Vector3& mins, const Vector3& maxs, const Vector4& colour)
+void LineRenderer::DrawBox(const Vector3& position, const Quaternion& angles, const Vector3& mins, const Vector3& maxs,
+                           const Vector4& colour)
 {
-	//Matrix4x4 transform = Matrix4x4::MakeTranslate(position) * angles;
+	// Matrix4x4 transform = Matrix4x4::MakeTranslate(position) * angles;
 
 	DrawBox(Matrix4x4::Identity, mins, maxs, colour);
 }
@@ -134,7 +133,7 @@ void LineRenderer::DrawBox(const Vector3& position, const Quaternion& angles, co
 void LineRenderer::DrawSphere(const Vector3& position, float radius, int thetaSegments, int phiSegments, const Vector4& colour)
 {
 	int theta = thetaSegments + 1;
-	int phi   = phiSegments;
+	int phi = phiSegments;
 
 	std::vector<Vector3> vertices;
 	vertices.reserve(phi * theta);
@@ -148,9 +147,7 @@ void LineRenderer::DrawSphere(const Vector3& position, float radius, int thetaSe
 			float t = Math::Pi2 * u;
 			float p = Math::Pi * v;
 
-			Vector3 vertex(radius * sin(p) * cos(t),
-			                 radius * cos(p),
-			                 radius * sin(p) * sin(t));
+			Vector3 vertex(radius * sin(p) * cos(t), radius * cos(p), radius * sin(p) * sin(t));
 
 			vertex += position;
 
@@ -194,7 +191,8 @@ void LineRenderer::DrawCone(const Vector3& position, float radius, float height,
 	}
 }
 
-void LineRenderer::DrawCone(const Vector3& position, const Quaternion& rotation, float radius, float height, std::size_t sides, const Vector4& colour)
+void LineRenderer::DrawCone(const Vector3& position, const Quaternion& rotation, float radius, float height, std::size_t sides,
+                            const Vector4& colour)
 {
 	if (sides < 3)
 		return;
@@ -226,7 +224,7 @@ void LineRenderer::DrawSkeleton(const Vector3& position, const Skeleton& skeleto
 		auto const& parent = joints[joint.parent];
 
 		Matrix4x4 mParent = Matrix4x4::MakeTranslate(position) * parent.pose;
-		Matrix4x4 mJoint  = Matrix4x4::MakeTranslate(position) * joint.pose;
+		Matrix4x4 mJoint = Matrix4x4::MakeTranslate(position) * joint.pose;
 
 		const Vector4 lineColor(1.0f, 1.0f, 1.0f, 1.0f);
 		const Vector4 sphereColor(0.0f, 1.0f, 0.0f, 1.0f);

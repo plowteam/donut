@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "WorldSphere.h"
 
@@ -10,10 +10,9 @@
 namespace Donut
 {
 
-WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
-    _name(worldSphere.GetName())
+WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere): _name(worldSphere.GetName())
 {
-	auto meshes     = std::unordered_map<std::string, std::unique_ptr<Mesh>>(worldSphere.GetGeometryCount());
+	auto meshes = std::unordered_map<std::string, std::unique_ptr<Mesh>>(worldSphere.GetGeometryCount());
 	auto billboards = std::unordered_map<std::string, std::unique_ptr<BillboardBatch>>(worldSphere.GetBillboardCount());
 
 	for (auto const& p3dmesh : worldSphere.GetGeometries())
@@ -23,7 +22,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 		meshes[p3dmesh->GetName()] = std::move(mesh);
 	}
 
-	//for (auto const& billboard : worldSphere.GetBillboards())
+	// for (auto const& billboard : worldSphere.GetBillboards())
 	//	billboards.emplace_back(std::make_unique<BillboardBatch>(*billboard));
 
 	auto const& compositeDrawableList = worldSphere.GetCompositeDrawable()->GetPropList()->GetProps();
@@ -40,27 +39,21 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 
 	// load animation
 	auto const& p3dAnim = *worldSphere.GetAnimation();
-	_animation          = std::make_unique<SkinAnimation>(
-        p3dAnim.GetName(),
-        p3dAnim.GetNumFrames() / p3dAnim.GetFrameRate(),
-        static_cast<int32_t>(p3dAnim.GetNumFrames()),
-        p3dAnim.GetFrameRate());
+	_animation = std::make_unique<SkinAnimation>(p3dAnim.GetName(), p3dAnim.GetNumFrames() / p3dAnim.GetFrameRate(),
+	                                             static_cast<int32_t>(p3dAnim.GetNumFrames()), p3dAnim.GetFrameRate());
 
 	const auto& animGroupList = p3dAnim.GetGroupList();
-	const auto& groups        = animGroupList->GetGroups();
+	const auto& groups = animGroupList->GetGroups();
 	std::map<std::string, size_t> groupNameIndex;
-	for (const auto& group : groups)
-	{
-		groupNameIndex.insert({ group->GetName(), groupNameIndex.size() });
-	}
+	for (const auto& group : groups) { groupNameIndex.insert({group->GetName(), groupNameIndex.size()}); }
 
 	for (auto const& joint : _skeleton->GetJoints())
 	{
 		auto track = std::make_unique<SkinAnimation::Track>(joint.name);
 
-		const auto& jointRestPose    = joint.rest;
+		const auto& jointRestPose = joint.rest;
 		const auto& jointTranslation = jointRestPose.Translation();
-		const auto& jointRotation    = jointRestPose.ToQuat();
+		const auto& jointRotation = jointRestPose.ToQuat();
 
 		if (groupNameIndex.find(joint.name) == groupNameIndex.end())
 		{
@@ -69,22 +62,20 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 		}
 		else
 		{
-			const auto& animGroup                   = groups.at(groupNameIndex.at(joint.name));
-			const auto& vector2Channel              = animGroup->GetVector2ChannelsValue("TRAN");
-			const auto& vector3Channel              = animGroup->GetVector3ChannelsValue("TRAN");
-			const auto& quaternionChannel           = animGroup->GetQuaternionChannelsValue("ROT");
+			const auto& animGroup = groups.at(groupNameIndex.at(joint.name));
+			const auto& vector2Channel = animGroup->GetVector2ChannelsValue("TRAN");
+			const auto& vector3Channel = animGroup->GetVector3ChannelsValue("TRAN");
+			const auto& quaternionChannel = animGroup->GetQuaternionChannelsValue("ROT");
 			const auto& compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannelsValue("ROT");
 
 			if (vector2Channel)
 			{
-				const auto& frames    = vector2Channel->GetFrames();
-				const auto& values    = vector2Channel->GetValues();
+				const auto& frames = vector2Channel->GetFrames();
+				const auto& values = vector2Channel->GetValues();
 				const auto& constants = vector2Channel->GetConstants();
 
 				for (std::size_t i = 0; i < vector2Channel->GetNumFrames(); ++i)
-				{
-					track->AddTranslationKey(frames[i], constants + Vector3(values[i].X, 0.0f, values[i].Y));
-				}
+				{ track->AddTranslationKey(frames[i], constants + Vector3(values[i].X, 0.0f, values[i].Y)); }
 			}
 			else if (vector3Channel)
 			{
@@ -92,9 +83,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 				const auto& values = vector3Channel->GetValues();
 
 				for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
-				{
-					track->AddTranslationKey(frames[i], values[i]);
-				}
+				{ track->AddTranslationKey(frames[i], values[i]); }
 			}
 			else
 			{
@@ -107,9 +96,7 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 				const auto& values = quaternionChannel->GetValues();
 
 				for (std::size_t i = 0; i < quaternionChannel->GetNumFrames(); ++i)
-				{
-					track->AddRotationKey(frames[i], values[i]);
-				}
+				{ track->AddRotationKey(frames[i], values[i]); }
 			}
 			else if (compressedQuaternionChannel)
 			{
@@ -119,10 +106,10 @@ WorldSphere::WorldSphere(const P3D::WorldSphere& worldSphere):
 				for (std::size_t i = 0; i < compressedQuaternionChannel->GetNumFrames(); ++i)
 				{
 					const uint64_t& value = values[i];
-					float z               = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
-					float y               = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
-					float x               = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
-					float w               = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
+					float z = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
+					float y = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
+					float x = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
+					float w = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
 
 					track->AddRotationKey(frames[i], Quaternion(w, x, y, z));
 				}
@@ -170,7 +157,7 @@ void WorldSphere::Update(double deltatime)
 	if (_animation != nullptr)
 		_skeleton->UpdatePose(*_animation, _animTime);
 
-	//Game::GetInstance().GetLineRenderer().DrawSkeleton(Vector3(0.0, 0.0, 0.0), *_skeleton);
+	// Game::GetInstance().GetLineRenderer().DrawSkeleton(Vector3(0.0, 0.0, 0.0), *_skeleton);
 }
 
 } // namespace Donut

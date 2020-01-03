@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 /*+---------------------------------------------------+
   |    _____        /--------------------------\\     |
@@ -20,2288 +20,2220 @@
 
 namespace Donut::P3D
 {
-    Animation::Animation(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Animation));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _type = stream.ReadString(4);
-        _numFrames = stream.Read<float>();
-        _frameRate = stream.Read<float>();
-        _looping = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::AnimationGroupList:
-                    {
-                        _groupList = std::make_unique<AnimationGroupList>(*child);
-                        break;
-                    }
-                case ChunkType::AnimationSize:
-                    {
-                        _size = std::make_unique<AnimationSize>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    AnimationSize::AnimationSize(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::AnimationSize));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _PC = stream.Read<uint32_t>();
-        _PS2 = stream.Read<uint32_t>();
-        _XBOX = stream.Read<uint32_t>();
-        _GC = stream.Read<uint32_t>();
-    }
-
-    AnimationGroupList::AnimationGroupList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::AnimationGroupList));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _numGroups = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::AnimationGroup:
-                    {
-                        _groups.push_back(std::make_unique<AnimationGroup>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    AnimationGroup::AnimationGroup(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::AnimationGroup));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _groupId = stream.Read<uint32_t>();
-        _numChannels = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Vector2Channel:
-                    {
-                        auto value = std::make_unique<Vector2Channel>(*child);
-                        _vector2Channels.insert({ value->GetParam(), std::move(value) });
-                        break;
-                    }
-                case ChunkType::Vector3Channel:
-                    {
-                        auto value = std::make_unique<Vector3Channel>(*child);
-                        _vector3Channels.insert({ value->GetParam(), std::move(value) });
-                        break;
-                    }
-                case ChunkType::QuaternionChannel:
-                    {
-                        auto value = std::make_unique<QuaternionChannel>(*child);
-                        _quaternionChannels.insert({ value->GetParam(), std::move(value) });
-                        break;
-                    }
-                case ChunkType::CompressedQuaternionChannel:
-                    {
-                        auto value = std::make_unique<CompressedQuaternionChannel>(*child);
-                        _compressedQuaternionChannels.insert({ value->GetParam(), std::move(value) });
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    ChannelInterpolationMode::ChannelInterpolationMode(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::ChannelInterpolationMode));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _mode = stream.Read<uint32_t>();
-    }
-
-    Vector2Channel::Vector2Channel(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Vector2Channel));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _param = stream.ReadString(4);
-        _mapping = stream.Read<uint16_t>();
-        _constants = stream.Read<Vector3>();
-        _numFrames = stream.Read<uint32_t>();
-        _frames.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Vector2));
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::ChannelInterpolationMode:
-                    {
-                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    Vector3Channel::Vector3Channel(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Vector3Channel));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _param = stream.ReadString(4);
-        _numFrames = stream.Read<uint32_t>();
-        _frames.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Vector3));
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::ChannelInterpolationMode:
-                    {
-                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    QuaternionChannel::QuaternionChannel(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::QuaternionChannel));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _param = stream.ReadString(4);
-        _numFrames = stream.Read<uint32_t>();
-        _frames.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Quaternion));
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::ChannelInterpolationMode:
-                    {
-                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CompressedQuaternionChannel::CompressedQuaternionChannel(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CompressedQuaternionChannel));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _param = stream.ReadString(4);
-        _numFrames = stream.Read<uint32_t>();
-        _frames.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
-        _values.resize(_numFrames);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(uint64_t));
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::ChannelInterpolationMode:
-                    {
-                        _interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    Geometry::Geometry(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Geometry));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _numPrimGroups = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::PrimitiveGroup:
-                    {
-                        _primitiveGroups.push_back(std::make_unique<PrimitiveGroup>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    PolySkin::PolySkin(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::PolySkin));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _skeletonName = stream.ReadLPString();
-        _numPrimGroups = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::PrimitiveGroup:
-                    {
-                        _primitiveGroups.push_back(std::make_unique<PrimitiveGroup>(*child));
-                        break;
-                    }
-                case ChunkType::BoundingBox:
-                    {
-                        _boundingBox = std::make_unique<BoundingBox>(*child);
-                        break;
-                    }
-                case ChunkType::BoundingSphere:
-                    {
-                        _boundingSphere = std::make_unique<BoundingSphere>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    BoundingBox::BoundingBox(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::BoundingBox));
-
-        MemoryStream stream(chunk.GetData());
-        _min = stream.Read<Vector3>();
-        _max = stream.Read<Vector3>();
-    }
-
-    BoundingSphere::BoundingSphere(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::BoundingSphere));
-
-        MemoryStream stream(chunk.GetData());
-        _centre = stream.Read<Vector3>();
-        _radius = stream.Read<float>();
-    }
-
-    PrimitiveGroup::PrimitiveGroup(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::PrimitiveGroup));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _shaderName = stream.ReadLPString();
-        _primType = stream.Read<uint32_t>();
-        _hasDataFlags = stream.Read<uint32_t>();
-        _numVerts = stream.Read<uint32_t>();
-        _numIndices = stream.Read<uint32_t>();
-        _numMatrices = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::PositionList:
-                    {
-                        _vertices.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_vertices.data()), _vertices.size() * sizeof(Vector3));
-                        break;
-                    }
-                case ChunkType::IndexList:
-                    {
-                        _indices.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
-                        break;
-                    }
-                case ChunkType::NormalList:
-                    {
-                        _normals.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
-                        break;
-                    }
-                case ChunkType::UVList:
-                    {
-                        uint32_t length = data.Read<uint32_t>();
-                        uint32_t channel = data.Read<uint32_t>();
-                        _uvs.resize(channel + 1);
-                        _uvs.at(channel).resize(length);
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.at(channel).data()), length * sizeof(Vector2));
-                        break;
-                    }
-                case ChunkType::MatrixList:
-                    {
-                        _matrixList.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixList.data()), _matrixList.size() * sizeof(uint32_t));
-                        break;
-                    }
-                case ChunkType::MatrixPalette:
-                    {
-                        _matrixPalette.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixPalette.data()), _matrixPalette.size() * sizeof(uint32_t));
-                        break;
-                    }
-                case ChunkType::WeightList:
-                    {
-                        _weightList.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), _weightList.size() * sizeof(Vector3));
-                        break;
-                    }
-                case ChunkType::ColorList:
-                    {
-                        _colors.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    PositionList::PositionList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::PositionList));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _positions.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(Vector3));
-    }
-
-    IndexList::IndexList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::IndexList));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _indices.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
-    }
-
-    NormalList::NormalList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::NormalList));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _normals.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
-    }
-
-    UVList::UVList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::UVList));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _channel = stream.Read<uint32_t>();
-        _uvs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(Vector2));
-    }
-
-    MatrixList::MatrixList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::MatrixList));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _uvs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
-    }
-
-    MatrixPalette::MatrixPalette(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::MatrixPalette));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _uvs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
-    }
-
-    WeightList::WeightList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::WeightList));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _uvs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(Vector3));
-    }
-
-    ColorList::ColorList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::ColorList));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _uvs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
-    }
-
-    Skeleton::Skeleton(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Skeleton));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _numJoints = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SkeletonJoint:
-                    {
-                        _joints.push_back(std::make_unique<SkeletonJoint>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SkeletonJoint::SkeletonJoint(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SkeletonJoint));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _parent = stream.Read<uint32_t>();
-        _dof = stream.Read<int32_t>();
-        _freeAxis = stream.Read<int32_t>();
-        _primaryAxis = stream.Read<int32_t>();
-        _secondaryAxis = stream.Read<int32_t>();
-        _twistAxis = stream.Read<int32_t>();
-        _restPose = stream.Read<Matrix4x4>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SkeletonJointMirrorMap:
-                    {
-                        _mirrorMap = std::make_unique<SkeletonJointMirrorMap>(*child);
-                        break;
-                    }
-                case ChunkType::SkeletonJointBonePreserve:
-                    {
-                        _bonePreserve = std::make_unique<SkeletonJointBonePreserve>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SkeletonJointMirrorMap::SkeletonJointMirrorMap(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SkeletonJointMirrorMap));
-
-        MemoryStream stream(chunk.GetData());
-        _jointIndex = stream.Read<uint32_t>();
-        _axis = stream.Read<Vector3>();
-    }
-
-    SkeletonJointBonePreserve::SkeletonJointBonePreserve(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SkeletonJointBonePreserve));
-
-        MemoryStream stream(chunk.GetData());
-        _depth = stream.Read<uint32_t>();
-    }
-
-    StaticEntity::StaticEntity(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::StaticEntity));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _renderOrder = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Geometry:
-                    {
-                        _geometry = std::make_unique<Geometry>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    StaticPhysics::StaticPhysics(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::StaticPhysics));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::CollisionObject:
-                    {
-                        _collisionObject = std::make_unique<CollisionObject>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    InstancedStaticPhysics::InstancedStaticPhysics(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::InstancedStaticPhysics));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo = stream.Read<uint32_t>();
-        _renderOrder = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Geometry:
-                    {
-                        _geometries.push_back(std::make_unique<Geometry>(*child));
-                        break;
-                    }
-                case ChunkType::InstanceList:
-                    {
-                        _instanceList = std::make_unique<InstanceList>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    DynamicPhysics::DynamicPhysics(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::DynamicPhysics));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo = stream.Read<uint32_t>();
-        _renderOrder = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Geometry:
-                    {
-                        _geometries.push_back(std::make_unique<Geometry>(*child));
-                        break;
-                    }
-                case ChunkType::InstanceList:
-                    {
-                        _instanceList = std::make_unique<InstanceList>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    AnimDynamicPhysics::AnimDynamicPhysics(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::AnimDynamicPhysics));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo = stream.Read<uint32_t>();
-        _renderOrder = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::AnimObjectWrapper:
-                    {
-                        _animObjectWrapper = std::make_unique<AnimObjectWrapper>(*child);
-                        break;
-                    }
-                case ChunkType::InstanceList:
-                    {
-                        _instanceList = std::make_unique<InstanceList>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    AnimObjectWrapper::AnimObjectWrapper(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::AnimObjectWrapper));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo = stream.Read<uint16_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::CompositeDrawable:
-                    {
-                        _compositeDrawables.push_back(std::make_unique<CompositeDrawable>(*child));
-                        break;
-                    }
-                case ChunkType::Skeleton:
-                    {
-                        _skeletons.push_back(std::make_unique<Skeleton>(*child));
-                        break;
-                    }
-                case ChunkType::Geometry:
-                    {
-                        _geometries.push_back(std::make_unique<Geometry>(*child));
-                        break;
-                    }
-                case ChunkType::Animation:
-                    {
-                        _animations.push_back(std::make_unique<Animation>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    InstanceList::InstanceList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::InstanceList));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SceneGraph:
-                    {
-                        _sceneGraph = std::make_unique<SceneGraph>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SceneGraph::SceneGraph(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SceneGraph));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SceneGraphRoot:
-                    {
-                        _root = std::make_unique<SceneGraphRoot>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SceneGraphRoot::SceneGraphRoot(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SceneGraphRoot));
-
-        MemoryStream stream(chunk.GetData());
-        
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SceneGraphBranch:
-                    {
-                        _branch = std::make_unique<SceneGraphBranch>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SceneGraphBranch::SceneGraphBranch(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SceneGraphBranch));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _numChildren = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SceneGraphTransform:
-                    {
-                        _children.push_back(std::make_unique<SceneGraphTransform>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SceneGraphTransform::SceneGraphTransform(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SceneGraphTransform));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _numChildren = stream.Read<uint32_t>();
-        _transform = stream.Read<Matrix4x4>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::SceneGraphTransform:
-                    {
-                        _children.push_back(std::make_unique<SceneGraphTransform>(*child));
-                        break;
-                    }
-                case ChunkType::SceneGraphDrawable:
-                    {
-                        _drawables.push_back(std::make_unique<SceneGraphDrawable>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SceneGraphDrawable::SceneGraphDrawable(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SceneGraphDrawable));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _drawableName = stream.ReadLPString();
-        _translucent = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::SceneGraphSortOrder:
-                    {
-                        _sortOrder = data.Read<float>();
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    SceneGraphSortOrder::SceneGraphSortOrder(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::SceneGraphSortOrder));
-
-        MemoryStream stream(chunk.GetData());
-        _value = stream.Read<float>();
-    }
-
-    Shader::Shader(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Shader));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _pddiShaderName = stream.ReadLPString();
-        _isTrans = stream.Read<uint32_t>();
-        _vertexNeeds = stream.Read<uint32_t>();
-        _vertexMask = stream.Read<uint32_t>();
-        _numParams = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::ShaderTextureParam:
-                    {
-                        _textureParams.push_back(std::make_unique<ShaderTextureParam>(*child));
-                        break;
-                    }
-                case ChunkType::ShaderIntParam:
-                    {
-                        _integerParams.push_back(std::make_unique<ShaderIntParam>(*child));
-                        break;
-                    }
-                case ChunkType::ShaderFloatParam:
-                    {
-                        _floatParams.push_back(std::make_unique<ShaderFloatParam>(*child));
-                        break;
-                    }
-                case ChunkType::ShaderColorParam:
-                    {
-                        _colorParams.push_back(std::make_unique<ShaderColorParam>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    ShaderTextureParam::ShaderTextureParam(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::ShaderTextureParam));
-
-        MemoryStream stream(chunk.GetData());
-        _key = stream.ReadString(4);
-        _value = stream.ReadLPString();
-    }
-
-    ShaderIntParam::ShaderIntParam(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::ShaderIntParam));
-
-        MemoryStream stream(chunk.GetData());
-        _key = stream.ReadString(4);
-        _value = stream.Read<int32_t>();
-    }
-
-    ShaderFloatParam::ShaderFloatParam(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::ShaderFloatParam));
-
-        MemoryStream stream(chunk.GetData());
-        _key = stream.ReadString(4);
-        _value = stream.Read<float>();
-    }
-
-    ShaderColorParam::ShaderColorParam(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::ShaderColorParam));
-
-        MemoryStream stream(chunk.GetData());
-        _key = stream.ReadString(4);
-        _r = stream.Read<uint8_t>();
-        _g = stream.Read<uint8_t>();
-        _b = stream.Read<uint8_t>();
-        _a = stream.Read<uint8_t>();
-    }
-
-    CompositeDrawable::CompositeDrawable(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CompositeDrawable));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _skeletonName = stream.ReadLPString();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::CompositeDrawablePropList:
-                    {
-                        _propList = std::make_unique<CompositeDrawablePropList>(*child);
-                        break;
-                    }
-                case ChunkType::CompositeDrawableSkinList:
-                    {
-                        _skins = std::make_unique<CompositeDrawableSkinList>(*child);
-                        break;
-                    }
-                case ChunkType::CompositeDrawableEffectList:
-                    {
-                        _effects = std::make_unique<CompositeDrawableEffectList>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CompositeDrawablePropList::CompositeDrawablePropList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CompositeDrawablePropList));
-
-        MemoryStream stream(chunk.GetData());
-        _numElements = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::CompositeDrawableProp:
-                    {
-                        _props.push_back(std::make_unique<CompositeDrawableProp>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CompositeDrawableProp::CompositeDrawableProp(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CompositeDrawableProp));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _isTrans = stream.Read<uint32_t>();
-        _skeletonJoint = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::CompositeDrawableSortOrder:
-                    {
-                        _sortOrder = data.Read<float>();
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CompositeDrawableSortOrder::CompositeDrawableSortOrder(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CompositeDrawableSortOrder));
-
-        MemoryStream stream(chunk.GetData());
-        _value = stream.Read<float>();
-    }
-
-    Intersect::Intersect(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Intersect));
-
-        MemoryStream stream(chunk.GetData());
-        _indices.resize(stream.Read<uint32_t>());
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
-        _positions.resize(stream.Read<uint32_t>());
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(Vector3));
-        _normals.resize(stream.Read<uint32_t>());
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::BoundingBox:
-                    {
-                        _bounds = std::make_unique<BoundingBox>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    WorldSphere::WorldSphere(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::WorldSphere));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _geometryCount = stream.Read<uint32_t>();
-        _billboardCount = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Animation:
-                    {
-                        _animation = std::make_unique<Animation>(*child);
-                        break;
-                    }
-                case ChunkType::Skeleton:
-                    {
-                        _skeletons.push_back(std::make_unique<Skeleton>(*child));
-                        break;
-                    }
-                case ChunkType::BillboardQuadGroup:
-                    {
-                        _billboards.push_back(std::make_unique<BillboardQuadGroup>(*child));
-                        break;
-                    }
-                case ChunkType::Geometry:
-                    {
-                        _geometries.push_back(std::make_unique<Geometry>(*child));
-                        break;
-                    }
-                case ChunkType::CompositeDrawable:
-                    {
-                        _compositeDrawable = std::make_unique<CompositeDrawable>(*child);
-                        break;
-                    }
-                case ChunkType::LensFlare:
-                    {
-                        _lensFlare = std::make_unique<LensFlare>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    LensFlare::LensFlare(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::LensFlare));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _billboardCount = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::BillboardQuadGroup:
-                    {
-                        _billboards.push_back(std::make_unique<BillboardQuadGroup>(*child));
-                        break;
-                    }
-                case ChunkType::CompositeDrawable:
-                    {
-                        _compositeDrawable = std::make_unique<CompositeDrawable>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    BillboardQuad::BillboardQuad(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::BillboardQuad));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _mode = stream.ReadString(4);
-        _translation = stream.Read<Vector3>();
-        _color = stream.Read<uint32_t>();
-        _uv0 = stream.Read<Vector2>();
-        _uv1 = stream.Read<Vector2>();
-        _uv2 = stream.Read<Vector2>();
-        _uv3 = stream.Read<Vector2>();
-        _width = stream.Read<float>();
-        _height = stream.Read<float>();
-        _distance = stream.Read<float>();
-        _uvOffset = stream.Read<Vector2>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::BillboardDisplayInfo:
-                    {
-                        _displayInfo = std::make_unique<BillboardDisplayInfo>(*child);
-                        break;
-                    }
-                case ChunkType::BillboardPerspectiveInfo:
-                    {
-                        _perspectiveInfo = std::make_unique<BillboardPerspectiveInfo>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    BillboardQuadGroup::BillboardQuadGroup(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::BillboardQuadGroup));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _shader = stream.ReadLPString();
-        _zTest = stream.Read<uint32_t>();
-        _zWrite = stream.Read<uint32_t>();
-        _fog = stream.Read<uint32_t>();
-        _quadCount = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::BillboardQuad:
-                    {
-                        _quads.push_back(std::make_unique<BillboardQuad>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    BillboardDisplayInfo::BillboardDisplayInfo(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::BillboardDisplayInfo));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _rotation = stream.Read<Quaternion>();
-        _cutOffMode = stream.ReadString(4);
-        _uvOffsetRange = stream.Read<Vector2>();
-        _sourceRange = stream.Read<float>();
-        _edgeRange = stream.Read<float>();
-    }
-
-    BillboardPerspectiveInfo::BillboardPerspectiveInfo(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::BillboardPerspectiveInfo));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _value = stream.Read<uint32_t>();
-    }
-
-    Texture::Texture(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Texture));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _width = stream.Read<uint32_t>();
-        _height = stream.Read<uint32_t>();
-        _bpp = stream.Read<uint32_t>();
-        _alphaDepth = stream.Read<uint32_t>();
-        _numMipMaps = stream.Read<uint32_t>();
-        _textureType = stream.Read<uint32_t>();
-        _usage = stream.Read<uint32_t>();
-        _priority = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Image:
-                    {
-                        _image = std::make_unique<Image>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    Image::Image(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Image));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _width = stream.Read<uint32_t>();
-        _height = stream.Read<uint32_t>();
-        _bpp = stream.Read<uint32_t>();
-        _palettized = stream.Read<uint32_t>();
-        _hasAlpha = stream.Read<uint32_t>();
-        _format = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::ImageData:
-                    {
-                        _data.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_data.data()), _data.size() * sizeof(uint8_t));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    ImageData::ImageData(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::ImageData));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _data.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_data.data()), _data.size() * sizeof(uint8_t));
-    }
-
-    TextureFont::TextureFont(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::TextureFont));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _shader = stream.ReadLPString();
-        _size = stream.Read<float>();
-        _width = stream.Read<float>();
-        _height = stream.Read<float>();
-        _baseLine = stream.Read<float>();
-        _numTextures = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::Texture:
-                    {
-                        _textures.push_back(std::make_unique<Texture>(*child));
-                        break;
-                    }
-                case ChunkType::FontGlyphs:
-                    {
-                        _glyphs.resize(data.Read<uint32_t>());
-                        data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), _glyphs.size() * sizeof(FontGlyph));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    FontGlyphs::FontGlyphs(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FontGlyphs));
-
-        MemoryStream stream(chunk.GetData());
-        _size = stream.Read<uint32_t>();
-        _glyphs.resize(_size);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), _glyphs.size() * sizeof(FontGlyph));
-    }
-
-    Sprite::Sprite(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Sprite));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _nativeX = stream.Read<uint32_t>();
-        _nativeY = stream.Read<uint32_t>();
-        _shader = stream.ReadLPString();
-        _width = stream.Read<uint32_t>();
-        _height = stream.Read<uint32_t>();
-        _imageCount = stream.Read<uint32_t>();
-        _blitBorder = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Image:
-                    {
-                        _images.push_back(std::make_unique<Image>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    FrontendScreen::FrontendScreen(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendScreen));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _numPages = stream.Read<uint32_t>();
-        _pageNames.resize(_numPages);
-        for (size_t i = 0; i < _pageNames.size(); ++i)
-        {
-            _pageNames[i] = stream.ReadLPString();
-        }
-    }
-
-    FrontendProject::FrontendProject(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendProject));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _resX = stream.Read<uint32_t>();
-        _resY = stream.Read<uint32_t>();
-        _platform = stream.ReadLPString();
-        _pagePath = stream.ReadLPString();
-        _resourcePath = stream.ReadLPString();
-        _screenPath = stream.ReadLPString();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::FrontendPage:
-                    {
-                        _pages.push_back(std::make_unique<FrontendPage>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendScreen:
-                    {
-                        _screens.push_back(std::make_unique<FrontendScreen>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    FrontendPage::FrontendPage(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendPage));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _resX = stream.Read<uint32_t>();
-        _resY = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::FrontendLayer:
-                    {
-                        _layers.push_back(std::make_unique<FrontendLayer>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendImageResource:
-                    {
-                        _imageResources.push_back(std::make_unique<FrontendImageResource>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    FrontendLayer::FrontendLayer(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendLayer));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _visible = stream.Read<uint32_t>();
-        _editable = stream.Read<uint32_t>();
-        _alpha = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::FrontendGroup:
-                    {
-                        _groups.push_back(std::make_unique<FrontendGroup>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendMultiSprite:
-                    {
-                        _multiSprites.push_back(std::make_unique<FrontendMultiSprite>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendMultiText:
-                    {
-                        _multiTexts.push_back(std::make_unique<FrontendMultiText>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendObject:
-                    {
-                        _objects.push_back(std::make_unique<FrontendObject>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendPolygon:
-                    {
-                        _polygons.push_back(std::make_unique<FrontendPolygon>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    FrontendGroup::FrontendGroup(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendGroup));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _alpha = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::FrontendGroup:
-                    {
-                        _children.push_back(std::make_unique<FrontendGroup>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendMultiSprite:
-                    {
-                        _multiSprites.push_back(std::make_unique<FrontendMultiSprite>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendMultiText:
-                    {
-                        _multiTexts.push_back(std::make_unique<FrontendMultiText>(*child));
-                        break;
-                    }
-                case ChunkType::FrontendPolygon:
-                    {
-                        _polygons.push_back(std::make_unique<FrontendPolygon>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    FrontendMultiSprite::FrontendMultiSprite(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendMultiSprite));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _positionX = stream.Read<int32_t>();
-        _positionY = stream.Read<int32_t>();
-        _dimensionX = stream.Read<uint32_t>();
-        _dimensionY = stream.Read<uint32_t>();
-        _alignX = stream.Read<uint32_t>();
-        _alignY = stream.Read<uint32_t>();
-        _color = stream.Read<uint32_t>();
-        _translucent = stream.Read<uint32_t>();
-        _rotation = stream.Read<float>();
-        _numImages = stream.Read<uint32_t>();
-        _imageNames.resize(_numImages);
-        for (size_t i = 0; i < _imageNames.size(); ++i)
-        {
-            _imageNames[i] = stream.ReadLPString();
-        }
-    }
-
-    FrontendMultiText::FrontendMultiText(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendMultiText));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _positionX = stream.Read<int32_t>();
-        _positionY = stream.Read<int32_t>();
-        _dimensionX = stream.Read<uint32_t>();
-        _dimensionY = stream.Read<uint32_t>();
-        _alignX = stream.Read<uint32_t>();
-        _alignY = stream.Read<uint32_t>();
-        _color = stream.Read<uint32_t>();
-        _translucent = stream.Read<uint32_t>();
-        _rotation = stream.Read<float>();
-        _fontName = stream.ReadLPString();
-        _shadowEnabled = stream.Read<uint8_t>();
-        _shadowColor = stream.Read<uint32_t>();
-        _shadowOffsetX = stream.Read<int32_t>();
-        _shadowOffsetY = stream.Read<int32_t>();
-        _current = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::FrontendStringTextBible:
-                    {
-                        _textBibles.push_back(std::make_unique<FrontendStringTextBible>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    FrontendStringTextBible::FrontendStringTextBible(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendStringTextBible));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _key = stream.ReadLPString();
-    }
-
-    FrontendObject::FrontendObject(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendObject));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-    }
-
-    FrontendPolygon::FrontendPolygon(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendPolygon));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _translucent = stream.Read<uint32_t>();
-        _numPoints = stream.Read<uint32_t>();
-        _points.resize(_numPoints);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(Vector3));
-        _colors.resize(_numPoints);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
-    }
-
-    FrontendImageResource::FrontendImageResource(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FrontendImageResource));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _filepath = stream.ReadLPString();
-    }
-
-    Locator2::Locator2(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Locator2));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _type = stream.Read<uint32_t>();
-        _dataSize = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::TriggerVolume:
-                    {
-                        _triggers.push_back(std::make_unique<TriggerVolume>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    TriggerVolume::TriggerVolume(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::TriggerVolume));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _isRect = stream.Read<uint32_t>();
-        _bounds = stream.Read<Vector3>();
-        _transform = stream.Read<Matrix4x4>();
-    }
-
-    Camera::Camera(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Camera));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _fov = stream.Read<float>();
-        _aspectRatio = stream.Read<float>();
-        _nearClip = stream.Read<float>();
-        _farClip = stream.Read<float>();
-        _position = stream.Read<Vector3>();
-        _forward = stream.Read<Vector3>();
-        _up = stream.Read<Vector3>();
-    }
-
-    MultiController::MultiController(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::MultiController));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _length = stream.Read<float>();
-        _frameRate = stream.Read<float>();
-        _numTracks = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::MultiControllerTracks:
-                    {
-                        _tracks = std::make_unique<MultiControllerTracks>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    MultiControllerTracks::MultiControllerTracks(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::MultiControllerTracks));
-
-        MemoryStream stream(chunk.GetData());
-        _numTracks = stream.Read<uint32_t>();
-        _trackNames.resize(_numTracks);
-        for (size_t i = 0; i < _trackNames.size(); ++i)
-        {
-            _trackNames[i] = stream.ReadLPString();
-        }
-        _trackStartTimes.resize(_numTracks);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackStartTimes.data()), _trackStartTimes.size() * sizeof(float));
-        _trackEndTimes.resize(_numTracks);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackEndTimes.data()), _trackEndTimes.size() * sizeof(float));
-        _trackScales.resize(_numTracks);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackScales.data()), _trackScales.size() * sizeof(float));
-    }
-
-    CollisionObject::CollisionObject(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionObject));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _version = stream.Read<uint32_t>();
-        _materialName = stream.ReadLPString();
-        _numSubObjects = stream.Read<uint32_t>();
-        _numVolumeOwners = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::CollisionVolumeOwner:
-                    {
-                        _volumeOwners.push_back(std::make_unique<CollisionVolumeOwner>(*child));
-                        break;
-                    }
-                case ChunkType::CollisionVolume:
-                    {
-                        _volume = std::make_unique<CollisionVolume>(*child);
-                        break;
-                    }
-                case ChunkType::CollisionObjectAttribute:
-                    {
-                        _attribute = std::make_unique<CollisionObjectAttribute>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CollisionVolume::CollisionVolume(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionVolume));
-
-        MemoryStream stream(chunk.GetData());
-        _objectRefIndex = stream.Read<uint32_t>();
-        _ownerIndex = stream.Read<int32_t>();
-        _numSubVolumes = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::CollisionVolume:
-                    {
-                        _subVolumes.push_back(std::make_unique<CollisionVolume>(*child));
-                        break;
-                    }
-                case ChunkType::CollisionBBoxVolume:
-                    {
-                        _bBox = std::make_unique<CollisionBBoxVolume>(*child);
-                        break;
-                    }
-                case ChunkType::CollisionOBBoxVolume:
-                    {
-                        _obBox = std::make_unique<CollisionOBBoxVolume>(*child);
-                        break;
-                    }
-                case ChunkType::CollisionSphere:
-                    {
-                        _sphere = std::make_unique<CollisionSphere>(*child);
-                        break;
-                    }
-                case ChunkType::CollisionCylinder:
-                    {
-                        _cylinder = std::make_unique<CollisionCylinder>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CollisionSphere::CollisionSphere(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionSphere));
-
-        MemoryStream stream(chunk.GetData());
-        _radius = stream.Read<float>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::CollisionVector:
-                    {
-                        _vectors.push_back(data.Read<Vector3>());
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CollisionCylinder::CollisionCylinder(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionCylinder));
-
-        MemoryStream stream(chunk.GetData());
-        _radius = stream.Read<float>();
-        _length = stream.Read<float>();
-        _flatEnd = stream.Read<uint16_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::CollisionVector:
-                    {
-                        _vectors.push_back(data.Read<Vector3>());
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CollisionOBBoxVolume::CollisionOBBoxVolume(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionOBBoxVolume));
-
-        MemoryStream stream(chunk.GetData());
-        _halfExtents = stream.Read<Vector3>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::CollisionVector:
-                    {
-                        _vectors.push_back(data.Read<Vector3>());
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CollisionBBoxVolume::CollisionBBoxVolume(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionBBoxVolume));
-
-        MemoryStream stream(chunk.GetData());
-        _nothing = stream.Read<uint32_t>();
-    }
-
-    CollisionVector::CollisionVector(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionVector));
-
-        MemoryStream stream(chunk.GetData());
-        _value = stream.Read<Vector3>();
-    }
-
-    CollisionVolumeOwner::CollisionVolumeOwner(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionVolumeOwner));
-
-        MemoryStream stream(chunk.GetData());
-        _numNames = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::CollisionVolumeOwnerName:
-                    {
-                        _names.push_back(std::make_unique<CollisionVolumeOwnerName>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    CollisionVolumeOwnerName::CollisionVolumeOwnerName(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionVolumeOwnerName));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-    }
-
-    CollisionObjectAttribute::CollisionObjectAttribute(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CollisionObjectAttribute));
-
-        MemoryStream stream(chunk.GetData());
-        _static = stream.Read<uint16_t>();
-        _defaultArea = stream.Read<uint32_t>();
-        _canRoll = stream.Read<uint16_t>();
-        _canSlide = stream.Read<uint16_t>();
-        _canSpin = stream.Read<uint16_t>();
-        _canBounce = stream.Read<uint16_t>();
-        _todo1 = stream.Read<uint32_t>();
-        _todo2 = stream.Read<uint32_t>();
-        _todo3 = stream.Read<uint32_t>();
-    }
-
-    FenceWrapper::FenceWrapper(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FenceWrapper));
-
-        MemoryStream stream(chunk.GetData());
-        
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Fence:
-                    {
-                        _fence = std::make_unique<Fence>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    Fence::Fence(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Fence));
-
-        MemoryStream stream(chunk.GetData());
-        _start = stream.Read<Vector3>();
-        _end = stream.Read<Vector3>();
-        _normal = stream.Read<Vector3>();
-    }
-
-    Set::Set(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Set));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _numTextures = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Texture:
-                    {
-                        _textures.push_back(std::make_unique<Texture>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    Path::Path(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Path));
-
-        MemoryStream stream(chunk.GetData());
-        _numPoints = stream.Read<uint32_t>();
-        _points.resize(_numPoints);
-        stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(Vector3));
-    }
-
-    Intersection::Intersection(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Intersection));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _position = stream.Read<Vector3>();
-        _radius = stream.Read<float>();
-        _trafficBehaviour = stream.Read<uint32_t>();
-    }
-
-    RoadDataSegment::RoadDataSegment(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::RoadDataSegment));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo0 = stream.Read<uint32_t>();
-        _lanes = stream.Read<uint32_t>();
-        _todo1 = stream.Read<uint32_t>();
-        _position0 = stream.Read<Vector3>();
-        _position1 = stream.Read<Vector3>();
-        _position2 = stream.Read<Vector3>();
-    }
-
-    Road::Road(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::Road));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _todo0 = stream.Read<uint32_t>();
-        _startIntersection = stream.ReadLPString();
-        _endIntersection = stream.ReadLPString();
-        _maxCars = stream.Read<uint32_t>();
-        _todo1 = stream.Read<uint8_t>();
-        _todo2 = stream.Read<uint8_t>();
-        _noReset = stream.Read<uint8_t>();
-        _todo3 = stream.Read<uint8_t>();
-    }
-
-    RoadSegment::RoadSegment(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::RoadSegment));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _data = stream.ReadLPString();
-        _transform = stream.Read<Matrix4x4>();
-        _transform2 = stream.Read<Matrix4x4>();
-    }
-
-    GameAttr::GameAttr(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::GameAttr));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _numParams = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::GameAttrIntParam:
-                    {
-                        _params.push_back(std::make_unique<GameAttrIntParam>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    GameAttrIntParam::GameAttrIntParam(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::GameAttrIntParam));
-
-        MemoryStream stream(chunk.GetData());
-        _name = stream.ReadLPString();
-        _value = stream.Read<uint32_t>();
-    }
-
-    History::History(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::History));
-
-        MemoryStream stream(chunk.GetData());
-        _numLines = stream.Read<uint32_t>();
-        _lines.resize(stream.Read<uint32_t>());
-        for (size_t i = 0; i < _lines.size(); ++i)
-        {
-            _lines[i] = stream.ReadLPString();
-        }
-    }
-
-    BreakableObject::BreakableObject(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::BreakableObject));
-
-        MemoryStream stream(chunk.GetData());
-        _index = stream.Read<uint32_t>();
-        _count = stream.Read<uint32_t>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::Animation:
-                    {
-                        _animations.push_back(std::make_unique<Animation>(*child));
-                        break;
-                    }
-                case ChunkType::Skeleton:
-                    {
-                        _skeletons.push_back(std::make_unique<Skeleton>(*child));
-                        break;
-                    }
-                case ChunkType::Geometry:
-                    {
-                        _geometries.push_back(std::make_unique<Geometry>(*child));
-                        break;
-                    }
-                case ChunkType::CompositeDrawable:
-                    {
-                        _drawable = std::make_unique<CompositeDrawable>(*child);
-                        break;
-                    }
-                case ChunkType::AnimatedObject:
-                    {
-                        _animObjects = std::make_unique<AnimatedObject>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    AnimatedObject::AnimatedObject(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::AnimatedObject));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _factoryName = stream.ReadLPString();
-        _startAnimation = stream.Read<uint32_t>();
-    }
-
-    FollowCameraData::FollowCameraData(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::FollowCameraData));
-
-        MemoryStream stream(chunk.GetData());
-        _index = stream.Read<uint32_t>();
-        _yaw = stream.Read<float>();
-        _pitch = stream.Read<float>();
-        _distance = stream.Read<float>();
-        _offset = stream.Read<Vector3>();
-    }
-
-    PhysicsObject::PhysicsObject(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::PhysicsObject));
-
-        MemoryStream stream(chunk.GetData());
-        _version = stream.Read<uint32_t>();
-        _name = stream.ReadLPString();
-        _materialName = stream.ReadLPString();
-        _numJoints = stream.Read<uint32_t>();
-        _volume = stream.Read<float>();
-        _sensitivity = stream.Read<float>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            switch (child->GetType())
-            {
-                case ChunkType::PhysicsJoint:
-                    {
-                        _joints.push_back(std::make_unique<PhysicsJoint>(*child));
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    PhysicsJoint::PhysicsJoint(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::PhysicsJoint));
-
-        MemoryStream stream(chunk.GetData());
-        _index = stream.Read<uint32_t>();
-        _volume = stream.Read<float>();
-        _stiffness = stream.Read<float>();
-        _minAngle = stream.Read<float>();
-        _maxAngle = stream.Read<float>();
-        _DOF = stream.Read<float>();
-
-        for (auto const& child : chunk.GetChildren())
-        {
-            MemoryStream data(child->GetData());
-
-            switch (child->GetType())
-            {
-                case ChunkType::PhysicsVector:
-                    {
-                        _vector = data.Read<Vector3>();
-                        break;
-                    }
-                case ChunkType::PhysicsInertiaMatrix:
-                    {
-                        _inertiaMatrix = std::make_unique<PhysicsInertiaMatrix>(*child);
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-    }
-
-    PhysicsVector::PhysicsVector(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::PhysicsVector));
-
-        MemoryStream stream(chunk.GetData());
-        _value = stream.Read<Vector3>();
-    }
-
-    PhysicsInertiaMatrix::PhysicsInertiaMatrix(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::PhysicsInertiaMatrix));
-
-        MemoryStream stream(chunk.GetData());
-        _position = stream.Read<Vector3>();
-        _forward = stream.Read<Vector3>();
-        _right = stream.Read<Vector3>();
-        _up = stream.Read<Vector3>();
-    }
-
-    CompositeDrawableSkinList::CompositeDrawableSkinList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CompositeDrawableSkinList));
-
-        MemoryStream stream(chunk.GetData());
-        _numSkins = stream.Read<uint32_t>();
-    }
-
-    CompositeDrawableEffectList::CompositeDrawableEffectList(const P3DChunk& chunk)
-    {
-        assert(chunk.IsType(ChunkType::CompositeDrawableEffectList));
-
-        MemoryStream stream(chunk.GetData());
-        _numEffects = stream.Read<uint32_t>();
-    }
+Animation::Animation(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Animation));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_type = stream.ReadString(4);
+	_numFrames = stream.Read<float>();
+	_frameRate = stream.Read<float>();
+	_looping = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::AnimationGroupList:
+		{
+			_groupList = std::make_unique<AnimationGroupList>(*child);
+			break;
+		}
+		case ChunkType::AnimationSize:
+		{
+			_size = std::make_unique<AnimationSize>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
 }
+
+AnimationSize::AnimationSize(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::AnimationSize));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_PC = stream.Read<uint32_t>();
+	_PS2 = stream.Read<uint32_t>();
+	_XBOX = stream.Read<uint32_t>();
+	_GC = stream.Read<uint32_t>();
+}
+
+AnimationGroupList::AnimationGroupList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::AnimationGroupList));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_numGroups = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::AnimationGroup:
+		{
+			_groups.push_back(std::make_unique<AnimationGroup>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+AnimationGroup::AnimationGroup(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::AnimationGroup));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_groupId = stream.Read<uint32_t>();
+	_numChannels = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Vector2Channel:
+		{
+			auto value = std::make_unique<Vector2Channel>(*child);
+			_vector2Channels.insert({value->GetParam(), std::move(value)});
+			break;
+		}
+		case ChunkType::Vector3Channel:
+		{
+			auto value = std::make_unique<Vector3Channel>(*child);
+			_vector3Channels.insert({value->GetParam(), std::move(value)});
+			break;
+		}
+		case ChunkType::QuaternionChannel:
+		{
+			auto value = std::make_unique<QuaternionChannel>(*child);
+			_quaternionChannels.insert({value->GetParam(), std::move(value)});
+			break;
+		}
+		case ChunkType::CompressedQuaternionChannel:
+		{
+			auto value = std::make_unique<CompressedQuaternionChannel>(*child);
+			_compressedQuaternionChannels.insert({value->GetParam(), std::move(value)});
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+ChannelInterpolationMode::ChannelInterpolationMode(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::ChannelInterpolationMode));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_mode = stream.Read<uint32_t>();
+}
+
+Vector2Channel::Vector2Channel(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Vector2Channel));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_param = stream.ReadString(4);
+	_mapping = stream.Read<uint16_t>();
+	_constants = stream.Read<Vector3>();
+	_numFrames = stream.Read<uint32_t>();
+	_frames.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
+	_values.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Vector2));
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::ChannelInterpolationMode:
+		{
+			_interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+Vector3Channel::Vector3Channel(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Vector3Channel));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_param = stream.ReadString(4);
+	_numFrames = stream.Read<uint32_t>();
+	_frames.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
+	_values.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Vector3));
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::ChannelInterpolationMode:
+		{
+			_interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+QuaternionChannel::QuaternionChannel(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::QuaternionChannel));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_param = stream.ReadString(4);
+	_numFrames = stream.Read<uint32_t>();
+	_frames.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
+	_values.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(Quaternion));
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::ChannelInterpolationMode:
+		{
+			_interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CompressedQuaternionChannel::CompressedQuaternionChannel(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CompressedQuaternionChannel));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_param = stream.ReadString(4);
+	_numFrames = stream.Read<uint32_t>();
+	_frames.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_frames.data()), _frames.size() * sizeof(uint16_t));
+	_values.resize(_numFrames);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_values.data()), _values.size() * sizeof(uint64_t));
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::ChannelInterpolationMode:
+		{
+			_interpolationMode = std::make_unique<ChannelInterpolationMode>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+Geometry::Geometry(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Geometry));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_numPrimGroups = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::PrimitiveGroup:
+		{
+			_primitiveGroups.push_back(std::make_unique<PrimitiveGroup>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+PolySkin::PolySkin(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::PolySkin));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_skeletonName = stream.ReadLPString();
+	_numPrimGroups = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::PrimitiveGroup:
+		{
+			_primitiveGroups.push_back(std::make_unique<PrimitiveGroup>(*child));
+			break;
+		}
+		case ChunkType::BoundingBox:
+		{
+			_boundingBox = std::make_unique<BoundingBox>(*child);
+			break;
+		}
+		case ChunkType::BoundingSphere:
+		{
+			_boundingSphere = std::make_unique<BoundingSphere>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+BoundingBox::BoundingBox(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::BoundingBox));
+
+	MemoryStream stream(chunk.GetData());
+	_min = stream.Read<Vector3>();
+	_max = stream.Read<Vector3>();
+}
+
+BoundingSphere::BoundingSphere(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::BoundingSphere));
+
+	MemoryStream stream(chunk.GetData());
+	_centre = stream.Read<Vector3>();
+	_radius = stream.Read<float>();
+}
+
+PrimitiveGroup::PrimitiveGroup(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::PrimitiveGroup));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_shaderName = stream.ReadLPString();
+	_primType = stream.Read<uint32_t>();
+	_hasDataFlags = stream.Read<uint32_t>();
+	_numVerts = stream.Read<uint32_t>();
+	_numIndices = stream.Read<uint32_t>();
+	_numMatrices = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::PositionList:
+		{
+			_vertices.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_vertices.data()), _vertices.size() * sizeof(Vector3));
+			break;
+		}
+		case ChunkType::IndexList:
+		{
+			_indices.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
+			break;
+		}
+		case ChunkType::NormalList:
+		{
+			_normals.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
+			break;
+		}
+		case ChunkType::UVList:
+		{
+			uint32_t length = data.Read<uint32_t>();
+			uint32_t channel = data.Read<uint32_t>();
+			_uvs.resize(channel + 1);
+			_uvs.at(channel).resize(length);
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.at(channel).data()), length * sizeof(Vector2));
+			break;
+		}
+		case ChunkType::MatrixList:
+		{
+			_matrixList.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixList.data()), _matrixList.size() * sizeof(uint32_t));
+			break;
+		}
+		case ChunkType::MatrixPalette:
+		{
+			_matrixPalette.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_matrixPalette.data()), _matrixPalette.size() * sizeof(uint32_t));
+			break;
+		}
+		case ChunkType::WeightList:
+		{
+			_weightList.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_weightList.data()), _weightList.size() * sizeof(Vector3));
+			break;
+		}
+		case ChunkType::ColorList:
+		{
+			_colors.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+PositionList::PositionList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::PositionList));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_positions.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(Vector3));
+}
+
+IndexList::IndexList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::IndexList));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_indices.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
+}
+
+NormalList::NormalList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::NormalList));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_normals.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
+}
+
+UVList::UVList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::UVList));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_channel = stream.Read<uint32_t>();
+	_uvs.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(Vector2));
+}
+
+MatrixList::MatrixList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::MatrixList));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_uvs.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
+}
+
+MatrixPalette::MatrixPalette(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::MatrixPalette));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_uvs.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
+}
+
+WeightList::WeightList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::WeightList));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_uvs.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(Vector3));
+}
+
+ColorList::ColorList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::ColorList));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_uvs.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_uvs.data()), _uvs.size() * sizeof(uint32_t));
+}
+
+Skeleton::Skeleton(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Skeleton));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_numJoints = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::SkeletonJoint:
+		{
+			_joints.push_back(std::make_unique<SkeletonJoint>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SkeletonJoint::SkeletonJoint(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SkeletonJoint));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_parent = stream.Read<uint32_t>();
+	_dof = stream.Read<int32_t>();
+	_freeAxis = stream.Read<int32_t>();
+	_primaryAxis = stream.Read<int32_t>();
+	_secondaryAxis = stream.Read<int32_t>();
+	_twistAxis = stream.Read<int32_t>();
+	_restPose = stream.Read<Matrix4x4>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::SkeletonJointMirrorMap:
+		{
+			_mirrorMap = std::make_unique<SkeletonJointMirrorMap>(*child);
+			break;
+		}
+		case ChunkType::SkeletonJointBonePreserve:
+		{
+			_bonePreserve = std::make_unique<SkeletonJointBonePreserve>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SkeletonJointMirrorMap::SkeletonJointMirrorMap(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SkeletonJointMirrorMap));
+
+	MemoryStream stream(chunk.GetData());
+	_jointIndex = stream.Read<uint32_t>();
+	_axis = stream.Read<Vector3>();
+}
+
+SkeletonJointBonePreserve::SkeletonJointBonePreserve(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SkeletonJointBonePreserve));
+
+	MemoryStream stream(chunk.GetData());
+	_depth = stream.Read<uint32_t>();
+}
+
+StaticEntity::StaticEntity(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::StaticEntity));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_renderOrder = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Geometry:
+		{
+			_geometry = std::make_unique<Geometry>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+StaticPhysics::StaticPhysics(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::StaticPhysics));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::CollisionObject:
+		{
+			_collisionObject = std::make_unique<CollisionObject>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+InstancedStaticPhysics::InstancedStaticPhysics(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::InstancedStaticPhysics));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo = stream.Read<uint32_t>();
+	_renderOrder = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Geometry:
+		{
+			_geometries.push_back(std::make_unique<Geometry>(*child));
+			break;
+		}
+		case ChunkType::InstanceList:
+		{
+			_instanceList = std::make_unique<InstanceList>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+DynamicPhysics::DynamicPhysics(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::DynamicPhysics));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo = stream.Read<uint32_t>();
+	_renderOrder = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Geometry:
+		{
+			_geometries.push_back(std::make_unique<Geometry>(*child));
+			break;
+		}
+		case ChunkType::InstanceList:
+		{
+			_instanceList = std::make_unique<InstanceList>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+AnimDynamicPhysics::AnimDynamicPhysics(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::AnimDynamicPhysics));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo = stream.Read<uint32_t>();
+	_renderOrder = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::AnimObjectWrapper:
+		{
+			_animObjectWrapper = std::make_unique<AnimObjectWrapper>(*child);
+			break;
+		}
+		case ChunkType::InstanceList:
+		{
+			_instanceList = std::make_unique<InstanceList>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+AnimObjectWrapper::AnimObjectWrapper(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::AnimObjectWrapper));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo = stream.Read<uint16_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::CompositeDrawable:
+		{
+			_compositeDrawables.push_back(std::make_unique<CompositeDrawable>(*child));
+			break;
+		}
+		case ChunkType::Skeleton:
+		{
+			_skeletons.push_back(std::make_unique<Skeleton>(*child));
+			break;
+		}
+		case ChunkType::Geometry:
+		{
+			_geometries.push_back(std::make_unique<Geometry>(*child));
+			break;
+		}
+		case ChunkType::Animation:
+		{
+			_animations.push_back(std::make_unique<Animation>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+InstanceList::InstanceList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::InstanceList));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::SceneGraph:
+		{
+			_sceneGraph = std::make_unique<SceneGraph>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SceneGraph::SceneGraph(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SceneGraph));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::SceneGraphRoot:
+		{
+			_root = std::make_unique<SceneGraphRoot>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SceneGraphRoot::SceneGraphRoot(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SceneGraphRoot));
+
+	MemoryStream stream(chunk.GetData());
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::SceneGraphBranch:
+		{
+			_branch = std::make_unique<SceneGraphBranch>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SceneGraphBranch::SceneGraphBranch(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SceneGraphBranch));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_numChildren = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::SceneGraphTransform:
+		{
+			_children.push_back(std::make_unique<SceneGraphTransform>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SceneGraphTransform::SceneGraphTransform(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SceneGraphTransform));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_numChildren = stream.Read<uint32_t>();
+	_transform = stream.Read<Matrix4x4>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::SceneGraphTransform:
+		{
+			_children.push_back(std::make_unique<SceneGraphTransform>(*child));
+			break;
+		}
+		case ChunkType::SceneGraphDrawable:
+		{
+			_drawables.push_back(std::make_unique<SceneGraphDrawable>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SceneGraphDrawable::SceneGraphDrawable(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SceneGraphDrawable));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_drawableName = stream.ReadLPString();
+	_translucent = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::SceneGraphSortOrder:
+		{
+			_sortOrder = data.Read<float>();
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+SceneGraphSortOrder::SceneGraphSortOrder(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::SceneGraphSortOrder));
+
+	MemoryStream stream(chunk.GetData());
+	_value = stream.Read<float>();
+}
+
+Shader::Shader(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Shader));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_pddiShaderName = stream.ReadLPString();
+	_isTrans = stream.Read<uint32_t>();
+	_vertexNeeds = stream.Read<uint32_t>();
+	_vertexMask = stream.Read<uint32_t>();
+	_numParams = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::ShaderTextureParam:
+		{
+			_textureParams.push_back(std::make_unique<ShaderTextureParam>(*child));
+			break;
+		}
+		case ChunkType::ShaderIntParam:
+		{
+			_integerParams.push_back(std::make_unique<ShaderIntParam>(*child));
+			break;
+		}
+		case ChunkType::ShaderFloatParam:
+		{
+			_floatParams.push_back(std::make_unique<ShaderFloatParam>(*child));
+			break;
+		}
+		case ChunkType::ShaderColorParam:
+		{
+			_colorParams.push_back(std::make_unique<ShaderColorParam>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+ShaderTextureParam::ShaderTextureParam(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::ShaderTextureParam));
+
+	MemoryStream stream(chunk.GetData());
+	_key = stream.ReadString(4);
+	_value = stream.ReadLPString();
+}
+
+ShaderIntParam::ShaderIntParam(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::ShaderIntParam));
+
+	MemoryStream stream(chunk.GetData());
+	_key = stream.ReadString(4);
+	_value = stream.Read<int32_t>();
+}
+
+ShaderFloatParam::ShaderFloatParam(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::ShaderFloatParam));
+
+	MemoryStream stream(chunk.GetData());
+	_key = stream.ReadString(4);
+	_value = stream.Read<float>();
+}
+
+ShaderColorParam::ShaderColorParam(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::ShaderColorParam));
+
+	MemoryStream stream(chunk.GetData());
+	_key = stream.ReadString(4);
+	_r = stream.Read<uint8_t>();
+	_g = stream.Read<uint8_t>();
+	_b = stream.Read<uint8_t>();
+	_a = stream.Read<uint8_t>();
+}
+
+CompositeDrawable::CompositeDrawable(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CompositeDrawable));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_skeletonName = stream.ReadLPString();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::CompositeDrawablePropList:
+		{
+			_propList = std::make_unique<CompositeDrawablePropList>(*child);
+			break;
+		}
+		case ChunkType::CompositeDrawableSkinList:
+		{
+			_skins = std::make_unique<CompositeDrawableSkinList>(*child);
+			break;
+		}
+		case ChunkType::CompositeDrawableEffectList:
+		{
+			_effects = std::make_unique<CompositeDrawableEffectList>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CompositeDrawablePropList::CompositeDrawablePropList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CompositeDrawablePropList));
+
+	MemoryStream stream(chunk.GetData());
+	_numElements = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::CompositeDrawableProp:
+		{
+			_props.push_back(std::make_unique<CompositeDrawableProp>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CompositeDrawableProp::CompositeDrawableProp(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CompositeDrawableProp));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_isTrans = stream.Read<uint32_t>();
+	_skeletonJoint = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::CompositeDrawableSortOrder:
+		{
+			_sortOrder = data.Read<float>();
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CompositeDrawableSortOrder::CompositeDrawableSortOrder(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CompositeDrawableSortOrder));
+
+	MemoryStream stream(chunk.GetData());
+	_value = stream.Read<float>();
+}
+
+Intersect::Intersect(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Intersect));
+
+	MemoryStream stream(chunk.GetData());
+	_indices.resize(stream.Read<uint32_t>());
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_indices.data()), _indices.size() * sizeof(uint32_t));
+	_positions.resize(stream.Read<uint32_t>());
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_positions.data()), _positions.size() * sizeof(Vector3));
+	_normals.resize(stream.Read<uint32_t>());
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_normals.data()), _normals.size() * sizeof(Vector3));
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::BoundingBox:
+		{
+			_bounds = std::make_unique<BoundingBox>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+WorldSphere::WorldSphere(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::WorldSphere));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_geometryCount = stream.Read<uint32_t>();
+	_billboardCount = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Animation:
+		{
+			_animation = std::make_unique<Animation>(*child);
+			break;
+		}
+		case ChunkType::Skeleton:
+		{
+			_skeletons.push_back(std::make_unique<Skeleton>(*child));
+			break;
+		}
+		case ChunkType::BillboardQuadGroup:
+		{
+			_billboards.push_back(std::make_unique<BillboardQuadGroup>(*child));
+			break;
+		}
+		case ChunkType::Geometry:
+		{
+			_geometries.push_back(std::make_unique<Geometry>(*child));
+			break;
+		}
+		case ChunkType::CompositeDrawable:
+		{
+			_compositeDrawable = std::make_unique<CompositeDrawable>(*child);
+			break;
+		}
+		case ChunkType::LensFlare:
+		{
+			_lensFlare = std::make_unique<LensFlare>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+LensFlare::LensFlare(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::LensFlare));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_billboardCount = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::BillboardQuadGroup:
+		{
+			_billboards.push_back(std::make_unique<BillboardQuadGroup>(*child));
+			break;
+		}
+		case ChunkType::CompositeDrawable:
+		{
+			_compositeDrawable = std::make_unique<CompositeDrawable>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+BillboardQuad::BillboardQuad(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::BillboardQuad));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_mode = stream.ReadString(4);
+	_translation = stream.Read<Vector3>();
+	_color = stream.Read<uint32_t>();
+	_uv0 = stream.Read<Vector2>();
+	_uv1 = stream.Read<Vector2>();
+	_uv2 = stream.Read<Vector2>();
+	_uv3 = stream.Read<Vector2>();
+	_width = stream.Read<float>();
+	_height = stream.Read<float>();
+	_distance = stream.Read<float>();
+	_uvOffset = stream.Read<Vector2>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::BillboardDisplayInfo:
+		{
+			_displayInfo = std::make_unique<BillboardDisplayInfo>(*child);
+			break;
+		}
+		case ChunkType::BillboardPerspectiveInfo:
+		{
+			_perspectiveInfo = std::make_unique<BillboardPerspectiveInfo>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+BillboardQuadGroup::BillboardQuadGroup(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::BillboardQuadGroup));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_shader = stream.ReadLPString();
+	_zTest = stream.Read<uint32_t>();
+	_zWrite = stream.Read<uint32_t>();
+	_fog = stream.Read<uint32_t>();
+	_quadCount = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::BillboardQuad:
+		{
+			_quads.push_back(std::make_unique<BillboardQuad>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+BillboardDisplayInfo::BillboardDisplayInfo(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::BillboardDisplayInfo));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_rotation = stream.Read<Quaternion>();
+	_cutOffMode = stream.ReadString(4);
+	_uvOffsetRange = stream.Read<Vector2>();
+	_sourceRange = stream.Read<float>();
+	_edgeRange = stream.Read<float>();
+}
+
+BillboardPerspectiveInfo::BillboardPerspectiveInfo(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::BillboardPerspectiveInfo));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_value = stream.Read<uint32_t>();
+}
+
+Texture::Texture(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Texture));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_width = stream.Read<uint32_t>();
+	_height = stream.Read<uint32_t>();
+	_bpp = stream.Read<uint32_t>();
+	_alphaDepth = stream.Read<uint32_t>();
+	_numMipMaps = stream.Read<uint32_t>();
+	_textureType = stream.Read<uint32_t>();
+	_usage = stream.Read<uint32_t>();
+	_priority = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Image:
+		{
+			_image = std::make_unique<Image>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+Image::Image(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Image));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_width = stream.Read<uint32_t>();
+	_height = stream.Read<uint32_t>();
+	_bpp = stream.Read<uint32_t>();
+	_palettized = stream.Read<uint32_t>();
+	_hasAlpha = stream.Read<uint32_t>();
+	_format = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::ImageData:
+		{
+			_data.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_data.data()), _data.size() * sizeof(uint8_t));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+ImageData::ImageData(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::ImageData));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_data.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_data.data()), _data.size() * sizeof(uint8_t));
+}
+
+TextureFont::TextureFont(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::TextureFont));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_shader = stream.ReadLPString();
+	_size = stream.Read<float>();
+	_width = stream.Read<float>();
+	_height = stream.Read<float>();
+	_baseLine = stream.Read<float>();
+	_numTextures = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::Texture:
+		{
+			_textures.push_back(std::make_unique<Texture>(*child));
+			break;
+		}
+		case ChunkType::FontGlyphs:
+		{
+			_glyphs.resize(data.Read<uint32_t>());
+			data.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), _glyphs.size() * sizeof(FontGlyph));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+FontGlyphs::FontGlyphs(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FontGlyphs));
+
+	MemoryStream stream(chunk.GetData());
+	_size = stream.Read<uint32_t>();
+	_glyphs.resize(_size);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_glyphs.data()), _glyphs.size() * sizeof(FontGlyph));
+}
+
+Sprite::Sprite(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Sprite));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_nativeX = stream.Read<uint32_t>();
+	_nativeY = stream.Read<uint32_t>();
+	_shader = stream.ReadLPString();
+	_width = stream.Read<uint32_t>();
+	_height = stream.Read<uint32_t>();
+	_imageCount = stream.Read<uint32_t>();
+	_blitBorder = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Image:
+		{
+			_images.push_back(std::make_unique<Image>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+FrontendScreen::FrontendScreen(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendScreen));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_numPages = stream.Read<uint32_t>();
+	_pageNames.resize(_numPages);
+	for (size_t i = 0; i < _pageNames.size(); ++i) { _pageNames[i] = stream.ReadLPString(); }
+}
+
+FrontendProject::FrontendProject(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendProject));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_resX = stream.Read<uint32_t>();
+	_resY = stream.Read<uint32_t>();
+	_platform = stream.ReadLPString();
+	_pagePath = stream.ReadLPString();
+	_resourcePath = stream.ReadLPString();
+	_screenPath = stream.ReadLPString();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::FrontendPage:
+		{
+			_pages.push_back(std::make_unique<FrontendPage>(*child));
+			break;
+		}
+		case ChunkType::FrontendScreen:
+		{
+			_screens.push_back(std::make_unique<FrontendScreen>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+FrontendPage::FrontendPage(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendPage));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_resX = stream.Read<uint32_t>();
+	_resY = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::FrontendLayer:
+		{
+			_layers.push_back(std::make_unique<FrontendLayer>(*child));
+			break;
+		}
+		case ChunkType::FrontendImageResource:
+		{
+			_imageResources.push_back(std::make_unique<FrontendImageResource>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+FrontendLayer::FrontendLayer(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendLayer));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_visible = stream.Read<uint32_t>();
+	_editable = stream.Read<uint32_t>();
+	_alpha = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::FrontendGroup:
+		{
+			_groups.push_back(std::make_unique<FrontendGroup>(*child));
+			break;
+		}
+		case ChunkType::FrontendMultiSprite:
+		{
+			_multiSprites.push_back(std::make_unique<FrontendMultiSprite>(*child));
+			break;
+		}
+		case ChunkType::FrontendMultiText:
+		{
+			_multiTexts.push_back(std::make_unique<FrontendMultiText>(*child));
+			break;
+		}
+		case ChunkType::FrontendObject:
+		{
+			_objects.push_back(std::make_unique<FrontendObject>(*child));
+			break;
+		}
+		case ChunkType::FrontendPolygon:
+		{
+			_polygons.push_back(std::make_unique<FrontendPolygon>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+FrontendGroup::FrontendGroup(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendGroup));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_alpha = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::FrontendGroup:
+		{
+			_children.push_back(std::make_unique<FrontendGroup>(*child));
+			break;
+		}
+		case ChunkType::FrontendMultiSprite:
+		{
+			_multiSprites.push_back(std::make_unique<FrontendMultiSprite>(*child));
+			break;
+		}
+		case ChunkType::FrontendMultiText:
+		{
+			_multiTexts.push_back(std::make_unique<FrontendMultiText>(*child));
+			break;
+		}
+		case ChunkType::FrontendPolygon:
+		{
+			_polygons.push_back(std::make_unique<FrontendPolygon>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+FrontendMultiSprite::FrontendMultiSprite(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendMultiSprite));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_positionX = stream.Read<int32_t>();
+	_positionY = stream.Read<int32_t>();
+	_dimensionX = stream.Read<uint32_t>();
+	_dimensionY = stream.Read<uint32_t>();
+	_alignX = stream.Read<uint32_t>();
+	_alignY = stream.Read<uint32_t>();
+	_color = stream.Read<uint32_t>();
+	_translucent = stream.Read<uint32_t>();
+	_rotation = stream.Read<float>();
+	_numImages = stream.Read<uint32_t>();
+	_imageNames.resize(_numImages);
+	for (size_t i = 0; i < _imageNames.size(); ++i) { _imageNames[i] = stream.ReadLPString(); }
+}
+
+FrontendMultiText::FrontendMultiText(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendMultiText));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_positionX = stream.Read<int32_t>();
+	_positionY = stream.Read<int32_t>();
+	_dimensionX = stream.Read<uint32_t>();
+	_dimensionY = stream.Read<uint32_t>();
+	_alignX = stream.Read<uint32_t>();
+	_alignY = stream.Read<uint32_t>();
+	_color = stream.Read<uint32_t>();
+	_translucent = stream.Read<uint32_t>();
+	_rotation = stream.Read<float>();
+	_fontName = stream.ReadLPString();
+	_shadowEnabled = stream.Read<uint8_t>();
+	_shadowColor = stream.Read<uint32_t>();
+	_shadowOffsetX = stream.Read<int32_t>();
+	_shadowOffsetY = stream.Read<int32_t>();
+	_current = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::FrontendStringTextBible:
+		{
+			_textBibles.push_back(std::make_unique<FrontendStringTextBible>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+FrontendStringTextBible::FrontendStringTextBible(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendStringTextBible));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_key = stream.ReadLPString();
+}
+
+FrontendObject::FrontendObject(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendObject));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+}
+
+FrontendPolygon::FrontendPolygon(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendPolygon));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_translucent = stream.Read<uint32_t>();
+	_numPoints = stream.Read<uint32_t>();
+	_points.resize(_numPoints);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(Vector3));
+	_colors.resize(_numPoints);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_colors.data()), _colors.size() * sizeof(uint32_t));
+}
+
+FrontendImageResource::FrontendImageResource(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FrontendImageResource));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_filepath = stream.ReadLPString();
+}
+
+Locator2::Locator2(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Locator2));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_type = stream.Read<uint32_t>();
+	_dataSize = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::TriggerVolume:
+		{
+			_triggers.push_back(std::make_unique<TriggerVolume>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+TriggerVolume::TriggerVolume(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::TriggerVolume));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_isRect = stream.Read<uint32_t>();
+	_bounds = stream.Read<Vector3>();
+	_transform = stream.Read<Matrix4x4>();
+}
+
+Camera::Camera(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Camera));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_fov = stream.Read<float>();
+	_aspectRatio = stream.Read<float>();
+	_nearClip = stream.Read<float>();
+	_farClip = stream.Read<float>();
+	_position = stream.Read<Vector3>();
+	_forward = stream.Read<Vector3>();
+	_up = stream.Read<Vector3>();
+}
+
+MultiController::MultiController(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::MultiController));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_length = stream.Read<float>();
+	_frameRate = stream.Read<float>();
+	_numTracks = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::MultiControllerTracks:
+		{
+			_tracks = std::make_unique<MultiControllerTracks>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+MultiControllerTracks::MultiControllerTracks(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::MultiControllerTracks));
+
+	MemoryStream stream(chunk.GetData());
+	_numTracks = stream.Read<uint32_t>();
+	_trackNames.resize(_numTracks);
+	for (size_t i = 0; i < _trackNames.size(); ++i) { _trackNames[i] = stream.ReadLPString(); }
+	_trackStartTimes.resize(_numTracks);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackStartTimes.data()), _trackStartTimes.size() * sizeof(float));
+	_trackEndTimes.resize(_numTracks);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackEndTimes.data()), _trackEndTimes.size() * sizeof(float));
+	_trackScales.resize(_numTracks);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_trackScales.data()), _trackScales.size() * sizeof(float));
+}
+
+CollisionObject::CollisionObject(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionObject));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_version = stream.Read<uint32_t>();
+	_materialName = stream.ReadLPString();
+	_numSubObjects = stream.Read<uint32_t>();
+	_numVolumeOwners = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::CollisionVolumeOwner:
+		{
+			_volumeOwners.push_back(std::make_unique<CollisionVolumeOwner>(*child));
+			break;
+		}
+		case ChunkType::CollisionVolume:
+		{
+			_volume = std::make_unique<CollisionVolume>(*child);
+			break;
+		}
+		case ChunkType::CollisionObjectAttribute:
+		{
+			_attribute = std::make_unique<CollisionObjectAttribute>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CollisionVolume::CollisionVolume(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionVolume));
+
+	MemoryStream stream(chunk.GetData());
+	_objectRefIndex = stream.Read<uint32_t>();
+	_ownerIndex = stream.Read<int32_t>();
+	_numSubVolumes = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::CollisionVolume:
+		{
+			_subVolumes.push_back(std::make_unique<CollisionVolume>(*child));
+			break;
+		}
+		case ChunkType::CollisionBBoxVolume:
+		{
+			_bBox = std::make_unique<CollisionBBoxVolume>(*child);
+			break;
+		}
+		case ChunkType::CollisionOBBoxVolume:
+		{
+			_obBox = std::make_unique<CollisionOBBoxVolume>(*child);
+			break;
+		}
+		case ChunkType::CollisionSphere:
+		{
+			_sphere = std::make_unique<CollisionSphere>(*child);
+			break;
+		}
+		case ChunkType::CollisionCylinder:
+		{
+			_cylinder = std::make_unique<CollisionCylinder>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CollisionSphere::CollisionSphere(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionSphere));
+
+	MemoryStream stream(chunk.GetData());
+	_radius = stream.Read<float>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::CollisionVector:
+		{
+			_vectors.push_back(data.Read<Vector3>());
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CollisionCylinder::CollisionCylinder(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionCylinder));
+
+	MemoryStream stream(chunk.GetData());
+	_radius = stream.Read<float>();
+	_length = stream.Read<float>();
+	_flatEnd = stream.Read<uint16_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::CollisionVector:
+		{
+			_vectors.push_back(data.Read<Vector3>());
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CollisionOBBoxVolume::CollisionOBBoxVolume(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionOBBoxVolume));
+
+	MemoryStream stream(chunk.GetData());
+	_halfExtents = stream.Read<Vector3>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::CollisionVector:
+		{
+			_vectors.push_back(data.Read<Vector3>());
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CollisionBBoxVolume::CollisionBBoxVolume(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionBBoxVolume));
+
+	MemoryStream stream(chunk.GetData());
+	_nothing = stream.Read<uint32_t>();
+}
+
+CollisionVector::CollisionVector(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionVector));
+
+	MemoryStream stream(chunk.GetData());
+	_value = stream.Read<Vector3>();
+}
+
+CollisionVolumeOwner::CollisionVolumeOwner(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionVolumeOwner));
+
+	MemoryStream stream(chunk.GetData());
+	_numNames = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::CollisionVolumeOwnerName:
+		{
+			_names.push_back(std::make_unique<CollisionVolumeOwnerName>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+CollisionVolumeOwnerName::CollisionVolumeOwnerName(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionVolumeOwnerName));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+}
+
+CollisionObjectAttribute::CollisionObjectAttribute(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CollisionObjectAttribute));
+
+	MemoryStream stream(chunk.GetData());
+	_static = stream.Read<uint16_t>();
+	_defaultArea = stream.Read<uint32_t>();
+	_canRoll = stream.Read<uint16_t>();
+	_canSlide = stream.Read<uint16_t>();
+	_canSpin = stream.Read<uint16_t>();
+	_canBounce = stream.Read<uint16_t>();
+	_todo1 = stream.Read<uint32_t>();
+	_todo2 = stream.Read<uint32_t>();
+	_todo3 = stream.Read<uint32_t>();
+}
+
+FenceWrapper::FenceWrapper(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FenceWrapper));
+
+	MemoryStream stream(chunk.GetData());
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Fence:
+		{
+			_fence = std::make_unique<Fence>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+Fence::Fence(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Fence));
+
+	MemoryStream stream(chunk.GetData());
+	_start = stream.Read<Vector3>();
+	_end = stream.Read<Vector3>();
+	_normal = stream.Read<Vector3>();
+}
+
+Set::Set(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Set));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_numTextures = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Texture:
+		{
+			_textures.push_back(std::make_unique<Texture>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+Path::Path(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Path));
+
+	MemoryStream stream(chunk.GetData());
+	_numPoints = stream.Read<uint32_t>();
+	_points.resize(_numPoints);
+	stream.ReadBytes(reinterpret_cast<uint8_t*>(_points.data()), _points.size() * sizeof(Vector3));
+}
+
+Intersection::Intersection(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Intersection));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_position = stream.Read<Vector3>();
+	_radius = stream.Read<float>();
+	_trafficBehaviour = stream.Read<uint32_t>();
+}
+
+RoadDataSegment::RoadDataSegment(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::RoadDataSegment));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo0 = stream.Read<uint32_t>();
+	_lanes = stream.Read<uint32_t>();
+	_todo1 = stream.Read<uint32_t>();
+	_position0 = stream.Read<Vector3>();
+	_position1 = stream.Read<Vector3>();
+	_position2 = stream.Read<Vector3>();
+}
+
+Road::Road(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::Road));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_todo0 = stream.Read<uint32_t>();
+	_startIntersection = stream.ReadLPString();
+	_endIntersection = stream.ReadLPString();
+	_maxCars = stream.Read<uint32_t>();
+	_todo1 = stream.Read<uint8_t>();
+	_todo2 = stream.Read<uint8_t>();
+	_noReset = stream.Read<uint8_t>();
+	_todo3 = stream.Read<uint8_t>();
+}
+
+RoadSegment::RoadSegment(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::RoadSegment));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_data = stream.ReadLPString();
+	_transform = stream.Read<Matrix4x4>();
+	_transform2 = stream.Read<Matrix4x4>();
+}
+
+GameAttr::GameAttr(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::GameAttr));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_numParams = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::GameAttrIntParam:
+		{
+			_params.push_back(std::make_unique<GameAttrIntParam>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+GameAttrIntParam::GameAttrIntParam(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::GameAttrIntParam));
+
+	MemoryStream stream(chunk.GetData());
+	_name = stream.ReadLPString();
+	_value = stream.Read<uint32_t>();
+}
+
+History::History(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::History));
+
+	MemoryStream stream(chunk.GetData());
+	_numLines = stream.Read<uint32_t>();
+	_lines.resize(stream.Read<uint32_t>());
+	for (size_t i = 0; i < _lines.size(); ++i) { _lines[i] = stream.ReadLPString(); }
+}
+
+BreakableObject::BreakableObject(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::BreakableObject));
+
+	MemoryStream stream(chunk.GetData());
+	_index = stream.Read<uint32_t>();
+	_count = stream.Read<uint32_t>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::Animation:
+		{
+			_animations.push_back(std::make_unique<Animation>(*child));
+			break;
+		}
+		case ChunkType::Skeleton:
+		{
+			_skeletons.push_back(std::make_unique<Skeleton>(*child));
+			break;
+		}
+		case ChunkType::Geometry:
+		{
+			_geometries.push_back(std::make_unique<Geometry>(*child));
+			break;
+		}
+		case ChunkType::CompositeDrawable:
+		{
+			_drawable = std::make_unique<CompositeDrawable>(*child);
+			break;
+		}
+		case ChunkType::AnimatedObject:
+		{
+			_animObjects = std::make_unique<AnimatedObject>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+AnimatedObject::AnimatedObject(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::AnimatedObject));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_factoryName = stream.ReadLPString();
+	_startAnimation = stream.Read<uint32_t>();
+}
+
+FollowCameraData::FollowCameraData(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::FollowCameraData));
+
+	MemoryStream stream(chunk.GetData());
+	_index = stream.Read<uint32_t>();
+	_yaw = stream.Read<float>();
+	_pitch = stream.Read<float>();
+	_distance = stream.Read<float>();
+	_offset = stream.Read<Vector3>();
+}
+
+PhysicsObject::PhysicsObject(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::PhysicsObject));
+
+	MemoryStream stream(chunk.GetData());
+	_version = stream.Read<uint32_t>();
+	_name = stream.ReadLPString();
+	_materialName = stream.ReadLPString();
+	_numJoints = stream.Read<uint32_t>();
+	_volume = stream.Read<float>();
+	_sensitivity = stream.Read<float>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		switch (child->GetType())
+		{
+		case ChunkType::PhysicsJoint:
+		{
+			_joints.push_back(std::make_unique<PhysicsJoint>(*child));
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+PhysicsJoint::PhysicsJoint(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::PhysicsJoint));
+
+	MemoryStream stream(chunk.GetData());
+	_index = stream.Read<uint32_t>();
+	_volume = stream.Read<float>();
+	_stiffness = stream.Read<float>();
+	_minAngle = stream.Read<float>();
+	_maxAngle = stream.Read<float>();
+	_DOF = stream.Read<float>();
+
+	for (auto const& child : chunk.GetChildren())
+	{
+		MemoryStream data(child->GetData());
+
+		switch (child->GetType())
+		{
+		case ChunkType::PhysicsVector:
+		{
+			_vector = data.Read<Vector3>();
+			break;
+		}
+		case ChunkType::PhysicsInertiaMatrix:
+		{
+			_inertiaMatrix = std::make_unique<PhysicsInertiaMatrix>(*child);
+			break;
+		}
+		default: break;
+		}
+	}
+}
+
+PhysicsVector::PhysicsVector(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::PhysicsVector));
+
+	MemoryStream stream(chunk.GetData());
+	_value = stream.Read<Vector3>();
+}
+
+PhysicsInertiaMatrix::PhysicsInertiaMatrix(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::PhysicsInertiaMatrix));
+
+	MemoryStream stream(chunk.GetData());
+	_position = stream.Read<Vector3>();
+	_forward = stream.Read<Vector3>();
+	_right = stream.Read<Vector3>();
+	_up = stream.Read<Vector3>();
+}
+
+CompositeDrawableSkinList::CompositeDrawableSkinList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CompositeDrawableSkinList));
+
+	MemoryStream stream(chunk.GetData());
+	_numSkins = stream.Read<uint32_t>();
+}
+
+CompositeDrawableEffectList::CompositeDrawableEffectList(const P3DChunk& chunk)
+{
+	assert(chunk.IsType(ChunkType::CompositeDrawableEffectList));
+
+	MemoryStream stream(chunk.GetData());
+	_numEffects = stream.Read<uint32_t>();
+}
+} // namespace Donut::P3D

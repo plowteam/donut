@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -26,7 +26,7 @@ class Texture;
 class SpriteBatch
 {
 
-  public:
+public:
 	SpriteBatch(size_t = 1000);
 
 	void Flush(const Matrix4x4&, float = 1.0f);
@@ -36,7 +36,8 @@ class SpriteBatch
 	void Draw(Texture*, const Vector2&, const Vector2&, float, const Vector4&);
 	void Draw(Texture*, const Vector2&, const Vector2&, const Vector2&, const Vector2&, const Vector4&);
 	void Draw9Slice(Texture*, const Vector2&, const Vector2&, const Vector4&, const Vector4&, bool = true);
-	void Draw9Slice(Texture*, const Vector2&, const Vector2&, const Vector2&, const Vector2&, const Vector4&, const Vector4&, bool = true);
+	void Draw9Slice(Texture*, const Vector2&, const Vector2&, const Vector2&, const Vector2&, const Vector4&, const Vector4&,
+	                bool = true);
 
 	void EnableClipping(bool clipping) { _clipping = clipping; }
 	void SetClippingRect(const Vector4& clippingRect) { _clippingRect = clippingRect; }
@@ -45,7 +46,7 @@ class SpriteBatch
 
 	GL::ShaderProgram& GetShader();
 
-  private:
+private:
 	struct Sprite
 	{
 		Sprite(Texture*, const Vector2&, const Vector2&, float, const Vector4&);
@@ -70,12 +71,7 @@ class SpriteBatch
 
 	struct NineSliceProperties
 	{
-		NineSliceProperties(
-		    const Vector2&,
-		    const Vector2&,
-		    const Vector2&,
-		    const Vector2&,
-		    const Vector2&);
+		NineSliceProperties(const Vector2&, const Vector2&, const Vector2&, const Vector2&, const Vector2&);
 
 		void GetTopLeftSlice(Slice&) const;
 		void GetTopRightSlice(Slice&) const;

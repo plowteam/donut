@@ -1,6 +1,9 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
+
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector3.h"
 
 #include <BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <BulletCollision/CollisionShapes/btCapsuleShape.h>
@@ -21,7 +24,7 @@ class WorldPhysics;
  */
 class CharacterController: public btCharacterControllerInterface
 {
-  public:
+public:
 	CharacterController(Character* character, WorldPhysics* physics);
 	~CharacterController();
 
@@ -43,7 +46,7 @@ class CharacterController: public btCharacterControllerInterface
 
 	const btCapsuleShape& GetShape() const { return *_physShape; }
 
-  private:
+private:
 	btVector3 computeReflectionDirection(const btVector3& direction, const btVector3& normal);
 	btVector3 parallelComponent(const btVector3& direction, const btVector3& normal);
 	btVector3 perpendicularComponent(const btVector3& direction, const btVector3& normal);
@@ -53,8 +56,8 @@ class CharacterController: public btCharacterControllerInterface
 	void stepDown(btCollisionWorld*, btScalar dt);
 	void stepForwardAndStrafe(btCollisionWorld* collsionWorld, const btVector3& walkMove);
 
-	void updateTargetPositionBasedOnCollision(const btVector3& hitNormal,
-	                                          btScalar tangentMag = btScalar(0.0), btScalar normalMag = btScalar(1.0));
+	void updateTargetPositionBasedOnCollision(const btVector3& hitNormal, btScalar tangentMag = btScalar(0.0),
+	                                          btScalar normalMag = btScalar(1.0));
 
 	Character* _character;
 	WorldPhysics* _worldPhysics; // should be a weak_ptr to a shared_ptr

@@ -1,12 +1,13 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Render/OpenGL/GLTexture2D.h>
 
 namespace Donut::GL
 {
 
-GLTexture2D::GLTexture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type, const void* textureData):
-    _width(width), _height(height), _internalFormat(internalFormat), _format(format), _type(type), _textureID(0)
+GLTexture2D::GLTexture2D(GLsizei width, GLsizei height, GLenum internalFormat, GLenum format, GLenum type,
+                         const void* textureData)
+    : _width(width), _height(height), _internalFormat(internalFormat), _format(format), _type(type), _textureID(0)
 {
 	glGenTextures(1, &_textureID);
 

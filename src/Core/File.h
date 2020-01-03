@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -18,14 +18,14 @@ enum class FileMode
 
 enum class FileSeekMode
 {
-	Begin   = SEEK_SET,
+	Begin = SEEK_SET,
 	Current = SEEK_CUR,
-	End     = SEEK_END
+	End = SEEK_END
 };
 
 class File
 {
-  public:
+public:
 	File();
 	File(const std::filesystem::path& filename, FileMode mode);
 	~File();
@@ -78,7 +78,7 @@ class File
 
 	std::string ReadLine();
 
-  protected:
+protected:
 	FILE* _file;
 	std::size_t _size;
 };

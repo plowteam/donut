@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -22,8 +22,8 @@ class InstancedStaticPhysics;
 
 class Entity
 {
-  public:
-	Entity()          = default;
+public:
+	Entity() = default;
 	virtual ~Entity() = default;
 
 	virtual void Draw(GL::ShaderProgram&, bool opaque) {}
@@ -31,33 +31,33 @@ class Entity
 	const std::string& GetName() const { return _name; }
 	virtual const std::string GetClassName() const { return "Entity"; }
 
-  protected:
+protected:
 	std::string _name;
 };
 
 class StaticEntity: public Entity
 {
-  public:
+public:
 	StaticEntity(const P3D::StaticEntity&);
 
 	void Draw(GL::ShaderProgram&, bool opaque) override;
 
 	const std::string GetClassName() const override { return "StaticEntity"; }
 
-  protected:
+protected:
 	std::unique_ptr<Mesh> _mesh;
 };
 
 class InstancedStaticEntity: public Entity
 {
-  public:
+public:
 	InstancedStaticEntity(const P3D::Geometry&, const std::vector<Matrix4x4>&);
 
 	void Draw(GL::ShaderProgram&, bool opaque) override;
 
 	const std::string GetClassName() const override { return "InstancedStaticEntity"; }
 
-  protected:
+protected:
 	std::unique_ptr<MeshInstanced> _mesh;
 };
 

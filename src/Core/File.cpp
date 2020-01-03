@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Core/File.h>
 #include <cassert>
@@ -9,11 +9,9 @@
 namespace Donut
 {
 
-File::File():
-    _file(nullptr), _size(0) {}
+File::File(): _file(nullptr), _size(0) {}
 
-File::File(const std::filesystem::path& path, FileMode mode):
-    _file(nullptr), _size(0)
+File::File(const std::filesystem::path& path, FileMode mode): _file(nullptr), _size(0)
 {
 	Open(path, mode);
 }
@@ -44,7 +42,8 @@ void File::Open(const std::filesystem::path& path, FileMode mode)
 
 void File::Close()
 {
-	if (_file != nullptr) std::fclose(_file);
+	if (_file != nullptr)
+		std::fclose(_file);
 	_file = nullptr;
 }
 
@@ -96,7 +95,8 @@ std::string File::ReadString(std::size_t length)
 	uint32_t l = 0;
 	for (; l < length; ++l)
 	{
-		if (str[l] == 0) break;
+		if (str[l] == 0)
+			break;
 	}
 
 	return std::string(str.data(), l);
@@ -108,8 +108,10 @@ std::string File::ReadLine()
 	for (size_t i = Position(); i < _size; ++i)
 	{
 		auto c = Read<char>();
-		if (c == '\r') continue;
-		if (c == '\n') return line;
+		if (c == '\r')
+			continue;
+		if (c == '\n')
+			return line;
 
 		line.push_back(c);
 	}

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -13,7 +13,7 @@ namespace Donut
 class ITextEntryEventHandler
 {
 
-  public:
+public:
 	virtual ~ITextEntryEventHandler() {}
 
 	virtual void Call(const std::string&) = 0;
@@ -23,26 +23,22 @@ template <class Instance>
 class TextEntryEventHandler: public ITextEntryEventHandler
 {
 
-  private:
+private:
 	Instance* instance;
 	typedef void (Instance::*Callback)(const std::string&);
 	Callback callback;
 
-  public:
-	TextEntryEventHandler(Instance* instance, Callback callback):
-	    instance(instance), callback(callback) {}
+public:
+	TextEntryEventHandler(Instance* instance, Callback callback): instance(instance), callback(callback) {}
 
-	void Call(const std::string& text)
-	{
-		(instance->*callback)(text);
-	}
+	void Call(const std::string& text) { (instance->*callback)(text); }
 };
 
 class Input
 {
 
-  public:
-	Input()  = delete;
+public:
+	Input() = delete;
 	~Input() = delete;
 
 	static void PreEvent();
@@ -68,11 +64,10 @@ class Input
 
 	static void ReleaseTextEntry();
 
-  private:
+private:
 	struct ButtonState
 	{
-		ButtonState():
-		    Pressed(false), Released(false), Down(false) {};
+		ButtonState(): Pressed(false), Released(false), Down(false) {};
 
 		bool Pressed;
 		bool Released;

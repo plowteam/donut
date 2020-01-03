@@ -1,5 +1,6 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
+#include "Render/imgui/imgui.h"
 #include <Core/File.h>
 #include <Entity.h>
 #include <Game.h>
@@ -16,7 +17,6 @@
 #include <Render/WorldSphere.h>
 #include <ResourceManager.h>
 #include <array>
-#include "Render/imgui/imgui.h"
 #include <iostream>
 
 namespace Donut
@@ -24,36 +24,36 @@ namespace Donut
 
 Level::Level()
 {
-	const auto worldVertSrc          = File::ReadAll("shaders/world.vert");
-	const auto worldFragSrc          = File::ReadAll("shaders/world.frag");
+	const auto worldVertSrc = File::ReadAll("shaders/world.vert");
+	const auto worldFragSrc = File::ReadAll("shaders/world.frag");
 	const auto worldInstancedVertSrc = File::ReadAll("shaders/world_instanced.vert");
 	const auto billboardBatchVertSrc = File::ReadAll("shaders/billboard_batch.vert");
 
-	_worldShader          = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
+	_worldShader = std::make_unique<GL::ShaderProgram>(worldVertSrc, worldFragSrc);
 	_worldInstancedShader = std::make_unique<GL::ShaderProgram>(worldInstancedVertSrc, worldFragSrc);
 	_billboardBatchShader = std::make_unique<GL::ShaderProgram>(billboardBatchVertSrc, worldFragSrc);
 
 	// todo: move this into Game.cpp or something else ?
 	/*std::array<std::string, 7> carFiles {
-		"art/cars/mrplo_v.p3d",
-		"art/cars/carhom_v.p3d",
-		"art/cars/krust_v.p3d",
-		"art/cars/cDuff.p3d",
-		"art/cars/bart_v.p3d",
-		"art/cars/snake_v.p3d",
-		"art/cars/wiggu_v.p3d",
+	    "art/cars/mrplo_v.p3d",
+	    "art/cars/carhom_v.p3d",
+	    "art/cars/krust_v.p3d",
+	    "art/cars/cDuff.p3d",
+	    "art/cars/bart_v.p3d",
+	    "art/cars/snake_v.p3d",
+	    "art/cars/wiggu_v.p3d",
 	};
 
 	float offset = 0.0f;
 	for (const auto& carFile : carFiles)
 	{
-		if (auto car = CompositeModel::LoadP3D(carFile))
-		{
-			auto transform = glm::translate(Matrix(1.0f), Vector3(240 + offset, 4.6f, -160));
-			car->SetTransform(transform);
-			_compositeModels.push_back(std::move(car));
-			offset += 3.0f;
-		}
+	    if (auto car = CompositeModel::LoadP3D(carFile))
+	    {
+	        auto transform = glm::translate(Matrix(1.0f), Vector3(240 + offset, 4.6f, -160));
+	        car->SetTransform(transform);
+	        _compositeModels.push_back(std::move(car));
+	        offset += 3.0f;
+	    }
 	}*/
 }
 
@@ -75,25 +75,17 @@ void Level::LoadP3D(const std::string& filename)
 
 	const auto p3d = P3D::P3DFile(fullpath);
 
-	auto& rm         = Game::GetInstance().GetResourceManager();
+	auto& rm = Game::GetInstance().GetResourceManager();
 	const auto& root = p3d.GetRoot();
 
 	for (const auto& chunk : root.GetChildren())
 	{
 		switch (chunk->GetType())
 		{
-		case P3D::ChunkType::Shader:
-			rm.LoadShader(*P3D::Shader::Load(*chunk));
-			break;
-		case P3D::ChunkType::Texture:
-			rm.LoadTexture(*P3D::Texture::Load(*chunk));
-			break;
-		case P3D::ChunkType::Set:
-			rm.LoadSet(*P3D::Set::Load(*chunk));
-			break;
-		case P3D::ChunkType::Geometry:
-			rm.LoadGeometry(*P3D::Geometry::Load(*chunk));
-			break;
+		case P3D::ChunkType::Shader: rm.LoadShader(*P3D::Shader::Load(*chunk)); break;
+		case P3D::ChunkType::Texture: rm.LoadTexture(*P3D::Texture::Load(*chunk)); break;
+		case P3D::ChunkType::Set: rm.LoadSet(*P3D::Set::Load(*chunk)); break;
+		case P3D::ChunkType::Geometry: rm.LoadGeometry(*P3D::Geometry::Load(*chunk)); break;
 		case P3D::ChunkType::StaticEntity:
 			_entities.emplace_back(std::make_unique<StaticEntity>(*P3D::StaticEntity::Load(*chunk)));
 			break;
@@ -103,7 +95,7 @@ void Level::LoadP3D(const std::string& filename)
 
 			/*auto const& volume = ent->GetCollisionObject()->GetVolume();
 			if (volume != nullptr)
-				_worldPhysics->AddCollisionVolume(*volume);*/
+			    _worldPhysics->AddCollisionVolume(*volume);*/
 
 			break;
 		}
@@ -116,18 +108,15 @@ void Level::LoadP3D(const std::string& filename)
 
 			const auto& geometries = staticPhys->GetGeometries();
 			std::map<std::string, size_t> meshesNameIndex;
-			for (const auto& geometry : geometries)
-			{
-				meshesNameIndex.insert({ geometry->GetName(), meshesNameIndex.size() });
-			}
+			for (const auto& geometry : geometries) { meshesNameIndex.insert({geometry->GetName(), meshesNameIndex.size()}); }
 
 			std::unordered_map<std::string, std::vector<Matrix4x4>> meshTransforms;
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
-				const auto& drawable  = drawables.at(i);
+				const auto& drawable = drawables.at(i);
 				const auto& transform = transforms.at(i);
-				const auto& meshName  = drawable->GetName();
+				const auto& meshName = drawable->GetName();
 
 				auto& transforms = meshTransforms[meshName];
 				transforms.push_back(transform);
@@ -150,18 +139,15 @@ void Level::LoadP3D(const std::string& filename)
 
 			const auto& geometries = dynaPhys->GetGeometries();
 			std::map<std::string, size_t> meshesNameIndex;
-			for (const auto& geometry : geometries)
-			{
-				meshesNameIndex.insert({ geometry->GetName(), meshesNameIndex.size() });
-			}
+			for (const auto& geometry : geometries) { meshesNameIndex.insert({geometry->GetName(), meshesNameIndex.size()}); }
 
 			std::unordered_map<std::string, std::vector<Matrix4x4>> meshTransforms;
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
-				const auto& drawable  = drawables.at(i);
+				const auto& drawable = drawables.at(i);
 				const auto& transform = transforms.at(i);
-				const auto& meshName  = drawable->GetName();
+				const auto& meshName = drawable->GetName();
 
 				auto& transforms = meshTransforms[meshName];
 				transforms.push_back(transform);
@@ -186,7 +172,7 @@ void Level::LoadP3D(const std::string& filename)
 
 			for (size_t i = 0; i < drawables.size(); ++i)
 			{
-				const auto& drawable  = drawables.at(i);
+				const auto& drawable = drawables.at(i);
 				const auto& transform = transforms.at(i);
 
 				auto compositeModel = std::make_unique<CompositeModel>(CompositeModel_AnimObjectWrapper(*animObjectWrapper));
@@ -203,12 +189,8 @@ void Level::LoadP3D(const std::string& filename)
 
 			break;
 		}
-		case P3D::ChunkType::WorldSphere:
-			_worldSphere = std::make_unique<WorldSphere>(*P3D::WorldSphere::Load(*chunk));
-			break;
-		case P3D::ChunkType::Locator2:
-			locators.push_back(P3D::Locator2::Load(*chunk));
-			break;
+		case P3D::ChunkType::WorldSphere: _worldSphere = std::make_unique<WorldSphere>(*P3D::WorldSphere::Load(*chunk)); break;
+		case P3D::ChunkType::Locator2: locators.push_back(P3D::Locator2::Load(*chunk)); break;
 		case P3D::ChunkType::FenceWrapper:
 		{
 			auto const& fence = P3D::FenceWrapper::Load(*chunk);
@@ -224,7 +206,7 @@ void Level::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::Path:
 		{
 			auto path = P3D::Path::Load(*chunk);
-			_paths.push_back(Path { path->GetPoints() });
+			_paths.push_back(Path {path->GetPoints()});
 
 			break;
 		}
@@ -241,27 +223,27 @@ void Level::DynaLoadData(const std::string& dynaLoadData)
 	std::size_t prev = 0, pos;
 	while ((pos = dynaLoadData.find_first_of(";:@$", prev)) != std::string::npos)
 	{
-		const std::string file = dynaLoadData.substr(prev, pos - prev);
-		switch (dynaLoadData.at(pos))
-		{
-		case ';': regionsLoad.push_back(file); break;
-		case ':': regionsUnload.push_back(file); break;
-		case '@': interiorsLoad.push_back(file); break;
-		case '$': interiorsUnload.push_back(file); break;
-		}
+	    const std::string file = dynaLoadData.substr(prev, pos - prev);
+	    switch (dynaLoadData.at(pos))
+	    {
+	    case ';': regionsLoad.push_back(file); break;
+	    case ':': regionsUnload.push_back(file); break;
+	    case '@': interiorsLoad.push_back(file); break;
+	    case '$': interiorsUnload.push_back(file); break;
+	    }
 
-		prev = pos + 1;
+	    prev = pos + 1;
 	}
 
 	// todo: be a right laugh to thread all this!!! stick it all in a queue etc.
 
 	// unload first
 	for (auto const& region : regionsUnload)
-		unloadRegion(region);
+	    unloadRegion(region);
 
 	// load in more shit
 	for (auto const& region : regionsLoad)
-		loadRegion(region);*/
+	    loadRegion(region);*/
 }
 
 void Level::ImGuiDebugWindow(bool* p_open) const
@@ -317,44 +299,38 @@ void Level::Draw(Matrix4x4& viewProj)
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 
-	for (const auto& ent : _entities)
-		ent->Draw(*_worldShader, true);
+	for (const auto& ent : _entities) ent->Draw(*_worldShader, true);
 
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), true);
 
 	_billboardBatchShader->Bind();
 	_billboardBatchShader->SetUniformValue("viewProj", viewProj);
-	for (const auto& billboardBatch : _billboardBatches)
-		billboardBatch->Draw(*_billboardBatchShader, true);
+	for (const auto& billboardBatch : _billboardBatches) billboardBatch->Draw(*_billboardBatchShader, true);
 
 	_worldInstancedShader->Bind();
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
 
-	for (const auto& ent : _instances)
-		ent->Draw(*_worldInstancedShader, true);
+	for (const auto& ent : _instances) ent->Draw(*_worldInstancedShader, true);
 
 	glEnable(GL_BLEND);
 
 	_worldShader->Bind();
 	_worldShader->SetUniformValue("viewProj", viewProj);
 
-	for (const auto& ent : _entities)
-		ent->Draw(*_worldShader, false);
+	for (const auto& ent : _entities) ent->Draw(*_worldShader, false);
 
 	for (const auto& compositeModel : _compositeModels)
 		compositeModel->Draw(*_worldShader, viewProj, compositeModel->GetTransform(), false);
 
 	_billboardBatchShader->Bind();
 	_billboardBatchShader->SetUniformValue("viewProj", viewProj);
-	for (const auto& billboardBatch : _billboardBatches)
-		billboardBatch->Draw(*_billboardBatchShader, false);
+	for (const auto& billboardBatch : _billboardBatches) billboardBatch->Draw(*_billboardBatchShader, false);
 
 	_worldInstancedShader->Bind();
 	_worldInstancedShader->SetUniformValue("viewProj", viewProj);
 
-	for (const auto& ent : _instances)
-		ent->Draw(*_worldInstancedShader, false);
+	for (const auto& ent : _instances) ent->Draw(*_worldInstancedShader, false);
 }
 
 } // namespace Donut

@@ -1,13 +1,12 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <P3D/P3D.generated.h>
 #include <Render/Texture.h>
 
 namespace Donut
 {
-Texture::Texture(const P3D::Texture& texture):
-    _name(texture.GetName()), _width(texture.GetWidth()), _height(texture.GetHeight()),
-    _glTexture(0)
+Texture::Texture(const P3D::Texture& texture)
+    : _name(texture.GetName()), _width(texture.GetWidth()), _height(texture.GetHeight()), _glTexture(0)
 {
 	// more mipmaps = more images?
 	assert(texture.GetNumMipMaps() == 1);
@@ -26,36 +25,36 @@ Texture::Texture(const P3D::Texture& texture):
 		auto imageData = P3D::ImageDecoder::Decode(image->GetData());
 
 		if (imageData.comp == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.data.data());
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+			             imageData.data.data());
 		else
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData.data.data());
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGB, GL_UNSIGNED_BYTE,
+			             imageData.data.data());
 
 		break;
 	}
-	default:
-		throw std::runtime_error("non-png texture");
+	default: throw std::runtime_error("non-png texture");
 	}
 
 	// generate mipmaps :)
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-Texture::Texture(const P3D::Sprite& sprite):
-    _name(sprite.GetName()), _width(sprite.GetWidth()), _height(sprite.GetHeight()),
-    _glTexture(0)
+Texture::Texture(const P3D::Sprite& sprite)
+    : _name(sprite.GetName()), _width(sprite.GetWidth()), _height(sprite.GetHeight()), _glTexture(0)
 {
-	uint32_t dstRow    = 0;
+	uint32_t dstRow = 0;
 	uint32_t dstColumn = 0;
 
-	auto spriteWidth  = sprite.GetWidth();
+	auto spriteWidth = sprite.GetWidth();
 	auto spriteHeight = sprite.GetHeight();
 	std::vector<uint8_t> data((spriteWidth * spriteHeight) * 4);
 
 	for (const auto& image : sprite.GetImages())
 	{
-		auto imageWidth  = image->GetWidth();
+		auto imageWidth = image->GetWidth();
 		auto imageHeight = image->GetHeight();
-		auto texdata     = P3D::ImageDecoder::Decode(image->GetData());
+		auto texdata = P3D::ImageDecoder::Decode(image->GetData());
 
 		for (uint32_t row = 0; row < imageHeight - 2; ++row)
 		{

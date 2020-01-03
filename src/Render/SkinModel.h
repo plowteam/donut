@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -37,8 +37,8 @@ class SkinModel
 		Vector3 boneWeights;
 		Vector3Int boneIndices;
 
-		Vertex(Vector3 pos, Vector3 normal, Vector2 uv, Vector3 boneWeights, Vector3Int boneIndices):
-		    pos(pos), normal(normal), uv(uv), boneWeights(boneWeights), boneIndices(boneIndices)
+		Vertex(Vector3 pos, Vector3 normal, Vector2 uv, Vector3 boneWeights, Vector3Int boneIndices)
+		    : pos(pos), normal(normal), uv(uv), boneWeights(boneWeights), boneIndices(boneIndices)
 		{
 		}
 	};
@@ -50,13 +50,13 @@ class SkinModel
 		std::size_t indicesOffset;
 		std::size_t indicesCount;
 
-		PrimGroup(GLenum mode, std::string shaderName, std::size_t indicesOffset, std::size_t indicesCount):
-		    mode(mode), shaderName(std::move(shaderName)), indicesOffset(indicesOffset), indicesCount(indicesCount)
+		PrimGroup(GLenum mode, std::string shaderName, std::size_t indicesOffset, std::size_t indicesCount)
+		    : mode(mode), shaderName(std::move(shaderName)), indicesOffset(indicesOffset), indicesCount(indicesCount)
 		{
 		}
 	};
 
-  public:
+public:
 	SkinModel() = default;
 
 	// Load methods
@@ -66,7 +66,7 @@ class SkinModel
 	// void UpdateAnimation(SkinAnimation& anim, double time);
 	void Draw();
 
-  private:
+private:
 	std::unique_ptr<GL::VertexBinding> _vertexBinding;
 	std::unique_ptr<GL::VertexBuffer> _vertexBuffer;
 	std::unique_ptr<GL::IndexBuffer> _indexBuffer;

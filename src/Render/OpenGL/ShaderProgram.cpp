@@ -1,9 +1,9 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "ShaderProgram.h"
 
-#include "Core/Math/Matrix4x4.h"
 #include "Core/Math/Matrix3x3.h"
+#include "Core/Math/Matrix4x4.h"
 #include "Core/Math/Quaternion.h"
 #include "Core/Math/Vector2.h"
 #include "Core/Math/Vector3.h"
@@ -24,7 +24,7 @@ ShaderProgram::ShaderProgram(const std::string& vertexSource, const std::string&
 	// lazy assert, todo: better error handling
 	assert(_program != 0);
 
-	GLuint vertexShader   = createSubShader(GL_VERTEX_SHADER, vertexSource.c_str());
+	GLuint vertexShader = createSubShader(GL_VERTEX_SHADER, vertexSource.c_str());
 	GLuint fragmentShader = createSubShader(GL_FRAGMENT_SHADER, fragmentSource.c_str());
 
 	// lazy assert, todo: better error handling

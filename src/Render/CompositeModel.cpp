@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Game.h>
 #include <P3D/P3D.generated.h>
@@ -49,16 +49,16 @@ CompositeModel::CompositeModel(const ICompositeModel& provider)
 {
 	const auto& drawables = provider.GetDrawables();
 	const auto& skeletons = provider.GetSkeletons();
-	const auto& meshes    = provider.GetMeshes();
-	const auto& shaders   = provider.GetShaders();
-	const auto& textures  = provider.GetTextures();
+	const auto& meshes = provider.GetMeshes();
+	const auto& shaders = provider.GetShaders();
+	const auto& textures = provider.GetTextures();
 
 	std::map<std::string, size_t> meshNames;
 	std::map<std::string, std::vector<Matrix4x4>> jointTransforms;
 
 	for (const auto& meshP3D : meshes)
 	{
-		meshNames.insert({ meshP3D->GetName(), _meshes.size() });
+		meshNames.insert({meshP3D->GetName(), _meshes.size()});
 		auto mesh = std::make_unique<Mesh>(*meshP3D);
 		mesh->Commit();
 		_meshes.push_back(std::move(mesh));
@@ -71,35 +71,37 @@ CompositeModel::CompositeModel(const ICompositeModel& provider)
 		std::vector<Matrix4x4> transforms;
 		transforms.reserve(skeletonJoints.size());
 		for (const auto& joint : skeletonJoints)
-			transforms.push_back(transforms.empty() ? Matrix4x4::Identity : transforms[joint->GetParent()] * joint->GetRestPose());
+			transforms.push_back(transforms.empty() ? Matrix4x4::Identity
+			                                        : transforms[joint->GetParent()] * joint->GetRestPose());
 
 		const auto& skeletonName = skeleton->GetName();
-		jointTransforms.insert({ skeletonName, std::move(transforms) });
+		jointTransforms.insert({skeletonName, std::move(transforms)});
 	}
 
-	for (const auto& shader : shaders)
-		Game::GetInstance().GetResourceManager().LoadShader(*shader);
+	for (const auto& shader : shaders) Game::GetInstance().GetResourceManager().LoadShader(*shader);
 
-	for (const auto& texture : textures)
-		Game::GetInstance().GetResourceManager().LoadTexture(*texture);
+	for (const auto& texture : textures) Game::GetInstance().GetResourceManager().LoadTexture(*texture);
 
 	for (const auto& drawable : drawables)
 	{
 		const auto& propList = drawable->GetPropList();
-		if (!propList) continue;
+		if (!propList)
+			continue;
 
 		const auto& props = propList->GetProps();
-		if (props.empty()) continue;
+		if (props.empty())
+			continue;
 
 		const auto& transforms = jointTransforms[drawable->GetSkeletonName()];
 
 		for (const auto& prop : props)
 		{
 			const auto& propName = prop->GetName();
-			if (meshNames.find(propName) == meshNames.end()) continue;
+			if (meshNames.find(propName) == meshNames.end())
+				continue;
 
 			const auto& transform = transforms[prop->GetSkeletonJoint()];
-			_props.push_back(DrawableProp { meshNames[prop->GetName()], transform });
+			_props.push_back(DrawableProp {meshNames[prop->GetName()], transform});
 		}
 	}
 }

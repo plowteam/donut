@@ -1,9 +1,9 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
-#include <cstddef>
 #include "Render/OpenGL/glad/glad.h"
+#include <cstddef>
 
 namespace Donut::GL
 {
@@ -12,23 +12,17 @@ class IndexBuffer;
 
 enum ElementType
 {
-	AE_FLOAT  = GL_FLOAT,
-	AE_INT    = GL_INT,
-	AE_UBYTE  = GL_UNSIGNED_BYTE,
-	AE_UINT   = GL_UNSIGNED_INT,
+	AE_FLOAT = GL_FLOAT,
+	AE_INT = GL_INT,
+	AE_UBYTE = GL_UNSIGNED_BYTE,
+	AE_UINT = GL_UNSIGNED_INT,
 	AE_USHORT = GL_UNSIGNED_SHORT,
 };
 
 struct ArrayElement
 {
-	ArrayElement(
-	    const VertexBuffer* buffer,
-	    std::size_t attributeIndex,
-	    std::size_t componentCount,
-	    ElementType type,
-	    std::size_t stride,
-	    std::size_t offset,
-	    std::size_t instanceStep = 0);
+	ArrayElement(const VertexBuffer* buffer, std::size_t attributeIndex, std::size_t componentCount, ElementType type,
+	             std::size_t stride, std::size_t offset, std::size_t instanceStep = 0);
 
 	const VertexBuffer* buffer;
 	std::size_t attributeIndex;
@@ -42,7 +36,7 @@ struct ArrayElement
 class VertexBinding
 {
 
-  public:
+public:
 	explicit VertexBinding();
 	~VertexBinding();
 
@@ -52,7 +46,7 @@ class VertexBinding
 	void Bind();
 	void Unbind();
 
-  private:
+private:
 	void CreateVAO();
 	void SetupVertices(const ArrayElement* elements, std::size_t elementCount);
 	void SetupIndices(const IndexBuffer& indices, ElementType indicesType);

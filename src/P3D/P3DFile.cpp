@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Core/File.h>
 #include <P3D/P3DChunk.h>
@@ -7,8 +7,7 @@
 namespace Donut::P3D
 {
 
-P3DFile::P3DFile(const std::string& path):
-    _filename(path)
+P3DFile::P3DFile(const std::string& path): _filename(path)
 {
 	File file;
 	file.Open(path, FileMode::Read);

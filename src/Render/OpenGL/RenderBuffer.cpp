@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "RenderBuffer.h"
 
@@ -6,12 +6,8 @@
 
 namespace Donut::GL
 {
-RenderBuffer::RenderBuffer(int width, int height, GLenum internalFormat, int samples):
-    _handle(0),
-    _width(width),
-    _height(height),
-    _internalFormat(internalFormat),
-    _samples(samples)
+RenderBuffer::RenderBuffer(int width, int height, GLenum internalFormat, int samples)
+    : _handle(0), _width(width), _height(height), _internalFormat(internalFormat), _samples(samples)
 {
 	Load();
 }

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Character.h>
 #include <CharacterController.h>
@@ -15,11 +15,10 @@
 namespace Donut
 {
 
-Character::Character(std::string name):
-    _name(std::move(name)), _position(Vector3(0.0f)), _rotation(Quaternion())
+Character::Character(std::string name): _name(std::move(name)), _position(Vector3(0.0f)), _rotation(Quaternion())
 {
 	_characterController = std::make_unique<CharacterController>(this, &Game::GetInstance().GetWorldPhysics());
-	_boneBuffer          = std::make_unique<GL::TextureBuffer>();
+	_boneBuffer = std::make_unique<GL::TextureBuffer>();
 }
 
 Character::~Character() = default;
@@ -38,21 +37,11 @@ void Character::LoadModel(const std::string& name)
 	{
 		switch (chunk->GetType())
 		{
-		case P3D::ChunkType::Shader:
-			Game::GetInstance().GetResourceManager().LoadShader(*P3D::Shader::Load(*chunk));
-			break;
-		case P3D::ChunkType::Texture:
-			Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk));
-			break;
-		case P3D::ChunkType::PolySkin:
-			_skinModel->LoadPolySkin(*P3D::PolySkin::Load(*chunk));
-			break;
-		case P3D::ChunkType::Skeleton:
-			_skeleton = std::make_unique<Skeleton>(*P3D::Skeleton::Load(*chunk));
-			break;
-		default:
-			fmt::print("unhandled chunk {1} in character {0}\n", name, chunk->GetType());
-			break;
+		case P3D::ChunkType::Shader: Game::GetInstance().GetResourceManager().LoadShader(*P3D::Shader::Load(*chunk)); break;
+		case P3D::ChunkType::Texture: Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk)); break;
+		case P3D::ChunkType::PolySkin: _skinModel->LoadPolySkin(*P3D::PolySkin::Load(*chunk)); break;
+		case P3D::ChunkType::Skeleton: _skeleton = std::make_unique<Skeleton>(*P3D::Skeleton::Load(*chunk)); break;
+		default: fmt::print("unhandled chunk {1} in character {0}\n", name, chunk->GetType()); break;
 		}
 	}
 }
@@ -62,9 +51,10 @@ void Character::LoadAnimations(const std::string& name)
 	_animations.clear();
 
 	const std::string animPath = fmt::format("art/chars/{0}_a.p3d", name);
-	//const std::string choPath = fmt::format("art/chars/{0}.cho", name);
+	// const std::string choPath = fmt::format("art/chars/{0}.cho", name);
 
-	if (!std::filesystem::exists(animPath)) return;
+	if (!std::filesystem::exists(animPath))
+		return;
 
 	const P3D::P3DFile p3d(animPath);
 	for (const auto& chunk : p3d.GetRoot().GetChildren())
@@ -81,10 +71,10 @@ void Character::LoadAnimations(const std::string& name)
 
 void Character::Draw(const Matrix4x4& viewProjection, GL::ShaderProgram& shaderProgram, const ResourceManager& rm)
 {
-	// wtf just 
+	// wtf just
 	const auto localPosition = _position; // -Vector3(0.0f, _characterController->GetShape().getHalfHeight() * 2, 0.0f);
-	//const Matrix4x4 mvp        = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
-	//const Matrix4x4 mvp        = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
+	// const Matrix4x4 mvp        = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
+	// const Matrix4x4 mvp        = glm::translate(viewProjection, localPosition) * glm::toMat4(_rotation);
 
 	shaderProgram.Bind(); // todo optimize: should already be bound?
 	shaderProgram.SetUniformValue("viewProj", viewProjection);
@@ -104,7 +94,7 @@ void Character::SetAnimation(const std::string& animationName)
 		return;
 
 	_currentAnimation = _animations.at(animationName).get();
-	_animName         = animationName;
+	_animName = animationName;
 
 	_animTime = 0.0;
 	Update(0);
@@ -121,8 +111,7 @@ void Character::Update(double deltatime)
 	// update our bonebuffer
 	auto joints = _skeleton->GetJoints();
 	std::vector<Matrix4x4> matrices(joints.size());
-	for (auto i = 0; i < joints.size(); i++)
-		matrices[i] = joints[i].finalGlobal;
+	for (auto i = 0; i < joints.size(); i++) matrices[i] = joints[i].finalGlobal;
 
 	_boneBuffer->SetBuffer(matrices.data(), matrices.size() * sizeof(Matrix4x4));
 }
@@ -140,28 +129,23 @@ void Character::SetRotation(const Quaternion& rotation)
 void Character::addAnimation(const P3D::Animation& p3dAnim)
 {
 	const auto& animGroupList = p3dAnim.GetGroupList();
-	if (!animGroupList) return;
+	if (!animGroupList)
+		return;
 
-	auto animation = std::make_unique<SkinAnimation>(
-	    p3dAnim.GetName(),
-	    p3dAnim.GetNumFrames() / p3dAnim.GetFrameRate(),
-	    static_cast<int32_t>(p3dAnim.GetNumFrames()),
-	    p3dAnim.GetFrameRate());
+	auto animation = std::make_unique<SkinAnimation>(p3dAnim.GetName(), p3dAnim.GetNumFrames() / p3dAnim.GetFrameRate(),
+	                                                 static_cast<int32_t>(p3dAnim.GetNumFrames()), p3dAnim.GetFrameRate());
 
 	const auto& groups = animGroupList->GetGroups();
 	std::map<std::string, size_t> groupNameIndex;
-	for (const auto& group : groups)
-	{
-		groupNameIndex.insert({ group->GetName(), groupNameIndex.size() });
-	}
+	for (const auto& group : groups) { groupNameIndex.insert({group->GetName(), groupNameIndex.size()}); }
 
 	for (auto const& joint : _skeleton->GetJoints())
 	{
 		auto track = std::make_unique<SkinAnimation::Track>(joint.name);
 
-		const auto& jointRestPose    = joint.rest;
+		const auto& jointRestPose = joint.rest;
 		const auto& jointTranslation = jointRestPose.Translation();
-		const auto& jointRotation    = jointRestPose.ToQuat();
+		const auto& jointRotation = jointRestPose.ToQuat();
 
 		if (groupNameIndex.find(joint.name) == groupNameIndex.end())
 		{
@@ -170,10 +154,10 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 		}
 		else
 		{
-			const auto& animGroup                   = groups.at(groupNameIndex.at(joint.name));
-			const auto& vector2Channel              = animGroup->GetVector2ChannelsValue("TRAN");
-			const auto& vector3Channel              = animGroup->GetVector3ChannelsValue("TRAN");
-			const auto& quaternionChannel           = animGroup->GetQuaternionChannelsValue("ROT");
+			const auto& animGroup = groups.at(groupNameIndex.at(joint.name));
+			const auto& vector2Channel = animGroup->GetVector2ChannelsValue("TRAN");
+			const auto& vector3Channel = animGroup->GetVector3ChannelsValue("TRAN");
+			const auto& quaternionChannel = animGroup->GetQuaternionChannelsValue("ROT");
 			const auto& compressedQuaternionChannel = animGroup->GetCompressedQuaternionChannelsValue("ROT");
 
 			if (vector3Channel)
@@ -182,9 +166,7 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 				const auto& values = vector3Channel->GetValues();
 
 				for (std::size_t i = 0; i < vector3Channel->GetNumFrames(); ++i)
-				{
-					track->AddTranslationKey(frames[i], values[i]);
-				}
+				{ track->AddTranslationKey(frames[i], values[i]); }
 			}
 			else
 			{
@@ -199,10 +181,10 @@ void Character::addAnimation(const P3D::Animation& p3dAnim)
 				for (std::size_t i = 0; i < compressedQuaternionChannel->GetNumFrames(); ++i)
 				{
 					const uint64_t& value = values[i];
-					float z               = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
-					float y               = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
-					float x               = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
-					float w               = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
+					float z = (int16_t)((value >> 48) & 0xFFFF) / (float)0x7FFF;
+					float y = (int16_t)((value >> 32) & 0xFFFF) / (float)0x7FFF;
+					float x = (int16_t)((value >> 16) & 0xFFFF) / (float)0x7FFF;
+					float w = (int16_t)(value & 0xFFFF) / (float)0x7FFF;
 
 					track->AddRotationKey(frames[i], Quaternion(w, x, y, z));
 				}

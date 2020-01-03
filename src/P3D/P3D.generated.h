@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -23,2644 +23,2426 @@
 #include "Core/Math/Vector4.h"
 #include "P3D/P3DChunk.h"
 
-#include <string>
-#include <memory>
-#include <vector>
 #include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace Donut::P3D
 {
-	class Animation;
-	class AnimationSize;
-	class AnimationGroupList;
-	class AnimationGroup;
-	class ChannelInterpolationMode;
-	class Vector2Channel;
-	class Vector3Channel;
-	class QuaternionChannel;
-	class CompressedQuaternionChannel;
-	class Geometry;
-	class PolySkin;
-	class BoundingBox;
-	class BoundingSphere;
-	class PrimitiveGroup;
-	class PositionList;
-	class IndexList;
-	class NormalList;
-	class UVList;
-	class MatrixList;
-	class MatrixPalette;
-	class WeightList;
-	class ColorList;
-	class Skeleton;
-	class SkeletonJoint;
-	class SkeletonJointMirrorMap;
-	class SkeletonJointBonePreserve;
-	class StaticEntity;
-	class StaticPhysics;
-	class InstancedStaticPhysics;
-	class DynamicPhysics;
-	class AnimDynamicPhysics;
-	class AnimObjectWrapper;
-	class InstanceList;
-	class SceneGraph;
-	class SceneGraphRoot;
-	class SceneGraphBranch;
-	class SceneGraphTransform;
-	class SceneGraphDrawable;
-	class SceneGraphSortOrder;
-	class Shader;
-	class ShaderTextureParam;
-	class ShaderIntParam;
-	class ShaderFloatParam;
-	class ShaderColorParam;
-	class CompositeDrawable;
-	class CompositeDrawablePropList;
-	class CompositeDrawableProp;
-	class CompositeDrawableSortOrder;
-	class Intersect;
-	class WorldSphere;
-	class LensFlare;
-	class BillboardQuad;
-	class BillboardQuadGroup;
-	class BillboardDisplayInfo;
-	class BillboardPerspectiveInfo;
-	class Texture;
-	class Image;
-	class ImageData;
-	class TextureFont;
-	class FontGlyphs;
-	class Sprite;
-	class FrontendScreen;
-	class FrontendProject;
-	class FrontendPage;
-	class FrontendLayer;
-	class FrontendGroup;
-	class FrontendMultiSprite;
-	class FrontendMultiText;
-	class FrontendStringTextBible;
-	class FrontendObject;
-	class FrontendPolygon;
-	class FrontendImageResource;
-	class Locator2;
-	class TriggerVolume;
-	class Camera;
-	class MultiController;
-	class MultiControllerTracks;
-	class CollisionObject;
-	class CollisionVolume;
-	class CollisionSphere;
-	class CollisionCylinder;
-	class CollisionOBBoxVolume;
-	class CollisionBBoxVolume;
-	class CollisionVector;
-	class CollisionVolumeOwner;
-	class CollisionVolumeOwnerName;
-	class CollisionObjectAttribute;
-	class FenceWrapper;
-	class Fence;
-	class Set;
-	class Path;
-	class Intersection;
-	class RoadDataSegment;
-	class Road;
-	class RoadSegment;
-	class GameAttr;
-	class GameAttrIntParam;
-	class History;
-	class BreakableObject;
-	class AnimatedObject;
-	class FollowCameraData;
-	class PhysicsObject;
-	class PhysicsJoint;
-	class PhysicsVector;
-	class PhysicsInertiaMatrix;
-	class CompositeDrawableSkinList;
-	class CompositeDrawableEffectList;
-
-    class Animation
-    {
-    public:
-
-        Animation(const P3DChunk&);
-
-        static std::unique_ptr<Animation> Load(const P3DChunk& chunk) { return std::make_unique<Animation>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const std::string& GetType() const { return _type; }
-        const float& GetNumFrames() const { return _numFrames; }
-        const float& GetFrameRate() const { return _frameRate; }
-        const uint32_t& GetLooping() const { return _looping; }
-        const std::unique_ptr<AnimationGroupList>& GetGroupList() const { return _groupList; }
-        const std::unique_ptr<AnimationSize>& GetSize() const { return _size; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        std::string _type;
-        float _numFrames;
-        float _frameRate;
-        uint32_t _looping;
-        std::unique_ptr<AnimationGroupList> _groupList;
-        std::unique_ptr<AnimationSize> _size;
-
-    };
-
-    class AnimationSize
-    {
-    public:
-
-        AnimationSize(const P3DChunk&);
-
-        static std::unique_ptr<AnimationSize> Load(const P3DChunk& chunk) { return std::make_unique<AnimationSize>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetPC() const { return _PC; }
-        const uint32_t& GetPS2() const { return _PS2; }
-        const uint32_t& GetXBOX() const { return _XBOX; }
-        const uint32_t& GetGC() const { return _GC; }
-
-    private:
-
-        uint32_t _version;
-        uint32_t _PC;
-        uint32_t _PS2;
-        uint32_t _XBOX;
-        uint32_t _GC;
-
-    };
-
-    class AnimationGroupList
-    {
-    public:
-
-        AnimationGroupList(const P3DChunk&);
-
-        static std::unique_ptr<AnimationGroupList> Load(const P3DChunk& chunk) { return std::make_unique<AnimationGroupList>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetNumGroups() const { return _numGroups; }
-        const std::vector<std::unique_ptr<AnimationGroup>>& GetGroups() const { return _groups; }
-
-    private:
-
-        uint32_t _version;
-        uint32_t _numGroups;
-        std::vector<std::unique_ptr<AnimationGroup>> _groups;
-
-    };
-
-    class AnimationGroup
-    {
-    public:
-
-        AnimationGroup(const P3DChunk&);
-
-        static std::unique_ptr<AnimationGroup> Load(const P3DChunk& chunk) { return std::make_unique<AnimationGroup>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetGroupId() const { return _groupId; }
-        const uint32_t& GetNumChannels() const { return _numChannels; }
-        Vector2Channel* GetVector2ChannelsValue(const std::string& key) const { auto it = _vector2Channels.find(key); return (it != _vector2Channels.end()) ? it->second.get() : nullptr; }
-        Vector3Channel* GetVector3ChannelsValue(const std::string& key) const { auto it = _vector3Channels.find(key); return (it != _vector3Channels.end()) ? it->second.get() : nullptr; }
-        QuaternionChannel* GetQuaternionChannelsValue(const std::string& key) const { auto it = _quaternionChannels.find(key); return (it != _quaternionChannels.end()) ? it->second.get() : nullptr; }
-        CompressedQuaternionChannel* GetCompressedQuaternionChannelsValue(const std::string& key) const { auto it = _compressedQuaternionChannels.find(key); return (it != _compressedQuaternionChannels.end()) ? it->second.get() : nullptr; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        uint32_t _groupId;
-        uint32_t _numChannels;
-        std::map<std::string, std::unique_ptr<Vector2Channel>> _vector2Channels;
-        std::map<std::string, std::unique_ptr<Vector3Channel>> _vector3Channels;
-        std::map<std::string, std::unique_ptr<QuaternionChannel>> _quaternionChannels;
-        std::map<std::string, std::unique_ptr<CompressedQuaternionChannel>> _compressedQuaternionChannels;
-
-    };
-
-    class ChannelInterpolationMode
-    {
-    public:
-
-        ChannelInterpolationMode(const P3DChunk&);
-
-        static std::unique_ptr<ChannelInterpolationMode> Load(const P3DChunk& chunk) { return std::make_unique<ChannelInterpolationMode>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetMode() const { return _mode; }
-
-    private:
-
-        uint32_t _version;
-        uint32_t _mode;
-
-    };
-
-    class Vector2Channel
-    {
-    public:
-
-        Vector2Channel(const P3DChunk&);
-
-        static std::unique_ptr<Vector2Channel> Load(const P3DChunk& chunk) { return std::make_unique<Vector2Channel>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetParam() const { return _param; }
-        const uint16_t& GetMapping() const { return _mapping; }
-        const Vector3& GetConstants() const { return _constants; }
-        const uint32_t& GetNumFrames() const { return _numFrames; }
-        const std::vector<uint16_t>& GetFrames() const { return _frames; }
-        const std::vector<Vector2>& GetValues() const { return _values; }
-        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
-
-    private:
-
-        uint32_t _version;
-        std::string _param;
-        uint16_t _mapping;
-        Vector3 _constants;
-        uint32_t _numFrames;
-        std::vector<uint16_t> _frames;
-        std::vector<Vector2> _values;
-        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
-
-    };
-
-    class Vector3Channel
-    {
-    public:
-
-        Vector3Channel(const P3DChunk&);
-
-        static std::unique_ptr<Vector3Channel> Load(const P3DChunk& chunk) { return std::make_unique<Vector3Channel>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetParam() const { return _param; }
-        const uint32_t& GetNumFrames() const { return _numFrames; }
-        const std::vector<uint16_t>& GetFrames() const { return _frames; }
-        const std::vector<Vector3>& GetValues() const { return _values; }
-        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
-
-    private:
-
-        uint32_t _version;
-        std::string _param;
-        uint32_t _numFrames;
-        std::vector<uint16_t> _frames;
-        std::vector<Vector3> _values;
-        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
-
-    };
-
-    class QuaternionChannel
-    {
-    public:
-
-        QuaternionChannel(const P3DChunk&);
-
-        static std::unique_ptr<QuaternionChannel> Load(const P3DChunk& chunk) { return std::make_unique<QuaternionChannel>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetParam() const { return _param; }
-        const uint32_t& GetNumFrames() const { return _numFrames; }
-        const std::vector<uint16_t>& GetFrames() const { return _frames; }
-        const std::vector<Quaternion>& GetValues() const { return _values; }
-        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
-
-    private:
-
-        uint32_t _version;
-        std::string _param;
-        uint32_t _numFrames;
-        std::vector<uint16_t> _frames;
-        std::vector<Quaternion> _values;
-        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
-
-    };
-
-    class CompressedQuaternionChannel
-    {
-    public:
-
-        CompressedQuaternionChannel(const P3DChunk&);
-
-        static std::unique_ptr<CompressedQuaternionChannel> Load(const P3DChunk& chunk) { return std::make_unique<CompressedQuaternionChannel>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetParam() const { return _param; }
-        const uint32_t& GetNumFrames() const { return _numFrames; }
-        const std::vector<uint16_t>& GetFrames() const { return _frames; }
-        const std::vector<uint64_t>& GetValues() const { return _values; }
-        const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
-
-    private:
-
-        uint32_t _version;
-        std::string _param;
-        uint32_t _numFrames;
-        std::vector<uint16_t> _frames;
-        std::vector<uint64_t> _values;
-        std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
-
-    };
-
-    class Geometry
-    {
-    public:
-
-        Geometry(const P3DChunk&);
-
-        static std::unique_ptr<Geometry> Load(const P3DChunk& chunk) { return std::make_unique<Geometry>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetNumPrimGroups() const { return _numPrimGroups; }
-        const std::vector<std::unique_ptr<PrimitiveGroup>>& GetPrimitiveGroups() const { return _primitiveGroups; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _numPrimGroups;
-        std::vector<std::unique_ptr<PrimitiveGroup>> _primitiveGroups;
-
-    };
-
-    class PolySkin
-    {
-    public:
-
-        PolySkin(const P3DChunk&);
-
-        static std::unique_ptr<PolySkin> Load(const P3DChunk& chunk) { return std::make_unique<PolySkin>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetSkeletonName() const { return _skeletonName; }
-        const uint32_t& GetNumPrimGroups() const { return _numPrimGroups; }
-        const std::vector<std::unique_ptr<PrimitiveGroup>>& GetPrimitiveGroups() const { return _primitiveGroups; }
-        const std::unique_ptr<BoundingBox>& GetBoundingBox() const { return _boundingBox; }
-        const std::unique_ptr<BoundingSphere>& GetBoundingSphere() const { return _boundingSphere; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        std::string _skeletonName;
-        uint32_t _numPrimGroups;
-        std::vector<std::unique_ptr<PrimitiveGroup>> _primitiveGroups;
-        std::unique_ptr<BoundingBox> _boundingBox;
-        std::unique_ptr<BoundingSphere> _boundingSphere;
-
-    };
-
-    class BoundingBox
-    {
-    public:
-
-        BoundingBox(const P3DChunk&);
-
-        static std::unique_ptr<BoundingBox> Load(const P3DChunk& chunk) { return std::make_unique<BoundingBox>(chunk); }
-
-        const Vector3& GetMin() const { return _min; }
-        const Vector3& GetMax() const { return _max; }
-
-    private:
-
-        Vector3 _min;
-        Vector3 _max;
-
-    };
-
-    class BoundingSphere
-    {
-    public:
-
-        BoundingSphere(const P3DChunk&);
-
-        static std::unique_ptr<BoundingSphere> Load(const P3DChunk& chunk) { return std::make_unique<BoundingSphere>(chunk); }
-
-        const Vector3& GetCentre() const { return _centre; }
-        const float& GetRadius() const { return _radius; }
-
-    private:
-
-        Vector3 _centre;
-        float _radius;
-
-    };
-
-    class PrimitiveGroup
-    {
-    public:
-
-        PrimitiveGroup(const P3DChunk&);
-
-        static std::unique_ptr<PrimitiveGroup> Load(const P3DChunk& chunk) { return std::make_unique<PrimitiveGroup>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetShaderName() const { return _shaderName; }
-        const uint32_t& GetPrimType() const { return _primType; }
-        const uint32_t& GetHasDataFlags() const { return _hasDataFlags; }
-        const uint32_t& GetNumVerts() const { return _numVerts; }
-        const uint32_t& GetNumIndices() const { return _numIndices; }
-        const uint32_t& GetNumMatrices() const { return _numMatrices; }
-        const std::vector<Vector3>& GetVertices() const { return _vertices; }
-        const std::vector<uint32_t>& GetIndices() const { return _indices; }
-        const std::vector<Vector3>& GetNormals() const { return _normals; }
-        const std::vector<Vector2>& GetUvs(size_t index) const { return _uvs.at(index); }
-        const std::vector<uint32_t>& GetMatrixList() const { return _matrixList; }
-        const std::vector<uint32_t>& GetMatrixPalette() const { return _matrixPalette; }
-        const std::vector<Vector3>& GetWeightList() const { return _weightList; }
-        const std::vector<uint32_t>& GetColors() const { return _colors; }
-
-    private:
-
-        uint32_t _version;
-        std::string _shaderName;
-        uint32_t _primType;
-        uint32_t _hasDataFlags;
-        uint32_t _numVerts;
-        uint32_t _numIndices;
-        uint32_t _numMatrices;
-        std::vector<Vector3> _vertices;
-        std::vector<uint32_t> _indices;
-        std::vector<Vector3> _normals;
-        std::vector<std::vector<Vector2>> _uvs;
-        std::vector<uint32_t> _matrixList;
-        std::vector<uint32_t> _matrixPalette;
-        std::vector<Vector3> _weightList;
-        std::vector<uint32_t> _colors;
-
-    };
-
-    class PositionList
-    {
-    public:
-
-        PositionList(const P3DChunk&);
-
-        static std::unique_ptr<PositionList> Load(const P3DChunk& chunk) { return std::make_unique<PositionList>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<Vector3>& GetPositions() const { return _positions; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<Vector3> _positions;
-
-    };
-
-    class IndexList
-    {
-    public:
-
-        IndexList(const P3DChunk&);
-
-        static std::unique_ptr<IndexList> Load(const P3DChunk& chunk) { return std::make_unique<IndexList>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<uint32_t>& GetIndices() const { return _indices; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<uint32_t> _indices;
-
-    };
-
-    class NormalList
-    {
-    public:
-
-        NormalList(const P3DChunk&);
-
-        static std::unique_ptr<NormalList> Load(const P3DChunk& chunk) { return std::make_unique<NormalList>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<Vector3>& GetNormals() const { return _normals; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<Vector3> _normals;
-
-    };
-
-    class UVList
-    {
-    public:
-
-        UVList(const P3DChunk&);
-
-        static std::unique_ptr<UVList> Load(const P3DChunk& chunk) { return std::make_unique<UVList>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const uint32_t& GetChannel() const { return _channel; }
-        const std::vector<Vector2>& GetUvs() const { return _uvs; }
-
-    private:
-
-        uint32_t _size;
-        uint32_t _channel;
-        std::vector<Vector2> _uvs;
-
-    };
-
-    class MatrixList
-    {
-    public:
-
-        MatrixList(const P3DChunk&);
-
-        static std::unique_ptr<MatrixList> Load(const P3DChunk& chunk) { return std::make_unique<MatrixList>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<uint32_t>& GetUvs() const { return _uvs; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<uint32_t> _uvs;
-
-    };
-
-    class MatrixPalette
-    {
-    public:
-
-        MatrixPalette(const P3DChunk&);
-
-        static std::unique_ptr<MatrixPalette> Load(const P3DChunk& chunk) { return std::make_unique<MatrixPalette>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<uint32_t>& GetUvs() const { return _uvs; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<uint32_t> _uvs;
-
-    };
-
-    class WeightList
-    {
-    public:
-
-        WeightList(const P3DChunk&);
-
-        static std::unique_ptr<WeightList> Load(const P3DChunk& chunk) { return std::make_unique<WeightList>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<Vector3>& GetUvs() const { return _uvs; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<Vector3> _uvs;
-
-    };
-
-    class ColorList
-    {
-    public:
-
-        ColorList(const P3DChunk&);
-
-        static std::unique_ptr<ColorList> Load(const P3DChunk& chunk) { return std::make_unique<ColorList>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<uint32_t>& GetUvs() const { return _uvs; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<uint32_t> _uvs;
-
-    };
-
-    class Skeleton
-    {
-    public:
-
-        Skeleton(const P3DChunk&);
-
-        static std::unique_ptr<Skeleton> Load(const P3DChunk& chunk) { return std::make_unique<Skeleton>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetNumJoints() const { return _numJoints; }
-        const std::vector<std::unique_ptr<SkeletonJoint>>& GetJoints() const { return _joints; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _numJoints;
-        std::vector<std::unique_ptr<SkeletonJoint>> _joints;
-
-    };
-
-    class SkeletonJoint
-    {
-    public:
-
-        SkeletonJoint(const P3DChunk&);
-
-        static std::unique_ptr<SkeletonJoint> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJoint>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetParent() const { return _parent; }
-        const int32_t& GetDof() const { return _dof; }
-        const int32_t& GetFreeAxis() const { return _freeAxis; }
-        const int32_t& GetPrimaryAxis() const { return _primaryAxis; }
-        const int32_t& GetSecondaryAxis() const { return _secondaryAxis; }
-        const int32_t& GetTwistAxis() const { return _twistAxis; }
-        const Matrix4x4& GetRestPose() const { return _restPose; }
-        const std::unique_ptr<SkeletonJointMirrorMap>& GetMirrorMap() const { return _mirrorMap; }
-        const std::unique_ptr<SkeletonJointBonePreserve>& GetBonePreserve() const { return _bonePreserve; }
-
-    private:
-
-        std::string _name;
-        uint32_t _parent;
-        int32_t _dof;
-        int32_t _freeAxis;
-        int32_t _primaryAxis;
-        int32_t _secondaryAxis;
-        int32_t _twistAxis;
-        Matrix4x4 _restPose;
-        std::unique_ptr<SkeletonJointMirrorMap> _mirrorMap;
-        std::unique_ptr<SkeletonJointBonePreserve> _bonePreserve;
-
-    };
-
-    class SkeletonJointMirrorMap
-    {
-    public:
-
-        SkeletonJointMirrorMap(const P3DChunk&);
-
-        static std::unique_ptr<SkeletonJointMirrorMap> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJointMirrorMap>(chunk); }
-
-        const uint32_t& GetJointIndex() const { return _jointIndex; }
-        const Vector3& GetAxis() const { return _axis; }
-
-    private:
-
-        uint32_t _jointIndex;
-        Vector3 _axis;
-
-    };
-
-    class SkeletonJointBonePreserve
-    {
-    public:
-
-        SkeletonJointBonePreserve(const P3DChunk&);
-
-        static std::unique_ptr<SkeletonJointBonePreserve> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJointBonePreserve>(chunk); }
-
-        const uint32_t& GetDepth() const { return _depth; }
-
-    private:
-
-        uint32_t _depth;
-
-    };
-
-    class StaticEntity
-    {
-    public:
-
-        StaticEntity(const P3DChunk&);
-
-        static std::unique_ptr<StaticEntity> Load(const P3DChunk& chunk) { return std::make_unique<StaticEntity>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetRenderOrder() const { return _renderOrder; }
-        const std::unique_ptr<Geometry>& GetGeometry() const { return _geometry; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _renderOrder;
-        std::unique_ptr<Geometry> _geometry;
-
-    };
-
-    class StaticPhysics
-    {
-    public:
-
-        StaticPhysics(const P3DChunk&);
-
-        static std::unique_ptr<StaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<StaticPhysics>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetTodo() const { return _todo; }
-        const std::unique_ptr<CollisionObject>& GetCollisionObject() const { return _collisionObject; }
-
-    private:
-
-        std::string _name;
-        uint32_t _todo;
-        std::unique_ptr<CollisionObject> _collisionObject;
-
-    };
-
-    class InstancedStaticPhysics
-    {
-    public:
-
-        InstancedStaticPhysics(const P3DChunk&);
-
-        static std::unique_ptr<InstancedStaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<InstancedStaticPhysics>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetTodo() const { return _todo; }
-        const uint32_t& GetRenderOrder() const { return _renderOrder; }
-        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
-        const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
-
-    private:
-
-        std::string _name;
-        uint32_t _todo;
-        uint32_t _renderOrder;
-        std::vector<std::unique_ptr<Geometry>> _geometries;
-        std::unique_ptr<InstanceList> _instanceList;
-
-    };
-
-    class DynamicPhysics
-    {
-    public:
-
-        DynamicPhysics(const P3DChunk&);
-
-        static std::unique_ptr<DynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<DynamicPhysics>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetTodo() const { return _todo; }
-        const uint32_t& GetRenderOrder() const { return _renderOrder; }
-        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
-        const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
-
-    private:
-
-        std::string _name;
-        uint32_t _todo;
-        uint32_t _renderOrder;
-        std::vector<std::unique_ptr<Geometry>> _geometries;
-        std::unique_ptr<InstanceList> _instanceList;
-
-    };
-
-    class AnimDynamicPhysics
-    {
-    public:
-
-        AnimDynamicPhysics(const P3DChunk&);
-
-        static std::unique_ptr<AnimDynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<AnimDynamicPhysics>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetTodo() const { return _todo; }
-        const uint32_t& GetRenderOrder() const { return _renderOrder; }
-        const std::unique_ptr<AnimObjectWrapper>& GetAnimObjectWrapper() const { return _animObjectWrapper; }
-        const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
-
-    private:
-
-        std::string _name;
-        uint32_t _todo;
-        uint32_t _renderOrder;
-        std::unique_ptr<AnimObjectWrapper> _animObjectWrapper;
-        std::unique_ptr<InstanceList> _instanceList;
-
-    };
-
-    class AnimObjectWrapper
-    {
-    public:
-
-        AnimObjectWrapper(const P3DChunk&);
-
-        static std::unique_ptr<AnimObjectWrapper> Load(const P3DChunk& chunk) { return std::make_unique<AnimObjectWrapper>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint16_t& GetTodo() const { return _todo; }
-        const std::vector<std::unique_ptr<CompositeDrawable>>& GetCompositeDrawables() const { return _compositeDrawables; }
-        const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
-        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
-        const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
-
-    private:
-
-        std::string _name;
-        uint16_t _todo;
-        std::vector<std::unique_ptr<CompositeDrawable>> _compositeDrawables;
-        std::vector<std::unique_ptr<Skeleton>> _skeletons;
-        std::vector<std::unique_ptr<Geometry>> _geometries;
-        std::vector<std::unique_ptr<Animation>> _animations;
-
-    };
-
-    class InstanceList
-    {
-    public:
-
-        InstanceList(const P3DChunk&);
-
-        static std::unique_ptr<InstanceList> Load(const P3DChunk& chunk) { return std::make_unique<InstanceList>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const std::unique_ptr<SceneGraph>& GetSceneGraph() const { return _sceneGraph; }
-
-    private:
-
-        std::string _name;
-        std::unique_ptr<SceneGraph> _sceneGraph;
-
-    };
-
-    class SceneGraph
-    {
-    public:
-
-        SceneGraph(const P3DChunk&);
-
-        static std::unique_ptr<SceneGraph> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraph>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetTodo() const { return _todo; }
-        const std::unique_ptr<SceneGraphRoot>& GetRoot() const { return _root; }
-
-    private:
-
-        std::string _name;
-        uint32_t _todo;
-        std::unique_ptr<SceneGraphRoot> _root;
-
-    };
-
-    class SceneGraphRoot
-    {
-    public:
-
-        SceneGraphRoot(const P3DChunk&);
-
-        static std::unique_ptr<SceneGraphRoot> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphRoot>(chunk); }
-
-        const std::unique_ptr<SceneGraphBranch>& GetBranch() const { return _branch; }
-
-    private:
-
-        std::unique_ptr<SceneGraphBranch> _branch;
-
-    };
-
-    class SceneGraphBranch
-    {
-    public:
-
-        SceneGraphBranch(const P3DChunk&);
-
-        static std::unique_ptr<SceneGraphBranch> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphBranch>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetNumChildren() const { return _numChildren; }
-        const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
-
-    private:
-
-        std::string _name;
-        uint32_t _numChildren;
-        std::vector<std::unique_ptr<SceneGraphTransform>> _children;
-
-    };
-
-    class SceneGraphTransform
-    {
-    public:
-
-        SceneGraphTransform(const P3DChunk&);
-
-        static std::unique_ptr<SceneGraphTransform> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphTransform>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetNumChildren() const { return _numChildren; }
-        const Matrix4x4& GetTransform() const { return _transform; }
-        const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
-        const std::vector<std::unique_ptr<SceneGraphDrawable>>& GetDrawables() const { return _drawables; }
-
-    private:
-
-        std::string _name;
-        uint32_t _numChildren;
-        Matrix4x4 _transform;
-        std::vector<std::unique_ptr<SceneGraphTransform>> _children;
-        std::vector<std::unique_ptr<SceneGraphDrawable>> _drawables;
-
-    };
-
-    class SceneGraphDrawable
-    {
-    public:
-
-        SceneGraphDrawable(const P3DChunk&);
-
-        static std::unique_ptr<SceneGraphDrawable> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphDrawable>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const std::string& GetDrawableName() const { return _drawableName; }
-        const uint32_t& GetTranslucent() const { return _translucent; }
-        const float& GetSortOrder() const { return _sortOrder; }
-
-    private:
-
-        std::string _name;
-        std::string _drawableName;
-        uint32_t _translucent;
-        float _sortOrder;
-
-    };
-
-    class SceneGraphSortOrder
-    {
-    public:
-
-        SceneGraphSortOrder(const P3DChunk&);
-
-        static std::unique_ptr<SceneGraphSortOrder> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphSortOrder>(chunk); }
-
-        const float& GetValue() const { return _value; }
-
-    private:
-
-        float _value;
-
-    };
-
-    class Shader
-    {
-    public:
-
-        Shader(const P3DChunk&);
-
-        static std::unique_ptr<Shader> Load(const P3DChunk& chunk) { return std::make_unique<Shader>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetPddiShaderName() const { return _pddiShaderName; }
-        const uint32_t& GetIsTrans() const { return _isTrans; }
-        const uint32_t& GetVertexNeeds() const { return _vertexNeeds; }
-        const uint32_t& GetVertexMask() const { return _vertexMask; }
-        const uint32_t& GetNumParams() const { return _numParams; }
-        const std::vector<std::unique_ptr<ShaderTextureParam>>& GetTextureParams() const { return _textureParams; }
-        const std::vector<std::unique_ptr<ShaderIntParam>>& GetIntegerParams() const { return _integerParams; }
-        const std::vector<std::unique_ptr<ShaderFloatParam>>& GetFloatParams() const { return _floatParams; }
-        const std::vector<std::unique_ptr<ShaderColorParam>>& GetColorParams() const { return _colorParams; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        std::string _pddiShaderName;
-        uint32_t _isTrans;
-        uint32_t _vertexNeeds;
-        uint32_t _vertexMask;
-        uint32_t _numParams;
-        std::vector<std::unique_ptr<ShaderTextureParam>> _textureParams;
-        std::vector<std::unique_ptr<ShaderIntParam>> _integerParams;
-        std::vector<std::unique_ptr<ShaderFloatParam>> _floatParams;
-        std::vector<std::unique_ptr<ShaderColorParam>> _colorParams;
-
-    };
-
-    class ShaderTextureParam
-    {
-    public:
-
-        ShaderTextureParam(const P3DChunk&);
-
-        static std::unique_ptr<ShaderTextureParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderTextureParam>(chunk); }
-
-        const std::string& GetKey() const { return _key; }
-        const std::string& GetValue() const { return _value; }
-
-    private:
-
-        std::string _key;
-        std::string _value;
-
-    };
-
-    class ShaderIntParam
-    {
-    public:
-
-        ShaderIntParam(const P3DChunk&);
-
-        static std::unique_ptr<ShaderIntParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderIntParam>(chunk); }
-
-        const std::string& GetKey() const { return _key; }
-        const int32_t& GetValue() const { return _value; }
-
-    private:
-
-        std::string _key;
-        int32_t _value;
-
-    };
-
-    class ShaderFloatParam
-    {
-    public:
-
-        ShaderFloatParam(const P3DChunk&);
-
-        static std::unique_ptr<ShaderFloatParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderFloatParam>(chunk); }
-
-        const std::string& GetKey() const { return _key; }
-        const float& GetValue() const { return _value; }
-
-    private:
-
-        std::string _key;
-        float _value;
-
-    };
-
-    class ShaderColorParam
-    {
-    public:
-
-        ShaderColorParam(const P3DChunk&);
-
-        static std::unique_ptr<ShaderColorParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderColorParam>(chunk); }
-
-        const std::string& GetKey() const { return _key; }
-        const uint8_t& GetR() const { return _r; }
-        const uint8_t& GetG() const { return _g; }
-        const uint8_t& GetB() const { return _b; }
-        const uint8_t& GetA() const { return _a; }
-
-    private:
-
-        std::string _key;
-        uint8_t _r;
-        uint8_t _g;
-        uint8_t _b;
-        uint8_t _a;
-
-    };
-
-    class CompositeDrawable
-    {
-    public:
-
-        CompositeDrawable(const P3DChunk&);
-
-        static std::unique_ptr<CompositeDrawable> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawable>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const std::string& GetSkeletonName() const { return _skeletonName; }
-        const std::unique_ptr<CompositeDrawablePropList>& GetPropList() const { return _propList; }
-        const std::unique_ptr<CompositeDrawableSkinList>& GetSkins() const { return _skins; }
-        const std::unique_ptr<CompositeDrawableEffectList>& GetEffects() const { return _effects; }
-
-    private:
-
-        std::string _name;
-        std::string _skeletonName;
-        std::unique_ptr<CompositeDrawablePropList> _propList;
-        std::unique_ptr<CompositeDrawableSkinList> _skins;
-        std::unique_ptr<CompositeDrawableEffectList> _effects;
-
-    };
-
-    class CompositeDrawablePropList
-    {
-    public:
-
-        CompositeDrawablePropList(const P3DChunk&);
-
-        static std::unique_ptr<CompositeDrawablePropList> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawablePropList>(chunk); }
-
-        const uint32_t& GetNumElements() const { return _numElements; }
-        const std::vector<std::unique_ptr<CompositeDrawableProp>>& GetProps() const { return _props; }
-
-    private:
-
-        uint32_t _numElements;
-        std::vector<std::unique_ptr<CompositeDrawableProp>> _props;
-
-    };
-
-    class CompositeDrawableProp
-    {
-    public:
-
-        CompositeDrawableProp(const P3DChunk&);
-
-        static std::unique_ptr<CompositeDrawableProp> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableProp>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetIsTrans() const { return _isTrans; }
-        const uint32_t& GetSkeletonJoint() const { return _skeletonJoint; }
-        const float& GetSortOrder() const { return _sortOrder; }
-
-    private:
-
-        std::string _name;
-        uint32_t _isTrans;
-        uint32_t _skeletonJoint;
-        float _sortOrder;
-
-    };
-
-    class CompositeDrawableSortOrder
-    {
-    public:
-
-        CompositeDrawableSortOrder(const P3DChunk&);
-
-        static std::unique_ptr<CompositeDrawableSortOrder> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableSortOrder>(chunk); }
-
-        const float& GetValue() const { return _value; }
-
-    private:
-
-        float _value;
-
-    };
-
-    class Intersect
-    {
-    public:
-
-        Intersect(const P3DChunk&);
-
-        static std::unique_ptr<Intersect> Load(const P3DChunk& chunk) { return std::make_unique<Intersect>(chunk); }
-
-        const std::vector<uint32_t>& GetIndices() const { return _indices; }
-        const std::vector<Vector3>& GetPositions() const { return _positions; }
-        const std::vector<Vector3>& GetNormals() const { return _normals; }
-        const std::unique_ptr<BoundingBox>& GetBounds() const { return _bounds; }
-
-    private:
-
-        std::vector<uint32_t> _indices;
-        std::vector<Vector3> _positions;
-        std::vector<Vector3> _normals;
-        std::unique_ptr<BoundingBox> _bounds;
-
-    };
-
-    class WorldSphere
-    {
-    public:
-
-        WorldSphere(const P3DChunk&);
-
-        static std::unique_ptr<WorldSphere> Load(const P3DChunk& chunk) { return std::make_unique<WorldSphere>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetGeometryCount() const { return _geometryCount; }
-        const uint32_t& GetBillboardCount() const { return _billboardCount; }
-        const std::unique_ptr<Animation>& GetAnimation() const { return _animation; }
-        const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
-        const std::vector<std::unique_ptr<BillboardQuadGroup>>& GetBillboards() const { return _billboards; }
-        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
-        const std::unique_ptr<CompositeDrawable>& GetCompositeDrawable() const { return _compositeDrawable; }
-        const std::unique_ptr<LensFlare>& GetLensFlare() const { return _lensFlare; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _geometryCount;
-        uint32_t _billboardCount;
-        std::unique_ptr<Animation> _animation;
-        std::vector<std::unique_ptr<Skeleton>> _skeletons;
-        std::vector<std::unique_ptr<BillboardQuadGroup>> _billboards;
-        std::vector<std::unique_ptr<Geometry>> _geometries;
-        std::unique_ptr<CompositeDrawable> _compositeDrawable;
-        std::unique_ptr<LensFlare> _lensFlare;
-
-    };
-
-    class LensFlare
-    {
-    public:
-
-        LensFlare(const P3DChunk&);
-
-        static std::unique_ptr<LensFlare> Load(const P3DChunk& chunk) { return std::make_unique<LensFlare>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetBillboardCount() const { return _billboardCount; }
-        const std::vector<std::unique_ptr<BillboardQuadGroup>>& GetBillboards() const { return _billboards; }
-        const std::unique_ptr<CompositeDrawable>& GetCompositeDrawable() const { return _compositeDrawable; }
-
-    private:
-
-        std::string _name;
-        uint32_t _billboardCount;
-        std::vector<std::unique_ptr<BillboardQuadGroup>> _billboards;
-        std::unique_ptr<CompositeDrawable> _compositeDrawable;
-
-    };
-
-    class BillboardQuad
-    {
-    public:
-
-        BillboardQuad(const P3DChunk&);
-
-        static std::unique_ptr<BillboardQuad> Load(const P3DChunk& chunk) { return std::make_unique<BillboardQuad>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const std::string& GetMode() const { return _mode; }
-        const Vector3& GetTranslation() const { return _translation; }
-        const uint32_t& GetColor() const { return _color; }
-        const Vector2& GetUv0() const { return _uv0; }
-        const Vector2& GetUv1() const { return _uv1; }
-        const Vector2& GetUv2() const { return _uv2; }
-        const Vector2& GetUv3() const { return _uv3; }
-        const float& GetWidth() const { return _width; }
-        const float& GetHeight() const { return _height; }
-        const float& GetDistance() const { return _distance; }
-        const Vector2& GetUvOffset() const { return _uvOffset; }
-        const std::unique_ptr<BillboardDisplayInfo>& GetDisplayInfo() const { return _displayInfo; }
-        const std::unique_ptr<BillboardPerspectiveInfo>& GetPerspectiveInfo() const { return _perspectiveInfo; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        std::string _mode;
-        Vector3 _translation;
-        uint32_t _color;
-        Vector2 _uv0;
-        Vector2 _uv1;
-        Vector2 _uv2;
-        Vector2 _uv3;
-        float _width;
-        float _height;
-        float _distance;
-        Vector2 _uvOffset;
-        std::unique_ptr<BillboardDisplayInfo> _displayInfo;
-        std::unique_ptr<BillboardPerspectiveInfo> _perspectiveInfo;
-
-    };
-
-    class BillboardQuadGroup
-    {
-    public:
-
-        BillboardQuadGroup(const P3DChunk&);
-
-        static std::unique_ptr<BillboardQuadGroup> Load(const P3DChunk& chunk) { return std::make_unique<BillboardQuadGroup>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const std::string& GetShader() const { return _shader; }
-        const uint32_t& GetZTest() const { return _zTest; }
-        const uint32_t& GetZWrite() const { return _zWrite; }
-        const uint32_t& GetFog() const { return _fog; }
-        const uint32_t& GetQuadCount() const { return _quadCount; }
-        const std::vector<std::unique_ptr<BillboardQuad>>& GetQuads() const { return _quads; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        std::string _shader;
-        uint32_t _zTest;
-        uint32_t _zWrite;
-        uint32_t _fog;
-        uint32_t _quadCount;
-        std::vector<std::unique_ptr<BillboardQuad>> _quads;
-
-    };
-
-    class BillboardDisplayInfo
-    {
-    public:
-
-        BillboardDisplayInfo(const P3DChunk&);
-
-        static std::unique_ptr<BillboardDisplayInfo> Load(const P3DChunk& chunk) { return std::make_unique<BillboardDisplayInfo>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const Quaternion& GetRotation() const { return _rotation; }
-        const std::string& GetCutOffMode() const { return _cutOffMode; }
-        const Vector2& GetUvOffsetRange() const { return _uvOffsetRange; }
-        const float& GetSourceRange() const { return _sourceRange; }
-        const float& GetEdgeRange() const { return _edgeRange; }
-
-    private:
-
-        uint32_t _version;
-        Quaternion _rotation;
-        std::string _cutOffMode;
-        Vector2 _uvOffsetRange;
-        float _sourceRange;
-        float _edgeRange;
-
-    };
-
-    class BillboardPerspectiveInfo
-    {
-    public:
-
-        BillboardPerspectiveInfo(const P3DChunk&);
-
-        static std::unique_ptr<BillboardPerspectiveInfo> Load(const P3DChunk& chunk) { return std::make_unique<BillboardPerspectiveInfo>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetValue() const { return _value; }
-
-    private:
-
-        uint32_t _version;
-        uint32_t _value;
-
-    };
-
-    class Texture
-    {
-    public:
-
-        Texture(const P3DChunk&);
-
-        static std::unique_ptr<Texture> Load(const P3DChunk& chunk) { return std::make_unique<Texture>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetWidth() const { return _width; }
-        const uint32_t& GetHeight() const { return _height; }
-        const uint32_t& GetBpp() const { return _bpp; }
-        const uint32_t& GetAlphaDepth() const { return _alphaDepth; }
-        const uint32_t& GetNumMipMaps() const { return _numMipMaps; }
-        const uint32_t& GetTextureType() const { return _textureType; }
-        const uint32_t& GetUsage() const { return _usage; }
-        const uint32_t& GetPriority() const { return _priority; }
-        const std::unique_ptr<Image>& GetImage() const { return _image; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _width;
-        uint32_t _height;
-        uint32_t _bpp;
-        uint32_t _alphaDepth;
-        uint32_t _numMipMaps;
-        uint32_t _textureType;
-        uint32_t _usage;
-        uint32_t _priority;
-        std::unique_ptr<Image> _image;
-
-    };
-
-    class Image
-    {
-    public:
-
-        Image(const P3DChunk&);
-
-        static std::unique_ptr<Image> Load(const P3DChunk& chunk) { return std::make_unique<Image>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetWidth() const { return _width; }
-        const uint32_t& GetHeight() const { return _height; }
-        const uint32_t& GetBpp() const { return _bpp; }
-        const uint32_t& GetPalettized() const { return _palettized; }
-        const uint32_t& GetHasAlpha() const { return _hasAlpha; }
-        const uint32_t& GetFormat() const { return _format; }
-        const std::vector<uint8_t>& GetData() const { return _data; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _width;
-        uint32_t _height;
-        uint32_t _bpp;
-        uint32_t _palettized;
-        uint32_t _hasAlpha;
-        uint32_t _format;
-        std::vector<uint8_t> _data;
-
-    };
-
-    class ImageData
-    {
-    public:
-
-        ImageData(const P3DChunk&);
-
-        static std::unique_ptr<ImageData> Load(const P3DChunk& chunk) { return std::make_unique<ImageData>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<uint8_t>& GetData() const { return _data; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<uint8_t> _data;
-
-    };
-
-    class TextureFont
-    {
-    public:
-
-        TextureFont(const P3DChunk&);
-
-        static std::unique_ptr<TextureFont> Load(const P3DChunk& chunk) { return std::make_unique<TextureFont>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const std::string& GetShader() const { return _shader; }
-        const float& GetSize() const { return _size; }
-        const float& GetWidth() const { return _width; }
-        const float& GetHeight() const { return _height; }
-        const float& GetBaseLine() const { return _baseLine; }
-        const uint32_t& GetNumTextures() const { return _numTextures; }
-        const std::vector<std::unique_ptr<Texture>>& GetTextures() const { return _textures; }
-        const std::vector<FontGlyph>& GetGlyphs() const { return _glyphs; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        std::string _shader;
-        float _size;
-        float _width;
-        float _height;
-        float _baseLine;
-        uint32_t _numTextures;
-        std::vector<std::unique_ptr<Texture>> _textures;
-        std::vector<FontGlyph> _glyphs;
-
-    };
-
-    class FontGlyphs
-    {
-    public:
-
-        FontGlyphs(const P3DChunk&);
-
-        static std::unique_ptr<FontGlyphs> Load(const P3DChunk& chunk) { return std::make_unique<FontGlyphs>(chunk); }
-
-        const uint32_t& GetSize() const { return _size; }
-        const std::vector<FontGlyph>& GetGlyphs() const { return _glyphs; }
-
-    private:
-
-        uint32_t _size;
-        std::vector<FontGlyph> _glyphs;
-
-    };
-
-    class Sprite
-    {
-    public:
-
-        Sprite(const P3DChunk&);
-
-        static std::unique_ptr<Sprite> Load(const P3DChunk& chunk) { return std::make_unique<Sprite>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetNativeX() const { return _nativeX; }
-        const uint32_t& GetNativeY() const { return _nativeY; }
-        const std::string& GetShader() const { return _shader; }
-        const uint32_t& GetWidth() const { return _width; }
-        const uint32_t& GetHeight() const { return _height; }
-        const uint32_t& GetImageCount() const { return _imageCount; }
-        const uint32_t& GetBlitBorder() const { return _blitBorder; }
-        const std::vector<std::unique_ptr<Image>>& GetImages() const { return _images; }
-
-    private:
-
-        std::string _name;
-        uint32_t _nativeX;
-        uint32_t _nativeY;
-        std::string _shader;
-        uint32_t _width;
-        uint32_t _height;
-        uint32_t _imageCount;
-        uint32_t _blitBorder;
-        std::vector<std::unique_ptr<Image>> _images;
-
-    };
-
-    class FrontendScreen
-    {
-    public:
-
-        FrontendScreen(const P3DChunk&);
-
-        static std::unique_ptr<FrontendScreen> Load(const P3DChunk& chunk) { return std::make_unique<FrontendScreen>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetNumPages() const { return _numPages; }
-        const std::vector<std::string>& GetPageNames() const { return _pageNames; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _numPages;
-        std::vector<std::string> _pageNames;
-
-    };
-
-    class FrontendProject
-    {
-    public:
-
-        FrontendProject(const P3DChunk&);
-
-        static std::unique_ptr<FrontendProject> Load(const P3DChunk& chunk) { return std::make_unique<FrontendProject>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetResX() const { return _resX; }
-        const uint32_t& GetResY() const { return _resY; }
-        const std::string& GetPlatform() const { return _platform; }
-        const std::string& GetPagePath() const { return _pagePath; }
-        const std::string& GetResourcePath() const { return _resourcePath; }
-        const std::string& GetScreenPath() const { return _screenPath; }
-        const std::vector<std::unique_ptr<FrontendPage>>& GetPages() const { return _pages; }
-        const std::vector<std::unique_ptr<FrontendScreen>>& GetScreens() const { return _screens; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _resX;
-        uint32_t _resY;
-        std::string _platform;
-        std::string _pagePath;
-        std::string _resourcePath;
-        std::string _screenPath;
-        std::vector<std::unique_ptr<FrontendPage>> _pages;
-        std::vector<std::unique_ptr<FrontendScreen>> _screens;
-
-    };
-
-    class FrontendPage
-    {
-    public:
-
-        FrontendPage(const P3DChunk&);
-
-        static std::unique_ptr<FrontendPage> Load(const P3DChunk& chunk) { return std::make_unique<FrontendPage>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetResX() const { return _resX; }
-        const uint32_t& GetResY() const { return _resY; }
-        const std::vector<std::unique_ptr<FrontendLayer>>& GetLayers() const { return _layers; }
-        const std::vector<std::unique_ptr<FrontendImageResource>>& GetImageResources() const { return _imageResources; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _resX;
-        uint32_t _resY;
-        std::vector<std::unique_ptr<FrontendLayer>> _layers;
-        std::vector<std::unique_ptr<FrontendImageResource>> _imageResources;
-
-    };
-
-    class FrontendLayer
-    {
-    public:
-
-        FrontendLayer(const P3DChunk&);
-
-        static std::unique_ptr<FrontendLayer> Load(const P3DChunk& chunk) { return std::make_unique<FrontendLayer>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetVisible() const { return _visible; }
-        const uint32_t& GetEditable() const { return _editable; }
-        const uint32_t& GetAlpha() const { return _alpha; }
-        const std::vector<std::unique_ptr<FrontendGroup>>& GetGroups() const { return _groups; }
-        const std::vector<std::unique_ptr<FrontendMultiSprite>>& GetMultiSprites() const { return _multiSprites; }
-        const std::vector<std::unique_ptr<FrontendMultiText>>& GetMultiTexts() const { return _multiTexts; }
-        const std::vector<std::unique_ptr<FrontendObject>>& GetObjects() const { return _objects; }
-        const std::vector<std::unique_ptr<FrontendPolygon>>& GetPolygons() const { return _polygons; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _visible;
-        uint32_t _editable;
-        uint32_t _alpha;
-        std::vector<std::unique_ptr<FrontendGroup>> _groups;
-        std::vector<std::unique_ptr<FrontendMultiSprite>> _multiSprites;
-        std::vector<std::unique_ptr<FrontendMultiText>> _multiTexts;
-        std::vector<std::unique_ptr<FrontendObject>> _objects;
-        std::vector<std::unique_ptr<FrontendPolygon>> _polygons;
-
-    };
-
-    class FrontendGroup
-    {
-    public:
-
-        FrontendGroup(const P3DChunk&);
-
-        static std::unique_ptr<FrontendGroup> Load(const P3DChunk& chunk) { return std::make_unique<FrontendGroup>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetAlpha() const { return _alpha; }
-        const std::vector<std::unique_ptr<FrontendGroup>>& GetChildren() const { return _children; }
-        const std::vector<std::unique_ptr<FrontendMultiSprite>>& GetMultiSprites() const { return _multiSprites; }
-        const std::vector<std::unique_ptr<FrontendMultiText>>& GetMultiTexts() const { return _multiTexts; }
-        const std::vector<std::unique_ptr<FrontendPolygon>>& GetPolygons() const { return _polygons; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _alpha;
-        std::vector<std::unique_ptr<FrontendGroup>> _children;
-        std::vector<std::unique_ptr<FrontendMultiSprite>> _multiSprites;
-        std::vector<std::unique_ptr<FrontendMultiText>> _multiTexts;
-        std::vector<std::unique_ptr<FrontendPolygon>> _polygons;
-
-    };
-
-    class FrontendMultiSprite
-    {
-    public:
-
-        FrontendMultiSprite(const P3DChunk&);
-
-        static std::unique_ptr<FrontendMultiSprite> Load(const P3DChunk& chunk) { return std::make_unique<FrontendMultiSprite>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const int32_t& GetPositionX() const { return _positionX; }
-        const int32_t& GetPositionY() const { return _positionY; }
-        const uint32_t& GetDimensionX() const { return _dimensionX; }
-        const uint32_t& GetDimensionY() const { return _dimensionY; }
-        const uint32_t& GetAlignX() const { return _alignX; }
-        const uint32_t& GetAlignY() const { return _alignY; }
-        const uint32_t& GetColor() const { return _color; }
-        const uint32_t& GetTranslucent() const { return _translucent; }
-        const float& GetRotation() const { return _rotation; }
-        const uint32_t& GetNumImages() const { return _numImages; }
-        const std::vector<std::string>& GetImageNames() const { return _imageNames; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        int32_t _positionX;
-        int32_t _positionY;
-        uint32_t _dimensionX;
-        uint32_t _dimensionY;
-        uint32_t _alignX;
-        uint32_t _alignY;
-        uint32_t _color;
-        uint32_t _translucent;
-        float _rotation;
-        uint32_t _numImages;
-        std::vector<std::string> _imageNames;
-
-    };
-
-    class FrontendMultiText
-    {
-    public:
-
-        FrontendMultiText(const P3DChunk&);
-
-        static std::unique_ptr<FrontendMultiText> Load(const P3DChunk& chunk) { return std::make_unique<FrontendMultiText>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const int32_t& GetPositionX() const { return _positionX; }
-        const int32_t& GetPositionY() const { return _positionY; }
-        const uint32_t& GetDimensionX() const { return _dimensionX; }
-        const uint32_t& GetDimensionY() const { return _dimensionY; }
-        const uint32_t& GetAlignX() const { return _alignX; }
-        const uint32_t& GetAlignY() const { return _alignY; }
-        const uint32_t& GetColor() const { return _color; }
-        const uint32_t& GetTranslucent() const { return _translucent; }
-        const float& GetRotation() const { return _rotation; }
-        const std::string& GetFontName() const { return _fontName; }
-        const uint8_t& GetShadowEnabled() const { return _shadowEnabled; }
-        const uint32_t& GetShadowColor() const { return _shadowColor; }
-        const int32_t& GetShadowOffsetX() const { return _shadowOffsetX; }
-        const int32_t& GetShadowOffsetY() const { return _shadowOffsetY; }
-        const uint32_t& GetCurrent() const { return _current; }
-        const std::vector<std::unique_ptr<FrontendStringTextBible>>& GetTextBibles() const { return _textBibles; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        int32_t _positionX;
-        int32_t _positionY;
-        uint32_t _dimensionX;
-        uint32_t _dimensionY;
-        uint32_t _alignX;
-        uint32_t _alignY;
-        uint32_t _color;
-        uint32_t _translucent;
-        float _rotation;
-        std::string _fontName;
-        uint8_t _shadowEnabled;
-        uint32_t _shadowColor;
-        int32_t _shadowOffsetX;
-        int32_t _shadowOffsetY;
-        uint32_t _current;
-        std::vector<std::unique_ptr<FrontendStringTextBible>> _textBibles;
-
-    };
-
-    class FrontendStringTextBible
-    {
-    public:
-
-        FrontendStringTextBible(const P3DChunk&);
-
-        static std::unique_ptr<FrontendStringTextBible> Load(const P3DChunk& chunk) { return std::make_unique<FrontendStringTextBible>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const std::string& GetKey() const { return _key; }
-
-    private:
-
-        std::string _name;
-        std::string _key;
-
-    };
-
-    class FrontendObject
-    {
-    public:
-
-        FrontendObject(const P3DChunk&);
-
-        static std::unique_ptr<FrontendObject> Load(const P3DChunk& chunk) { return std::make_unique<FrontendObject>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-
-    private:
-
-        std::string _name;
-
-    };
-
-    class FrontendPolygon
-    {
-    public:
-
-        FrontendPolygon(const P3DChunk&);
-
-        static std::unique_ptr<FrontendPolygon> Load(const P3DChunk& chunk) { return std::make_unique<FrontendPolygon>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const uint32_t& GetTranslucent() const { return _translucent; }
-        const uint32_t& GetNumPoints() const { return _numPoints; }
-        const std::vector<Vector3>& GetPoints() const { return _points; }
-        const std::vector<uint32_t>& GetColors() const { return _colors; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        uint32_t _translucent;
-        uint32_t _numPoints;
-        std::vector<Vector3> _points;
-        std::vector<uint32_t> _colors;
-
-    };
-
-    class FrontendImageResource
-    {
-    public:
-
-        FrontendImageResource(const P3DChunk&);
-
-        static std::unique_ptr<FrontendImageResource> Load(const P3DChunk& chunk) { return std::make_unique<FrontendImageResource>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetFilepath() const { return _filepath; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        std::string _filepath;
-
-    };
-
-    class Locator2
-    {
-    public:
-
-        Locator2(const P3DChunk&);
-
-        static std::unique_ptr<Locator2> Load(const P3DChunk& chunk) { return std::make_unique<Locator2>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetType() const { return _type; }
-        const uint32_t& GetDataSize() const { return _dataSize; }
-        const std::vector<std::unique_ptr<TriggerVolume>>& GetTriggers() const { return _triggers; }
-
-    private:
-
-        std::string _name;
-        uint32_t _type;
-        uint32_t _dataSize;
-        std::vector<std::unique_ptr<TriggerVolume>> _triggers;
-
-    };
-
-    class TriggerVolume
-    {
-    public:
-
-        TriggerVolume(const P3DChunk&);
-
-        static std::unique_ptr<TriggerVolume> Load(const P3DChunk& chunk) { return std::make_unique<TriggerVolume>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetIsRect() const { return _isRect; }
-        const Vector3& GetBounds() const { return _bounds; }
-        const Matrix4x4& GetTransform() const { return _transform; }
-
-    private:
-
-        std::string _name;
-        uint32_t _isRect;
-        Vector3 _bounds;
-        Matrix4x4 _transform;
-
-    };
-
-    class Camera
-    {
-    public:
-
-        Camera(const P3DChunk&);
-
-        static std::unique_ptr<Camera> Load(const P3DChunk& chunk) { return std::make_unique<Camera>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const float& GetFov() const { return _fov; }
-        const float& GetAspectRatio() const { return _aspectRatio; }
-        const float& GetNearClip() const { return _nearClip; }
-        const float& GetFarClip() const { return _farClip; }
-        const Vector3& GetPosition() const { return _position; }
-        const Vector3& GetForward() const { return _forward; }
-        const Vector3& GetUp() const { return _up; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        float _fov;
-        float _aspectRatio;
-        float _nearClip;
-        float _farClip;
-        Vector3 _position;
-        Vector3 _forward;
-        Vector3 _up;
-
-    };
-
-    class MultiController
-    {
-    public:
-
-        MultiController(const P3DChunk&);
-
-        static std::unique_ptr<MultiController> Load(const P3DChunk& chunk) { return std::make_unique<MultiController>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const float& GetLength() const { return _length; }
-        const float& GetFrameRate() const { return _frameRate; }
-        const uint32_t& GetNumTracks() const { return _numTracks; }
-        const std::unique_ptr<MultiControllerTracks>& GetTracks() const { return _tracks; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        float _length;
-        float _frameRate;
-        uint32_t _numTracks;
-        std::unique_ptr<MultiControllerTracks> _tracks;
-
-    };
-
-    class MultiControllerTracks
-    {
-    public:
-
-        MultiControllerTracks(const P3DChunk&);
-
-        static std::unique_ptr<MultiControllerTracks> Load(const P3DChunk& chunk) { return std::make_unique<MultiControllerTracks>(chunk); }
-
-        const uint32_t& GetNumTracks() const { return _numTracks; }
-        const std::vector<std::string>& GetTrackNames() const { return _trackNames; }
-        const std::vector<float>& GetTrackStartTimes() const { return _trackStartTimes; }
-        const std::vector<float>& GetTrackEndTimes() const { return _trackEndTimes; }
-        const std::vector<float>& GetTrackScales() const { return _trackScales; }
-
-    private:
-
-        uint32_t _numTracks;
-        std::vector<std::string> _trackNames;
-        std::vector<float> _trackStartTimes;
-        std::vector<float> _trackEndTimes;
-        std::vector<float> _trackScales;
-
-    };
-
-    class CollisionObject
-    {
-    public:
-
-        CollisionObject(const P3DChunk&);
-
-        static std::unique_ptr<CollisionObject> Load(const P3DChunk& chunk) { return std::make_unique<CollisionObject>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetMaterialName() const { return _materialName; }
-        const uint32_t& GetNumSubObjects() const { return _numSubObjects; }
-        const uint32_t& GetNumVolumeOwners() const { return _numVolumeOwners; }
-        const std::vector<std::unique_ptr<CollisionVolumeOwner>>& GetVolumeOwners() const { return _volumeOwners; }
-        const std::unique_ptr<CollisionVolume>& GetVolume() const { return _volume; }
-        const std::unique_ptr<CollisionObjectAttribute>& GetAttribute() const { return _attribute; }
-
-    private:
-
-        std::string _name;
-        uint32_t _version;
-        std::string _materialName;
-        uint32_t _numSubObjects;
-        uint32_t _numVolumeOwners;
-        std::vector<std::unique_ptr<CollisionVolumeOwner>> _volumeOwners;
-        std::unique_ptr<CollisionVolume> _volume;
-        std::unique_ptr<CollisionObjectAttribute> _attribute;
-
-    };
-
-    class CollisionVolume
-    {
-    public:
-
-        CollisionVolume(const P3DChunk&);
-
-        static std::unique_ptr<CollisionVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVolume>(chunk); }
-
-        const uint32_t& GetObjectRefIndex() const { return _objectRefIndex; }
-        const int32_t& GetOwnerIndex() const { return _ownerIndex; }
-        const uint32_t& GetNumSubVolumes() const { return _numSubVolumes; }
-        const std::vector<std::unique_ptr<CollisionVolume>>& GetSubVolumes() const { return _subVolumes; }
-        const std::unique_ptr<CollisionBBoxVolume>& GetBBox() const { return _bBox; }
-        const std::unique_ptr<CollisionOBBoxVolume>& GetObBox() const { return _obBox; }
-        const std::unique_ptr<CollisionSphere>& GetSphere() const { return _sphere; }
-        const std::unique_ptr<CollisionCylinder>& GetCylinder() const { return _cylinder; }
-
-    private:
-
-        uint32_t _objectRefIndex;
-        int32_t _ownerIndex;
-        uint32_t _numSubVolumes;
-        std::vector<std::unique_ptr<CollisionVolume>> _subVolumes;
-        std::unique_ptr<CollisionBBoxVolume> _bBox;
-        std::unique_ptr<CollisionOBBoxVolume> _obBox;
-        std::unique_ptr<CollisionSphere> _sphere;
-        std::unique_ptr<CollisionCylinder> _cylinder;
-
-    };
-
-    class CollisionSphere
-    {
-    public:
-
-        CollisionSphere(const P3DChunk&);
-
-        static std::unique_ptr<CollisionSphere> Load(const P3DChunk& chunk) { return std::make_unique<CollisionSphere>(chunk); }
-
-        const float& GetRadius() const { return _radius; }
-        const std::vector<Vector3>& GetVectors() const { return _vectors; }
-
-    private:
-
-        float _radius;
-        std::vector<Vector3> _vectors;
-
-    };
-
-    class CollisionCylinder
-    {
-    public:
-
-        CollisionCylinder(const P3DChunk&);
-
-        static std::unique_ptr<CollisionCylinder> Load(const P3DChunk& chunk) { return std::make_unique<CollisionCylinder>(chunk); }
-
-        const float& GetRadius() const { return _radius; }
-        const float& GetLength() const { return _length; }
-        const uint16_t& GetFlatEnd() const { return _flatEnd; }
-        const std::vector<Vector3>& GetVectors() const { return _vectors; }
-
-    private:
-
-        float _radius;
-        float _length;
-        uint16_t _flatEnd;
-        std::vector<Vector3> _vectors;
-
-    };
-
-    class CollisionOBBoxVolume
-    {
-    public:
-
-        CollisionOBBoxVolume(const P3DChunk&);
-
-        static std::unique_ptr<CollisionOBBoxVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionOBBoxVolume>(chunk); }
-
-        const Vector3& GetHalfExtents() const { return _halfExtents; }
-        const std::vector<Vector3>& GetVectors() const { return _vectors; }
-
-    private:
-
-        Vector3 _halfExtents;
-        std::vector<Vector3> _vectors;
-
-    };
-
-    class CollisionBBoxVolume
-    {
-    public:
-
-        CollisionBBoxVolume(const P3DChunk&);
-
-        static std::unique_ptr<CollisionBBoxVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionBBoxVolume>(chunk); }
-
-        const uint32_t& GetNothing() const { return _nothing; }
-
-    private:
-
-        uint32_t _nothing;
-
-    };
-
-    class CollisionVector
-    {
-    public:
-
-        CollisionVector(const P3DChunk&);
-
-        static std::unique_ptr<CollisionVector> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVector>(chunk); }
-
-        const Vector3& GetValue() const { return _value; }
-
-    private:
-
-        Vector3 _value;
-
-    };
-
-    class CollisionVolumeOwner
-    {
-    public:
-
-        CollisionVolumeOwner(const P3DChunk&);
-
-        static std::unique_ptr<CollisionVolumeOwner> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVolumeOwner>(chunk); }
-
-        const uint32_t& GetNumNames() const { return _numNames; }
-        const std::vector<std::unique_ptr<CollisionVolumeOwnerName>>& GetNames() const { return _names; }
-
-    private:
-
-        uint32_t _numNames;
-        std::vector<std::unique_ptr<CollisionVolumeOwnerName>> _names;
-
-    };
-
-    class CollisionVolumeOwnerName
-    {
-    public:
-
-        CollisionVolumeOwnerName(const P3DChunk&);
-
-        static std::unique_ptr<CollisionVolumeOwnerName> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVolumeOwnerName>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-
-    private:
-
-        std::string _name;
-
-    };
-
-    class CollisionObjectAttribute
-    {
-    public:
-
-        CollisionObjectAttribute(const P3DChunk&);
-
-        static std::unique_ptr<CollisionObjectAttribute> Load(const P3DChunk& chunk) { return std::make_unique<CollisionObjectAttribute>(chunk); }
-
-        const uint16_t& GetStatic() const { return _static; }
-        const uint32_t& GetDefaultArea() const { return _defaultArea; }
-        const uint16_t& GetCanRoll() const { return _canRoll; }
-        const uint16_t& GetCanSlide() const { return _canSlide; }
-        const uint16_t& GetCanSpin() const { return _canSpin; }
-        const uint16_t& GetCanBounce() const { return _canBounce; }
-        const uint32_t& GetTodo1() const { return _todo1; }
-        const uint32_t& GetTodo2() const { return _todo2; }
-        const uint32_t& GetTodo3() const { return _todo3; }
-
-    private:
-
-        uint16_t _static;
-        uint32_t _defaultArea;
-        uint16_t _canRoll;
-        uint16_t _canSlide;
-        uint16_t _canSpin;
-        uint16_t _canBounce;
-        uint32_t _todo1;
-        uint32_t _todo2;
-        uint32_t _todo3;
-
-    };
-
-    class FenceWrapper
-    {
-    public:
-
-        FenceWrapper(const P3DChunk&);
-
-        static std::unique_ptr<FenceWrapper> Load(const P3DChunk& chunk) { return std::make_unique<FenceWrapper>(chunk); }
-
-        const std::unique_ptr<Fence>& GetFence() const { return _fence; }
-
-    private:
-
-        std::unique_ptr<Fence> _fence;
-
-    };
-
-    class Fence
-    {
-    public:
-
-        Fence(const P3DChunk&);
-
-        static std::unique_ptr<Fence> Load(const P3DChunk& chunk) { return std::make_unique<Fence>(chunk); }
-
-        const Vector3& GetStart() const { return _start; }
-        const Vector3& GetEnd() const { return _end; }
-        const Vector3& GetNormal() const { return _normal; }
-
-    private:
-
-        Vector3 _start;
-        Vector3 _end;
-        Vector3 _normal;
-
-    };
-
-    class Set
-    {
-    public:
-
-        Set(const P3DChunk&);
-
-        static std::unique_ptr<Set> Load(const P3DChunk& chunk) { return std::make_unique<Set>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetNumTextures() const { return _numTextures; }
-        const std::vector<std::unique_ptr<Texture>>& GetTextures() const { return _textures; }
-
-    private:
-
-        std::string _name;
-        uint32_t _numTextures;
-        std::vector<std::unique_ptr<Texture>> _textures;
-
-    };
-
-    class Path
-    {
-    public:
-
-        Path(const P3DChunk&);
-
-        static std::unique_ptr<Path> Load(const P3DChunk& chunk) { return std::make_unique<Path>(chunk); }
-
-        const uint32_t& GetNumPoints() const { return _numPoints; }
-        const std::vector<Vector3>& GetPoints() const { return _points; }
-
-    private:
-
-        uint32_t _numPoints;
-        std::vector<Vector3> _points;
-
-    };
-
-    class Intersection
-    {
-    public:
-
-        Intersection(const P3DChunk&);
-
-        static std::unique_ptr<Intersection> Load(const P3DChunk& chunk) { return std::make_unique<Intersection>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const Vector3& GetPosition() const { return _position; }
-        const float& GetRadius() const { return _radius; }
-        const uint32_t& GetTrafficBehaviour() const { return _trafficBehaviour; }
-
-    private:
-
-        std::string _name;
-        Vector3 _position;
-        float _radius;
-        uint32_t _trafficBehaviour;
-
-    };
-
-    class RoadDataSegment
-    {
-    public:
-
-        RoadDataSegment(const P3DChunk&);
-
-        static std::unique_ptr<RoadDataSegment> Load(const P3DChunk& chunk) { return std::make_unique<RoadDataSegment>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetTodo0() const { return _todo0; }
-        const uint32_t& GetLanes() const { return _lanes; }
-        const uint32_t& GetTodo1() const { return _todo1; }
-        const Vector3& GetPosition0() const { return _position0; }
-        const Vector3& GetPosition1() const { return _position1; }
-        const Vector3& GetPosition2() const { return _position2; }
-
-    private:
-
-        std::string _name;
-        uint32_t _todo0;
-        uint32_t _lanes;
-        uint32_t _todo1;
-        Vector3 _position0;
-        Vector3 _position1;
-        Vector3 _position2;
-
-    };
-
-    class Road
-    {
-    public:
-
-        Road(const P3DChunk&);
-
-        static std::unique_ptr<Road> Load(const P3DChunk& chunk) { return std::make_unique<Road>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetTodo0() const { return _todo0; }
-        const std::string& GetStartIntersection() const { return _startIntersection; }
-        const std::string& GetEndIntersection() const { return _endIntersection; }
-        const uint32_t& GetMaxCars() const { return _maxCars; }
-        const uint8_t& GetTodo1() const { return _todo1; }
-        const uint8_t& GetTodo2() const { return _todo2; }
-        const uint8_t& GetNoReset() const { return _noReset; }
-        const uint8_t& GetTodo3() const { return _todo3; }
-
-    private:
-
-        std::string _name;
-        uint32_t _todo0;
-        std::string _startIntersection;
-        std::string _endIntersection;
-        uint32_t _maxCars;
-        uint8_t _todo1;
-        uint8_t _todo2;
-        uint8_t _noReset;
-        uint8_t _todo3;
-
-    };
-
-    class RoadSegment
-    {
-    public:
-
-        RoadSegment(const P3DChunk&);
-
-        static std::unique_ptr<RoadSegment> Load(const P3DChunk& chunk) { return std::make_unique<RoadSegment>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const std::string& GetData() const { return _data; }
-        const Matrix4x4& GetTransform() const { return _transform; }
-        const Matrix4x4& GetTransform2() const { return _transform2; }
-
-    private:
-
-        std::string _name;
-        std::string _data;
-        Matrix4x4 _transform;
-        Matrix4x4 _transform2;
-
-    };
-
-    class GameAttr
-    {
-    public:
-
-        GameAttr(const P3DChunk&);
-
-        static std::unique_ptr<GameAttr> Load(const P3DChunk& chunk) { return std::make_unique<GameAttr>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetNumParams() const { return _numParams; }
-        const std::vector<std::unique_ptr<GameAttrIntParam>>& GetParams() const { return _params; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        uint32_t _numParams;
-        std::vector<std::unique_ptr<GameAttrIntParam>> _params;
-
-    };
-
-    class GameAttrIntParam
-    {
-    public:
-
-        GameAttrIntParam(const P3DChunk&);
-
-        static std::unique_ptr<GameAttrIntParam> Load(const P3DChunk& chunk) { return std::make_unique<GameAttrIntParam>(chunk); }
-
-        const std::string& GetName() const { return _name; }
-        const uint32_t& GetValue() const { return _value; }
-
-    private:
-
-        std::string _name;
-        uint32_t _value;
-
-    };
-
-    class History
-    {
-    public:
-
-        History(const P3DChunk&);
-
-        static std::unique_ptr<History> Load(const P3DChunk& chunk) { return std::make_unique<History>(chunk); }
-
-        const uint32_t& GetNumLines() const { return _numLines; }
-        const std::vector<std::string>& GetLines() const { return _lines; }
-
-    private:
-
-        uint32_t _numLines;
-        std::vector<std::string> _lines;
-
-    };
-
-    class BreakableObject
-    {
-    public:
-
-        BreakableObject(const P3DChunk&);
-
-        static std::unique_ptr<BreakableObject> Load(const P3DChunk& chunk) { return std::make_unique<BreakableObject>(chunk); }
-
-        const uint32_t& GetIndex() const { return _index; }
-        const uint32_t& GetCount() const { return _count; }
-        const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
-        const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
-        const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
-        const std::unique_ptr<CompositeDrawable>& GetDrawable() const { return _drawable; }
-        const std::unique_ptr<AnimatedObject>& GetAnimObjects() const { return _animObjects; }
-
-    private:
-
-        uint32_t _index;
-        uint32_t _count;
-        std::vector<std::unique_ptr<Animation>> _animations;
-        std::vector<std::unique_ptr<Skeleton>> _skeletons;
-        std::vector<std::unique_ptr<Geometry>> _geometries;
-        std::unique_ptr<CompositeDrawable> _drawable;
-        std::unique_ptr<AnimatedObject> _animObjects;
-
-    };
-
-    class AnimatedObject
-    {
-    public:
-
-        AnimatedObject(const P3DChunk&);
-
-        static std::unique_ptr<AnimatedObject> Load(const P3DChunk& chunk) { return std::make_unique<AnimatedObject>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const std::string& GetFactoryName() const { return _factoryName; }
-        const uint32_t& GetStartAnimation() const { return _startAnimation; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        std::string _factoryName;
-        uint32_t _startAnimation;
-
-    };
-
-    class FollowCameraData
-    {
-    public:
-
-        FollowCameraData(const P3DChunk&);
-
-        static std::unique_ptr<FollowCameraData> Load(const P3DChunk& chunk) { return std::make_unique<FollowCameraData>(chunk); }
-
-        const uint32_t& GetIndex() const { return _index; }
-        const float& GetYaw() const { return _yaw; }
-        const float& GetPitch() const { return _pitch; }
-        const float& GetDistance() const { return _distance; }
-        const Vector3& GetOffset() const { return _offset; }
-
-    private:
-
-        uint32_t _index;
-        float _yaw;
-        float _pitch;
-        float _distance;
-        Vector3 _offset;
-
-    };
-
-    class PhysicsObject
-    {
-    public:
-
-        PhysicsObject(const P3DChunk&);
-
-        static std::unique_ptr<PhysicsObject> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsObject>(chunk); }
-
-        const uint32_t& GetVersion() const { return _version; }
-        const std::string& GetName() const { return _name; }
-        const std::string& GetMaterialName() const { return _materialName; }
-        const uint32_t& GetNumJoints() const { return _numJoints; }
-        const float& GetVolume() const { return _volume; }
-        const float& GetSensitivity() const { return _sensitivity; }
-        const std::vector<std::unique_ptr<PhysicsJoint>>& GetJoints() const { return _joints; }
-
-    private:
-
-        uint32_t _version;
-        std::string _name;
-        std::string _materialName;
-        uint32_t _numJoints;
-        float _volume;
-        float _sensitivity;
-        std::vector<std::unique_ptr<PhysicsJoint>> _joints;
-
-    };
-
-    class PhysicsJoint
-    {
-    public:
-
-        PhysicsJoint(const P3DChunk&);
-
-        static std::unique_ptr<PhysicsJoint> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsJoint>(chunk); }
-
-        const uint32_t& GetIndex() const { return _index; }
-        const float& GetVolume() const { return _volume; }
-        const float& GetStiffness() const { return _stiffness; }
-        const float& GetMinAngle() const { return _minAngle; }
-        const float& GetMaxAngle() const { return _maxAngle; }
-        const float& GetDOF() const { return _DOF; }
-        const Vector3& GetVector() const { return _vector; }
-        const std::unique_ptr<PhysicsInertiaMatrix>& GetInertiaMatrix() const { return _inertiaMatrix; }
-
-    private:
-
-        uint32_t _index;
-        float _volume;
-        float _stiffness;
-        float _minAngle;
-        float _maxAngle;
-        float _DOF;
-        Vector3 _vector;
-        std::unique_ptr<PhysicsInertiaMatrix> _inertiaMatrix;
-
-    };
-
-    class PhysicsVector
-    {
-    public:
-
-        PhysicsVector(const P3DChunk&);
-
-        static std::unique_ptr<PhysicsVector> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsVector>(chunk); }
-
-        const Vector3& GetValue() const { return _value; }
-
-    private:
-
-        Vector3 _value;
-
-    };
-
-    class PhysicsInertiaMatrix
-    {
-    public:
-
-        PhysicsInertiaMatrix(const P3DChunk&);
-
-        static std::unique_ptr<PhysicsInertiaMatrix> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsInertiaMatrix>(chunk); }
-
-        const Vector3& GetPosition() const { return _position; }
-        const Vector3& GetForward() const { return _forward; }
-        const Vector3& GetRight() const { return _right; }
-        const Vector3& GetUp() const { return _up; }
-
-    private:
-
-        Vector3 _position;
-        Vector3 _forward;
-        Vector3 _right;
-        Vector3 _up;
-
-    };
-
-    class CompositeDrawableSkinList
-    {
-    public:
-
-        CompositeDrawableSkinList(const P3DChunk&);
-
-        static std::unique_ptr<CompositeDrawableSkinList> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableSkinList>(chunk); }
-
-        const uint32_t& GetNumSkins() const { return _numSkins; }
-
-    private:
-
-        uint32_t _numSkins;
-
-    };
-
-    class CompositeDrawableEffectList
-    {
-    public:
-
-        CompositeDrawableEffectList(const P3DChunk&);
-
-        static std::unique_ptr<CompositeDrawableEffectList> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawableEffectList>(chunk); }
-
-        const uint32_t& GetNumEffects() const { return _numEffects; }
-
-    private:
-
-        uint32_t _numEffects;
-
-    };
-}
+class Animation;
+class AnimationSize;
+class AnimationGroupList;
+class AnimationGroup;
+class ChannelInterpolationMode;
+class Vector2Channel;
+class Vector3Channel;
+class QuaternionChannel;
+class CompressedQuaternionChannel;
+class Geometry;
+class PolySkin;
+class BoundingBox;
+class BoundingSphere;
+class PrimitiveGroup;
+class PositionList;
+class IndexList;
+class NormalList;
+class UVList;
+class MatrixList;
+class MatrixPalette;
+class WeightList;
+class ColorList;
+class Skeleton;
+class SkeletonJoint;
+class SkeletonJointMirrorMap;
+class SkeletonJointBonePreserve;
+class StaticEntity;
+class StaticPhysics;
+class InstancedStaticPhysics;
+class DynamicPhysics;
+class AnimDynamicPhysics;
+class AnimObjectWrapper;
+class InstanceList;
+class SceneGraph;
+class SceneGraphRoot;
+class SceneGraphBranch;
+class SceneGraphTransform;
+class SceneGraphDrawable;
+class SceneGraphSortOrder;
+class Shader;
+class ShaderTextureParam;
+class ShaderIntParam;
+class ShaderFloatParam;
+class ShaderColorParam;
+class CompositeDrawable;
+class CompositeDrawablePropList;
+class CompositeDrawableProp;
+class CompositeDrawableSortOrder;
+class Intersect;
+class WorldSphere;
+class LensFlare;
+class BillboardQuad;
+class BillboardQuadGroup;
+class BillboardDisplayInfo;
+class BillboardPerspectiveInfo;
+class Texture;
+class Image;
+class ImageData;
+class TextureFont;
+class FontGlyphs;
+class Sprite;
+class FrontendScreen;
+class FrontendProject;
+class FrontendPage;
+class FrontendLayer;
+class FrontendGroup;
+class FrontendMultiSprite;
+class FrontendMultiText;
+class FrontendStringTextBible;
+class FrontendObject;
+class FrontendPolygon;
+class FrontendImageResource;
+class Locator2;
+class TriggerVolume;
+class Camera;
+class MultiController;
+class MultiControllerTracks;
+class CollisionObject;
+class CollisionVolume;
+class CollisionSphere;
+class CollisionCylinder;
+class CollisionOBBoxVolume;
+class CollisionBBoxVolume;
+class CollisionVector;
+class CollisionVolumeOwner;
+class CollisionVolumeOwnerName;
+class CollisionObjectAttribute;
+class FenceWrapper;
+class Fence;
+class Set;
+class Path;
+class Intersection;
+class RoadDataSegment;
+class Road;
+class RoadSegment;
+class GameAttr;
+class GameAttrIntParam;
+class History;
+class BreakableObject;
+class AnimatedObject;
+class FollowCameraData;
+class PhysicsObject;
+class PhysicsJoint;
+class PhysicsVector;
+class PhysicsInertiaMatrix;
+class CompositeDrawableSkinList;
+class CompositeDrawableEffectList;
+
+class Animation
+{
+public:
+	Animation(const P3DChunk&);
+
+	static std::unique_ptr<Animation> Load(const P3DChunk& chunk) { return std::make_unique<Animation>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const std::string& GetType() const { return _type; }
+	const float& GetNumFrames() const { return _numFrames; }
+	const float& GetFrameRate() const { return _frameRate; }
+	const uint32_t& GetLooping() const { return _looping; }
+	const std::unique_ptr<AnimationGroupList>& GetGroupList() const { return _groupList; }
+	const std::unique_ptr<AnimationSize>& GetSize() const { return _size; }
+
+private:
+	uint32_t _version;
+	std::string _name;
+	std::string _type;
+	float _numFrames;
+	float _frameRate;
+	uint32_t _looping;
+	std::unique_ptr<AnimationGroupList> _groupList;
+	std::unique_ptr<AnimationSize> _size;
+};
+
+class AnimationSize
+{
+public:
+	AnimationSize(const P3DChunk&);
+
+	static std::unique_ptr<AnimationSize> Load(const P3DChunk& chunk) { return std::make_unique<AnimationSize>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetPC() const { return _PC; }
+	const uint32_t& GetPS2() const { return _PS2; }
+	const uint32_t& GetXBOX() const { return _XBOX; }
+	const uint32_t& GetGC() const { return _GC; }
+
+private:
+	uint32_t _version;
+	uint32_t _PC;
+	uint32_t _PS2;
+	uint32_t _XBOX;
+	uint32_t _GC;
+};
+
+class AnimationGroupList
+{
+public:
+	AnimationGroupList(const P3DChunk&);
+
+	static std::unique_ptr<AnimationGroupList> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<AnimationGroupList>(chunk);
+	}
+
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetNumGroups() const { return _numGroups; }
+	const std::vector<std::unique_ptr<AnimationGroup>>& GetGroups() const { return _groups; }
+
+private:
+	uint32_t _version;
+	uint32_t _numGroups;
+	std::vector<std::unique_ptr<AnimationGroup>> _groups;
+};
+
+class AnimationGroup
+{
+public:
+	AnimationGroup(const P3DChunk&);
+
+	static std::unique_ptr<AnimationGroup> Load(const P3DChunk& chunk) { return std::make_unique<AnimationGroup>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetGroupId() const { return _groupId; }
+	const uint32_t& GetNumChannels() const { return _numChannels; }
+	Vector2Channel* GetVector2ChannelsValue(const std::string& key) const
+	{
+		auto it = _vector2Channels.find(key);
+		return (it != _vector2Channels.end()) ? it->second.get() : nullptr;
+	}
+	Vector3Channel* GetVector3ChannelsValue(const std::string& key) const
+	{
+		auto it = _vector3Channels.find(key);
+		return (it != _vector3Channels.end()) ? it->second.get() : nullptr;
+	}
+	QuaternionChannel* GetQuaternionChannelsValue(const std::string& key) const
+	{
+		auto it = _quaternionChannels.find(key);
+		return (it != _quaternionChannels.end()) ? it->second.get() : nullptr;
+	}
+	CompressedQuaternionChannel* GetCompressedQuaternionChannelsValue(const std::string& key) const
+	{
+		auto it = _compressedQuaternionChannels.find(key);
+		return (it != _compressedQuaternionChannels.end()) ? it->second.get() : nullptr;
+	}
+
+private:
+	uint32_t _version;
+	std::string _name;
+	uint32_t _groupId;
+	uint32_t _numChannels;
+	std::map<std::string, std::unique_ptr<Vector2Channel>> _vector2Channels;
+	std::map<std::string, std::unique_ptr<Vector3Channel>> _vector3Channels;
+	std::map<std::string, std::unique_ptr<QuaternionChannel>> _quaternionChannels;
+	std::map<std::string, std::unique_ptr<CompressedQuaternionChannel>> _compressedQuaternionChannels;
+};
+
+class ChannelInterpolationMode
+{
+public:
+	ChannelInterpolationMode(const P3DChunk&);
+
+	static std::unique_ptr<ChannelInterpolationMode> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<ChannelInterpolationMode>(chunk);
+	}
+
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetMode() const { return _mode; }
+
+private:
+	uint32_t _version;
+	uint32_t _mode;
+};
+
+class Vector2Channel
+{
+public:
+	Vector2Channel(const P3DChunk&);
+
+	static std::unique_ptr<Vector2Channel> Load(const P3DChunk& chunk) { return std::make_unique<Vector2Channel>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetParam() const { return _param; }
+	const uint16_t& GetMapping() const { return _mapping; }
+	const Vector3& GetConstants() const { return _constants; }
+	const uint32_t& GetNumFrames() const { return _numFrames; }
+	const std::vector<uint16_t>& GetFrames() const { return _frames; }
+	const std::vector<Vector2>& GetValues() const { return _values; }
+	const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
+
+private:
+	uint32_t _version;
+	std::string _param;
+	uint16_t _mapping;
+	Vector3 _constants;
+	uint32_t _numFrames;
+	std::vector<uint16_t> _frames;
+	std::vector<Vector2> _values;
+	std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
+};
+
+class Vector3Channel
+{
+public:
+	Vector3Channel(const P3DChunk&);
+
+	static std::unique_ptr<Vector3Channel> Load(const P3DChunk& chunk) { return std::make_unique<Vector3Channel>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetParam() const { return _param; }
+	const uint32_t& GetNumFrames() const { return _numFrames; }
+	const std::vector<uint16_t>& GetFrames() const { return _frames; }
+	const std::vector<Vector3>& GetValues() const { return _values; }
+	const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
+
+private:
+	uint32_t _version;
+	std::string _param;
+	uint32_t _numFrames;
+	std::vector<uint16_t> _frames;
+	std::vector<Vector3> _values;
+	std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
+};
+
+class QuaternionChannel
+{
+public:
+	QuaternionChannel(const P3DChunk&);
+
+	static std::unique_ptr<QuaternionChannel> Load(const P3DChunk& chunk) { return std::make_unique<QuaternionChannel>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetParam() const { return _param; }
+	const uint32_t& GetNumFrames() const { return _numFrames; }
+	const std::vector<uint16_t>& GetFrames() const { return _frames; }
+	const std::vector<Quaternion>& GetValues() const { return _values; }
+	const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
+
+private:
+	uint32_t _version;
+	std::string _param;
+	uint32_t _numFrames;
+	std::vector<uint16_t> _frames;
+	std::vector<Quaternion> _values;
+	std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
+};
+
+class CompressedQuaternionChannel
+{
+public:
+	CompressedQuaternionChannel(const P3DChunk&);
+
+	static std::unique_ptr<CompressedQuaternionChannel> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CompressedQuaternionChannel>(chunk);
+	}
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetParam() const { return _param; }
+	const uint32_t& GetNumFrames() const { return _numFrames; }
+	const std::vector<uint16_t>& GetFrames() const { return _frames; }
+	const std::vector<uint64_t>& GetValues() const { return _values; }
+	const std::unique_ptr<ChannelInterpolationMode>& GetInterpolationMode() const { return _interpolationMode; }
+
+private:
+	uint32_t _version;
+	std::string _param;
+	uint32_t _numFrames;
+	std::vector<uint16_t> _frames;
+	std::vector<uint64_t> _values;
+	std::unique_ptr<ChannelInterpolationMode> _interpolationMode;
+};
+
+class Geometry
+{
+public:
+	Geometry(const P3DChunk&);
+
+	static std::unique_ptr<Geometry> Load(const P3DChunk& chunk) { return std::make_unique<Geometry>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetNumPrimGroups() const { return _numPrimGroups; }
+	const std::vector<std::unique_ptr<PrimitiveGroup>>& GetPrimitiveGroups() const { return _primitiveGroups; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _numPrimGroups;
+	std::vector<std::unique_ptr<PrimitiveGroup>> _primitiveGroups;
+};
+
+class PolySkin
+{
+public:
+	PolySkin(const P3DChunk&);
+
+	static std::unique_ptr<PolySkin> Load(const P3DChunk& chunk) { return std::make_unique<PolySkin>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetSkeletonName() const { return _skeletonName; }
+	const uint32_t& GetNumPrimGroups() const { return _numPrimGroups; }
+	const std::vector<std::unique_ptr<PrimitiveGroup>>& GetPrimitiveGroups() const { return _primitiveGroups; }
+	const std::unique_ptr<BoundingBox>& GetBoundingBox() const { return _boundingBox; }
+	const std::unique_ptr<BoundingSphere>& GetBoundingSphere() const { return _boundingSphere; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	std::string _skeletonName;
+	uint32_t _numPrimGroups;
+	std::vector<std::unique_ptr<PrimitiveGroup>> _primitiveGroups;
+	std::unique_ptr<BoundingBox> _boundingBox;
+	std::unique_ptr<BoundingSphere> _boundingSphere;
+};
+
+class BoundingBox
+{
+public:
+	BoundingBox(const P3DChunk&);
+
+	static std::unique_ptr<BoundingBox> Load(const P3DChunk& chunk) { return std::make_unique<BoundingBox>(chunk); }
+
+	const Vector3& GetMin() const { return _min; }
+	const Vector3& GetMax() const { return _max; }
+
+private:
+	Vector3 _min;
+	Vector3 _max;
+};
+
+class BoundingSphere
+{
+public:
+	BoundingSphere(const P3DChunk&);
+
+	static std::unique_ptr<BoundingSphere> Load(const P3DChunk& chunk) { return std::make_unique<BoundingSphere>(chunk); }
+
+	const Vector3& GetCentre() const { return _centre; }
+	const float& GetRadius() const { return _radius; }
+
+private:
+	Vector3 _centre;
+	float _radius;
+};
+
+class PrimitiveGroup
+{
+public:
+	PrimitiveGroup(const P3DChunk&);
+
+	static std::unique_ptr<PrimitiveGroup> Load(const P3DChunk& chunk) { return std::make_unique<PrimitiveGroup>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetShaderName() const { return _shaderName; }
+	const uint32_t& GetPrimType() const { return _primType; }
+	const uint32_t& GetHasDataFlags() const { return _hasDataFlags; }
+	const uint32_t& GetNumVerts() const { return _numVerts; }
+	const uint32_t& GetNumIndices() const { return _numIndices; }
+	const uint32_t& GetNumMatrices() const { return _numMatrices; }
+	const std::vector<Vector3>& GetVertices() const { return _vertices; }
+	const std::vector<uint32_t>& GetIndices() const { return _indices; }
+	const std::vector<Vector3>& GetNormals() const { return _normals; }
+	const std::vector<Vector2>& GetUvs(size_t index) const { return _uvs.at(index); }
+	const std::vector<uint32_t>& GetMatrixList() const { return _matrixList; }
+	const std::vector<uint32_t>& GetMatrixPalette() const { return _matrixPalette; }
+	const std::vector<Vector3>& GetWeightList() const { return _weightList; }
+	const std::vector<uint32_t>& GetColors() const { return _colors; }
+
+private:
+	uint32_t _version;
+	std::string _shaderName;
+	uint32_t _primType;
+	uint32_t _hasDataFlags;
+	uint32_t _numVerts;
+	uint32_t _numIndices;
+	uint32_t _numMatrices;
+	std::vector<Vector3> _vertices;
+	std::vector<uint32_t> _indices;
+	std::vector<Vector3> _normals;
+	std::vector<std::vector<Vector2>> _uvs;
+	std::vector<uint32_t> _matrixList;
+	std::vector<uint32_t> _matrixPalette;
+	std::vector<Vector3> _weightList;
+	std::vector<uint32_t> _colors;
+};
+
+class PositionList
+{
+public:
+	PositionList(const P3DChunk&);
+
+	static std::unique_ptr<PositionList> Load(const P3DChunk& chunk) { return std::make_unique<PositionList>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<Vector3>& GetPositions() const { return _positions; }
+
+private:
+	uint32_t _size;
+	std::vector<Vector3> _positions;
+};
+
+class IndexList
+{
+public:
+	IndexList(const P3DChunk&);
+
+	static std::unique_ptr<IndexList> Load(const P3DChunk& chunk) { return std::make_unique<IndexList>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<uint32_t>& GetIndices() const { return _indices; }
+
+private:
+	uint32_t _size;
+	std::vector<uint32_t> _indices;
+};
+
+class NormalList
+{
+public:
+	NormalList(const P3DChunk&);
+
+	static std::unique_ptr<NormalList> Load(const P3DChunk& chunk) { return std::make_unique<NormalList>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<Vector3>& GetNormals() const { return _normals; }
+
+private:
+	uint32_t _size;
+	std::vector<Vector3> _normals;
+};
+
+class UVList
+{
+public:
+	UVList(const P3DChunk&);
+
+	static std::unique_ptr<UVList> Load(const P3DChunk& chunk) { return std::make_unique<UVList>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const uint32_t& GetChannel() const { return _channel; }
+	const std::vector<Vector2>& GetUvs() const { return _uvs; }
+
+private:
+	uint32_t _size;
+	uint32_t _channel;
+	std::vector<Vector2> _uvs;
+};
+
+class MatrixList
+{
+public:
+	MatrixList(const P3DChunk&);
+
+	static std::unique_ptr<MatrixList> Load(const P3DChunk& chunk) { return std::make_unique<MatrixList>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<uint32_t>& GetUvs() const { return _uvs; }
+
+private:
+	uint32_t _size;
+	std::vector<uint32_t> _uvs;
+};
+
+class MatrixPalette
+{
+public:
+	MatrixPalette(const P3DChunk&);
+
+	static std::unique_ptr<MatrixPalette> Load(const P3DChunk& chunk) { return std::make_unique<MatrixPalette>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<uint32_t>& GetUvs() const { return _uvs; }
+
+private:
+	uint32_t _size;
+	std::vector<uint32_t> _uvs;
+};
+
+class WeightList
+{
+public:
+	WeightList(const P3DChunk&);
+
+	static std::unique_ptr<WeightList> Load(const P3DChunk& chunk) { return std::make_unique<WeightList>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<Vector3>& GetUvs() const { return _uvs; }
+
+private:
+	uint32_t _size;
+	std::vector<Vector3> _uvs;
+};
+
+class ColorList
+{
+public:
+	ColorList(const P3DChunk&);
+
+	static std::unique_ptr<ColorList> Load(const P3DChunk& chunk) { return std::make_unique<ColorList>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<uint32_t>& GetUvs() const { return _uvs; }
+
+private:
+	uint32_t _size;
+	std::vector<uint32_t> _uvs;
+};
+
+class Skeleton
+{
+public:
+	Skeleton(const P3DChunk&);
+
+	static std::unique_ptr<Skeleton> Load(const P3DChunk& chunk) { return std::make_unique<Skeleton>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetNumJoints() const { return _numJoints; }
+	const std::vector<std::unique_ptr<SkeletonJoint>>& GetJoints() const { return _joints; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _numJoints;
+	std::vector<std::unique_ptr<SkeletonJoint>> _joints;
+};
+
+class SkeletonJoint
+{
+public:
+	SkeletonJoint(const P3DChunk&);
+
+	static std::unique_ptr<SkeletonJoint> Load(const P3DChunk& chunk) { return std::make_unique<SkeletonJoint>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetParent() const { return _parent; }
+	const int32_t& GetDof() const { return _dof; }
+	const int32_t& GetFreeAxis() const { return _freeAxis; }
+	const int32_t& GetPrimaryAxis() const { return _primaryAxis; }
+	const int32_t& GetSecondaryAxis() const { return _secondaryAxis; }
+	const int32_t& GetTwistAxis() const { return _twistAxis; }
+	const Matrix4x4& GetRestPose() const { return _restPose; }
+	const std::unique_ptr<SkeletonJointMirrorMap>& GetMirrorMap() const { return _mirrorMap; }
+	const std::unique_ptr<SkeletonJointBonePreserve>& GetBonePreserve() const { return _bonePreserve; }
+
+private:
+	std::string _name;
+	uint32_t _parent;
+	int32_t _dof;
+	int32_t _freeAxis;
+	int32_t _primaryAxis;
+	int32_t _secondaryAxis;
+	int32_t _twistAxis;
+	Matrix4x4 _restPose;
+	std::unique_ptr<SkeletonJointMirrorMap> _mirrorMap;
+	std::unique_ptr<SkeletonJointBonePreserve> _bonePreserve;
+};
+
+class SkeletonJointMirrorMap
+{
+public:
+	SkeletonJointMirrorMap(const P3DChunk&);
+
+	static std::unique_ptr<SkeletonJointMirrorMap> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<SkeletonJointMirrorMap>(chunk);
+	}
+
+	const uint32_t& GetJointIndex() const { return _jointIndex; }
+	const Vector3& GetAxis() const { return _axis; }
+
+private:
+	uint32_t _jointIndex;
+	Vector3 _axis;
+};
+
+class SkeletonJointBonePreserve
+{
+public:
+	SkeletonJointBonePreserve(const P3DChunk&);
+
+	static std::unique_ptr<SkeletonJointBonePreserve> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<SkeletonJointBonePreserve>(chunk);
+	}
+
+	const uint32_t& GetDepth() const { return _depth; }
+
+private:
+	uint32_t _depth;
+};
+
+class StaticEntity
+{
+public:
+	StaticEntity(const P3DChunk&);
+
+	static std::unique_ptr<StaticEntity> Load(const P3DChunk& chunk) { return std::make_unique<StaticEntity>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetRenderOrder() const { return _renderOrder; }
+	const std::unique_ptr<Geometry>& GetGeometry() const { return _geometry; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _renderOrder;
+	std::unique_ptr<Geometry> _geometry;
+};
+
+class StaticPhysics
+{
+public:
+	StaticPhysics(const P3DChunk&);
+
+	static std::unique_ptr<StaticPhysics> Load(const P3DChunk& chunk) { return std::make_unique<StaticPhysics>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetTodo() const { return _todo; }
+	const std::unique_ptr<CollisionObject>& GetCollisionObject() const { return _collisionObject; }
+
+private:
+	std::string _name;
+	uint32_t _todo;
+	std::unique_ptr<CollisionObject> _collisionObject;
+};
+
+class InstancedStaticPhysics
+{
+public:
+	InstancedStaticPhysics(const P3DChunk&);
+
+	static std::unique_ptr<InstancedStaticPhysics> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<InstancedStaticPhysics>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetTodo() const { return _todo; }
+	const uint32_t& GetRenderOrder() const { return _renderOrder; }
+	const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
+	const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
+
+private:
+	std::string _name;
+	uint32_t _todo;
+	uint32_t _renderOrder;
+	std::vector<std::unique_ptr<Geometry>> _geometries;
+	std::unique_ptr<InstanceList> _instanceList;
+};
+
+class DynamicPhysics
+{
+public:
+	DynamicPhysics(const P3DChunk&);
+
+	static std::unique_ptr<DynamicPhysics> Load(const P3DChunk& chunk) { return std::make_unique<DynamicPhysics>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetTodo() const { return _todo; }
+	const uint32_t& GetRenderOrder() const { return _renderOrder; }
+	const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
+	const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
+
+private:
+	std::string _name;
+	uint32_t _todo;
+	uint32_t _renderOrder;
+	std::vector<std::unique_ptr<Geometry>> _geometries;
+	std::unique_ptr<InstanceList> _instanceList;
+};
+
+class AnimDynamicPhysics
+{
+public:
+	AnimDynamicPhysics(const P3DChunk&);
+
+	static std::unique_ptr<AnimDynamicPhysics> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<AnimDynamicPhysics>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetTodo() const { return _todo; }
+	const uint32_t& GetRenderOrder() const { return _renderOrder; }
+	const std::unique_ptr<AnimObjectWrapper>& GetAnimObjectWrapper() const { return _animObjectWrapper; }
+	const std::unique_ptr<InstanceList>& GetInstanceList() const { return _instanceList; }
+
+private:
+	std::string _name;
+	uint32_t _todo;
+	uint32_t _renderOrder;
+	std::unique_ptr<AnimObjectWrapper> _animObjectWrapper;
+	std::unique_ptr<InstanceList> _instanceList;
+};
+
+class AnimObjectWrapper
+{
+public:
+	AnimObjectWrapper(const P3DChunk&);
+
+	static std::unique_ptr<AnimObjectWrapper> Load(const P3DChunk& chunk) { return std::make_unique<AnimObjectWrapper>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint16_t& GetTodo() const { return _todo; }
+	const std::vector<std::unique_ptr<CompositeDrawable>>& GetCompositeDrawables() const { return _compositeDrawables; }
+	const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
+	const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
+	const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
+
+private:
+	std::string _name;
+	uint16_t _todo;
+	std::vector<std::unique_ptr<CompositeDrawable>> _compositeDrawables;
+	std::vector<std::unique_ptr<Skeleton>> _skeletons;
+	std::vector<std::unique_ptr<Geometry>> _geometries;
+	std::vector<std::unique_ptr<Animation>> _animations;
+};
+
+class InstanceList
+{
+public:
+	InstanceList(const P3DChunk&);
+
+	static std::unique_ptr<InstanceList> Load(const P3DChunk& chunk) { return std::make_unique<InstanceList>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const std::unique_ptr<SceneGraph>& GetSceneGraph() const { return _sceneGraph; }
+
+private:
+	std::string _name;
+	std::unique_ptr<SceneGraph> _sceneGraph;
+};
+
+class SceneGraph
+{
+public:
+	SceneGraph(const P3DChunk&);
+
+	static std::unique_ptr<SceneGraph> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraph>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetTodo() const { return _todo; }
+	const std::unique_ptr<SceneGraphRoot>& GetRoot() const { return _root; }
+
+private:
+	std::string _name;
+	uint32_t _todo;
+	std::unique_ptr<SceneGraphRoot> _root;
+};
+
+class SceneGraphRoot
+{
+public:
+	SceneGraphRoot(const P3DChunk&);
+
+	static std::unique_ptr<SceneGraphRoot> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphRoot>(chunk); }
+
+	const std::unique_ptr<SceneGraphBranch>& GetBranch() const { return _branch; }
+
+private:
+	std::unique_ptr<SceneGraphBranch> _branch;
+};
+
+class SceneGraphBranch
+{
+public:
+	SceneGraphBranch(const P3DChunk&);
+
+	static std::unique_ptr<SceneGraphBranch> Load(const P3DChunk& chunk) { return std::make_unique<SceneGraphBranch>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetNumChildren() const { return _numChildren; }
+	const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
+
+private:
+	std::string _name;
+	uint32_t _numChildren;
+	std::vector<std::unique_ptr<SceneGraphTransform>> _children;
+};
+
+class SceneGraphTransform
+{
+public:
+	SceneGraphTransform(const P3DChunk&);
+
+	static std::unique_ptr<SceneGraphTransform> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<SceneGraphTransform>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetNumChildren() const { return _numChildren; }
+	const Matrix4x4& GetTransform() const { return _transform; }
+	const std::vector<std::unique_ptr<SceneGraphTransform>>& GetChildren() const { return _children; }
+	const std::vector<std::unique_ptr<SceneGraphDrawable>>& GetDrawables() const { return _drawables; }
+
+private:
+	std::string _name;
+	uint32_t _numChildren;
+	Matrix4x4 _transform;
+	std::vector<std::unique_ptr<SceneGraphTransform>> _children;
+	std::vector<std::unique_ptr<SceneGraphDrawable>> _drawables;
+};
+
+class SceneGraphDrawable
+{
+public:
+	SceneGraphDrawable(const P3DChunk&);
+
+	static std::unique_ptr<SceneGraphDrawable> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<SceneGraphDrawable>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const std::string& GetDrawableName() const { return _drawableName; }
+	const uint32_t& GetTranslucent() const { return _translucent; }
+	const float& GetSortOrder() const { return _sortOrder; }
+
+private:
+	std::string _name;
+	std::string _drawableName;
+	uint32_t _translucent;
+	float _sortOrder;
+};
+
+class SceneGraphSortOrder
+{
+public:
+	SceneGraphSortOrder(const P3DChunk&);
+
+	static std::unique_ptr<SceneGraphSortOrder> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<SceneGraphSortOrder>(chunk);
+	}
+
+	const float& GetValue() const { return _value; }
+
+private:
+	float _value;
+};
+
+class Shader
+{
+public:
+	Shader(const P3DChunk&);
+
+	static std::unique_ptr<Shader> Load(const P3DChunk& chunk) { return std::make_unique<Shader>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetPddiShaderName() const { return _pddiShaderName; }
+	const uint32_t& GetIsTrans() const { return _isTrans; }
+	const uint32_t& GetVertexNeeds() const { return _vertexNeeds; }
+	const uint32_t& GetVertexMask() const { return _vertexMask; }
+	const uint32_t& GetNumParams() const { return _numParams; }
+	const std::vector<std::unique_ptr<ShaderTextureParam>>& GetTextureParams() const { return _textureParams; }
+	const std::vector<std::unique_ptr<ShaderIntParam>>& GetIntegerParams() const { return _integerParams; }
+	const std::vector<std::unique_ptr<ShaderFloatParam>>& GetFloatParams() const { return _floatParams; }
+	const std::vector<std::unique_ptr<ShaderColorParam>>& GetColorParams() const { return _colorParams; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	std::string _pddiShaderName;
+	uint32_t _isTrans;
+	uint32_t _vertexNeeds;
+	uint32_t _vertexMask;
+	uint32_t _numParams;
+	std::vector<std::unique_ptr<ShaderTextureParam>> _textureParams;
+	std::vector<std::unique_ptr<ShaderIntParam>> _integerParams;
+	std::vector<std::unique_ptr<ShaderFloatParam>> _floatParams;
+	std::vector<std::unique_ptr<ShaderColorParam>> _colorParams;
+};
+
+class ShaderTextureParam
+{
+public:
+	ShaderTextureParam(const P3DChunk&);
+
+	static std::unique_ptr<ShaderTextureParam> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<ShaderTextureParam>(chunk);
+	}
+
+	const std::string& GetKey() const { return _key; }
+	const std::string& GetValue() const { return _value; }
+
+private:
+	std::string _key;
+	std::string _value;
+};
+
+class ShaderIntParam
+{
+public:
+	ShaderIntParam(const P3DChunk&);
+
+	static std::unique_ptr<ShaderIntParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderIntParam>(chunk); }
+
+	const std::string& GetKey() const { return _key; }
+	const int32_t& GetValue() const { return _value; }
+
+private:
+	std::string _key;
+	int32_t _value;
+};
+
+class ShaderFloatParam
+{
+public:
+	ShaderFloatParam(const P3DChunk&);
+
+	static std::unique_ptr<ShaderFloatParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderFloatParam>(chunk); }
+
+	const std::string& GetKey() const { return _key; }
+	const float& GetValue() const { return _value; }
+
+private:
+	std::string _key;
+	float _value;
+};
+
+class ShaderColorParam
+{
+public:
+	ShaderColorParam(const P3DChunk&);
+
+	static std::unique_ptr<ShaderColorParam> Load(const P3DChunk& chunk) { return std::make_unique<ShaderColorParam>(chunk); }
+
+	const std::string& GetKey() const { return _key; }
+	const uint8_t& GetR() const { return _r; }
+	const uint8_t& GetG() const { return _g; }
+	const uint8_t& GetB() const { return _b; }
+	const uint8_t& GetA() const { return _a; }
+
+private:
+	std::string _key;
+	uint8_t _r;
+	uint8_t _g;
+	uint8_t _b;
+	uint8_t _a;
+};
+
+class CompositeDrawable
+{
+public:
+	CompositeDrawable(const P3DChunk&);
+
+	static std::unique_ptr<CompositeDrawable> Load(const P3DChunk& chunk) { return std::make_unique<CompositeDrawable>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const std::string& GetSkeletonName() const { return _skeletonName; }
+	const std::unique_ptr<CompositeDrawablePropList>& GetPropList() const { return _propList; }
+	const std::unique_ptr<CompositeDrawableSkinList>& GetSkins() const { return _skins; }
+	const std::unique_ptr<CompositeDrawableEffectList>& GetEffects() const { return _effects; }
+
+private:
+	std::string _name;
+	std::string _skeletonName;
+	std::unique_ptr<CompositeDrawablePropList> _propList;
+	std::unique_ptr<CompositeDrawableSkinList> _skins;
+	std::unique_ptr<CompositeDrawableEffectList> _effects;
+};
+
+class CompositeDrawablePropList
+{
+public:
+	CompositeDrawablePropList(const P3DChunk&);
+
+	static std::unique_ptr<CompositeDrawablePropList> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CompositeDrawablePropList>(chunk);
+	}
+
+	const uint32_t& GetNumElements() const { return _numElements; }
+	const std::vector<std::unique_ptr<CompositeDrawableProp>>& GetProps() const { return _props; }
+
+private:
+	uint32_t _numElements;
+	std::vector<std::unique_ptr<CompositeDrawableProp>> _props;
+};
+
+class CompositeDrawableProp
+{
+public:
+	CompositeDrawableProp(const P3DChunk&);
+
+	static std::unique_ptr<CompositeDrawableProp> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CompositeDrawableProp>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetIsTrans() const { return _isTrans; }
+	const uint32_t& GetSkeletonJoint() const { return _skeletonJoint; }
+	const float& GetSortOrder() const { return _sortOrder; }
+
+private:
+	std::string _name;
+	uint32_t _isTrans;
+	uint32_t _skeletonJoint;
+	float _sortOrder;
+};
+
+class CompositeDrawableSortOrder
+{
+public:
+	CompositeDrawableSortOrder(const P3DChunk&);
+
+	static std::unique_ptr<CompositeDrawableSortOrder> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CompositeDrawableSortOrder>(chunk);
+	}
+
+	const float& GetValue() const { return _value; }
+
+private:
+	float _value;
+};
+
+class Intersect
+{
+public:
+	Intersect(const P3DChunk&);
+
+	static std::unique_ptr<Intersect> Load(const P3DChunk& chunk) { return std::make_unique<Intersect>(chunk); }
+
+	const std::vector<uint32_t>& GetIndices() const { return _indices; }
+	const std::vector<Vector3>& GetPositions() const { return _positions; }
+	const std::vector<Vector3>& GetNormals() const { return _normals; }
+	const std::unique_ptr<BoundingBox>& GetBounds() const { return _bounds; }
+
+private:
+	std::vector<uint32_t> _indices;
+	std::vector<Vector3> _positions;
+	std::vector<Vector3> _normals;
+	std::unique_ptr<BoundingBox> _bounds;
+};
+
+class WorldSphere
+{
+public:
+	WorldSphere(const P3DChunk&);
+
+	static std::unique_ptr<WorldSphere> Load(const P3DChunk& chunk) { return std::make_unique<WorldSphere>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetGeometryCount() const { return _geometryCount; }
+	const uint32_t& GetBillboardCount() const { return _billboardCount; }
+	const std::unique_ptr<Animation>& GetAnimation() const { return _animation; }
+	const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
+	const std::vector<std::unique_ptr<BillboardQuadGroup>>& GetBillboards() const { return _billboards; }
+	const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
+	const std::unique_ptr<CompositeDrawable>& GetCompositeDrawable() const { return _compositeDrawable; }
+	const std::unique_ptr<LensFlare>& GetLensFlare() const { return _lensFlare; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _geometryCount;
+	uint32_t _billboardCount;
+	std::unique_ptr<Animation> _animation;
+	std::vector<std::unique_ptr<Skeleton>> _skeletons;
+	std::vector<std::unique_ptr<BillboardQuadGroup>> _billboards;
+	std::vector<std::unique_ptr<Geometry>> _geometries;
+	std::unique_ptr<CompositeDrawable> _compositeDrawable;
+	std::unique_ptr<LensFlare> _lensFlare;
+};
+
+class LensFlare
+{
+public:
+	LensFlare(const P3DChunk&);
+
+	static std::unique_ptr<LensFlare> Load(const P3DChunk& chunk) { return std::make_unique<LensFlare>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetBillboardCount() const { return _billboardCount; }
+	const std::vector<std::unique_ptr<BillboardQuadGroup>>& GetBillboards() const { return _billboards; }
+	const std::unique_ptr<CompositeDrawable>& GetCompositeDrawable() const { return _compositeDrawable; }
+
+private:
+	std::string _name;
+	uint32_t _billboardCount;
+	std::vector<std::unique_ptr<BillboardQuadGroup>> _billboards;
+	std::unique_ptr<CompositeDrawable> _compositeDrawable;
+};
+
+class BillboardQuad
+{
+public:
+	BillboardQuad(const P3DChunk&);
+
+	static std::unique_ptr<BillboardQuad> Load(const P3DChunk& chunk) { return std::make_unique<BillboardQuad>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const std::string& GetMode() const { return _mode; }
+	const Vector3& GetTranslation() const { return _translation; }
+	const uint32_t& GetColor() const { return _color; }
+	const Vector2& GetUv0() const { return _uv0; }
+	const Vector2& GetUv1() const { return _uv1; }
+	const Vector2& GetUv2() const { return _uv2; }
+	const Vector2& GetUv3() const { return _uv3; }
+	const float& GetWidth() const { return _width; }
+	const float& GetHeight() const { return _height; }
+	const float& GetDistance() const { return _distance; }
+	const Vector2& GetUvOffset() const { return _uvOffset; }
+	const std::unique_ptr<BillboardDisplayInfo>& GetDisplayInfo() const { return _displayInfo; }
+	const std::unique_ptr<BillboardPerspectiveInfo>& GetPerspectiveInfo() const { return _perspectiveInfo; }
+
+private:
+	uint32_t _version;
+	std::string _name;
+	std::string _mode;
+	Vector3 _translation;
+	uint32_t _color;
+	Vector2 _uv0;
+	Vector2 _uv1;
+	Vector2 _uv2;
+	Vector2 _uv3;
+	float _width;
+	float _height;
+	float _distance;
+	Vector2 _uvOffset;
+	std::unique_ptr<BillboardDisplayInfo> _displayInfo;
+	std::unique_ptr<BillboardPerspectiveInfo> _perspectiveInfo;
+};
+
+class BillboardQuadGroup
+{
+public:
+	BillboardQuadGroup(const P3DChunk&);
+
+	static std::unique_ptr<BillboardQuadGroup> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<BillboardQuadGroup>(chunk);
+	}
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const std::string& GetShader() const { return _shader; }
+	const uint32_t& GetZTest() const { return _zTest; }
+	const uint32_t& GetZWrite() const { return _zWrite; }
+	const uint32_t& GetFog() const { return _fog; }
+	const uint32_t& GetQuadCount() const { return _quadCount; }
+	const std::vector<std::unique_ptr<BillboardQuad>>& GetQuads() const { return _quads; }
+
+private:
+	uint32_t _version;
+	std::string _name;
+	std::string _shader;
+	uint32_t _zTest;
+	uint32_t _zWrite;
+	uint32_t _fog;
+	uint32_t _quadCount;
+	std::vector<std::unique_ptr<BillboardQuad>> _quads;
+};
+
+class BillboardDisplayInfo
+{
+public:
+	BillboardDisplayInfo(const P3DChunk&);
+
+	static std::unique_ptr<BillboardDisplayInfo> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<BillboardDisplayInfo>(chunk);
+	}
+
+	const uint32_t& GetVersion() const { return _version; }
+	const Quaternion& GetRotation() const { return _rotation; }
+	const std::string& GetCutOffMode() const { return _cutOffMode; }
+	const Vector2& GetUvOffsetRange() const { return _uvOffsetRange; }
+	const float& GetSourceRange() const { return _sourceRange; }
+	const float& GetEdgeRange() const { return _edgeRange; }
+
+private:
+	uint32_t _version;
+	Quaternion _rotation;
+	std::string _cutOffMode;
+	Vector2 _uvOffsetRange;
+	float _sourceRange;
+	float _edgeRange;
+};
+
+class BillboardPerspectiveInfo
+{
+public:
+	BillboardPerspectiveInfo(const P3DChunk&);
+
+	static std::unique_ptr<BillboardPerspectiveInfo> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<BillboardPerspectiveInfo>(chunk);
+	}
+
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetValue() const { return _value; }
+
+private:
+	uint32_t _version;
+	uint32_t _value;
+};
+
+class Texture
+{
+public:
+	Texture(const P3DChunk&);
+
+	static std::unique_ptr<Texture> Load(const P3DChunk& chunk) { return std::make_unique<Texture>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetWidth() const { return _width; }
+	const uint32_t& GetHeight() const { return _height; }
+	const uint32_t& GetBpp() const { return _bpp; }
+	const uint32_t& GetAlphaDepth() const { return _alphaDepth; }
+	const uint32_t& GetNumMipMaps() const { return _numMipMaps; }
+	const uint32_t& GetTextureType() const { return _textureType; }
+	const uint32_t& GetUsage() const { return _usage; }
+	const uint32_t& GetPriority() const { return _priority; }
+	const std::unique_ptr<Image>& GetImage() const { return _image; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _width;
+	uint32_t _height;
+	uint32_t _bpp;
+	uint32_t _alphaDepth;
+	uint32_t _numMipMaps;
+	uint32_t _textureType;
+	uint32_t _usage;
+	uint32_t _priority;
+	std::unique_ptr<Image> _image;
+};
+
+class Image
+{
+public:
+	Image(const P3DChunk&);
+
+	static std::unique_ptr<Image> Load(const P3DChunk& chunk) { return std::make_unique<Image>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetWidth() const { return _width; }
+	const uint32_t& GetHeight() const { return _height; }
+	const uint32_t& GetBpp() const { return _bpp; }
+	const uint32_t& GetPalettized() const { return _palettized; }
+	const uint32_t& GetHasAlpha() const { return _hasAlpha; }
+	const uint32_t& GetFormat() const { return _format; }
+	const std::vector<uint8_t>& GetData() const { return _data; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _width;
+	uint32_t _height;
+	uint32_t _bpp;
+	uint32_t _palettized;
+	uint32_t _hasAlpha;
+	uint32_t _format;
+	std::vector<uint8_t> _data;
+};
+
+class ImageData
+{
+public:
+	ImageData(const P3DChunk&);
+
+	static std::unique_ptr<ImageData> Load(const P3DChunk& chunk) { return std::make_unique<ImageData>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<uint8_t>& GetData() const { return _data; }
+
+private:
+	uint32_t _size;
+	std::vector<uint8_t> _data;
+};
+
+class TextureFont
+{
+public:
+	TextureFont(const P3DChunk&);
+
+	static std::unique_ptr<TextureFont> Load(const P3DChunk& chunk) { return std::make_unique<TextureFont>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const std::string& GetShader() const { return _shader; }
+	const float& GetSize() const { return _size; }
+	const float& GetWidth() const { return _width; }
+	const float& GetHeight() const { return _height; }
+	const float& GetBaseLine() const { return _baseLine; }
+	const uint32_t& GetNumTextures() const { return _numTextures; }
+	const std::vector<std::unique_ptr<Texture>>& GetTextures() const { return _textures; }
+	const std::vector<FontGlyph>& GetGlyphs() const { return _glyphs; }
+
+private:
+	uint32_t _version;
+	std::string _name;
+	std::string _shader;
+	float _size;
+	float _width;
+	float _height;
+	float _baseLine;
+	uint32_t _numTextures;
+	std::vector<std::unique_ptr<Texture>> _textures;
+	std::vector<FontGlyph> _glyphs;
+};
+
+class FontGlyphs
+{
+public:
+	FontGlyphs(const P3DChunk&);
+
+	static std::unique_ptr<FontGlyphs> Load(const P3DChunk& chunk) { return std::make_unique<FontGlyphs>(chunk); }
+
+	const uint32_t& GetSize() const { return _size; }
+	const std::vector<FontGlyph>& GetGlyphs() const { return _glyphs; }
+
+private:
+	uint32_t _size;
+	std::vector<FontGlyph> _glyphs;
+};
+
+class Sprite
+{
+public:
+	Sprite(const P3DChunk&);
+
+	static std::unique_ptr<Sprite> Load(const P3DChunk& chunk) { return std::make_unique<Sprite>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetNativeX() const { return _nativeX; }
+	const uint32_t& GetNativeY() const { return _nativeY; }
+	const std::string& GetShader() const { return _shader; }
+	const uint32_t& GetWidth() const { return _width; }
+	const uint32_t& GetHeight() const { return _height; }
+	const uint32_t& GetImageCount() const { return _imageCount; }
+	const uint32_t& GetBlitBorder() const { return _blitBorder; }
+	const std::vector<std::unique_ptr<Image>>& GetImages() const { return _images; }
+
+private:
+	std::string _name;
+	uint32_t _nativeX;
+	uint32_t _nativeY;
+	std::string _shader;
+	uint32_t _width;
+	uint32_t _height;
+	uint32_t _imageCount;
+	uint32_t _blitBorder;
+	std::vector<std::unique_ptr<Image>> _images;
+};
+
+class FrontendScreen
+{
+public:
+	FrontendScreen(const P3DChunk&);
+
+	static std::unique_ptr<FrontendScreen> Load(const P3DChunk& chunk) { return std::make_unique<FrontendScreen>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetNumPages() const { return _numPages; }
+	const std::vector<std::string>& GetPageNames() const { return _pageNames; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _numPages;
+	std::vector<std::string> _pageNames;
+};
+
+class FrontendProject
+{
+public:
+	FrontendProject(const P3DChunk&);
+
+	static std::unique_ptr<FrontendProject> Load(const P3DChunk& chunk) { return std::make_unique<FrontendProject>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetResX() const { return _resX; }
+	const uint32_t& GetResY() const { return _resY; }
+	const std::string& GetPlatform() const { return _platform; }
+	const std::string& GetPagePath() const { return _pagePath; }
+	const std::string& GetResourcePath() const { return _resourcePath; }
+	const std::string& GetScreenPath() const { return _screenPath; }
+	const std::vector<std::unique_ptr<FrontendPage>>& GetPages() const { return _pages; }
+	const std::vector<std::unique_ptr<FrontendScreen>>& GetScreens() const { return _screens; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _resX;
+	uint32_t _resY;
+	std::string _platform;
+	std::string _pagePath;
+	std::string _resourcePath;
+	std::string _screenPath;
+	std::vector<std::unique_ptr<FrontendPage>> _pages;
+	std::vector<std::unique_ptr<FrontendScreen>> _screens;
+};
+
+class FrontendPage
+{
+public:
+	FrontendPage(const P3DChunk&);
+
+	static std::unique_ptr<FrontendPage> Load(const P3DChunk& chunk) { return std::make_unique<FrontendPage>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetResX() const { return _resX; }
+	const uint32_t& GetResY() const { return _resY; }
+	const std::vector<std::unique_ptr<FrontendLayer>>& GetLayers() const { return _layers; }
+	const std::vector<std::unique_ptr<FrontendImageResource>>& GetImageResources() const { return _imageResources; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _resX;
+	uint32_t _resY;
+	std::vector<std::unique_ptr<FrontendLayer>> _layers;
+	std::vector<std::unique_ptr<FrontendImageResource>> _imageResources;
+};
+
+class FrontendLayer
+{
+public:
+	FrontendLayer(const P3DChunk&);
+
+	static std::unique_ptr<FrontendLayer> Load(const P3DChunk& chunk) { return std::make_unique<FrontendLayer>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetVisible() const { return _visible; }
+	const uint32_t& GetEditable() const { return _editable; }
+	const uint32_t& GetAlpha() const { return _alpha; }
+	const std::vector<std::unique_ptr<FrontendGroup>>& GetGroups() const { return _groups; }
+	const std::vector<std::unique_ptr<FrontendMultiSprite>>& GetMultiSprites() const { return _multiSprites; }
+	const std::vector<std::unique_ptr<FrontendMultiText>>& GetMultiTexts() const { return _multiTexts; }
+	const std::vector<std::unique_ptr<FrontendObject>>& GetObjects() const { return _objects; }
+	const std::vector<std::unique_ptr<FrontendPolygon>>& GetPolygons() const { return _polygons; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _visible;
+	uint32_t _editable;
+	uint32_t _alpha;
+	std::vector<std::unique_ptr<FrontendGroup>> _groups;
+	std::vector<std::unique_ptr<FrontendMultiSprite>> _multiSprites;
+	std::vector<std::unique_ptr<FrontendMultiText>> _multiTexts;
+	std::vector<std::unique_ptr<FrontendObject>> _objects;
+	std::vector<std::unique_ptr<FrontendPolygon>> _polygons;
+};
+
+class FrontendGroup
+{
+public:
+	FrontendGroup(const P3DChunk&);
+
+	static std::unique_ptr<FrontendGroup> Load(const P3DChunk& chunk) { return std::make_unique<FrontendGroup>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetAlpha() const { return _alpha; }
+	const std::vector<std::unique_ptr<FrontendGroup>>& GetChildren() const { return _children; }
+	const std::vector<std::unique_ptr<FrontendMultiSprite>>& GetMultiSprites() const { return _multiSprites; }
+	const std::vector<std::unique_ptr<FrontendMultiText>>& GetMultiTexts() const { return _multiTexts; }
+	const std::vector<std::unique_ptr<FrontendPolygon>>& GetPolygons() const { return _polygons; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _alpha;
+	std::vector<std::unique_ptr<FrontendGroup>> _children;
+	std::vector<std::unique_ptr<FrontendMultiSprite>> _multiSprites;
+	std::vector<std::unique_ptr<FrontendMultiText>> _multiTexts;
+	std::vector<std::unique_ptr<FrontendPolygon>> _polygons;
+};
+
+class FrontendMultiSprite
+{
+public:
+	FrontendMultiSprite(const P3DChunk&);
+
+	static std::unique_ptr<FrontendMultiSprite> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<FrontendMultiSprite>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const int32_t& GetPositionX() const { return _positionX; }
+	const int32_t& GetPositionY() const { return _positionY; }
+	const uint32_t& GetDimensionX() const { return _dimensionX; }
+	const uint32_t& GetDimensionY() const { return _dimensionY; }
+	const uint32_t& GetAlignX() const { return _alignX; }
+	const uint32_t& GetAlignY() const { return _alignY; }
+	const uint32_t& GetColor() const { return _color; }
+	const uint32_t& GetTranslucent() const { return _translucent; }
+	const float& GetRotation() const { return _rotation; }
+	const uint32_t& GetNumImages() const { return _numImages; }
+	const std::vector<std::string>& GetImageNames() const { return _imageNames; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	int32_t _positionX;
+	int32_t _positionY;
+	uint32_t _dimensionX;
+	uint32_t _dimensionY;
+	uint32_t _alignX;
+	uint32_t _alignY;
+	uint32_t _color;
+	uint32_t _translucent;
+	float _rotation;
+	uint32_t _numImages;
+	std::vector<std::string> _imageNames;
+};
+
+class FrontendMultiText
+{
+public:
+	FrontendMultiText(const P3DChunk&);
+
+	static std::unique_ptr<FrontendMultiText> Load(const P3DChunk& chunk) { return std::make_unique<FrontendMultiText>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const int32_t& GetPositionX() const { return _positionX; }
+	const int32_t& GetPositionY() const { return _positionY; }
+	const uint32_t& GetDimensionX() const { return _dimensionX; }
+	const uint32_t& GetDimensionY() const { return _dimensionY; }
+	const uint32_t& GetAlignX() const { return _alignX; }
+	const uint32_t& GetAlignY() const { return _alignY; }
+	const uint32_t& GetColor() const { return _color; }
+	const uint32_t& GetTranslucent() const { return _translucent; }
+	const float& GetRotation() const { return _rotation; }
+	const std::string& GetFontName() const { return _fontName; }
+	const uint8_t& GetShadowEnabled() const { return _shadowEnabled; }
+	const uint32_t& GetShadowColor() const { return _shadowColor; }
+	const int32_t& GetShadowOffsetX() const { return _shadowOffsetX; }
+	const int32_t& GetShadowOffsetY() const { return _shadowOffsetY; }
+	const uint32_t& GetCurrent() const { return _current; }
+	const std::vector<std::unique_ptr<FrontendStringTextBible>>& GetTextBibles() const { return _textBibles; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	int32_t _positionX;
+	int32_t _positionY;
+	uint32_t _dimensionX;
+	uint32_t _dimensionY;
+	uint32_t _alignX;
+	uint32_t _alignY;
+	uint32_t _color;
+	uint32_t _translucent;
+	float _rotation;
+	std::string _fontName;
+	uint8_t _shadowEnabled;
+	uint32_t _shadowColor;
+	int32_t _shadowOffsetX;
+	int32_t _shadowOffsetY;
+	uint32_t _current;
+	std::vector<std::unique_ptr<FrontendStringTextBible>> _textBibles;
+};
+
+class FrontendStringTextBible
+{
+public:
+	FrontendStringTextBible(const P3DChunk&);
+
+	static std::unique_ptr<FrontendStringTextBible> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<FrontendStringTextBible>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const std::string& GetKey() const { return _key; }
+
+private:
+	std::string _name;
+	std::string _key;
+};
+
+class FrontendObject
+{
+public:
+	FrontendObject(const P3DChunk&);
+
+	static std::unique_ptr<FrontendObject> Load(const P3DChunk& chunk) { return std::make_unique<FrontendObject>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+
+private:
+	std::string _name;
+};
+
+class FrontendPolygon
+{
+public:
+	FrontendPolygon(const P3DChunk&);
+
+	static std::unique_ptr<FrontendPolygon> Load(const P3DChunk& chunk) { return std::make_unique<FrontendPolygon>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const uint32_t& GetTranslucent() const { return _translucent; }
+	const uint32_t& GetNumPoints() const { return _numPoints; }
+	const std::vector<Vector3>& GetPoints() const { return _points; }
+	const std::vector<uint32_t>& GetColors() const { return _colors; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	uint32_t _translucent;
+	uint32_t _numPoints;
+	std::vector<Vector3> _points;
+	std::vector<uint32_t> _colors;
+};
+
+class FrontendImageResource
+{
+public:
+	FrontendImageResource(const P3DChunk&);
+
+	static std::unique_ptr<FrontendImageResource> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<FrontendImageResource>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetFilepath() const { return _filepath; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	std::string _filepath;
+};
+
+class Locator2
+{
+public:
+	Locator2(const P3DChunk&);
+
+	static std::unique_ptr<Locator2> Load(const P3DChunk& chunk) { return std::make_unique<Locator2>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetType() const { return _type; }
+	const uint32_t& GetDataSize() const { return _dataSize; }
+	const std::vector<std::unique_ptr<TriggerVolume>>& GetTriggers() const { return _triggers; }
+
+private:
+	std::string _name;
+	uint32_t _type;
+	uint32_t _dataSize;
+	std::vector<std::unique_ptr<TriggerVolume>> _triggers;
+};
+
+class TriggerVolume
+{
+public:
+	TriggerVolume(const P3DChunk&);
+
+	static std::unique_ptr<TriggerVolume> Load(const P3DChunk& chunk) { return std::make_unique<TriggerVolume>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetIsRect() const { return _isRect; }
+	const Vector3& GetBounds() const { return _bounds; }
+	const Matrix4x4& GetTransform() const { return _transform; }
+
+private:
+	std::string _name;
+	uint32_t _isRect;
+	Vector3 _bounds;
+	Matrix4x4 _transform;
+};
+
+class Camera
+{
+public:
+	Camera(const P3DChunk&);
+
+	static std::unique_ptr<Camera> Load(const P3DChunk& chunk) { return std::make_unique<Camera>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const float& GetFov() const { return _fov; }
+	const float& GetAspectRatio() const { return _aspectRatio; }
+	const float& GetNearClip() const { return _nearClip; }
+	const float& GetFarClip() const { return _farClip; }
+	const Vector3& GetPosition() const { return _position; }
+	const Vector3& GetForward() const { return _forward; }
+	const Vector3& GetUp() const { return _up; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	float _fov;
+	float _aspectRatio;
+	float _nearClip;
+	float _farClip;
+	Vector3 _position;
+	Vector3 _forward;
+	Vector3 _up;
+};
+
+class MultiController
+{
+public:
+	MultiController(const P3DChunk&);
+
+	static std::unique_ptr<MultiController> Load(const P3DChunk& chunk) { return std::make_unique<MultiController>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const float& GetLength() const { return _length; }
+	const float& GetFrameRate() const { return _frameRate; }
+	const uint32_t& GetNumTracks() const { return _numTracks; }
+	const std::unique_ptr<MultiControllerTracks>& GetTracks() const { return _tracks; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	float _length;
+	float _frameRate;
+	uint32_t _numTracks;
+	std::unique_ptr<MultiControllerTracks> _tracks;
+};
+
+class MultiControllerTracks
+{
+public:
+	MultiControllerTracks(const P3DChunk&);
+
+	static std::unique_ptr<MultiControllerTracks> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<MultiControllerTracks>(chunk);
+	}
+
+	const uint32_t& GetNumTracks() const { return _numTracks; }
+	const std::vector<std::string>& GetTrackNames() const { return _trackNames; }
+	const std::vector<float>& GetTrackStartTimes() const { return _trackStartTimes; }
+	const std::vector<float>& GetTrackEndTimes() const { return _trackEndTimes; }
+	const std::vector<float>& GetTrackScales() const { return _trackScales; }
+
+private:
+	uint32_t _numTracks;
+	std::vector<std::string> _trackNames;
+	std::vector<float> _trackStartTimes;
+	std::vector<float> _trackEndTimes;
+	std::vector<float> _trackScales;
+};
+
+class CollisionObject
+{
+public:
+	CollisionObject(const P3DChunk&);
+
+	static std::unique_ptr<CollisionObject> Load(const P3DChunk& chunk) { return std::make_unique<CollisionObject>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetMaterialName() const { return _materialName; }
+	const uint32_t& GetNumSubObjects() const { return _numSubObjects; }
+	const uint32_t& GetNumVolumeOwners() const { return _numVolumeOwners; }
+	const std::vector<std::unique_ptr<CollisionVolumeOwner>>& GetVolumeOwners() const { return _volumeOwners; }
+	const std::unique_ptr<CollisionVolume>& GetVolume() const { return _volume; }
+	const std::unique_ptr<CollisionObjectAttribute>& GetAttribute() const { return _attribute; }
+
+private:
+	std::string _name;
+	uint32_t _version;
+	std::string _materialName;
+	uint32_t _numSubObjects;
+	uint32_t _numVolumeOwners;
+	std::vector<std::unique_ptr<CollisionVolumeOwner>> _volumeOwners;
+	std::unique_ptr<CollisionVolume> _volume;
+	std::unique_ptr<CollisionObjectAttribute> _attribute;
+};
+
+class CollisionVolume
+{
+public:
+	CollisionVolume(const P3DChunk&);
+
+	static std::unique_ptr<CollisionVolume> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVolume>(chunk); }
+
+	const uint32_t& GetObjectRefIndex() const { return _objectRefIndex; }
+	const int32_t& GetOwnerIndex() const { return _ownerIndex; }
+	const uint32_t& GetNumSubVolumes() const { return _numSubVolumes; }
+	const std::vector<std::unique_ptr<CollisionVolume>>& GetSubVolumes() const { return _subVolumes; }
+	const std::unique_ptr<CollisionBBoxVolume>& GetBBox() const { return _bBox; }
+	const std::unique_ptr<CollisionOBBoxVolume>& GetObBox() const { return _obBox; }
+	const std::unique_ptr<CollisionSphere>& GetSphere() const { return _sphere; }
+	const std::unique_ptr<CollisionCylinder>& GetCylinder() const { return _cylinder; }
+
+private:
+	uint32_t _objectRefIndex;
+	int32_t _ownerIndex;
+	uint32_t _numSubVolumes;
+	std::vector<std::unique_ptr<CollisionVolume>> _subVolumes;
+	std::unique_ptr<CollisionBBoxVolume> _bBox;
+	std::unique_ptr<CollisionOBBoxVolume> _obBox;
+	std::unique_ptr<CollisionSphere> _sphere;
+	std::unique_ptr<CollisionCylinder> _cylinder;
+};
+
+class CollisionSphere
+{
+public:
+	CollisionSphere(const P3DChunk&);
+
+	static std::unique_ptr<CollisionSphere> Load(const P3DChunk& chunk) { return std::make_unique<CollisionSphere>(chunk); }
+
+	const float& GetRadius() const { return _radius; }
+	const std::vector<Vector3>& GetVectors() const { return _vectors; }
+
+private:
+	float _radius;
+	std::vector<Vector3> _vectors;
+};
+
+class CollisionCylinder
+{
+public:
+	CollisionCylinder(const P3DChunk&);
+
+	static std::unique_ptr<CollisionCylinder> Load(const P3DChunk& chunk) { return std::make_unique<CollisionCylinder>(chunk); }
+
+	const float& GetRadius() const { return _radius; }
+	const float& GetLength() const { return _length; }
+	const uint16_t& GetFlatEnd() const { return _flatEnd; }
+	const std::vector<Vector3>& GetVectors() const { return _vectors; }
+
+private:
+	float _radius;
+	float _length;
+	uint16_t _flatEnd;
+	std::vector<Vector3> _vectors;
+};
+
+class CollisionOBBoxVolume
+{
+public:
+	CollisionOBBoxVolume(const P3DChunk&);
+
+	static std::unique_ptr<CollisionOBBoxVolume> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CollisionOBBoxVolume>(chunk);
+	}
+
+	const Vector3& GetHalfExtents() const { return _halfExtents; }
+	const std::vector<Vector3>& GetVectors() const { return _vectors; }
+
+private:
+	Vector3 _halfExtents;
+	std::vector<Vector3> _vectors;
+};
+
+class CollisionBBoxVolume
+{
+public:
+	CollisionBBoxVolume(const P3DChunk&);
+
+	static std::unique_ptr<CollisionBBoxVolume> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CollisionBBoxVolume>(chunk);
+	}
+
+	const uint32_t& GetNothing() const { return _nothing; }
+
+private:
+	uint32_t _nothing;
+};
+
+class CollisionVector
+{
+public:
+	CollisionVector(const P3DChunk&);
+
+	static std::unique_ptr<CollisionVector> Load(const P3DChunk& chunk) { return std::make_unique<CollisionVector>(chunk); }
+
+	const Vector3& GetValue() const { return _value; }
+
+private:
+	Vector3 _value;
+};
+
+class CollisionVolumeOwner
+{
+public:
+	CollisionVolumeOwner(const P3DChunk&);
+
+	static std::unique_ptr<CollisionVolumeOwner> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CollisionVolumeOwner>(chunk);
+	}
+
+	const uint32_t& GetNumNames() const { return _numNames; }
+	const std::vector<std::unique_ptr<CollisionVolumeOwnerName>>& GetNames() const { return _names; }
+
+private:
+	uint32_t _numNames;
+	std::vector<std::unique_ptr<CollisionVolumeOwnerName>> _names;
+};
+
+class CollisionVolumeOwnerName
+{
+public:
+	CollisionVolumeOwnerName(const P3DChunk&);
+
+	static std::unique_ptr<CollisionVolumeOwnerName> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CollisionVolumeOwnerName>(chunk);
+	}
+
+	const std::string& GetName() const { return _name; }
+
+private:
+	std::string _name;
+};
+
+class CollisionObjectAttribute
+{
+public:
+	CollisionObjectAttribute(const P3DChunk&);
+
+	static std::unique_ptr<CollisionObjectAttribute> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CollisionObjectAttribute>(chunk);
+	}
+
+	const uint16_t& GetStatic() const { return _static; }
+	const uint32_t& GetDefaultArea() const { return _defaultArea; }
+	const uint16_t& GetCanRoll() const { return _canRoll; }
+	const uint16_t& GetCanSlide() const { return _canSlide; }
+	const uint16_t& GetCanSpin() const { return _canSpin; }
+	const uint16_t& GetCanBounce() const { return _canBounce; }
+	const uint32_t& GetTodo1() const { return _todo1; }
+	const uint32_t& GetTodo2() const { return _todo2; }
+	const uint32_t& GetTodo3() const { return _todo3; }
+
+private:
+	uint16_t _static;
+	uint32_t _defaultArea;
+	uint16_t _canRoll;
+	uint16_t _canSlide;
+	uint16_t _canSpin;
+	uint16_t _canBounce;
+	uint32_t _todo1;
+	uint32_t _todo2;
+	uint32_t _todo3;
+};
+
+class FenceWrapper
+{
+public:
+	FenceWrapper(const P3DChunk&);
+
+	static std::unique_ptr<FenceWrapper> Load(const P3DChunk& chunk) { return std::make_unique<FenceWrapper>(chunk); }
+
+	const std::unique_ptr<Fence>& GetFence() const { return _fence; }
+
+private:
+	std::unique_ptr<Fence> _fence;
+};
+
+class Fence
+{
+public:
+	Fence(const P3DChunk&);
+
+	static std::unique_ptr<Fence> Load(const P3DChunk& chunk) { return std::make_unique<Fence>(chunk); }
+
+	const Vector3& GetStart() const { return _start; }
+	const Vector3& GetEnd() const { return _end; }
+	const Vector3& GetNormal() const { return _normal; }
+
+private:
+	Vector3 _start;
+	Vector3 _end;
+	Vector3 _normal;
+};
+
+class Set
+{
+public:
+	Set(const P3DChunk&);
+
+	static std::unique_ptr<Set> Load(const P3DChunk& chunk) { return std::make_unique<Set>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetNumTextures() const { return _numTextures; }
+	const std::vector<std::unique_ptr<Texture>>& GetTextures() const { return _textures; }
+
+private:
+	std::string _name;
+	uint32_t _numTextures;
+	std::vector<std::unique_ptr<Texture>> _textures;
+};
+
+class Path
+{
+public:
+	Path(const P3DChunk&);
+
+	static std::unique_ptr<Path> Load(const P3DChunk& chunk) { return std::make_unique<Path>(chunk); }
+
+	const uint32_t& GetNumPoints() const { return _numPoints; }
+	const std::vector<Vector3>& GetPoints() const { return _points; }
+
+private:
+	uint32_t _numPoints;
+	std::vector<Vector3> _points;
+};
+
+class Intersection
+{
+public:
+	Intersection(const P3DChunk&);
+
+	static std::unique_ptr<Intersection> Load(const P3DChunk& chunk) { return std::make_unique<Intersection>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const Vector3& GetPosition() const { return _position; }
+	const float& GetRadius() const { return _radius; }
+	const uint32_t& GetTrafficBehaviour() const { return _trafficBehaviour; }
+
+private:
+	std::string _name;
+	Vector3 _position;
+	float _radius;
+	uint32_t _trafficBehaviour;
+};
+
+class RoadDataSegment
+{
+public:
+	RoadDataSegment(const P3DChunk&);
+
+	static std::unique_ptr<RoadDataSegment> Load(const P3DChunk& chunk) { return std::make_unique<RoadDataSegment>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetTodo0() const { return _todo0; }
+	const uint32_t& GetLanes() const { return _lanes; }
+	const uint32_t& GetTodo1() const { return _todo1; }
+	const Vector3& GetPosition0() const { return _position0; }
+	const Vector3& GetPosition1() const { return _position1; }
+	const Vector3& GetPosition2() const { return _position2; }
+
+private:
+	std::string _name;
+	uint32_t _todo0;
+	uint32_t _lanes;
+	uint32_t _todo1;
+	Vector3 _position0;
+	Vector3 _position1;
+	Vector3 _position2;
+};
+
+class Road
+{
+public:
+	Road(const P3DChunk&);
+
+	static std::unique_ptr<Road> Load(const P3DChunk& chunk) { return std::make_unique<Road>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetTodo0() const { return _todo0; }
+	const std::string& GetStartIntersection() const { return _startIntersection; }
+	const std::string& GetEndIntersection() const { return _endIntersection; }
+	const uint32_t& GetMaxCars() const { return _maxCars; }
+	const uint8_t& GetTodo1() const { return _todo1; }
+	const uint8_t& GetTodo2() const { return _todo2; }
+	const uint8_t& GetNoReset() const { return _noReset; }
+	const uint8_t& GetTodo3() const { return _todo3; }
+
+private:
+	std::string _name;
+	uint32_t _todo0;
+	std::string _startIntersection;
+	std::string _endIntersection;
+	uint32_t _maxCars;
+	uint8_t _todo1;
+	uint8_t _todo2;
+	uint8_t _noReset;
+	uint8_t _todo3;
+};
+
+class RoadSegment
+{
+public:
+	RoadSegment(const P3DChunk&);
+
+	static std::unique_ptr<RoadSegment> Load(const P3DChunk& chunk) { return std::make_unique<RoadSegment>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const std::string& GetData() const { return _data; }
+	const Matrix4x4& GetTransform() const { return _transform; }
+	const Matrix4x4& GetTransform2() const { return _transform2; }
+
+private:
+	std::string _name;
+	std::string _data;
+	Matrix4x4 _transform;
+	Matrix4x4 _transform2;
+};
+
+class GameAttr
+{
+public:
+	GameAttr(const P3DChunk&);
+
+	static std::unique_ptr<GameAttr> Load(const P3DChunk& chunk) { return std::make_unique<GameAttr>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetNumParams() const { return _numParams; }
+	const std::vector<std::unique_ptr<GameAttrIntParam>>& GetParams() const { return _params; }
+
+private:
+	uint32_t _version;
+	std::string _name;
+	uint32_t _numParams;
+	std::vector<std::unique_ptr<GameAttrIntParam>> _params;
+};
+
+class GameAttrIntParam
+{
+public:
+	GameAttrIntParam(const P3DChunk&);
+
+	static std::unique_ptr<GameAttrIntParam> Load(const P3DChunk& chunk) { return std::make_unique<GameAttrIntParam>(chunk); }
+
+	const std::string& GetName() const { return _name; }
+	const uint32_t& GetValue() const { return _value; }
+
+private:
+	std::string _name;
+	uint32_t _value;
+};
+
+class History
+{
+public:
+	History(const P3DChunk&);
+
+	static std::unique_ptr<History> Load(const P3DChunk& chunk) { return std::make_unique<History>(chunk); }
+
+	const uint32_t& GetNumLines() const { return _numLines; }
+	const std::vector<std::string>& GetLines() const { return _lines; }
+
+private:
+	uint32_t _numLines;
+	std::vector<std::string> _lines;
+};
+
+class BreakableObject
+{
+public:
+	BreakableObject(const P3DChunk&);
+
+	static std::unique_ptr<BreakableObject> Load(const P3DChunk& chunk) { return std::make_unique<BreakableObject>(chunk); }
+
+	const uint32_t& GetIndex() const { return _index; }
+	const uint32_t& GetCount() const { return _count; }
+	const std::vector<std::unique_ptr<Animation>>& GetAnimations() const { return _animations; }
+	const std::vector<std::unique_ptr<Skeleton>>& GetSkeletons() const { return _skeletons; }
+	const std::vector<std::unique_ptr<Geometry>>& GetGeometries() const { return _geometries; }
+	const std::unique_ptr<CompositeDrawable>& GetDrawable() const { return _drawable; }
+	const std::unique_ptr<AnimatedObject>& GetAnimObjects() const { return _animObjects; }
+
+private:
+	uint32_t _index;
+	uint32_t _count;
+	std::vector<std::unique_ptr<Animation>> _animations;
+	std::vector<std::unique_ptr<Skeleton>> _skeletons;
+	std::vector<std::unique_ptr<Geometry>> _geometries;
+	std::unique_ptr<CompositeDrawable> _drawable;
+	std::unique_ptr<AnimatedObject> _animObjects;
+};
+
+class AnimatedObject
+{
+public:
+	AnimatedObject(const P3DChunk&);
+
+	static std::unique_ptr<AnimatedObject> Load(const P3DChunk& chunk) { return std::make_unique<AnimatedObject>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const std::string& GetFactoryName() const { return _factoryName; }
+	const uint32_t& GetStartAnimation() const { return _startAnimation; }
+
+private:
+	uint32_t _version;
+	std::string _name;
+	std::string _factoryName;
+	uint32_t _startAnimation;
+};
+
+class FollowCameraData
+{
+public:
+	FollowCameraData(const P3DChunk&);
+
+	static std::unique_ptr<FollowCameraData> Load(const P3DChunk& chunk) { return std::make_unique<FollowCameraData>(chunk); }
+
+	const uint32_t& GetIndex() const { return _index; }
+	const float& GetYaw() const { return _yaw; }
+	const float& GetPitch() const { return _pitch; }
+	const float& GetDistance() const { return _distance; }
+	const Vector3& GetOffset() const { return _offset; }
+
+private:
+	uint32_t _index;
+	float _yaw;
+	float _pitch;
+	float _distance;
+	Vector3 _offset;
+};
+
+class PhysicsObject
+{
+public:
+	PhysicsObject(const P3DChunk&);
+
+	static std::unique_ptr<PhysicsObject> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsObject>(chunk); }
+
+	const uint32_t& GetVersion() const { return _version; }
+	const std::string& GetName() const { return _name; }
+	const std::string& GetMaterialName() const { return _materialName; }
+	const uint32_t& GetNumJoints() const { return _numJoints; }
+	const float& GetVolume() const { return _volume; }
+	const float& GetSensitivity() const { return _sensitivity; }
+	const std::vector<std::unique_ptr<PhysicsJoint>>& GetJoints() const { return _joints; }
+
+private:
+	uint32_t _version;
+	std::string _name;
+	std::string _materialName;
+	uint32_t _numJoints;
+	float _volume;
+	float _sensitivity;
+	std::vector<std::unique_ptr<PhysicsJoint>> _joints;
+};
+
+class PhysicsJoint
+{
+public:
+	PhysicsJoint(const P3DChunk&);
+
+	static std::unique_ptr<PhysicsJoint> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsJoint>(chunk); }
+
+	const uint32_t& GetIndex() const { return _index; }
+	const float& GetVolume() const { return _volume; }
+	const float& GetStiffness() const { return _stiffness; }
+	const float& GetMinAngle() const { return _minAngle; }
+	const float& GetMaxAngle() const { return _maxAngle; }
+	const float& GetDOF() const { return _DOF; }
+	const Vector3& GetVector() const { return _vector; }
+	const std::unique_ptr<PhysicsInertiaMatrix>& GetInertiaMatrix() const { return _inertiaMatrix; }
+
+private:
+	uint32_t _index;
+	float _volume;
+	float _stiffness;
+	float _minAngle;
+	float _maxAngle;
+	float _DOF;
+	Vector3 _vector;
+	std::unique_ptr<PhysicsInertiaMatrix> _inertiaMatrix;
+};
+
+class PhysicsVector
+{
+public:
+	PhysicsVector(const P3DChunk&);
+
+	static std::unique_ptr<PhysicsVector> Load(const P3DChunk& chunk) { return std::make_unique<PhysicsVector>(chunk); }
+
+	const Vector3& GetValue() const { return _value; }
+
+private:
+	Vector3 _value;
+};
+
+class PhysicsInertiaMatrix
+{
+public:
+	PhysicsInertiaMatrix(const P3DChunk&);
+
+	static std::unique_ptr<PhysicsInertiaMatrix> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<PhysicsInertiaMatrix>(chunk);
+	}
+
+	const Vector3& GetPosition() const { return _position; }
+	const Vector3& GetForward() const { return _forward; }
+	const Vector3& GetRight() const { return _right; }
+	const Vector3& GetUp() const { return _up; }
+
+private:
+	Vector3 _position;
+	Vector3 _forward;
+	Vector3 _right;
+	Vector3 _up;
+};
+
+class CompositeDrawableSkinList
+{
+public:
+	CompositeDrawableSkinList(const P3DChunk&);
+
+	static std::unique_ptr<CompositeDrawableSkinList> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CompositeDrawableSkinList>(chunk);
+	}
+
+	const uint32_t& GetNumSkins() const { return _numSkins; }
+
+private:
+	uint32_t _numSkins;
+};
+
+class CompositeDrawableEffectList
+{
+public:
+	CompositeDrawableEffectList(const P3DChunk&);
+
+	static std::unique_ptr<CompositeDrawableEffectList> Load(const P3DChunk& chunk)
+	{
+		return std::make_unique<CompositeDrawableEffectList>(chunk);
+	}
+
+	const uint32_t& GetNumEffects() const { return _numEffects; }
+
+private:
+	uint32_t _numEffects;
+};
+} // namespace Donut::P3D

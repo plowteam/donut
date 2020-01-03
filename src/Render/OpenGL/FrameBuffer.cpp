@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "FrameBuffer.h"
 
@@ -10,34 +10,19 @@
 namespace Donut::GL
 {
 GLint FrameBuffer::MAX_ATTACHMENTS = -1;
-GLint FrameBuffer::MAX_SAMPLES     = -1;
+GLint FrameBuffer::MAX_SAMPLES = -1;
 
-FrameBuffer::Format::Format():
-    _target(GL_TEXTURE_2D),
-    _colourInternalFormat(GL_RGBA8),
-    _colourFormat(GL_RGBA),
-    _colourType(GL_UNSIGNED_BYTE),
-    _depthInternalFormat(GL_DEPTH_COMPONENT24),
-    _depthBufferAsTexture(true),
-    _samples(0),
-    _colourBufferCount(1),
-    _depthBuffer(true),
-    _mipmapping(false),
-    _wrapS(GL_CLAMP_TO_EDGE),
-    _wrapT(GL_CLAMP_TO_EDGE),
-    _filterMin(GL_LINEAR),
-    _filterMag(GL_LINEAR)
+FrameBuffer::Format::Format()
+    : _target(GL_TEXTURE_2D), _colourInternalFormat(GL_RGBA8), _colourFormat(GL_RGBA), _colourType(GL_UNSIGNED_BYTE),
+      _depthInternalFormat(GL_DEPTH_COMPONENT24), _depthBufferAsTexture(true), _samples(0), _colourBufferCount(1),
+      _depthBuffer(true), _mipmapping(false), _wrapS(GL_CLAMP_TO_EDGE), _wrapT(GL_CLAMP_TO_EDGE), _filterMin(GL_LINEAR),
+      _filterMag(GL_LINEAR)
 {
 }
 
-FrameBuffer::FrameBuffer(int width, int height, const Format& format):
-    _handle(0),
-    _resolveHandle(0),
-    _width(width),
-    _height(height),
-    _format(format),
-    _depthRenderBuffer(NULL),
-    _multisampleDepthRenderBuffer(NULL)
+FrameBuffer::FrameBuffer(int width, int height, const Format& format)
+    : _handle(0), _resolveHandle(0), _width(width), _height(height), _format(format), _depthRenderBuffer(NULL),
+      _multisampleDepthRenderBuffer(NULL)
 {
 	Load();
 }
@@ -61,7 +46,8 @@ void FrameBuffer::Load()
 		GLuint textureHandle;
 		glGenTextures(1, &textureHandle);
 		glBindTexture(_format._target, textureHandle);
-		glTexImage2D(_format._target, 0, _format._colourInternalFormat, _width, _height, 0, _format._colourFormat, _format._colourType, NULL);
+		glTexImage2D(_format._target, 0, _format._colourInternalFormat, _width, _height, 0, _format._colourFormat,
+		             _format._colourType, NULL);
 		glTexParameteri(_format._target, GL_TEXTURE_WRAP_S, _format._wrapS);
 		glTexParameteri(_format._target, GL_TEXTURE_WRAP_T, _format._wrapT);
 		glTexParameteri(_format._target, GL_TEXTURE_MIN_FILTER, _format._filterMin);
@@ -98,7 +84,8 @@ void FrameBuffer::Load()
 			{
 				glGenTextures(1, &_depthTextureHandle);
 				glBindTexture(_format._target, _depthTextureHandle);
-				glTexImage2D(_format._target, 0, _format._depthInternalFormat, _width, _height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+				glTexImage2D(_format._target, 0, _format._depthInternalFormat, _width, _height, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
+				             NULL);
 
 				glTexParameteri(_format._target, GL_TEXTURE_WRAP_S, _format._wrapS);
 				glTexParameteri(_format._target, GL_TEXTURE_WRAP_T, _format._wrapT);
@@ -111,14 +98,15 @@ void FrameBuffer::Load()
 			else
 			{
 				_depthRenderBuffer = new RenderBuffer(_width, _height, _format._depthInternalFormat);
-				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBuffer->GetHandle());
+				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER,
+				                          _depthRenderBuffer->GetHandle());
 			}
 		}
 
 		CheckStatus();
 	}
 
-	_needsResolve      = false;
+	_needsResolve = false;
 	_needsMipmapUpdate = false;
 }
 
@@ -160,10 +148,7 @@ void FrameBuffer::Unload()
 		_multisampleDepthRenderBuffer = NULL;
 	}
 
-	for (size_t i = 0; i < _multisampleColourRenderBuffers.size(); ++i)
-	{
-		delete _multisampleColourRenderBuffers[i];
-	}
+	for (size_t i = 0; i < _multisampleColourRenderBuffers.size(); ++i) { delete _multisampleColourRenderBuffers[i]; }
 
 	_multisampleColourRenderBuffers.clear();
 }
@@ -228,7 +213,8 @@ bool FrameBuffer::LoadMultisample()
 	if (_format._depthBuffer)
 	{
 		_multisampleDepthRenderBuffer = new RenderBuffer(_width, _height, _format._depthInternalFormat, _format._samples);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _multisampleDepthRenderBuffer->GetHandle());
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER,
+		                          _multisampleDepthRenderBuffer->GetHandle());
 	}
 
 	return CheckStatus();
@@ -343,12 +329,12 @@ bool FrameBuffer::CheckStatus()
 
 void FrameBuffer::Save()
 {
-	//glBindFramebuffer(GL_READ_FRAMEBUFFER, _handle);
-	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fboID);
-	//glBlitFramebuffer(0, 0, _width, _height, 0, 0, _width, _height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	// glBindFramebuffer(GL_READ_FRAMEBUFFER, _handle);
+	// glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fboID);
+	// glBlitFramebuffer(0, 0, _width, _height, 0, 0, _width, _height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
-	auto w            = _width;
-	auto h            = _height;
+	auto w = _width;
+	auto h = _height;
 	uint32_t channels = 3;
 	std::vector<uint8_t> data(((w * h) * channels) + (w * channels));
 	uint8_t* row = &data[w * h * channels];
@@ -414,7 +400,7 @@ void FrameBuffer::Unbind()
 
 void FrameBuffer::SetSize(int width, int height)
 {
-	_width  = width;
+	_width = width;
 	_height = height;
 
 	Unload();

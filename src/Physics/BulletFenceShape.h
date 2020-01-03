@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -10,14 +10,14 @@ namespace Donut
 ATTRIBUTE_ALIGNED16(class)
 BulletFenceShape: public btConcaveShape
 {
-  protected:
+protected:
 	btVector3 m_start;
 	btVector3 m_end;
 	btVector3 m_normal;
 
 	btVector3 m_localScaling;
 
-  public:
+public:
 	BT_DECLARE_ALIGNED_ALLOCATOR();
 
 	BulletFenceShape(const btVector3& start, const btVector3& end, const btVector3& normal);

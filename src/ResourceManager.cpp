@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <P3D/P3D.generated.h>
 #include <Render/Font.h>
@@ -17,7 +17,7 @@
 namespace Donut
 {
 
-ResourceManager::ResourceManager()  = default;
+ResourceManager::ResourceManager() = default;
 ResourceManager::~ResourceManager() = default;
 
 void ResourceManager::LoadTexture(const P3D::Texture& texture)
@@ -50,7 +50,7 @@ void ResourceManager::LoadSet(const P3D::Set& set)
 		fmt::print("Set {0} already loaded\n", set.GetName());
 
 	std::srand((uint32_t)std::time(0));
-	int idx                  = std::rand() % set.GetTextures().size();
+	int idx = std::rand() % set.GetTextures().size();
 	_textures[set.GetName()] = std::make_unique<Texture>(*set.GetTextures().at(idx));
 }
 
@@ -92,14 +92,15 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 	if (ImGui::BeginTabItem("Textures"))
 	{
 		const ImVec2 windowSize = ImGui::GetWindowSize();
-		int perLine             = static_cast<int>(windowSize.x) / 72;
+		int perLine = static_cast<int>(windowSize.x) / 72;
 		if (perLine == 0)
 			perLine = 1;
 
 		int i = 0;
 		for (auto const& [name, texture] : _textures)
 		{
-			ImGui::Image((ImTextureID)(intptr_t)texture->GetOpenGLHandle(), ImVec2((float)texture->GetWidth(), (float)texture->GetHeight()));
+			ImGui::Image((ImTextureID)(intptr_t)texture->GetOpenGLHandle(),
+			             ImVec2((float)texture->GetWidth(), (float)texture->GetHeight()));
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", name.c_str());
 

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Core/File.h>
 #include <RCL/RCFFile.h>
@@ -11,15 +11,15 @@ uint32_t StringHash(const std::string& key)
 	for (int i = 0; i < key.size(); i++)
 	{
 		int c = (int)key[i];
-		if (c < 97) c += 32;
+		if (c < 97)
+			c += 32;
 		hash = hash * 0x1F + c;
 	}
 
 	return hash;
 }
 
-RCFFile::RCFFile(const std::string& path):
-    _filename(path)
+RCFFile::RCFFile(const std::string& path): _filename(path)
 {
 	File file;
 	file.Open(path, FileMode::Read);
@@ -35,8 +35,8 @@ RCFFile::RCFFile(const std::string& path):
 	auto dataOffset = file.Read<uint32_t>();
 	file.Seek(dataOffset, Donut::FileSeekMode::Begin);
 
-	auto numFiles       = file.Read<uint32_t>();
-	auto tableOffset    = file.Read<uint32_t>();
+	auto numFiles = file.Read<uint32_t>();
+	auto tableOffset = file.Read<uint32_t>();
 	auto unknownOffset0 = file.Read<uint32_t>();
 	auto unknownOffset1 = file.Read<uint32_t>();
 
@@ -47,15 +47,15 @@ RCFFile::RCFFile(const std::string& path):
 	}
 
 	file.Seek(tableOffset, Donut::FileSeekMode::Begin);
-	auto numFileNames   = file.Read<uint32_t>();
+	auto numFileNames = file.Read<uint32_t>();
 	auto unknownOffset2 = file.Read<uint32_t>();
 
 	_filenames.resize(numFileNames);
 
 	for (size_t i = 0; i < numFileNames; ++i)
 	{
-		auto strLen   = file.Read<uint32_t>();
-		auto str      = file.ReadString(strLen);
+		auto strLen = file.Read<uint32_t>();
+		auto str = file.ReadString(strLen);
 		_filenames[i] = str;
 
 		uint32_t hash = StringHash(str);

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Entity.h>
 #include <FrontendProject.h>
@@ -42,9 +42,9 @@ FrontendProject::~FrontendProject()
 
 void FrontendProject::AddMultiSprite(const P3D::FrontendMultiSprite& multiSprite, int32_t resX, int32_t resY)
 {
-	auto texture     = Game::GetInstance().GetResourceManager().GetTexture(multiSprite.GetImageNames()[0] + ".png");
-	auto dimX        = (int32_t)multiSprite.GetDimensionX();
-	auto dimY        = (int32_t)multiSprite.GetDimensionY();
+	auto texture = Game::GetInstance().GetResourceManager().GetTexture(multiSprite.GetImageNames()[0] + ".png");
+	auto dimX = (int32_t)multiSprite.GetDimensionX();
+	auto dimY = (int32_t)multiSprite.GetDimensionY();
 	Alignment alignX = (Alignment)multiSprite.GetAlignX();
 	Alignment alignY = (Alignment)multiSprite.GetAlignY();
 
@@ -97,15 +97,9 @@ void FrontendProject::AddMultiSprite(const P3D::FrontendMultiSprite& multiSprite
 
 void FrontendProject::AddGroup(const P3D::FrontendGroup& group, int32_t resX, int32_t resY)
 {
-	for (const auto& multiSprite : group.GetMultiSprites())
-	{
-		AddMultiSprite(*multiSprite, resX, resY);
-	}
+	for (const auto& multiSprite : group.GetMultiSprites()) { AddMultiSprite(*multiSprite, resX, resY); }
 
-	for (const auto& group : group.GetChildren())
-	{
-		AddGroup(*group, resX, resY);
-	}
+	for (const auto& group : group.GetChildren()) { AddGroup(*group, resX, resY); }
 }
 
 void FrontendProject::LoadP3D(const std::string& filename)
@@ -118,7 +112,7 @@ void FrontendProject::LoadP3D(const std::string& filename)
 
 	std::cout << "Loading Frontend Project: " << filename << "\n";
 
-	const auto p3d   = P3D::P3DFile(filename);
+	const auto p3d = P3D::P3DFile(filename);
 	const auto& root = p3d.GetRoot();
 	for (const auto& chunk : root.GetChildren())
 	{
@@ -127,24 +121,19 @@ void FrontendProject::LoadP3D(const std::string& filename)
 		case P3D::ChunkType::FrontendProject:
 		{
 			auto project = P3D::FrontendProject::Load(*chunk);
-			auto resX    = (int32_t)project->GetResX();
-			auto resY    = (int32_t)project->GetResY();
+			auto resX = (int32_t)project->GetResX();
+			auto resY = (int32_t)project->GetResY();
 
 			for (const auto& page : project->GetPages())
 			{
-				if (page->GetName() != "MessageBox.pag") continue;
+				if (page->GetName() != "MessageBox.pag")
+					continue;
 
 				for (const auto& layer : page->GetLayers())
 				{
-					for (const auto& group : layer->GetGroups())
-					{
-						AddGroup(*group, resX, resY);
-					}
+					for (const auto& group : layer->GetGroups()) { AddGroup(*group, resX, resY); }
 
-					for (const auto& multiSprite : layer->GetMultiSprites())
-					{
-						AddMultiSprite(*multiSprite, resX, resY);
-					}
+					for (const auto& multiSprite : layer->GetMultiSprites()) { AddMultiSprite(*multiSprite, resX, resY); }
 				}
 			}
 			break;
@@ -169,11 +158,8 @@ void FrontendProject::Draw(const Matrix4x4& proj)
 {
 	for (const auto& sprite : _sprites)
 	{
-		_spriteBatch.Draw(
-		    sprite.texture,
-		    Vector2(sprite.positionX, sprite.positionY),
-		    Vector2(sprite.width, sprite.height),
-		    sprite.color);
+		_spriteBatch.Draw(sprite.texture, Vector2(sprite.positionX, sprite.positionY), Vector2(sprite.width, sprite.height),
+		                  sprite.color);
 	}
 
 	glBindSampler(0, _sampler);

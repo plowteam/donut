@@ -1,21 +1,14 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
-// Platform
-#ifdef _WIN32
-#define DONUT_PLATFORM_WINDOWS
-#elif __linux
-#define DONUT_PLATFORM_LINUX
-#endif
-
 // Force Inline
 #if defined(__clang__) || defined(__GNUC__)
-#	define FORCEINLINE inline __attribute__((always_inline))
+#define FORCEINLINE inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
-#	define FORCEINLINE __forceinline
+#define FORCEINLINE __forceinline
 #else
-#	define FORCEINLINE inline
+#define FORCEINLINE inline
 #endif
 
 // Alignment

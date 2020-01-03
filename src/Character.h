@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -41,15 +41,15 @@ struct SkeletonJoint
 	uint32_t parent;
 	Matrix4x4 restPose;
 
-	SkeletonJoint(std::string name, const uint32_t parent, const Matrix4x4 restPose):
-	    name(std::move(name)), parent(parent), restPose(restPose)
+	SkeletonJoint(std::string name, const uint32_t parent, const Matrix4x4 restPose)
+	    : name(std::move(name)), parent(parent), restPose(restPose)
 	{
 	}
 };
 
 class Character
 {
-  public:
+public:
 	Character(std::string name);
 	~Character();
 
@@ -73,7 +73,7 @@ class Character
 	// maybe change this to just anim names
 	const std::unordered_map<std::string, std::unique_ptr<SkinAnimation>>& GetAnimations() const { return _animations; }
 
-  private:
+private:
 	void addAnimation(const P3D::Animation&);
 
 	double _animTime;

@@ -1,12 +1,12 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Physics/BulletFenceShape.h>
 
 namespace Donut
 {
 
-BulletFenceShape::BulletFenceShape(const btVector3& start, const btVector3& end, const btVector3& normal):
-    btConcaveShape(), m_start(start), m_end(end), m_normal(normal.normalized())
+BulletFenceShape::BulletFenceShape(const btVector3& start, const btVector3& end, const btVector3& normal)
+    : btConcaveShape(), m_start(start), m_end(end), m_normal(normal.normalized())
 {
 	m_shapeType = BroadphaseNativeTypes::STATIC_PLANE_PROXYTYPE;
 }
@@ -20,7 +20,8 @@ void BulletFenceShape::getAabb(const btTransform& t, btVector3& aabbMin, btVecto
 	aabbMax.setValue(m_end.getX(), yMax, m_end.getZ());
 }
 
-void BulletFenceShape::processAllTriangles(btTriangleCallback* callback, const btVector3& aabbMin, const btVector3& aabbMax) const
+void BulletFenceShape::processAllTriangles(btTriangleCallback* callback, const btVector3& aabbMin,
+                                           const btVector3& aabbMax) const
 {
 	btVector3 triangle[3];
 	triangle[0] = m_start + btVector3(0, 100.0f, 0);

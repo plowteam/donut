@@ -1,9 +1,7 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
-#include <cassert>
-#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -12,14 +10,14 @@ namespace Donut
 
 enum class SeekMode
 {
-	Begin   = SEEK_SET,
+	Begin = SEEK_SET,
 	Current = SEEK_CUR,
-	End     = SEEK_END
+	End = SEEK_END
 };
 
 class MemoryStream
 {
-  public:
+public:
 	MemoryStream(const std::vector<uint8_t>&);
 	// MemoryStream(uint8_t* data, std::size_t);
 
@@ -29,7 +27,7 @@ class MemoryStream
 	T Read()
 	{
 		uint8_t* ptr = &(*_position); // this looks like shit v
-		T ret        = *reinterpret_cast<T*>(ptr);
+		T ret = *reinterpret_cast<T*>(ptr);
 		std::advance(_position, sizeof(T));
 		return ret;
 	}
@@ -42,7 +40,7 @@ class MemoryStream
 	std::size_t Size() const { return _data.size(); }
 	bool End() const { return _position == _data.end(); }
 
-  protected:
+protected:
 	std::vector<uint8_t> _data;
 	std::vector<uint8_t>::iterator _position;
 };

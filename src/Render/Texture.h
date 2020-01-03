@@ -18,7 +18,7 @@ class Texture;
 
 class Texture
 {
-  public:
+public:
 	Texture(const P3D::Texture&);
 	Texture(const P3D::Sprite&);
 	~Texture();
@@ -33,7 +33,7 @@ class Texture
 	// bool HasAlpha() const;
 	GLuint GetOpenGLHandle() const { return _glTexture; }
 
-  protected:
+protected:
 	std::string _name;
 	std::size_t _width;
 	std::size_t _height;

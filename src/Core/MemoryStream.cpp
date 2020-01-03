@@ -1,14 +1,13 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
-#include <Core/MemoryStream.h>
-#include <cstring>
+#include "MemoryStream.h"
 
 namespace Donut
 {
 
 MemoryStream::MemoryStream(const std::vector<uint8_t>& data)
 {
-	_data     = data;
+	_data = data;
 	_position = _data.begin();
 }
 
@@ -32,7 +31,8 @@ std::string MemoryStream::ReadString(std::size_t length)
 	uint32_t l = 0;
 	for (; l < length; ++l)
 	{
-		if (str[l] == 0) break;
+		if (str[l] == 0)
+			break;
 	}
 
 	std::string ret(str, l);
@@ -56,15 +56,9 @@ void MemoryStream::Seek(std::size_t position, SeekMode mode)
 {
 	switch (mode)
 	{
-	case SeekMode::Begin:
-		_position = std::next(_data.begin(), position);
-		break;
-	case SeekMode::Current:
-		std::advance(_position, position);
-		break;
-	case SeekMode::End:
-		_position = std::next(_data.end(), -static_cast<int32_t>(position));
-		break;
+	case SeekMode::Begin: _position = std::next(_data.begin(), position); break;
+	case SeekMode::Current: std::advance(_position, position); break;
+	case SeekMode::End: _position = std::next(_data.end(), -static_cast<int32_t>(position)); break;
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -10,7 +10,7 @@ namespace Donut
 {
 class FreeCamera
 {
-  public:
+public:
 	FreeCamera();
 
 	void SetPosition(const Vector3& position);
@@ -19,7 +19,7 @@ class FreeCamera
 	void SetQuaternion(const Quaternion& orientation);
 	const Quaternion& GetOrientation() const { return _orientation; }
 
-	void Move(Vector3 force, float dt);
+	void Move(const Vector3& force, float dt);
 	void LookDelta(float x, float y);
 
 	const Matrix4x4& GetViewMatrix() const { return _viewMatrix; }
@@ -30,13 +30,12 @@ class FreeCamera
 	float GetZFar() const { return _zfar; }
 	float GetAspectRatio() const { return _aspectRatio; }
 
-	void SetFOV(const float fov);
-	void SetZNear(const float znear);
-	void SetZFar(const float zfar);
-	void SetAspectRatio(const float aspect);
+	void SetFOV(float fov);
+	void SetZNear(float znear);
+	void SetZFar(float zfar);
+	void SetAspectRatio(float aspect);
 
-  private:
-	void rotate(const Quaternion& q);
+private:
 	void rotate(const Vector3& axis, const float angle);
 
 	void updateViewMatrix();

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "VertexBinding.h"
 
@@ -7,30 +7,14 @@
 
 namespace Donut::GL
 {
-ArrayElement::ArrayElement(
-    const VertexBuffer* buffer,
-    std::size_t attributeIndex,
-    std::size_t componentCount,
-    ElementType type,
-    std::size_t stride,
-    std::size_t offset,
-    std::size_t instanceStep):
-    buffer(buffer),
-    attributeIndex(attributeIndex),
-    componentCount(componentCount),
-    type(type),
-    stride(stride),
-    offset(offset),
-    instanceStep(instanceStep)
+ArrayElement::ArrayElement(const VertexBuffer* buffer, std::size_t attributeIndex, std::size_t componentCount, ElementType type,
+                           std::size_t stride, std::size_t offset, std::size_t instanceStep)
+    : buffer(buffer), attributeIndex(attributeIndex), componentCount(componentCount), type(type), stride(stride),
+      offset(offset), instanceStep(instanceStep)
 {
 }
 
-VertexBinding::VertexBinding():
-    _handle(0),
-    _indicesType(AE_UBYTE),
-    _hasIndices(false)
-{
-}
+VertexBinding::VertexBinding(): _handle(0), _indicesType(AE_UBYTE), _hasIndices(false) {}
 
 VertexBinding::~VertexBinding()
 {
@@ -51,7 +35,8 @@ void VertexBinding::Create(const ArrayElement* elements, std::size_t elementCoun
 	Unbind();
 }
 
-void VertexBinding::Create(const ArrayElement* elements, std::size_t elementCount, const IndexBuffer& indices, ElementType indicesType)
+void VertexBinding::Create(const ArrayElement* elements, std::size_t elementCount, const IndexBuffer& indices,
+                           ElementType indicesType)
 {
 	if (_handle != 0)
 	{
@@ -75,7 +60,7 @@ void VertexBinding::Dispose()
 		_handle = 0;
 	}
 
-	_hasIndices  = false;
+	_hasIndices = false;
 	_indicesType = AE_UBYTE;
 }
 
@@ -101,7 +86,7 @@ void VertexBinding::CreateVAO()
 
 void VertexBinding::SetupIndices(const IndexBuffer& indices, ElementType indicesType)
 {
-	_hasIndices  = true;
+	_hasIndices = true;
 	_indicesType = indicesType;
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices.GetIBO());
@@ -130,11 +115,13 @@ void VertexBinding::SetupVertices(const ArrayElement* elements, std::size_t elem
 
 		if (type == GL_INT || type == GL_UNSIGNED_INT)
 		{
-			glVertexAttribIPointer((GLuint)element.attributeIndex, (GLint)element.componentCount, type, (GLsizei)element.stride, (void*)element.offset);
+			glVertexAttribIPointer((GLuint)element.attributeIndex, (GLint)element.componentCount, type, (GLsizei)element.stride,
+			                       (void*)element.offset);
 		}
 		else
 		{
-			glVertexAttribPointer((GLuint)element.attributeIndex, (GLint)element.componentCount, type, GL_FALSE, (GLsizei)element.stride, (void*)element.offset);
+			glVertexAttribPointer((GLuint)element.attributeIndex, (GLint)element.componentCount, type, GL_FALSE,
+			                      (GLsizei)element.stride, (void*)element.offset);
 		}
 
 		if (element.instanceStep > 0)

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -19,13 +19,13 @@ class Shader;
 
 class Mesh
 {
-  public:
+public:
 	Mesh(const P3D::Geometry& geometry);
 
 	void Commit();
 	void Draw(GL::ShaderProgram&, bool opaque);
 
-  protected:
+protected:
 	struct PrimGroup
 	{
 		std::string shaderName;
@@ -60,10 +60,10 @@ class Mesh
 
 class MeshInstanced: public Mesh
 {
-  public:
+public:
 	MeshInstanced(const P3D::Geometry& geometry, const std::vector<Matrix4x4>& transforms);
 
-  protected:
+protected:
 	virtual void CreateVertexBinding() override;
 
 	virtual void DrawPrimGroup(const PrimGroup& primGroup) override;

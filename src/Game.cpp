@@ -1,11 +1,11 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "Game.h"
 
 #include "AnimCamera.h"
 #include "Character.h"
-#include "Core/Math/Math.h"
 #include "Core/FpsTimer.h"
+#include "Core/Math/Math.h"
 #include "FreeCamera.h"
 #include "FrontendProject.h"
 #include "Input/Input.h"
@@ -15,17 +15,17 @@
 #include "Physics/WorldPhysics.h"
 #include "RCL/RCFFile.h"
 #include "RCL/RSDFile.h"
-#include "Render/imgui/imgui.h"
-#include "Render/imgui/imgui_impl_opengl3.h"
-#include "Render/imgui/imgui_impl_sdl.h"
+#include "Render/Font.h"
+#include "Render/LineRenderer.h"
 #include "Render/OpenGL/FrameBuffer.h"
 #include "Render/OpenGL/ShaderProgram.h"
 #include "Render/OpenGL/glad/glad.h"
-#include "Render/Font.h"
-#include "Render/LineRenderer.h"
 #include "Render/Shader.h"
 #include "Render/SkinModel.h"
 #include "Render/SpriteBatch.h"
+#include "Render/imgui/imgui.h"
+#include "Render/imgui/imgui_impl_opengl3.h"
+#include "Render/imgui/imgui_impl_sdl.h"
 #include "ResourceManager.h"
 #include "Scripting/Commands.h"
 #include "Window.h"
@@ -34,8 +34,8 @@
 #include <AL/alc.h>
 #include <AL/alext.h>
 #include <AL/efx.h>
-#include <fmt/format.h>
 #include <SDL.h>
+#include <fmt/format.h>
 
 #include <array>
 #include <iostream>
@@ -53,8 +53,8 @@ const std::string kBuildString = "DEBUG BUILD";
 const std::string kBuildString = "Release Build";
 #endif
 
-void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
-                                GLsizei length, const GLchar* message, const void* userParam)
+void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message,
+                                const void* userParam)
 {
 	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
 	        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
@@ -64,12 +64,13 @@ void Game::TestAudio()
 {
 	// THIS IS ALL SHIT, PROOF OF CONCEPT!!
 
-	if (_filesRCF.empty()) return;
+	if (_filesRCF.empty())
+		return;
 
 	ALCdevice* device;
 	ALCcontext* context;
 
-	device  = alcOpenDevice(NULL);
+	device = alcOpenDevice(NULL);
 	context = alcCreateContext(device, NULL);
 	alcMakeContextCurrent(context);
 
@@ -82,7 +83,8 @@ void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
 	alSourceStop(source);
 
 	auto rsdStream = file.GetFileStream(filename);
-	if (rsdStream == nullptr) return;
+	if (rsdStream == nullptr)
+		return;
 	RCL::RSDFile rsdFile(*rsdStream);
 
 	if (buffer != 0)
@@ -121,7 +123,7 @@ Game::Game(int argc, char** argv)
 	instance = this; // global static :D
 
 	Commands::RunLine("HelloWorld();");
-	//for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
+	// for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
 	//{
 	//	const auto& path = entry.path();
 	//	const auto& extension = path.extension().string();
@@ -137,38 +139,29 @@ Game::Game(int argc, char** argv)
 
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
-	glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0,
-	                      GL_FALSE);
+	glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0, GL_FALSE);
 
 	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window),
-	                             static_cast<SDL_GLContext*>(*_window));
+	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window), static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
 
-	//const float dpi_scale = 2.0f;
-	//ImGuiIO& io = ImGui::GetIO();
-	//ImGui::GetStyle().ScaleAllSizes(dpi_scale);
-	//io.FontGlobalScale = dpi_scale;
+	// const float dpi_scale = 2.0f;
+	// ImGuiIO& io = ImGui::GetIO();
+	// ImGui::GetStyle().ScaleAllSizes(dpi_scale);
+	// io.FontGlobalScale = dpi_scale;
 
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
 
 	std::vector<std::string> rcfFiles {
-		"music00.rcf",
-		"music01.rcf",
-		"music02.rcf",
-		"music03.rcf",
-		"ambience.rcf",
-		"carsound.rcf",
-		"dialog.rcf",
-		"nis.rcf",
-		"scripts.rcf",
-		"soundfx.rcf",
+	    "music00.rcf",  "music01.rcf", "music02.rcf", "music03.rcf", "ambience.rcf",
+	    "carsound.rcf", "dialog.rcf",  "nis.rcf",     "scripts.rcf", "soundfx.rcf",
 	};
 
 	for (const std::string& filename : rcfFiles)
 	{
-		if (!std::filesystem::exists(filename)) continue;
+		if (!std::filesystem::exists(filename))
+			continue;
 		_filesRCF.push_back(std::make_unique<RCL::RCFFile>(filename));
 	}
 
@@ -203,7 +196,7 @@ Game::Game(int argc, char** argv)
 	// _level->LoadP3D("l1r3.p3d");
 	// _level->LoadP3D("l1r4a.p3d");
 	// _level->LoadP3D("l1r6.p3d");
-	_level->LoadP3D("l1z2.p3d");
+	// _level->LoadP3D("l1z2.p3d");
 	// _level->LoadP3D("l1z3.p3d");
 	// _level->LoadP3D("l1z4.p3d");
 	// _level->LoadP3D("l1z6.p3d");
@@ -211,7 +204,7 @@ Game::Game(int argc, char** argv)
 
 	const auto skinVertSrc = File::ReadAll("shaders/skin.vert");
 	const auto skinFragSrc = File::ReadAll("shaders/skin.frag");
-	_skinShaderProgram     = std::make_unique<GL::ShaderProgram>(skinVertSrc, skinFragSrc);
+	_skinShaderProgram = std::make_unique<GL::ShaderProgram>(skinVertSrc, skinFragSrc);
 
 	loadGlobal();
 	LoadModel("homer", "homer");
@@ -243,14 +236,16 @@ void Game::loadGlobal()
 	const auto& root = _globalP3D->GetRoot();
 	for (const auto& chunk : root.GetChildren())
 	{
-		if (chunk->GetType() != P3D::ChunkType::Texture) continue;
+		if (chunk->GetType() != P3D::ChunkType::Texture)
+			continue;
 		_resourceManager->LoadTexture(*P3D::Texture::Load(*chunk));
 	}
 }
 
 void Game::LoadModel(const std::string& name, const std::string& anim)
 {
-	if (_character != nullptr) _character.reset();
+	if (_character != nullptr)
+		_character.reset();
 
 	_character = std::make_unique<Character>("pc");
 	_character->LoadModel(name);
@@ -283,40 +278,31 @@ void Game::LockMouse(bool lockMouse)
 }
 
 std::vector<std::tuple<std::string, Vector3, std::string>> locations {
-	{ "Simpsons' House", Vector3(220, 3.5, -172), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" },
-	{ "Kwik E Mart", Vector3(209, 3.6, -285), "l1z2.p3d;l1r1.p3d;l1r2.p3d;" },
-	{ "Church", Vector3(193.8, -0.9, -570), "l1r2.p3d;l1z2.p3d;l1z3.p3d;" },
-	{ "Springfield Elementary", Vector3(-11, 0.7, -586), "l1z3.p3d;l1r2.p3d;l1r3.p3d;" },
-	{ "Burns' Mansion", Vector3(-186, 3.5, -96), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
-	{ "Stonecutters Tunnel", Vector3(-405, 2, 60), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;" },
-	{ "Power Plant Interior", Vector3(-80, 0.8, 297), "l1r4a.p3d;l1z6.p3d;l1r6.p3d;" },
-	{ "Power Plant Parking Lot", Vector3(40, 0, 296), "l1z6.p3d;l1r6.p3d;" },
-	{ "Tomacco", Vector3(190, -0.7, 425), "l1r6.p3d;l1z6.p3d;l1z7.p3d;" },
-	{ "Trailer Park", Vector3(391, -2.2, 494), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
-	{ "Cletus' House", Vector3(333.5, -1.8, 356), "l1z7.p3d;l1r6.p3d;l1r7.p3d;" },
-	{ "Graveyard", Vector3(368, 5.1, 5.4), "l1z1.p3d;l1r1.p3d;l1r7.p3d;" }
-};
+    {"Simpsons' House", Vector3(220, 3.5, -172), "l1z1.p3d;l1r1.p3d;l1r7.p3d;"},
+    {"Kwik E Mart", Vector3(209, 3.6, -285), "l1z2.p3d;l1r1.p3d;l1r2.p3d;"},
+    {"Church", Vector3(193.8, -0.9, -570), "l1r2.p3d;l1z2.p3d;l1z3.p3d;"},
+    {"Springfield Elementary", Vector3(-11, 0.7, -586), "l1z3.p3d;l1r2.p3d;l1r3.p3d;"},
+    {"Burns' Mansion", Vector3(-186, 3.5, -96), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;"},
+    {"Stonecutters Tunnel", Vector3(-405, 2, 60), "l1z4.p3d;l1r3.p3d;l1r4a.p3d;"},
+    {"Power Plant Interior", Vector3(-80, 0.8, 297), "l1r4a.p3d;l1z6.p3d;l1r6.p3d;"},
+    {"Power Plant Parking Lot", Vector3(40, 0, 296), "l1z6.p3d;l1r6.p3d;"},
+    {"Tomacco", Vector3(190, -0.7, 425), "l1r6.p3d;l1z6.p3d;l1z7.p3d;"},
+    {"Trailer Park", Vector3(391, -2.2, 494), "l1z7.p3d;l1r6.p3d;l1r7.p3d;"},
+    {"Cletus' House", Vector3(333.5, -1.8, 356), "l1z7.p3d;l1r6.p3d;l1r7.p3d;"},
+    {"Graveyard", Vector3(368, 5.1, 5.4), "l1z1.p3d;l1r1.p3d;l1r7.p3d;"}};
 
 std::vector<std::pair<std::string, std::string>> models {
-	{ "homer", "homer" },
-	{ "h_evil", "homer" },
-	{ "h_fat", "homer" },
-	{ "h_undr", "homer" },
-	{ "marge", "marge" },
-	{ "bart", "bart" },
-	{ "apu", "apu" },
-	{ "a_amer", "apu" },
+    {"homer", "homer"}, {"h_evil", "homer"}, {"h_fat", "homer"}, {"h_undr", "homer"},
+    {"marge", "marge"}, {"bart", "bart"},    {"apu", "apu"},     {"a_amer", "apu"},
 };
 
-void Game::OnInputTextEntry(const std::string& text)
-{
-}
+void Game::OnInputTextEntry(const std::string& text) {}
 
 void Game::Run()
 {
 	// measure our delta time
-	uint64_t now     = SDL_GetPerformanceCounter();
-	uint64_t last    = 0;
+	uint64_t now = SDL_GetPerformanceCounter();
+	uint64_t last = 0;
 	double deltaTime = 0.0;
 
 	FpsTimer timer;
@@ -336,7 +322,7 @@ void Game::Run()
 	while (running)
 	{
 		last = now;
-		now  = SDL_GetPerformanceCounter();
+		now = SDL_GetPerformanceCounter();
 
 		deltaTime = ((now - last) / (double)SDL_GetPerformanceFrequency());
 		timer.Update(deltaTime);
@@ -345,7 +331,8 @@ void Game::Run()
 
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_QUIT) running = false;
+			if (event.type == SDL_QUIT)
+				running = false;
 
 			ImGui_ImplSDL2_ProcessEvent(&event);
 
@@ -363,12 +350,18 @@ void Game::Run()
 		}
 
 		auto inputForce = Vector3(0.0f);
-		if (Input::IsDown(Button::KeyW)) inputForce += Vector3::Forward;
-		if (Input::IsDown(Button::KeyS)) inputForce += Vector3::Backward;
-		if (Input::IsDown(Button::KeyA)) inputForce += Vector3::Left;
-		if (Input::IsDown(Button::KeyD)) inputForce += Vector3::Right;
-		if (Input::IsDown(Button::KeySPACE)) inputForce += Vector3::Up;
-		if (Input::IsDown(Button::KeyLCONTROL)) inputForce += Vector3::Down;
+		if (Input::IsDown(Button::KeyW))
+			inputForce += Vector3::Forward;
+		if (Input::IsDown(Button::KeyS))
+			inputForce += Vector3::Backward;
+		if (Input::IsDown(Button::KeyA))
+			inputForce += Vector3::Left;
+		if (Input::IsDown(Button::KeyD))
+			inputForce += Vector3::Right;
+		if (Input::IsDown(Button::KeySPACE))
+			inputForce += Vector3::Up;
+		if (Input::IsDown(Button::KeyLCONTROL))
+			inputForce += Vector3::Down;
 		if (inputForce.LengthSquared() > 0.0f)
 		{
 			inputForce.Normalize();
@@ -410,7 +403,9 @@ void Game::Run()
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 8.0f, io.DisplaySize.y - 8.0f), ImGuiCond_Always, ImVec2(1.0f, 1.0f));
 		ImGui::SetNextWindowBgAlpha(0.35f);
-		if (ImGui::Begin("Camera position overlay", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
+		if (ImGui::Begin("Camera position overlay", NULL,
+		                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
+		                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
 		{
 			auto const& camPos = _camera->GetPosition();
 			auto const& camRot = _camera->GetOrientation();
@@ -420,7 +415,6 @@ void Game::Run()
 			float fov = _camera->GetFOV();
 			if (ImGui::SliderFloat("FOV", &fov, 0.0f, 120.0f))
 				_camera->SetFOV(fov);
-
 		}
 		ImGui::End();
 
@@ -429,10 +423,10 @@ void Game::Run()
 
 		ImGui::Render();
 
-		int viewportWidth  = 0;
+		int viewportWidth = 0;
 		int viewportHeight = 0;
 
-		viewportWidth  = (int)io.DisplaySize.x;
+		viewportWidth = (int)io.DisplaySize.x;
 		viewportHeight = (int)io.DisplaySize.y;
 
 		glViewport(0, 0, viewportWidth, viewportHeight);
@@ -444,12 +438,13 @@ void Game::Run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		_camera->SetAspectRatio(static_cast<float>(viewportWidth) / static_cast<float>(viewportHeight));
-		
-		Matrix4x4 viewMatrix     = _camera->GetViewMatrix();
-		Matrix4x4 projMatrix     = _camera->GetProjectionMatrix();
+
+		Matrix4x4 viewMatrix = _camera->GetViewMatrix();
+		Matrix4x4 projMatrix = _camera->GetProjectionMatrix();
 		Matrix4x4 viewProjection = projMatrix * viewMatrix;
 
-		if (_level != nullptr) _level->Draw(viewProjection);
+		if (_level != nullptr)
+			_level->Draw(viewProjection);
 
 		if (_character != nullptr)
 			_character->Draw(viewProjection, *_skinShaderProgram, *_resourceManager);
@@ -463,13 +458,13 @@ void Game::Run()
 		if (_textureFontP3D != nullptr)
 		{
 			std::string fps = fmt::format("{0} fps", timer.GetFps());
-			auto font       = _resourceManager->GetFont("boulder_16");
+			auto font = _resourceManager->GetFont("boulder_16");
 			sprites.DrawText(font, fps, Vector2(32 + 3, 32 + 3), Vector4(0.0f, 0.0f, 0.0f, 1.0f));
 			sprites.DrawText(font, fps, Vector2(32, 32), Vector4(1.0f, 1.0f, 0.0f, 1.0f));
 		}
 
-		 sprites.Flush(proj);
-		//frontend->Draw(proj);
+		sprites.Flush(proj);
+		// frontend->Draw(proj);
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		_window->Swap();
@@ -561,14 +556,22 @@ void Game::guiDebugMenu()
 	{
 		PhysicsDebugDrawMode mode = _worldPhysics->GetDebugDrawMode();
 
-		ImGui::CheckboxFlags("Draw Wireframe", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawWireframe));
-		ImGui::CheckboxFlags("Draw AABB", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawAABB));
-		ImGui::CheckboxFlags("Draw Features Text", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFeaturesText));
-		ImGui::CheckboxFlags("Draw Contact Points", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawContactPoints));
-		ImGui::CheckboxFlags("Draw Text", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawText));
-		ImGui::CheckboxFlags("Fast Wireframe", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::FastWireframe));
-		ImGui::CheckboxFlags("Draw Normals", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawNormals));
-		ImGui::CheckboxFlags("Draw Frames", reinterpret_cast<unsigned int*>(&mode), static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFrames));
+		ImGui::CheckboxFlags("Draw Wireframe", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawWireframe));
+		ImGui::CheckboxFlags("Draw AABB", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawAABB));
+		ImGui::CheckboxFlags("Draw Features Text", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFeaturesText));
+		ImGui::CheckboxFlags("Draw Contact Points", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawContactPoints));
+		ImGui::CheckboxFlags("Draw Text", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawText));
+		ImGui::CheckboxFlags("Fast Wireframe", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::FastWireframe));
+		ImGui::CheckboxFlags("Draw Normals", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawNormals));
+		ImGui::CheckboxFlags("Draw Frames", reinterpret_cast<unsigned int*>(&mode),
+		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFrames));
 
 		_worldPhysics->SetDebugDrawMode(mode);
 
@@ -596,10 +599,7 @@ void Game::debugDrawP3D(const P3D::P3DFile& p3d)
 			ImGui::TextDisabled("Type ID: %x", static_cast<uint32_t>(chunk.GetType()));
 			ImGui::TextDisabled("Data Size: %ldb", chunk.GetData().size());
 
-			for (auto& child : chunk.GetChildren())
-			{
-				self(self, *child);
-			}
+			for (auto& child : chunk.GetChildren()) { self(self, *child); }
 
 			ImGui::TreePop();
 		}
@@ -612,7 +612,8 @@ void Game::debugDrawP3D(const P3D::P3DFile& p3d)
 
 void Game::debugDrawRCF()
 {
-	if (_filesRCF.empty()) return;
+	if (_filesRCF.empty())
+		return;
 
 	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiCond_Once);
 	ImGui::Begin("RADCORE CEMENT LIBRARY");

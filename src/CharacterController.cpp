@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Character.h>
 #include <CharacterController.h>
@@ -9,18 +9,18 @@
 namespace Donut
 {
 
-CharacterController::CharacterController(Character* character, WorldPhysics* physics):
-    _character(character), _worldPhysics(physics)
+CharacterController::CharacterController(Character* character, WorldPhysics* physics)
+    : _character(character), _worldPhysics(physics)
 {
-	_walkDirection    = Vector3(0.0f, 0.0f, 0.0f);
+	_walkDirection = Vector3(0.0f, 0.0f, 0.0f);
 	_verticalVelocity = 0.0f;
-	_verticalOffset   = 0.0f;
-	_stepHeight       = 0.05;
+	_verticalOffset = 0.0f;
+	_stepHeight = 0.05;
 
 	btTransform transform;
 	transform.setIdentity();
 	transform.setOrigin(BulletCast<btVector3>(character->GetPosition()));
-	_position       = character->GetPosition();
+	_position = character->GetPosition();
 	_targetPosition = BulletCast<btVector3>(character->GetPosition());
 
 	_physShape = std::make_unique<btCapsuleShape>(0.4f, 0.95f);
@@ -31,9 +31,9 @@ CharacterController::CharacterController(Character* character, WorldPhysics* phy
 	_physGhostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
 
 	// probably add these via physics so it's fuckin tracked and freed
-	physics->GetDynamicsWorld()->addCollisionObject(_physGhostObject.get(),
-	                                                btBroadphaseProxy::CharacterFilter,
-	                                                btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::CharacterFilter | btBroadphaseProxy::SensorTrigger);
+	physics->GetDynamicsWorld()->addCollisionObject(_physGhostObject.get(), btBroadphaseProxy::CharacterFilter,
+	                                                btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter |
+	                                                    btBroadphaseProxy::CharacterFilter | btBroadphaseProxy::SensorTrigger);
 
 	physics->GetDynamicsWorld()->addAction(static_cast<btActionInterface*>(this));
 }
@@ -73,17 +73,16 @@ void CharacterController::warp(const btVector3& origin)
 	transform.setOrigin(origin);
 
 	_physGhostObject->setWorldTransform(transform);
-	_position       = BulletCast<Vector3>(origin);
+	_position = BulletCast<Vector3>(origin);
 	_targetPosition = origin;
 }
 
 void CharacterController::preStep(btCollisionWorld* collisionWorld)
 {
 	int numPenetrationLoops = 0;
-	while (recoverFromPenetration(collisionWorld) && numPenetrationLoops < 4)
-		numPenetrationLoops++;
+	while (recoverFromPenetration(collisionWorld) && numPenetrationLoops < 4) numPenetrationLoops++;
 
-	_position       = BulletCast<Vector3>(_physGhostObject->getWorldTransform().getOrigin());
+	_position = BulletCast<Vector3>(_physGhostObject->getWorldTransform().getOrigin());
 	_targetPosition = BulletCast<btVector3>(_position);
 }
 
@@ -119,24 +118,21 @@ bool CharacterController::canJump() const
 	return false;
 }
 
-void CharacterController::jump(const btVector3& dir)
-{
-}
+void CharacterController::jump(const btVector3& dir) {}
 
 bool CharacterController::onGround() const
 {
 	return false;
 }
 
-void CharacterController::setUpInterpolate(bool)
-{
-}
+void CharacterController::setUpInterpolate(bool) {}
 
 class btKinematicClosestNotMeConvexResultCallback: public btCollisionWorld::ClosestConvexResultCallback
 {
-  public:
-	btKinematicClosestNotMeConvexResultCallback(btCollisionObject* me, const btVector3& up, btScalar minSlopeDot):
-	    btCollisionWorld::ClosestConvexResultCallback(btVector3(0.0, 0.0, 0.0), btVector3(0.0, 0.0, 0.0)), m_me(me), m_up(up), m_minSlopeDot(minSlopeDot)
+public:
+	btKinematicClosestNotMeConvexResultCallback(btCollisionObject* me, const btVector3& up, btScalar minSlopeDot)
+	    : btCollisionWorld::ClosestConvexResultCallback(btVector3(0.0, 0.0, 0.0), btVector3(0.0, 0.0, 0.0)), m_me(me), m_up(up),
+	      m_minSlopeDot(minSlopeDot)
 	{
 	}
 
@@ -155,7 +151,7 @@ class btKinematicClosestNotMeConvexResultCallback: public btCollisionWorld::Clos
 		}
 		else
 		{
-			///need to transform normal into worldspace
+			/// need to transform normal into worldspace
 			hitNormalWorld = convexResult.m_hitCollisionObject->getWorldTransform().getBasis() * convexResult.m_hitNormalLocal;
 		}
 
@@ -168,7 +164,7 @@ class btKinematicClosestNotMeConvexResultCallback: public btCollisionWorld::Clos
 		return ClosestConvexResultCallback::addSingleResult(convexResult, normalInWorldSpace);
 	}
 
-  protected:
+protected:
 	btCollisionObject* m_me;
 	const btVector3 m_up;
 	btScalar m_minSlopeDot;
@@ -179,17 +175,13 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 	btVector3 minAabb, maxAabb;
 
 	_physShape->getAabb(_physGhostObject->getWorldTransform(), minAabb, maxAabb);
-	collisionWorld->getBroadphase()->setAabb(_physGhostObject->getBroadphaseHandle(),
-	                                         minAabb,
-	                                         maxAabb,
+	collisionWorld->getBroadphase()->setAabb(_physGhostObject->getBroadphaseHandle(), minAabb, maxAabb,
 	                                         collisionWorld->getDispatcher());
 
 	bool penetration = false;
 
 	collisionWorld->getDispatcher()->dispatchAllCollisionPairs(
-	    _physGhostObject->getOverlappingPairCache(),
-	    collisionWorld->getDispatchInfo(),
-	    collisionWorld->getDispatcher());
+	    _physGhostObject->getOverlappingPairCache(), collisionWorld->getDispatchInfo(), collisionWorld->getDispatcher());
 
 	_position = BulletCast<Vector3>(_physGhostObject->getWorldTransform().getOrigin());
 
@@ -200,8 +192,7 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 	{
 		_manifoldArray.resize(0);
 
-		btBroadphasePair* collisionPair =
-		    &_physGhostObject->getOverlappingPairCache()->getOverlappingPairArray()[i];
+		btBroadphasePair* collisionPair = &_physGhostObject->getOverlappingPairCache()->getOverlappingPairArray()[i];
 
 		// Does the other object respone?
 		if (!((btCollisionObject*)collisionPair->m_pProxy0->m_clientObject)->hasContactResponse() ||
@@ -215,7 +206,7 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 		for (int j = 0; j < manifoldArraySize; j++)
 		{
 			btPersistentManifold* manifold = _manifoldArray[j];
-			btScalar directionSign         = (manifold->getBody0() == _physGhostObject.get()) ? -1.0f : 1.0f;
+			btScalar directionSign = (manifold->getBody0() == _physGhostObject.get()) ? -1.0f : 1.0f;
 
 			int numContacts = manifold->getNumContacts();
 			for (int k = 0; k < numContacts; k++)
@@ -229,7 +220,7 @@ bool CharacterController::recoverFromPenetration(btCollisionWorld* collisionWorl
 				{
 					if (dist < maxPenetration)
 					{
-						maxPenetration  = dist;
+						maxPenetration = dist;
 						_touchingNormal = pt.m_normalWorldOnB * directionSign;
 					}
 
@@ -267,15 +258,14 @@ void CharacterController::stepUp(btCollisionWorld* world)
 {
 	btTransform start, end;
 	_targetPosition = BulletCast<btVector3>(_position + Vector3(0.0f, 1.0f, 0.0f) * _stepHeight);
-	_position       = BulletCast<Vector3>(_targetPosition);
+	_position = BulletCast<Vector3>(_targetPosition);
 }
 
-void CharacterController::updateTargetPositionBasedOnCollision(const btVector3& hitNormal,
-                                                               btScalar tangentMag,
+void CharacterController::updateTargetPositionBasedOnCollision(const btVector3& hitNormal, btScalar tangentMag,
                                                                btScalar normalMag)
 {
 	btVector3 movementDirection = _targetPosition - BulletCast<btVector3>(_position);
-	btScalar movementLength     = movementDirection.length();
+	btScalar movementLength = movementDirection.length();
 
 	if (movementLength > SIMD_EPSILON)
 	{
@@ -286,7 +276,7 @@ void CharacterController::updateTargetPositionBasedOnCollision(const btVector3& 
 
 		btVector3 parallelDir, perpendicularDir;
 
-		parallelDir      = parallelComponent(reflectDir, hitNormal);
+		parallelDir = parallelComponent(reflectDir, hitNormal);
 		perpendicularDir = perpendicularComponent(reflectDir, hitNormal);
 
 		_targetPosition = BulletCast<btVector3>(_position);
@@ -315,8 +305,7 @@ void CharacterController::stepForwardAndStrafe(btCollisionWorld* collsionWorld, 
 	{
 		_manifoldArray.resize(0);
 
-		btBroadphasePair* collisionPair =
-		    &_physGhostObject->getOverlappingPairCache()->getOverlappingPairArray()[i];
+		btBroadphasePair* collisionPair = &_physGhostObject->getOverlappingPairCache()->getOverlappingPairArray()[i];
 
 		if (collisionPair->m_algorithm)
 			collisionPair->m_algorithm->getAllContactManifolds(_manifoldArray);
@@ -325,7 +314,7 @@ void CharacterController::stepForwardAndStrafe(btCollisionWorld* collsionWorld, 
 		for (int j = 0; j < manifoldArraySize; j++)
 		{
 			btPersistentManifold* manifold = _manifoldArray[j];
-			btScalar directionSign         = (manifold->getBody0() == _physGhostObject.get()) ? -1.0f : 1.0f;
+			btScalar directionSign = (manifold->getBody0() == _physGhostObject.get()) ? -1.0f : 1.0f;
 
 			int numContacts = manifold->getNumContacts();
 			for (int k = 0; k < numContacts; k++)
@@ -365,9 +354,10 @@ void CharacterController::stepDown(btCollisionWorld* collisionWorld, btScalar dt
 
 	_targetPosition -= btVector3(0.0, downVelocity, 0.0);
 
-	btKinematicClosestNotMeConvexResultCallback callback(_physGhostObject.get(), btVector3(0.0, 1.0, 0.0), btCos(btRadians(45.0)));
+	btKinematicClosestNotMeConvexResultCallback callback(_physGhostObject.get(), btVector3(0.0, 1.0, 0.0),
+	                                                     btCos(btRadians(45.0)));
 	callback.m_collisionFilterGroup = _physGhostObject->getBroadphaseHandle()->m_collisionFilterGroup;
-	callback.m_collisionFilterMask  = _physGhostObject->getBroadphaseHandle()->m_collisionFilterMask;
+	callback.m_collisionFilterMask = _physGhostObject->getBroadphaseHandle()->m_collisionFilterMask;
 
 	start.setIdentity();
 	end.setIdentity();
@@ -376,15 +366,17 @@ void CharacterController::stepDown(btCollisionWorld* collisionWorld, btScalar dt
 	end.setOrigin(_targetPosition);
 
 	// this doesn't work TWAT:
-	//_physGhostObject->convexSweepTest(_physShape.get(), start, end, callback, collisionWorld->getDispatchInfo().m_allowedCcdPenetration);
-	collisionWorld->convexSweepTest(_physShape.get(), start, end, callback, collisionWorld->getDispatchInfo().m_allowedCcdPenetration);
+	//_physGhostObject->convexSweepTest(_physShape.get(), start, end, callback,
+	// collisionWorld->getDispatchInfo().m_allowedCcdPenetration);
+	collisionWorld->convexSweepTest(_physShape.get(), start, end, callback,
+	                                collisionWorld->getDispatchInfo().m_allowedCcdPenetration);
 
 	if (callback.hasHit())
 	{
 		_targetPosition.setInterpolate3(origPosition, _targetPosition, callback.m_closestHitFraction);
 
 		_verticalVelocity = 0;
-		_verticalOffset   = 0;
+		_verticalOffset = 0;
 	}
 }
 

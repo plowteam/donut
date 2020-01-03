@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -24,12 +24,12 @@ class Shader;
 
 class BillboardBatch
 {
-  public:
+public:
 	BillboardBatch(const P3D::BillboardQuadGroup& billboardQuadGroup);
 
 	void Draw(GL::ShaderProgram& shader, bool opaque);
 
-  private:
+private:
 	std::shared_ptr<GL::VertexBuffer> _vertexBuffer;
 	std::shared_ptr<GL::IndexBuffer> _indexBuffer;
 	std::shared_ptr<GL::VertexBuffer> _instanceBuffer;

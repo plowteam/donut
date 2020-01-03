@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -35,14 +35,11 @@ class ShaderProgram;
 
 class Game
 {
-  public:
+public:
 	Game(int argc, char** argv);
 	~Game();
 
-	Window& GetWindow() const
-	{
-		return *_window;
-	}
+	Window& GetWindow() const { return *_window; }
 
 	void Run();
 	void LoadModel(const std::string&, const std::string&);
@@ -55,7 +52,7 @@ class Game
 
 	static Game& GetInstance() { return *instance; }
 
-  private:
+private:
 	void guiTeleportMenu();
 	void guiModelMenu(Character&);
 	void guiDebugMenu();

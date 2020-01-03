@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -9,7 +9,7 @@ namespace Donut::GL
 class RenderBuffer
 {
 
-  public:
+public:
 	RenderBuffer(int width, int height, GLenum internalFormat, int samples = 0);
 	~RenderBuffer();
 
@@ -19,7 +19,7 @@ class RenderBuffer
 	inline GLenum GetInternalFormat() const { return _internalFormat; }
 	inline int GetSamples() const { return _samples; }
 
-  private:
+private:
 	void Load();
 	void Unload();
 

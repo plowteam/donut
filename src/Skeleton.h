@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -30,12 +30,14 @@ class Skeleton
 		Matrix4x4 pose;
 		Matrix4x4 finalGlobal;
 
-		Joint(std::string pName, int pParent, Matrix4x4 pRest):
-		    name(std::move(pName)), parent(pParent), rest(pRest),
-		    restGlobalInverse(Matrix4x4::Identity), pose(Matrix4x4::Identity), finalGlobal(Matrix4x4::Identity) {}
+		Joint(std::string pName, int pParent, Matrix4x4 pRest)
+		    : name(std::move(pName)), parent(pParent), rest(pRest), restGlobalInverse(Matrix4x4::Identity),
+		      pose(Matrix4x4::Identity), finalGlobal(Matrix4x4::Identity)
+		{
+		}
 	};
 
-  public:
+public:
 	Skeleton(const P3D::Skeleton& skeleton);
 
 	void ResetPose();
@@ -46,7 +48,7 @@ class Skeleton
 	const Joint& GetJoint(const std::string& name) const { return _joints.at(_jointNameIndexMap.at(name)); }
 	const Joint& GetJoint(uint32_t index) const { return _joints.at(index); }
 
-  private:
+private:
 	void updateJoints();
 
 	std::string _name;

@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include <Render/OpenGL/VertexBuffer.h>
 #include <cassert>
@@ -6,17 +6,16 @@
 namespace Donut::GL
 {
 
-VertexBuffer::VertexBuffer(const void* vertices, std::size_t vertexCount, size_t strideBytes,
-                           GLuint hint):
-    _vertexCount(vertexCount),
-    _strideBytes(strideBytes), _hint(hint)
+VertexBuffer::VertexBuffer(const void* vertices, std::size_t vertexCount, size_t strideBytes, GLuint hint)
+    : _vertexCount(vertexCount), _strideBytes(strideBytes), _hint(hint)
 {
 	// assert(vertices != nullptr);
 	assert(vertexCount > 0);
 	assert(strideBytes > 0);
 
 	glGenBuffers(1, &_vbo);
-	if (glGetError() != GL_NO_ERROR) return;
+	if (glGetError() != GL_NO_ERROR)
+		return;
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertexCount * strideBytes, vertices, _hint);

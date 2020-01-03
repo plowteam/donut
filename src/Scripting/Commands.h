@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -35,8 +35,8 @@ struct Command
 
 class Commands
 {
-  public:
-	Commands()  = delete;
+public:
+	Commands() = delete;
 	~Commands() = delete;
 
 	static bool Run(const std::string& name, const std::string& params)
@@ -77,9 +77,10 @@ class Commands
 	static bool SplitParams(const std::string& s, std::vector<std::string>& params, size_t maxParams)
 	{
 		auto length = s.size();
-		if (length == 0) return true;
+		if (length == 0)
+			return true;
 
-		bool openQuote    = false;
+		bool openQuote = false;
 		std::string param = "";
 
 		for (size_t i = 0; i < length; ++i)
@@ -92,8 +93,10 @@ class Commands
 			}
 			else if (c == ',' && !openQuote)
 			{
-				if (param.empty()) return false;
-				if (params.size() >= maxParams) return false;
+				if (param.empty())
+					return false;
+				if (params.size() >= maxParams)
+					return false;
 
 				trim(param);
 				params.push_back(param);
@@ -105,8 +108,10 @@ class Commands
 			param.push_back(c);
 		}
 
-		if (openQuote || param.empty()) return false;
-		if (params.size() >= maxParams) return false;
+		if (openQuote || param.empty())
+			return false;
+		if (params.size() >= maxParams)
+			return false;
 
 		trim(param);
 		params.push_back(param);
@@ -116,10 +121,12 @@ class Commands
 
 	static bool RunLine(std::string line)
 	{
-		if (line.empty() || std::all_of(line.begin(), line.end(), isspace)) return false;
+		if (line.empty() || std::all_of(line.begin(), line.end(), isspace))
+			return false;
 
 		trim(line);
-		if (line[0] == '/') return false;
+		if (line[0] == '/')
+			return false;
 
 		std::size_t commentPos = line.find_first_of("//");
 		if (commentPos != std::string::npos)
@@ -129,16 +136,19 @@ class Commands
 		}
 
 		std::size_t end = line.rfind(");");
-		if (end == std::string::npos) return false;
+		if (end == std::string::npos)
+			return false;
 		std::size_t start = line.find_first_of("(");
-		if (start == std::string::npos) return false;
+		if (start == std::string::npos)
+			return false;
 
 		auto name = line.substr(0, start);
 		trim(name);
 
-		auto count  = (end - 1) - start;
+		auto count = (end - 1) - start;
 		auto params = count > 0 ? line.substr(start + 1, count) : "";
-		if (count > 0) trim(params);
+		if (count > 0)
+			trim(params);
 
 		return Run(name, params);
 	}
@@ -154,30 +164,22 @@ class Commands
 		File file;
 		file.Open(filename, FileMode::Read);
 
-		while (file.Position() < file.Size())
-		{
-			RunLine(file.ReadLine());
-		}
+		while (file.Position() < file.Size()) { RunLine(file.ReadLine()); }
 
 		file.Close();
 
 		return true;
 	}
 
-  private:
+private:
 	static inline void ltrim(std::string& s)
 	{
-		s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
-			        return !std::isspace(ch);
-		        }));
+		s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) { return !std::isspace(ch); }));
 	}
 
 	static inline void rtrim(std::string& s)
 	{
-		s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
-			        return !std::isspace(ch);
-		        }).base(),
-		        s.end());
+		s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) { return !std::isspace(ch); }).base(), s.end());
 	}
 
 	static inline void trim(std::string& s)

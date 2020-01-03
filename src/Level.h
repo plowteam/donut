@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -26,7 +26,7 @@ class WorldSphere;
 
 class Level
 {
-  public:
+public:
 	Level();
 	~Level();
 
@@ -38,7 +38,7 @@ class Level
 
 	void ImGuiDebugWindow(bool* p_open) const;
 
-  private:
+private:
 	void loadRegion(const std::string& filename);
 	void unloadRegion(const std::string& filename);
 
@@ -54,7 +54,7 @@ class Level
 
 	class Path
 	{
-	  public:
+	public:
 		std::vector<Vector3> points;
 	};
 

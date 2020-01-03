@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -13,7 +13,7 @@ namespace Donut::GL
 
 class ShaderProgram
 {
-  public:
+public:
 	ShaderProgram() = delete;
 	ShaderProgram(const std::string& vertexSource, const std::string& fragmentSource);
 	~ShaderProgram();
@@ -32,7 +32,7 @@ class ShaderProgram
 
 	GLuint GetRawHandle() const { return _program; }
 
-  private:
+private:
 	GLuint _program;
 	std::map<std::string, GLint> _uniforms;
 

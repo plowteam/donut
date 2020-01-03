@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -25,7 +25,7 @@ class Font;
 
 class ResourceManager
 {
-  public:
+public:
 	ResourceManager();
 	~ResourceManager();
 
@@ -51,7 +51,7 @@ class ResourceManager
 
 	const std::unordered_map<std::string, std::unique_ptr<Font>>& GetFonts() const { return _fonts; }
 
-  protected:
+protected:
 	std::unordered_map<std::string, std::unique_ptr<Texture>> _textures;
 	std::unordered_map<std::string, std::unique_ptr<Shader>> _shaders;
 	std::unordered_map<std::string, std::unique_ptr<Mesh>> _geometries;

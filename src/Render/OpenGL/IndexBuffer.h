@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -13,10 +13,10 @@ namespace Donut::GL
 
 class IndexBuffer
 {
-  public:
-	IndexBuffer()                         = delete;
+public:
+	IndexBuffer() = delete;
 	IndexBuffer(const IndexBuffer& other) = delete;
-	IndexBuffer(IndexBuffer&&)            = default;
+	IndexBuffer(IndexBuffer&&) = default;
 
 	IndexBuffer(const void* indices, std::size_t indicesCount, GLenum type);
 	~IndexBuffer();
@@ -26,7 +26,7 @@ class IndexBuffer
 	GLenum GetType() const;
 	GLuint GetIBO() const;
 
-  private:
+private:
 	std::size_t _count;
 	GLenum _type;
 

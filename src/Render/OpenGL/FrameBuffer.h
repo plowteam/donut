@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -11,19 +11,22 @@ namespace Donut::GL
 class FrameBuffer
 {
 
-  public:
+public:
 	class Format
 	{
 
 		friend class FrameBuffer;
 
-	  public:
+	public:
 		Format();
 
-		void EnableColourBuffer(bool colourBuffer = true, int colourBufferCount = 1) { _colourBufferCount = colourBuffer ? colourBufferCount : 0; }
+		void EnableColourBuffer(bool colourBuffer = true, int colourBufferCount = 1)
+		{
+			_colourBufferCount = colourBuffer ? colourBufferCount : 0;
+		}
 		void EnableDepthBuffer(bool depthBuffer = true, bool depthBufferAsTexture = true)
 		{
-			_depthBuffer          = depthBuffer;
+			_depthBuffer = depthBuffer;
 			_depthBufferAsTexture = depthBufferAsTexture;
 		}
 		void EnableMipmapping(bool mipmapping = true) { _mipmapping = mipmapping; }
@@ -55,7 +58,7 @@ class FrameBuffer
 		inline int GetSamples() const { return _samples; }
 		inline int GetColourBufferCount() const { return _colourBufferCount; }
 
-	  private:
+	private:
 		GLenum _target;
 		GLenum _colourInternalFormat;
 		GLenum _colourFormat;
@@ -93,15 +96,15 @@ class FrameBuffer
 
 	void Save();
 
-  private:
+private:
 	class BindingState
 	{
 
-	  public:
+	public:
 		BindingState();
 		~BindingState();
 
-	  private:
+	private:
 		GLint _value;
 	};
 

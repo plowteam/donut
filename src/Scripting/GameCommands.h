@@ -1,4 +1,4 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
@@ -8,14 +8,15 @@ namespace Donut
 {
 class GameCommands
 {
-  public:
-	GameCommands()  = delete;
+public:
+	GameCommands() = delete;
 	~GameCommands() = delete;
 
 	static void HelloWorld();
 	static void LoadP3DFile(const std::string&, const std::string& = "");
 	static void SetParticleTexture(int32_t, const std::string&);
-	static void BindReward(const std::string&, const std::string&, const std::string&, const std::string&, int32_t, int32_t = 0, const std::string& = "");
+	static void BindReward(const std::string&, const std::string&, const std::string&, const std::string&, int32_t, int32_t = 0,
+	                       const std::string& = "");
 	static void SetCarAttributes(const std::string&, float, float, float, float);
 	static void SetTotalGags(int32_t, int32_t);
 	static void SelectMission(const std::string&);
@@ -47,7 +48,8 @@ class GameCommands
 	static void CloseMission(int32_t = 0);
 	static void PlacePlayerCar(const std::string&, const std::string&);
 	static void SetMaxTraffic(int32_t);
-	static void AddStageVehicle(const std::string&, const std::string&, const std::string&, const std::string&, const std::string& = "");
+	static void AddStageVehicle(const std::string&, const std::string&, const std::string&, const std::string&,
+	                            const std::string& = "");
 	static void AddStageWaypoint(const std::string&);
 	static void SetRaceLaps(int32_t);
 	static void SetDemoLoopTime(int64_t);
@@ -79,11 +81,13 @@ class GameCommands
 	static void CreateChaseManager(const std::string&, const std::string&, int32_t);
 	static void SetHitAndRunDecay(float);
 	static void SetNumChaseCars(const std::string&);
-	static void AddNPCCharacterBonusMission(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, int32_t, const std::string& = "");
+	static void AddNPCCharacterBonusMission(const std::string&, const std::string&, const std::string&, const std::string&,
+	                                        const std::string&, const std::string&, int32_t, const std::string& = "");
 	static void AddBonusMissionNPCWaypoint(const std::string&, const std::string&);
 	static void AddAmbientCharacter(const std::string&, const std::string&, float);
 	static void AddAmbientNPCWaypoint(const std::string&, const std::string&);
-	static void AddPurchaseCarReward(const std::string&, const std::string&, const std::string&, const std::string&, float, const std::string&);
+	static void AddPurchaseCarReward(const std::string&, const std::string&, const std::string&, const std::string&, float,
+	                                 const std::string&);
 	static void AddPurchaseCarNPCWaypoint(const std::string&, const std::string&);
 	static void CreateTrafficGroup(int32_t);
 	static void AddTrafficModel(const std::string&, int32_t, int32_t = 0);
@@ -93,8 +97,10 @@ class GameCommands
 	static void ClosePedGroup(int32_t = 0);
 	static void PreallocateActors(const std::string&, const std::string&);
 	static void SetProjectileStats(const std::string&, const std::string&, const std::string&);
-	static void AddSpawnPointByLocatorScript(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
-	static void AddBehaviour(const std::string&, const std::string&, const std::string&, const std::string& = "", const std::string& = "", const std::string& = "", const std::string& = "");
+	static void AddSpawnPointByLocatorScript(const std::string&, const std::string&, const std::string&, const std::string&,
+	                                         const std::string&, const std::string&);
+	static void AddBehaviour(const std::string&, const std::string&, const std::string&, const std::string& = "",
+	                         const std::string& = "", const std::string& = "", const std::string& = "");
 	static void SetActorRotationSpeed(const std::string&, const std::string&);
 	static void SetAnimatedCameraName(const std::string&);
 	static void SetAnimCamMulticontName(const std::string&);
@@ -137,7 +143,8 @@ class GameCommands
 	static void SetFollowDistances(int32_t, int32_t);
 	static void SetFadeOut(float);
 	static void StayInBlack(int32_t = 0);
-	static void AddStageCharacter(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
+	static void AddStageCharacter(const std::string&, const std::string&, const std::string&, const std::string&,
+	                              const std::string&);
 	static void SetDurationTime(float);
 	static void SetFMVInfo(const std::string&, const std::string& = "");
 	static void SetForcedCar(int32_t = 0);
@@ -163,7 +170,8 @@ class GameCommands
 	static void AddDriver(const std::string&, const std::string&);
 	static void SetCharacterToHide(const std::string&);
 	static void SetLevelOver(int32_t = 0);
-	static void GagCheckCollCards(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
+	static void GagCheckCollCards(const std::string&, const std::string&, const std::string&, const std::string&,
+	                              const std::string&);
 	static void GagCheckMovie(const std::string&, const std::string&, const std::string&, const std::string&);
 	static void GagSetSoundLoadDistances(int32_t, int32_t);
 	static void BindCollectibleTo(int32_t, int32_t);
@@ -218,9 +226,11 @@ class GameCommands
 	static void SetGasScaleSpeedThreshold(float);
 	static void SetAllowSeatSlide(int32_t);
 	static void ClearVehicleSelectInfo(const std::string&, const std::string& = "", const std::string& = "");
-	static void AddFlyingActor(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
+	static void AddFlyingActor(const std::string&, const std::string&, const std::string&, const std::string&,
+	                           const std::string&);
 	static void SetCollisionAttributes(const std::string&, const std::string&, const std::string&, const std::string&);
-	static void AddSpawnPoint(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
+	static void AddSpawnPoint(const std::string&, const std::string&, const std::string&, const std::string&,
+	                          const std::string&, const std::string&, const std::string&, const std::string&);
 	static void GagSetWeight(const std::string&);
 	static void GagSetLoadDistances(const std::string&, const std::string&);
 	static void SetTotalWasps(const std::string&, const std::string&);
@@ -254,9 +264,12 @@ class GameCommands
 	static void ActivateTrigger(const std::string&);
 	static void DeactivateTrigger(const std::string&);
 	static void CreateAnimPhysObject(const std::string&, const std::string&);
-	static void CreateActionEventTrigger(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
-	static void LinkActionToObjectJoint(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
-	static void LinkActionToObject(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&);
+	static void CreateActionEventTrigger(const std::string&, const std::string&, const std::string&, const std::string&,
+	                                     const std::string&);
+	static void LinkActionToObjectJoint(const std::string&, const std::string&, const std::string&, const std::string&,
+	                                    const std::string&);
+	static void LinkActionToObject(const std::string&, const std::string&, const std::string&, const std::string&,
+	                               const std::string&);
 	static void SetCharacterPosition(const std::string&, const std::string&, const std::string&);
 	static void ResetCharacter(const std::string&, const std::string&);
 };

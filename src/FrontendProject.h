@@ -1,9 +1,9 @@
-// Copyright 2019 the donut authors. See AUTHORS.md
+// Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #pragma once
 
-#include <Render/SpriteBatch.h>
 #include "Render/OpenGL/glad/glad.h"
+#include <Render/SpriteBatch.h>
 #include <memory>
 #include <string>
 
@@ -20,14 +20,14 @@ class FrontendMultiSprite;
 
 class FrontendProject
 {
-  public:
+public:
 	FrontendProject();
 	~FrontendProject();
 
 	void LoadP3D(const std::string&);
 	void Draw(const Matrix4x4& proj);
 
-  private:
+private:
 	void AddGroup(const P3D::FrontendGroup& group, int32_t resX, int32_t resY);
 	void AddMultiSprite(const P3D::FrontendMultiSprite& multiSprite, int32_t resX, int32_t resY);
 

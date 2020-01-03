@@ -25,7 +25,7 @@ enum class BlendMode : uint32_t
 
 class Shader
 {
-  public:
+public:
 	Shader(const P3D::Shader&);
 	~Shader();
 
@@ -51,7 +51,7 @@ class Shader
 
 	BlendMode GetBlendMode() const { return _blendMode; }
 
-  protected:
+protected:
 	std::string _name;
 	std::string _textureName;
 
