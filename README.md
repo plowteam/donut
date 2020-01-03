@@ -6,7 +6,10 @@
 [![Discord chat](https://img.shields.io/discord/611594006803120148?logo=discord&logoColor=white)](https://discord.gg/xpdbWzG)
 [![License](https://img.shields.io/github/license/plowteam/donut)](LICENSE.md)
 
-donut is an open source reimplementation of The Simpsons: Hit & Run written in modern C++ and modern OpenGL.
+donut is an open source reimplementation of [The Simpsons: Hit & Run](https://en.wikipedia.org/wiki/The_Simpsons:_Hit_&_Run)
+written in modern C++ and modern OpenGL.
+
+You still need to have the original game assets in order to use this.
 
 ---
 
@@ -21,33 +24,41 @@ donut is an open source reimplementation of The Simpsons: Hit & Run written in m
 
 Clone the code using: `git clone --recursive https://github.com/plowteam/donut.git`
 
+The simplest way to obtain all the required dependencies is through [vcpkg](https://github.com/Microsoft/vcpkg).
+
+```bash
+PS> .\vcpkg install sdl2 bullet3 openal-soft fmt
+Linux:~/$ ./vcpkg install sdl2 bullet3 openal-soft fmt
+```
+
+If you don't want to use vcpkg; CMake will fallback on installed system dependencies, or manually specified
+package directories.
+
 ## Windows
 
 * Install [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
 * Install [CMake](https://cmake.org/download/)
-* Open CMake GUI and point it to `donut` folder, set build directory to `donut/build`
-* Set `BULLET_ROOT` to the Bullet directory, everything else is automatically set.
-* Press Configure, Generate, Open Project and then build.
 
-### Building Bullet
+You can either:
 
-* Download [Bullet](https://github.com/bulletphysics/bullet3)
-* Build using CMake or Premake, making sure `USE_MSVC_RUNTIME_LIBRARY_DLL` is enabled.
+1. [Open the `donut` folder directly in Visual Studio](https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=vs-2019).
+2. Or generate project files with the following:
+
+```bash
+cd donut
+cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows
+```
 
 ## Linux
 
-First you'll need to install the following dependencies to build donut:
+*Note: These instructions are for Ubuntu, but can be easily applied to other distros.*
 
+Ensure you have dependencies first
 ```bash
-apt install build-essential libsdl2-dev cmake libglm-dev libbullet-dev libopenal-dev
-```
-
-Then to build run CMake in a build directory:
-
-```bash
-mkdir build && cd build
-cmake ../
-make
+sudo apt install cmake
+cd donut
+cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-linux
+cmake --build build -j 5
 ```
 
 **Mesa drivers on Linux:** if you are trying to run with Mesa drivers and are getting issues with OpenGL context try messing with `MESA_GL_VERSION_OVERRIDE` when running like so: `MESA_GL_VERSION_OVERRIDE=4.3FC MESA_GLSL_VERSION_OVERRIDE=430 bin/donut`
@@ -60,6 +71,9 @@ make
 Contributions are always welcome, whether it's modifying source code to add new
 features or bug fixes, documenting new file formats or simply editing some
 grammar.
+
+You can also join the [Discord for development discussion]((https://discord.gg/xpdbWzG))
+if you are unsure of anything.
 
 ## License
 donut is released as open source software under the [GPL v3](https://opensource.org/licenses/gpl-3.0.html)
