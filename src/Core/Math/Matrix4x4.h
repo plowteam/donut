@@ -25,8 +25,7 @@ struct Matrix4x4
 public:
 	union
 	{
-		MS_ALIGN(16)
-		float M[4][4] GCC_ALIGN(16);
+		float M[4][4];
 		float M16[16];
 	};
 

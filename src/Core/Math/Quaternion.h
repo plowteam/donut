@@ -13,7 +13,6 @@ namespace Donut
 struct Matrix3x3;
 struct Matrix4x4;
 
-MS_ALIGN(16)
 struct Quaternion
 {
 public:
