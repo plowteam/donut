@@ -3,6 +3,7 @@
 #include "Game.h"
 
 #include "AnimCamera.h"
+#include "Audio/AudioManager.h"
 #include "Character.h"
 #include "Core/FpsTimer.h"
 #include "Core/Math/Math.h"
@@ -30,10 +31,6 @@
 #include "Scripting/Commands.h"
 #include "Window.h"
 
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/alext.h>
-#include <AL/efx.h>
 #include <SDL.h>
 #include <fmt/format.h>
 
@@ -58,64 +55,6 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 {
 	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
 	        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
-}
-
-void Game::TestAudio()
-{
-	// THIS IS ALL SHIT, PROOF OF CONCEPT!!
-
-	if (_filesRCF.empty())
-		return;
-
-	ALCdevice* device;
-	ALCcontext* context;
-
-	device = alcOpenDevice(NULL);
-	context = alcCreateContext(device, NULL);
-	alcMakeContextCurrent(context);
-
-	alGenBuffers(1, &buffer);
-	alGenSources(1, &source);
-}
-
-void Game::PlayAudio(RCL::RCFFile& file, const std::string& filename)
-{
-	alSourceStop(source);
-
-	auto rsdStream = file.GetFileStream(filename);
-	if (rsdStream == nullptr)
-		return;
-	RCL::RSDFile rsdFile(*rsdStream);
-
-	if (buffer != 0)
-	{
-		alDeleteBuffers(1, &buffer);
-	}
-
-	alGenBuffers(1, &buffer);
-
-	ALenum format = AL_FORMAT_STEREO16;
-	if (rsdFile.GetNumChannels() == 1)
-	{
-		if (rsdFile.GetBitsPerChannel() == 8)
-			format = AL_FORMAT_MONO8;
-		else if (rsdFile.GetBitsPerChannel() == 16)
-			format = AL_FORMAT_MONO16;
-	}
-	else if (rsdFile.GetNumChannels() == 2)
-	{
-		if (rsdFile.GetBitsPerChannel() == 8)
-			format = AL_FORMAT_STEREO8;
-		else if (rsdFile.GetBitsPerChannel() == 16)
-			format = AL_FORMAT_STEREO16;
-	}
-
-	const auto& data = rsdFile.GetData();
-
-	alBufferData(buffer, format, data.data(), (ALsizei)data.size(), rsdFile.GetSampleRate());
-	alSourcei(source, AL_BUFFER, buffer);
-	alSourcei(source, AL_LOOPING, AL_FALSE);
-	alSourcePlay(source);
 }
 
 Game::Game(int argc, char** argv)
@@ -153,21 +92,8 @@ Game::Game(int argc, char** argv)
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
 
-	std::vector<std::string> rcfFiles {
-	    "music00.rcf",  "music01.rcf", "music02.rcf", "music03.rcf", "ambience.rcf",
-	    "carsound.rcf", "dialog.rcf",  "nis.rcf",     "scripts.rcf", "soundfx.rcf",
-	};
-
-	for (const std::string& filename : rcfFiles)
-	{
-		if (!FileSystem::exists(filename))
-			continue;
-		_filesRCF.push_back(std::make_unique<RCL::RCFFile>(filename));
-	}
-
-	TestAudio();
-
 	// init sub classes
+	_audioManager = std::make_unique<AudioManager>();
 	_resourceManager = std::make_unique<ResourceManager>();
 
 	if (FileSystem::exists("./art/frontend/scrooby2/resource/fonts/font0_16.p3d"))
@@ -223,6 +149,8 @@ Game::~Game()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+
+	// todo: might need to reset our unique_ptrs here in a certain order...
 
 	_window.reset();
 
@@ -390,15 +318,16 @@ void Game::Run()
 
 		ImGui::EndMainMenuBar();
 
+		// ImGui::ShowDemoWindow();
+
 		if (_debugResourceManagerWindowOpen)
 			_resourceManager->ImGuiDebugWindow(&_debugResourceManagerWindowOpen);
 
-		bool open = true;
-		_level->ImGuiDebugWindow(&open);
+		if (_debugLevelWindowOpen)
+			_level->ImGuiDebugWindow(&_debugLevelWindowOpen);
 
-		// ImGui::ShowDemoWindow();
-
-		debugDrawRCF();
+		if (_debugAudioWindowOpen)
+			_audioManager->DebugGUI(&_debugAudioWindowOpen);
 
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 8.0f, io.DisplaySize.y - 8.0f), ImGuiCond_Always, ImVec2(1.0f, 1.0f));
@@ -578,8 +507,14 @@ void Game::guiDebugMenu()
 		ImGui::EndMenu();
 	}
 
+	if (ImGui::MenuItem("Audio Manager..."))
+		_debugAudioWindowOpen = true;
+
 	if (ImGui::MenuItem("Resource Manager..."))
 		_debugResourceManagerWindowOpen = true;
+
+	if (ImGui::MenuItem("Level Entities..."))
+		_debugLevelWindowOpen = true;
 
 	ImGui::EndMenu();
 }
@@ -606,34 +541,6 @@ void Game::debugDrawP3D(const P3D::P3DFile& p3d)
 	};
 
 	traverse_chunk(traverse_chunk, p3d.GetRoot());
-
-	ImGui::End();
-}
-
-void Game::debugDrawRCF()
-{
-	if (_filesRCF.empty())
-		return;
-
-	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiCond_Once);
-	ImGui::Begin("RADCORE CEMENT LIBRARY");
-
-	for (const auto& rcf : _filesRCF)
-	{
-		if (ImGui::TreeNode(rcf->GetFileName().c_str()))
-		{
-			for (const auto& filename : rcf->GetFilenames())
-			{
-				if (ImGui::Selectable(filename.c_str()))
-				{
-					std::cout << filename.c_str() << std::endl;
-					PlayAudio(*rcf, filename.c_str());
-				}
-			}
-
-			ImGui::TreePop();
-		}
-	}
 
 	ImGui::End();
 }

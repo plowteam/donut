@@ -10,6 +10,7 @@ namespace Donut
 {
 
 class Window;
+class AudioManager;
 class ResourceManager;
 class LineRenderer;
 class Level;
@@ -22,11 +23,6 @@ namespace P3D
 class P3DFile;
 class TextureFont;
 } // namespace P3D
-
-namespace RCL
-{
-class RCFFile;
-}
 
 namespace GL
 {
@@ -44,6 +40,7 @@ public:
 	void Run();
 	void LoadModel(const std::string&, const std::string&);
 
+	AudioManager& GetAudioManager() { return *_audioManager; }
 	ResourceManager& GetResourceManager() { return *_resourceManager; }
 	WorldPhysics& GetWorldPhysics() { return *_worldPhysics; }
 	LineRenderer& GetLineRenderer() { return *_lineRenderer; }
@@ -58,12 +55,10 @@ private:
 	void guiDebugMenu();
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
-	void debugDrawRCF();
-	void TestAudio();
-	void PlayAudio(RCL::RCFFile& file, const std::string& filename);
 	void OnInputTextEntry(const std::string& text);
 
 	std::unique_ptr<Window> _window;
+	std::unique_ptr<AudioManager> _audioManager;
 	std::unique_ptr<ResourceManager> _resourceManager;
 	std::unique_ptr<FreeCamera> _camera;
 	std::unique_ptr<Character> _character;
@@ -73,7 +68,6 @@ private:
 	std::unique_ptr<P3D::P3DFile> _animP3D;
 	std::unique_ptr<P3D::P3DFile> _globalP3D;
 	std::unique_ptr<P3D::TextureFont> _textureFontP3D;
-	std::vector<std::unique_ptr<RCL::RCFFile>> _filesRCF;
 
 	std::unique_ptr<Character> _npcCharacter;
 
@@ -84,9 +78,9 @@ private:
 	int _lockedMousePosY;
 
 	bool _debugResourceManagerWindowOpen = false;
-
-	unsigned int buffer, source;
-
+	bool _debugLevelWindowOpen = false;
+	bool _debugAudioWindowOpen = false;
+	
 	static Game* instance;
 };
 

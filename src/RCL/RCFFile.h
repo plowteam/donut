@@ -4,6 +4,7 @@
 
 #include <Core/MemoryStream.h>
 #include <map>
+#include <memory>
 #include <string>
 
 namespace Donut::RCL
