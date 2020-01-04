@@ -46,13 +46,9 @@ target_link_libraries(${PROJECT_NAME}
 	PRIVATE
 		SDL2::SDL2
 		Bullet::Bullet
+		OpenAL::OpenAL
 		fmt::fmt
 	)
-
-
-# OpenAL is also not providing the correct config format
-target_include_directories(${PROJECT_NAME} PRIVATE ${OPENAL_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE "${OPENAL_LIBRARY}")
 
 source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${DONUT_SOURCES} ${DONUT_HEADERS})
 

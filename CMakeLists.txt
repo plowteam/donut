@@ -57,6 +57,13 @@ if (BULLET_FOUND AND NOT TARGET Bullet::Bullet)
   set_target_properties(Bullet::Bullet PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${BULLET_INCLUDE_DIR})
 endif()
 
+# Wrap OpenAL Soft in an interface too
+if (OPENAL_FOUND AND NOT TARGET OpenAL::OpenAL)
+  add_library(OpenAL::OpenAL INTERFACE IMPORTED GLOBAL)
+  set_target_properties(OpenAL::OpenAL PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${OPENAL_INCLUDE_DIR})
+  set_target_properties(OpenAL::OpenAL PROPERTIES INTERFACE_LINK_LIBRARIES ${OPENAL_LIBRARY})
+endif()
+
 # Setup a custom clang-format target (if clang-format can be found)
 find_program(CLANG_FORMAT clang-format)
 if (CLANG_FORMAT)
