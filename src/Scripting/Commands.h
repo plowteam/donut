@@ -155,7 +155,7 @@ public:
 
 	static bool RunScript(const std::string& filename)
 	{
-		if (!std::filesystem::exists(filename))
+		if (!FileSystem::exists(filename))
 		{
 			std::cout << "Script not found: " << filename << "\n";
 			return false;

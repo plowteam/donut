@@ -1,10 +1,12 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
-#include <AnimCamera.h>
+#include "AnimCamera.h"
+
+#include "Core/FileSystem.h"
+
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Render/SkinAnimation.h>
-#include <filesystem>
 #include <iostream>
 
 namespace Donut
@@ -68,7 +70,7 @@ AnimCamera::AnimCamera(const P3D::P3DChunk& chunk): _time(0.0)
 
 std::unique_ptr<AnimCamera> AnimCamera::LoadP3D(const std::string& filename)
 {
-	if (!std::filesystem::exists(filename))
+	if (!FileSystem::exists(filename))
 	{
 		std::cout << "AnimCamera not found: " << filename << "\n";
 		return nullptr;

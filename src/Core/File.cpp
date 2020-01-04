@@ -11,7 +11,7 @@ namespace Donut
 
 File::File(): _file(nullptr), _size(0) {}
 
-File::File(const std::filesystem::path& path, FileMode mode): _file(nullptr), _size(0)
+File::File(const FileSystem::path& path, FileMode mode): _file(nullptr), _size(0)
 {
 	Open(path, mode);
 }
@@ -21,7 +21,7 @@ File::~File()
 	Close();
 }
 
-void File::Open(const std::filesystem::path& path, FileMode mode)
+void File::Open(const FileSystem::path& path, FileMode mode)
 {
 	Close();
 
@@ -77,7 +77,7 @@ void File::Flush()
 	std::fflush(_file);
 }
 
-std::string File::ReadAll(const std::filesystem::path& filename)
+std::string File::ReadAll(const FileSystem::path& filename)
 {
 	const File file(filename, FileMode::Read);
 	const std::size_t size = file.Size();

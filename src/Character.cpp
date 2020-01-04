@@ -9,7 +9,7 @@
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
 #include <Skeleton.h>
-#include <filesystem>
+#include "Core/FileSystem.h"
 #include <fmt/format.h>
 
 namespace Donut
@@ -53,7 +53,7 @@ void Character::LoadAnimations(const std::string& name)
 	const std::string animPath = fmt::format("art/chars/{0}_a.p3d", name);
 	// const std::string choPath = fmt::format("art/chars/{0}.cho", name);
 
-	if (!std::filesystem::exists(animPath))
+	if (!FileSystem::exists(animPath))
 		return;
 
 	const P3D::P3DFile p3d(animPath);

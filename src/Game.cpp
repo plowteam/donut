@@ -123,7 +123,7 @@ Game::Game(int argc, char** argv)
 	instance = this; // global static :D
 
 	Commands::RunLine("HelloWorld();");
-	// for (const auto& entry : std::filesystem::recursive_directory_iterator("scripts"))
+	// for (const auto& entry : FileSystem::recursive_directory_iterator("scripts"))
 	//{
 	//	const auto& path = entry.path();
 	//	const auto& extension = path.extension().string();
@@ -160,7 +160,7 @@ Game::Game(int argc, char** argv)
 
 	for (const std::string& filename : rcfFiles)
 	{
-		if (!std::filesystem::exists(filename))
+		if (!FileSystem::exists(filename))
 			continue;
 		_filesRCF.push_back(std::make_unique<RCL::RCFFile>(filename));
 	}
@@ -170,7 +170,7 @@ Game::Game(int argc, char** argv)
 	// init sub classes
 	_resourceManager = std::make_unique<ResourceManager>();
 
-	if (std::filesystem::exists("./art/frontend/scrooby2/resource/fonts/font0_16.p3d"))
+	if (FileSystem::exists("./art/frontend/scrooby2/resource/fonts/font0_16.p3d"))
 	{
 		const P3D::P3DFile p3dFont("./art/frontend/scrooby2/resource/fonts/font0_16.p3d");
 		_textureFontP3D = P3D::TextureFont::Load(*p3dFont.GetRoot().GetChildren().at(0));

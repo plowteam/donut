@@ -63,7 +63,7 @@ void Level::LoadP3D(const std::string& filename)
 {
 	std::string fullpath = "./art/" + filename;
 
-	if (!std::filesystem::exists(fullpath))
+	if (!FileSystem::exists(fullpath))
 	{
 		std::cout << "Level not found: " << filename << "\n";
 		return;

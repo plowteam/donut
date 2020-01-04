@@ -4,7 +4,7 @@
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Render/CompositeModel.h>
-#include <filesystem>
+#include "Core/FileSystem.h"
 #include <iostream>
 
 namespace Donut
@@ -108,7 +108,7 @@ CompositeModel::CompositeModel(const ICompositeModel& provider)
 
 std::unique_ptr<CompositeModel> CompositeModel::LoadP3D(const std::string& filename)
 {
-	if (!std::filesystem::exists(filename))
+	if (!FileSystem::exists(filename))
 	{
 		std::cout << "CompositeDrawable not found: " << filename << "\n";
 		return nullptr;

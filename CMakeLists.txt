@@ -31,6 +31,13 @@ endif ()
 # Output binaries to bin/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
+# Check if our compiler has filesystem or experimental/filesystem
+include(CheckIncludeFileCXX)
+check_include_file_cxx("filesystem" _CXX_FILESYSTEM_HAVE_HEADER)
+check_include_file_cxx("experimental/filesystem" _CXX_FILESYSTEM_HAVE_EXPERIMENTAL_HEADER)
+mark_as_advanced(_CXX_FILESYSTEM_HAVE_HEADER)
+mark_as_advanced(_CXX_FILESYSTEM_HAVE_EXPERIMENTAL_HEADER)
+
 # Dependencies
 find_package(SDL2 REQUIRED)
 find_package(fmt REQUIRED)

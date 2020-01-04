@@ -50,6 +50,13 @@ target_link_libraries(${PROJECT_NAME}
 		fmt::fmt
 	)
 
+# configure filesystem for slightly older compilers
+if (_CXX_FILESYSTEM_HAVE_HEADER)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE DONUT_HAS_FILESYSTEM)
+elseif (_CXX_FILESYSTEM_HAVE_EXPERIMENTAL_HEADER)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE DONUT_HAS_FILESYSTEM_EXPERIMENTAL)
+endif()
+
 source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${DONUT_SOURCES} ${DONUT_HEADERS})
 
 # copy SDL2.dll & soft_oal.dll

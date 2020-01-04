@@ -8,7 +8,7 @@
 #include <Render/OpenGL/GLTexture2D.h>
 #include <Render/Texture.h>
 #include <ResourceManager.h>
-#include <filesystem>
+#include "Core/FileSystem.h"
 #include <fmt/format.h>
 #include <iostream>
 
@@ -104,7 +104,7 @@ void FrontendProject::AddGroup(const P3D::FrontendGroup& group, int32_t resX, in
 
 void FrontendProject::LoadP3D(const std::string& filename)
 {
-	if (!std::filesystem::exists(filename))
+	if (!FileSystem::exists(filename))
 	{
 		std::cout << "Frontend Project not found: " << filename << "\n";
 		return;

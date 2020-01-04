@@ -2,9 +2,10 @@
 
 #pragma once
 
+#include "Core/FileSystem.h"
+
 #include <cassert>
 #include <cstdio>
-#include <filesystem>
 #include <string>
 
 namespace Donut
@@ -27,10 +28,10 @@ class File
 {
 public:
 	File();
-	File(const std::filesystem::path& filename, FileMode mode);
+	File(const FileSystem::path& filename, FileMode mode);
 	~File();
 
-	void Open(const std::filesystem::path& filename, FileMode mode);
+	void Open(const FileSystem::path& filename, FileMode mode);
 	void Close();
 
 	template <typename T>
@@ -72,7 +73,7 @@ public:
 
 	void Flush();
 
-	static std::string ReadAll(const std::filesystem::path& filename);
+	static std::string ReadAll(const FileSystem::path& filename);
 
 	std::string ReadString(std::size_t length);
 
