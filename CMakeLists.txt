@@ -10,6 +10,9 @@ if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
       CACHE STRING "")
 endif()
 
+# Remove MinSizeRel build configuration, not useful
+set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo CACHE STRING INTERNAL FORCE )
+
 project(donut)
 
 # Configure C++17 standard
