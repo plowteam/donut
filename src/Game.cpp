@@ -341,11 +341,11 @@ void Game::Run()
 
 		LockMouse(Input::IsDown(Button::MouseRight));
 
-		float mouseDeltaX = Input::GetMouseDeltaX();
-		float mouseDeltaY = Input::GetMouseDeltaY();
-
 		if (_mouseLocked)
 		{
+			const float mouseDeltaX = Input::GetMouseDeltaX();
+			const float mouseDeltaY = Input::GetMouseDeltaY();
+
 			_camera->LookDelta(mouseDeltaX * 0.25f, mouseDeltaY * 0.25f);
 		}
 
@@ -370,7 +370,7 @@ void Game::Run()
 		}
 
 		auto cameraTransform = animCamera->Update(deltaTime * 35.0);
-		//_camera->MoveTo(cameraTransform[3]);
+		//_camera->SetPosition(cameraTransform.Translation());
 
 		_worldPhysics->Update(static_cast<float>(deltaTime));
 

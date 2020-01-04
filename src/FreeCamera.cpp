@@ -37,26 +37,11 @@ void FreeCamera::Move(const Vector3& force, float dt)
 
 void FreeCamera::LookDelta(float x, float y)
 {
-	// up() = glm::vec3(glm::row(rotation(), 1));
-	// right() = glm::vec3(glm::row(rotation(), 0));
-	// glm::fquat rot = glm::normalize(glm::angleAxis(angle, up())); (yaw)
-	// glm::fquat rot = glm::normalize(glm::angleAxis(angle, right())); (pitch)
-
-	Vector3 xAxis = _orientation.GetXAxis(); // pitch axis
-	Vector3 yAxis = _orientation.GetYAxis(); // yaw axis
-
-	rotate(xAxis, Math::DegreesToRadians(y));
-	rotate(yAxis, Math::DegreesToRadians(-x));
+	Quaternion quatPitch(Vector3::Right, Math::DegreesToRadians(-y));
+	Quaternion quatYaw(Vector3::Up, Math::DegreesToRadians(-x));
+	_orientation = quatPitch * _orientation * quatYaw;
 
 	updateViewMatrix();
-}
-
-void FreeCamera::rotate(const Vector3& axis, const float angle)
-{
-	Quaternion q(axis, angle);
-	q = q.Normal();
-
-	_orientation = _orientation * q;
 }
 
 void FreeCamera::updateProjectionMatrix()

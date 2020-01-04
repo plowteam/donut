@@ -36,8 +36,6 @@ public:
 	void SetAspectRatio(float aspect);
 
 private:
-	void rotate(const Vector3& axis, const float angle);
-
 	void updateViewMatrix();
 	void updateProjectionMatrix();
 
