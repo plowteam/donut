@@ -34,6 +34,29 @@ find_package(fmt REQUIRED)
 find_package(OpenAL REQUIRED) #find_package(openal-soft CONFIG REQUIRED)
 find_package(Bullet REQUIRED)
 
+# Setup an interface library for Bullet, this allows us to target Debug/Release configurations properly.
+# This should be resolved once https://github.com/microsoft/vcpkg/pull/9098 is merged.
+if (BULLET_FOUND AND NOT TARGET Bullet::Bullet)
+  add_library(Bullet::Collision STATIC IMPORTED)
+  set_target_properties(Bullet::Collision PROPERTIES IMPORTED_LOCATION_DEBUG ${BULLET_COLLISION_LIBRARY_DEBUG})
+  set_target_properties(Bullet::Collision PROPERTIES IMPORTED_LOCATION_RELEASE ${BULLET_COLLISION_LIBRARY})
+  set_target_properties(Bullet::Collision PROPERTIES IMPORTED_LOCATION_RELWITHDEBINFO ${BULLET_COLLISION_LIBRARY})
+
+  add_library(Bullet::Dynamics STATIC IMPORTED)
+  set_target_properties(Bullet::Dynamics PROPERTIES IMPORTED_LOCATION_DEBUG ${BULLET_DYNAMICS_LIBRARY_DEBUG})
+  set_target_properties(Bullet::Dynamics PROPERTIES IMPORTED_LOCATION_RELEASE ${BULLET_DYNAMICS_LIBRARY})
+  set_target_properties(Bullet::Dynamics PROPERTIES IMPORTED_LOCATION_RELWITHDEBINFO ${BULLET_DYNAMICS_LIBRARY})
+
+  add_library(Bullet::LinearMath STATIC IMPORTED)
+  set_target_properties(Bullet::LinearMath PROPERTIES IMPORTED_LOCATION_DEBUG ${BULLET_MATH_LIBRARY_DEBUG})
+  set_target_properties(Bullet::LinearMath PROPERTIES IMPORTED_LOCATION_RELEASE ${BULLET_MATH_LIBRARY})
+  set_target_properties(Bullet::LinearMath PROPERTIES IMPORTED_LOCATION_RELWITHDEBINFO ${BULLET_MATH_LIBRARY})
+
+  add_library(Bullet::Bullet INTERFACE IMPORTED GLOBAL)
+  target_link_libraries(Bullet::Bullet INTERFACE Bullet::Collision Bullet::Dynamics Bullet::LinearMath)
+  set_target_properties(Bullet::Bullet PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${BULLET_INCLUDE_DIR})
+endif()
+
 # Setup a custom clang-format target (if clang-format can be found)
 find_program(CLANG_FORMAT clang-format)
 if (CLANG_FORMAT)

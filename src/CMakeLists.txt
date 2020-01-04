@@ -45,12 +45,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
 		SDL2::SDL2
+		Bullet::Bullet
 		fmt::fmt
 	)
 
-# Bullet is not currently an interface: https://github.com/microsoft/vcpkg/pull/9098
-target_include_directories(${PROJECT_NAME} PRIVATE ${BULLET_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${BULLET_COLLISION_LIBRARY} ${BULLET_DYNAMICS_LIBRARY} ${BULLET_MATH_LIBRARY})
 
 # OpenAL is also not providing the correct config format
 target_include_directories(${PROJECT_NAME} PRIVATE ${OPENAL_INCLUDE_DIR})
