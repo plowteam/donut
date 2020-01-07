@@ -56,6 +56,8 @@ private:
 	void debugDrawP3D(const P3D::P3DFile&);
 	void OnInputTextEntry(const std::string& text);
 
+	void debugAboutMenu();
+
 	std::unique_ptr<Window> _window;
 	std::unique_ptr<AudioManager> _audioManager;
 	std::unique_ptr<ResourceManager> _resourceManager;
@@ -79,6 +81,7 @@ private:
 	bool _debugResourceManagerWindowOpen = false;
 	bool _debugLevelWindowOpen = false;
 	bool _debugAudioWindowOpen = false;
+	bool _debugAboutWindowOpen = false;
 	
 	static Game* instance;
 };

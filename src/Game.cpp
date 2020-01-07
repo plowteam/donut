@@ -27,6 +27,7 @@
 #include "Render/imgui/imgui.h"
 #include "Render/imgui/imgui_impl_opengl3.h"
 #include "Render/imgui/imgui_impl_sdl.h"
+#include "Render/imgui/imgui_markdown.h"
 #include "ResourceManager.h"
 #include "Scripting/Commands.h"
 #include "Window.h"
@@ -325,6 +326,8 @@ void Game::Run()
 		if (_debugAudioWindowOpen)
 			_audioManager->DebugGUI(&_debugAudioWindowOpen);
 
+		debugAboutMenu();
+
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 8.0f, io.DisplaySize.y - 8.0f), ImGuiCond_Always, ImVec2(1.0f, 1.0f));
 		ImGui::SetNextWindowBgAlpha(0.35f);
@@ -505,7 +508,9 @@ void Game::imguiMenuBar()
 	if (ImGui::MenuItem("Level Entities"))
 		_debugLevelWindowOpen = true;
 
-	ImGui::EndMenu();
+	if (ImGui::MenuItem("About"))
+		_debugAboutWindowOpen = true;
+
 	ImGui::EndMainMenuBar();
 }
 
@@ -532,6 +537,66 @@ void Game::debugDrawP3D(const P3D::P3DFile& p3d)
 
 	traverse_chunk(traverse_chunk, p3d.GetRoot());
 
+	ImGui::End();
+}
+
+const std::string aboutText = R"(donut - copyright 2019-2020 by [Matt Stevens](https://github.com/handsomematt), [Michael Johnson](https://github.com/aylaylay)
+# License
+donut is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+donut is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see [<https://www.gnu.org/licenses/>](https://www.gnu.org/licenses/).
+# Open Source Software
+This software uses open source components, whose copyright and other rights belong to their respective owners:
+
+* sdl2 [https://www.libsdl.org/](https://www.libsdl.org/)
+* glad [https://github.com/Dav1dde/glad](https://github.com/Dav1dde/glad)
+* bullet [https://github.com/bulletphysics/bullet3](https://github.com/bulletphysics/bullet3)
+* openal-soft [https://github.com/kcat/openal-soft](https://github.com/kcat/openal-soft)
+* dear imgui [https://github.com/ocornut/imgui](https://github.com/ocornut/imgui)
+* imgui_markdown [https://github.com/juliettef/imgui_markdown](https://github.com/juliettef/imgui_markdown)
+* fmt [https://github.com/fmtlib/fmt/](https://github.com/fmtlib/fmt/)
+* stb [https://github.com/nothings/stb](https://github.com/nothings/stb)
+)";
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <shellapi.h>
+#endif
+
+void LinkCallback(ImGui::MarkdownLinkCallbackData data_)
+{
+	std::string url(data_.link, data_.linkLength);
+	if (!data_.isImage)
+	{
+		#ifdef _WIN32
+		ShellExecuteA(NULL, "open", url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		#else
+		std::string xdgOpenURL = "xdg-open " + url;
+		system(xdgOpenURL.c_str());
+		#endif
+	}
+}
+
+static ImGui::MarkdownConfig mdConfig { LinkCallback };
+
+void Game::debugAboutMenu()
+{
+	if (!_debugAboutWindowOpen)
+		return;
+
+	const ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+	const ImVec2 center(displaySize.x * 0.5f, displaySize.y * 0.5f);
+	const ImVec2 windowSize(600.0f, 520.0f);
+
+	ImGui::SetNextWindowSize(windowSize, ImGuiCond_Once);
+	ImGui::SetNextWindowPos(center, ImGuiCond_Once, ImVec2(0.5f, 0.5f));
+	if (ImGui::Begin("About", &_debugAboutWindowOpen, ImGuiWindowFlags_NoResize))
+	{
+		ImGui::Markdown(aboutText.c_str(), aboutText.length(), mdConfig);
+	}
 	ImGui::End();
 }
 
