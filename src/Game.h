@@ -50,9 +50,8 @@ public:
 	static Game& GetInstance() { return *instance; }
 
 private:
-	void guiTeleportMenu();
+	void imguiMenuBar();
 	void guiModelMenu(Character&);
-	void guiDebugMenu();
 	void loadGlobal();
 	void debugDrawP3D(const P3D::P3DFile&);
 	void OnInputTextEntry(const std::string& text);

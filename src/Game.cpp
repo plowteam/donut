@@ -309,14 +309,10 @@ void Game::Run()
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
 
-		ImGui::BeginMainMenuBar();
+		imguiMenuBar();
 
-		guiTeleportMenu();
-		if (_character != nullptr)
-			guiModelMenu(*_character);
-		guiDebugMenu();
-
-		ImGui::EndMainMenuBar();
+		//if (_character != nullptr)
+		//	guiModelMenu(*_character);
 
 		// ImGui::ShowDemoWindow();
 
@@ -446,13 +442,13 @@ void Game::guiModelMenu(Character& character)
 	ImGui::End();
 }
 
-void Game::guiTeleportMenu()
+void Game::imguiMenuBar()
 {
-	if (!ImGui::BeginMenu("Warp"))
-		return;
+	ImGui::BeginMainMenuBar();
 
-	if (ImGui::BeginMenu("Level 1"))
-	{
+	if (ImGui::BeginMenu("Warp")) {
+		// if (ImGui::BeginMenu("Level 1"))
+		// {
 		for (auto const& location : locations)
 		{
 			if (ImGui::MenuItem(std::get<0>(location).c_str()))
@@ -469,17 +465,10 @@ void Game::guiTeleportMenu()
 				ImGui::EndTooltip();
 			}
 		}
-
+		//	ImGui::EndMenu();
+		//}
 		ImGui::EndMenu();
 	}
-
-	ImGui::EndMenu();
-}
-
-void Game::guiDebugMenu()
-{
-	if (!ImGui::BeginMenu("Debug"))
-		return;
 
 	if (ImGui::BeginMenu("Physics"))
 	{
@@ -507,16 +496,17 @@ void Game::guiDebugMenu()
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::MenuItem("Audio Manager..."))
+	if (ImGui::MenuItem("Audio"))
 		_debugAudioWindowOpen = true;
 
-	if (ImGui::MenuItem("Resource Manager..."))
+	if (ImGui::MenuItem("Resource Manager"))
 		_debugResourceManagerWindowOpen = true;
 
-	if (ImGui::MenuItem("Level Entities..."))
+	if (ImGui::MenuItem("Level Entities"))
 		_debugLevelWindowOpen = true;
 
 	ImGui::EndMenu();
+	ImGui::EndMainMenuBar();
 }
 
 void Game::debugDrawP3D(const P3D::P3DFile& p3d)
