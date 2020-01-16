@@ -33,4 +33,6 @@ protected:
 	std::vector<std::string> _filenames;
 	std::map<std::string, uint32_t> _filenameHashes;
 };
+
+uint32_t StringHash(const std::string& key);
 } // namespace Donut::RCL

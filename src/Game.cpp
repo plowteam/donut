@@ -3,7 +3,7 @@
 #include "Game.h"
 
 #include "AnimCamera.h"
-#include "Audio/AudioManager.h"
+#include "Audio/ALAudioManager.h"
 #include "Character.h"
 #include "Core/FpsTimer.h"
 #include "Core/Math/Math.h"
@@ -94,8 +94,11 @@ Game::Game(int argc, char** argv)
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
 
 	// init sub classes
-	_audioManager = std::make_unique<AudioManager>();
+	_audioManager = std::make_unique<ALAudioManager>();
 	_resourceManager = std::make_unique<ResourceManager>();
+
+	_audioManager->LoadResources({"dialog.rcf", "music00.rcf", "music01.rcf", "music02.rcf", "music03.rcf", "carsound.rcf",
+	                              "ambience.rcf", "nis.rcf", "soundfx.rcf", "scripts.rcf"});
 
 	if (FileSystem::exists("./art/frontend/scrooby2/resource/fonts/font0_16.p3d"))
 	{

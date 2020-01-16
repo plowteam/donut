@@ -85,15 +85,12 @@ RSDFile::RSDFile(MemoryStream& stream)
 	_bitsPerChannel = stream.Read<uint32_t>();
 	_sampleRate = stream.Read<uint32_t>();
 
-	std::cout << fmt::format("{0}, channels:{1}, bpc:{2}, samplerate:{3}", magic, _numChannels, _bitsPerChannel, _sampleRate)
-	          << std::endl;
-
 	stream.Seek(0x800, Donut::SeekMode::Begin);
 
 	if (magic == "RSD4PCM ")
 	{
 		_data.resize(stream.Size() - stream.Position());
-		stream.ReadBytes(_data.data(), _data.size());
+		stream.ReadBytes((uint8_t*)_data.data(), _data.size());
 	}
 	else if (magic == "RSD4RADP")
 	{

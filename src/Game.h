@@ -10,7 +10,7 @@ namespace Donut
 {
 
 class Window;
-class AudioManager;
+class ALAudioManager;
 class ResourceManager;
 class LineRenderer;
 class Level;
@@ -40,7 +40,7 @@ public:
 	void Run();
 	void LoadModel(const std::string&, const std::string&);
 
-	AudioManager& GetAudioManager() { return *_audioManager; }
+	ALAudioManager& GetAudioManager() { return *_audioManager; }
 	ResourceManager& GetResourceManager() { return *_resourceManager; }
 	WorldPhysics& GetWorldPhysics() { return *_worldPhysics; }
 	LineRenderer& GetLineRenderer() { return *_lineRenderer; }
@@ -59,7 +59,7 @@ private:
 	void debugAboutMenu();
 
 	std::unique_ptr<Window> _window;
-	std::unique_ptr<AudioManager> _audioManager;
+	std::unique_ptr<ALAudioManager> _audioManager;
 	std::unique_ptr<ResourceManager> _resourceManager;
 	std::unique_ptr<FreeCamera> _camera;
 	std::unique_ptr<Character> _character;
