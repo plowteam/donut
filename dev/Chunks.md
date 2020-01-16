@@ -133,18 +133,6 @@
 |`numLines`|`u32`|
 |`lines`|`string[u32]`|
 
-## Mesh `0x10000`
-|Name|Type|
-|--|--|
-|`name`|`string`|
-|`version`|`u32`|
-|`numPrimGroups`|`u32`|
-
-### Children
-|Name|Chunk|
-|--|--|
-|`primitiveGroups`|`PrimitiveGroup[]`|
-
 ## PolySkin `0x10001`
 |Name|Type|
 |--|--|
@@ -889,7 +877,7 @@
 |--|--|
 |`animations`|`Animation[]`|
 |`skeletons`|`Skeleton[]`|
-|`meshes`|`Mesh[]`|
+|`geometries`|`Geometry[]`|
 |`drawable`|`CompositeDrawable`|
 |`animObjects`|`AnimatedObject`|
 
@@ -903,7 +891,7 @@
 ### Children
 |Name|Chunk|
 |--|--|
-|`mesh`|`Mesh`|
+|`geometry`|`Geometry`|
 
 ## StaticPhysics `0x3F00001`
 |Name|Type|
@@ -926,7 +914,7 @@
 ### Children
 |Name|Chunk|
 |--|--|
-|`meshes`|`Mesh[]`|
+|`geometries`|`Geometry[]`|
 |`instanceList`|`InstanceList`|
 
 ## Intersect `0x3F00003`
@@ -960,7 +948,7 @@
 ### Children
 |Name|Chunk|
 |--|--|
-|`meshes`|`Mesh[]`|
+|`geometries`|`Geometry[]`|
 |`instanceList`|`InstanceList`|
 
 ## WorldSphere `0x3F0000B`
@@ -968,7 +956,7 @@
 |--|--|
 |`name`|`string`|
 |`version`|`u32`|
-|`meshCount`|`u32`|
+|`geometryCount`|`u32`|
 |`billboardCount`|`u32`|
 
 ### Children
@@ -977,7 +965,7 @@
 |`animation`|`Animation`|
 |`skeletons`|`Skeleton[]`|
 |`billboards`|`BillboardQuadGroup[]`|
-|`meshes`|`Mesh[]`|
+|`geometries`|`Geometry[]`|
 |`compositeDrawable`|`CompositeDrawable`|
 |`lensFlare`|`LensFlare`|
 
@@ -1017,7 +1005,7 @@
 |--|--|
 |`compositeDrawables`|`CompositeDrawable[]`|
 |`skeletons`|`Skeleton[]`|
-|`meshes`|`Mesh[]`|
+|`geometries`|`Geometry[]`|
 |`animations`|`Animation[]`|
 
 ## CollisionObject `0x7010000`
@@ -1173,6 +1161,7 @@
 #### ExportInfo `0x7030`
 #### ExportInfoNamedString `0x7031`
 #### ExportInfoNamedInteger `0x7032`
+#### Mesh `0x10000`
 #### OffsetList `0x1000E`
 #### PackedNormalList `0x10010`
 #### VertexShader `0x10011`
