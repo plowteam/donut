@@ -31,6 +31,8 @@ Texture::Texture(const P3D::Texture& texture)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGB, GL_UNSIGNED_BYTE,
 			             imageData.data.data());
 
+		_memorySize = imageData.data.size();
+
 		break;
 	}
 	default: throw std::runtime_error("non-png texture");
@@ -87,6 +89,8 @@ Texture::Texture(const P3D::Sprite& sprite)
 	glBindTexture(GL_TEXTURE_2D, _glTexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)_width, (GLsizei)_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 	glGenerateMipmap(GL_TEXTURE_2D);
+
+	_memorySize = data.size();
 }
 
 Texture::~Texture()

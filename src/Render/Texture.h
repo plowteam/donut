@@ -29,6 +29,7 @@ public:
 	std::size_t GetWidth() const { return _width; }
 	std::size_t GetHeight() const { return _height; }
 	Vector2Int GetSize() const { return Vector2Int(_width, _height); }
+	std::size_t GetMemorySize() const { return _memorySize; }
 
 	// bool HasAlpha() const;
 	GLuint GetOpenGLHandle() const { return _glTexture; }
@@ -37,6 +38,7 @@ protected:
 	std::string _name;
 	std::size_t _width;
 	std::size_t _height;
+	std::size_t _memorySize;
 
 	GLuint _glTexture;
 };
