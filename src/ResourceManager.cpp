@@ -22,32 +22,32 @@ ResourceManager::~ResourceManager() = default;
 
 void ResourceManager::LoadTexture(const P3D::Texture& texture)
 {
-	if (_textures.find(texture.GetName()) != _textures.end())
-		fmt::print("Texture {0} already loaded\n", texture.GetName());
+	// if (_textures.find(texture.GetName()) != _textures.end())
+	// 	fmt::print("Texture {0} already loaded\n", texture.GetName());
 
 	_textures[texture.GetName()] = std::make_unique<Texture>(texture);
 }
 
 void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
 {
-	if (_textures.find(sprite.GetName()) != _textures.end())
-		fmt::print("Sprite {0} already loaded\n", sprite.GetName());
+	// if (_textures.find(sprite.GetName()) != _textures.end())
+	// 	fmt::print("Sprite {0} already loaded\n", sprite.GetName());
 
 	_textures[sprite.GetName()] = std::make_unique<Texture>(sprite);
 }
 
 void ResourceManager::LoadShader(const P3D::Shader& shader)
 {
-	if (_shaders.find(shader.GetName()) != _shaders.end())
-		fmt::print("Shader {0} already loaded\n", shader.GetName());
+	// if (_shaders.find(shader.GetName()) != _shaders.end())
+	// 	fmt::print("Shader {0} already loaded\n", shader.GetName());
 
 	_shaders[shader.GetName()] = std::make_unique<Shader>(shader);
 }
 
 void ResourceManager::LoadSet(const P3D::Set& set)
 {
-	if (_textures.find(set.GetName()) != _textures.end())
-		fmt::print("Set {0} already loaded\n", set.GetName());
+	// if (_textures.find(set.GetName()) != _textures.end())
+	// 	fmt::print("Set {0} already loaded\n", set.GetName());
 
 	std::srand((uint32_t)std::time(0));
 	int idx = std::rand() % set.GetTextures().size();
@@ -56,8 +56,8 @@ void ResourceManager::LoadSet(const P3D::Set& set)
 
 void ResourceManager::LoadGeometry(const P3D::Geometry& geo)
 {
-	if (_geometries.find(geo.GetName()) != _geometries.end())
-		fmt::print("Geometry {0} already loaded\n", geo.GetName());
+	// if (_geometries.find(geo.GetName()) != _geometries.end())
+	// 	fmt::print("Geometry {0} already loaded\n", geo.GetName());
 
 	_geometries[geo.GetName()] = std::make_unique<Mesh>(geo);
 }
@@ -74,44 +74,94 @@ void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> fon
 
 void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 {
-	ImGui::SetNextWindowSize(ImVec2(330, 400), ImGuiCond_Once);
-	if (!ImGui::Begin("Resource Manager", p_open))
+	ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_Once);
+	if (!ImGui::Begin("Resource Manager (P3D)", p_open))
 	{
 		ImGui::End();
 		return;
 	}
 
-	ImGui::Text("Textures: %zu", _textures.size());
-	ImGui::SameLine();
-	ImGui::Text("Shaders: %zu", _shaders.size());
-	ImGui::SameLine();
-	ImGui::Text("Fonts: %zu", _fonts.size());
+	const float footer_height_to_reserve =
+	    ImGui::GetStyle().ItemSpacing.y + ImGui::GetTextLineHeightWithSpacing(); // 1 separator, 1 text line
+	ImGui::BeginChild("##spacerfix", ImVec2(0, -footer_height_to_reserve), false);
 
-	ImGui::BeginTabBar("rmtabs");
+	static ImGuiTextFilter filter;
+	filter.Draw();
+
+	ImGui::BeginTabBar("##rmtabs");
 
 	if (ImGui::BeginTabItem("Textures"))
 	{
-		const ImVec2 windowSize = ImGui::GetWindowSize();
-		int perLine = static_cast<int>(windowSize.x) / 72;
-		if (perLine == 0)
-			perLine = 1;
+		const float curWidth = ImGui::GetColumnWidth();
+
+		ImGui::Columns(4, "##texturescol");
+		ImGui::SetColumnWidth(0, curWidth - 96 - 96 - 96);
+		ImGui::SetColumnWidth(1, 96);
+		ImGui::SetColumnWidth(2, 96);
+		ImGui::SetColumnWidth(3, 96);
+
+		ImGui::Separator();
+		ImGui::Text("Name");
+		ImGui::NextColumn();
+		ImGui::Text("Refs");
+		ImGui::NextColumn();
+		ImGui::Text("Weight");
+		ImGui::NextColumn();
+		ImGui::Text("Size");
+		ImGui::NextColumn();
+		ImGui::Separator();
+		ImGui::Columns(1);
+
+		ImGui::BeginChild("##textures");
+		ImGui::Columns(4, "##texturescol");
+		ImGui::SetColumnWidth(0, curWidth - 96 - 96 - 96);
+		ImGui::SetColumnWidth(1, 96);
+		ImGui::SetColumnWidth(2, 96);
+		ImGui::SetColumnWidth(3, 96);
 
 		int i = 0;
 		for (auto const& [name, texture] : _textures)
 		{
-			ImGui::Image((ImTextureID)(intptr_t)texture->GetOpenGLHandle(),
-			             ImVec2((float)texture->GetWidth(), (float)texture->GetHeight()));
-			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", name.c_str());
+			if (!filter.PassFilter(name.c_str()))
+				continue;
 
-			if (++i % perLine != 0)
-				ImGui::SameLine();
+			ImGui::Selectable(name.c_str(), false, ImGuiSelectableFlags_SpanAllColumns);
+			bool hovered = ImGui::IsItemHovered();
+			if (hovered)
+			{
+				ImGui::BeginTooltip();
+				ImGui::Image((ImTextureID)(intptr_t)texture->GetOpenGLHandle(),
+				             ImVec2((float)texture->GetWidth(), (float)texture->GetHeight()));
+				ImGui::EndTooltip();
+			}
+
+			ImGui::NextColumn();
+			ImGui::Text("1");
+			ImGui::NextColumn();
+			ImGui::Text("%.1fKB", (float)texture->GetMemorySize() / 1024.0f);
+			ImGui::NextColumn();
+			ImGui::Text("%zux%zu", texture->GetWidth(), texture->GetHeight());
+			ImGui::NextColumn();
+
+			i++;
 		}
+
+		ImGui::EndChild();
 
 		ImGui::EndTabItem();
 	}
 
 	ImGui::EndTabBar();
+
+	ImGui::EndChild();
+
+	ImGui::Separator();
+
+	ImGui::TextDisabled("Textures: %zu", _textures.size());
+	ImGui::SameLine();
+	ImGui::TextDisabled("Shaders: %zu", _shaders.size());
+	ImGui::SameLine();
+	ImGui::TextDisabled("Fonts: %zu", _fonts.size());
 
 	ImGui::End();
 }
