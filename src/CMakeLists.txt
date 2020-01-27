@@ -48,6 +48,7 @@ target_link_libraries(${PROJECT_NAME}
 		Bullet::Bullet
 		OpenAL::OpenAL
 		fmt::fmt
+		png
 	)
 
 # configure filesystem for slightly older compilers

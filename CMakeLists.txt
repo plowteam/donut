@@ -40,6 +40,7 @@ mark_as_advanced(_CXX_FILESYSTEM_HAVE_EXPERIMENTAL_HEADER)
 
 # Dependencies
 find_package(SDL2 REQUIRED)
+find_package(libpng CONFIG REQUIRED)
 find_package(fmt REQUIRED)
 find_package(OpenAL REQUIRED) #find_package(openal-soft CONFIG REQUIRED)
 find_package(Bullet REQUIRED)
