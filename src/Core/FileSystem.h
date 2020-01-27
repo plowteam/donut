@@ -13,10 +13,10 @@ namespace Donut
 namespace FileSystem
 {
 #if defined(DONUT_HAS_FILESYSTEM)
-	using namespace std::filesystem;
+using namespace std::filesystem;
 #elif defined(DONUT_HAS_FILESYSTEM_EXPERIMENTAL)
-	using namespace std::experimental::filesystem;
+using namespace std::experimental::filesystem;
 #endif
-    }
+} // namespace FileSystem
 
 } // namespace Donut

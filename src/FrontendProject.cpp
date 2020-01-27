@@ -1,5 +1,6 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
+#include "Core/FileSystem.h"
 #include <Entity.h>
 #include <FrontendProject.h>
 #include <Game.h>
@@ -8,7 +9,6 @@
 #include <Render/OpenGL/GLTexture2D.h>
 #include <Render/Texture.h>
 #include <ResourceManager.h>
-#include "Core/FileSystem.h"
 #include <fmt/format.h>
 #include <iostream>
 

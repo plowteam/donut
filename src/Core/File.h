@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Core/FileSystem.h"
+#include "Core/IFile.h"
 
 #include <cassert>
 #include <cstdio>
@@ -10,12 +11,6 @@
 
 namespace Donut
 {
-
-enum class FileMode
-{
-	Read,
-	Write
-};
 
 enum class FileSeekMode
 {
