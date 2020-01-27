@@ -4,6 +4,8 @@
 
 #include "Render/OpenGL/glad/glad.h"
 
+#include <string>
+
 namespace Donut::GL
 {
 
@@ -21,6 +23,8 @@ public:
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, _textureID);
 	}
+
+	inline void SetObjectLabel(const std::string& name) { glObjectLabel(GL_TEXTURE, _textureID, name.length(), name.c_str()); }
 
 	const GLuint GetHandle() const { return _textureID; }
 	const GLsizei GetWidth() const { return _width; }
