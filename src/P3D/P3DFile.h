@@ -15,6 +15,7 @@ enum class FileTypes : uint32_t
 {
 	P3D = 0xFF443350,  // 'P3D'
 	P3DZ = 0x5A443350, // 'P3DZ' proprietary compression
+	ZD3P = 0x5A443350, // 'ZD3P' reverse endian?
 	RZ = 0x5A52,       // 'RZ' (zlib deflate)
 };
 
