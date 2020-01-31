@@ -1,7 +1,7 @@
 #pragma once
 #include "OpenGL/glad/gl.h"
 
-#include <Render/Texture.h>
+#include "Pure3D/Texture.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

@@ -7,7 +7,7 @@
 #include "Render/OpenGL/ShaderProgram.h"
 #include "Render/OpenGL/VertexBinding.h"
 #include "Render/OpenGL/VertexBuffer.h"
-#include "Render/Texture.h"
+#include "Pure3D/Texture.h"
 
 namespace Donut
 {

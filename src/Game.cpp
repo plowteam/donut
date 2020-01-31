@@ -14,13 +14,15 @@
 #include "P3D/P3D.generated.h"
 #include "P3D/P3DFile.h"
 #include "Physics/WorldPhysics.h"
+#include "Pure3D/ChunkFile.h"
+#include "Pure3D/Loaders/TextureLoader.h"
 #include "RCL/RCFFile.h"
 #include "RCL/RSDFile.h"
 #include "Render/Font.h"
 #include "Render/LineRenderer.h"
 #include "Render/OpenGL/FrameBuffer.h"
 #include "Render/OpenGL/ShaderProgram.h"
-#include "Render/OpenGL/glad/glad.h"
+#include "Render/OpenGL/glad/gl.h"
 #include "Render/Shader.h"
 #include "Render/SkinModel.h"
 #include "Render/SpriteBatch.h"
@@ -169,7 +171,7 @@ void Game::loadGlobal()
 	{
 		if (chunk->GetType() != P3D::ChunkType::Texture)
 			continue;
-		_resourceManager->LoadTexture(*P3D::Texture::Load(*chunk));
+		// _resourceManager->LoadTexture(*P3D::Texture::Load(*chunk));
 	}
 }
 

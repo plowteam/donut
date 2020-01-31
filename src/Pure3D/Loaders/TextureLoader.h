@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "ChunkFile.h"
-#include "Loader.h"
-#include "Texture.h"
+#include "Pure3D/ChunkFile.h"
+#include "Pure3D/Texture.h"
+#include "Pure3D/Loaders/Loader.h"
 
 #include <cstdint>
 #include <string>
@@ -16,10 +16,10 @@ class TextureLoader: public Loader
 {
 public:
 	TextureLoader(): Loader(0x19000) {}
-	P3DTexture* LoadObject(ChunkFile&);
+	Texture* LoadObject(ChunkFile&); // todo: this doesn't override any virtuals.
 
 private:
-	P3DTexture* LoadImage(ChunkFile& file);
+	Texture* LoadImage(ChunkFile& file);
 };
 
 } // namespace Donut

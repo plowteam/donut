@@ -33,13 +33,14 @@ public:
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator=(ResourceManager const&) = delete;
 
-	void LoadTexture(const P3D::Texture&);
+	void AddTexture(Texture* texture);
+
 	void LoadTexture(const P3D::Sprite&);
 	void LoadShader(const P3D::Shader&);
 	void LoadSet(const P3D::Set&);
 	void LoadGeometry(const P3D::Geometry&);
 
-	void AddTexture(const std::string& name, std::unique_ptr<Texture> texture);
+	// void AddTexture(const std::string& name, std::unique_ptr<Texture> texture);
 	void AddFont(const std::string& name, std::unique_ptr<Font> font);
 
 	void ImGuiDebugWindow(bool* p_open) const;
@@ -52,7 +53,12 @@ public:
 	const std::unordered_map<std::string, std::unique_ptr<Font>>& GetFonts() const { return _fonts; }
 
 protected:
-	std::unordered_map<std::string, std::unique_ptr<Texture>> _textures;
+	void createErrorTexture();
+
+	Texture* _errorTexture;
+
+	// std::unordered_map<std::string, std::unique_ptr<Texture>> _textures;
+	std::unordered_map<std::string, Texture*> _textures;
 	std::unordered_map<std::string, std::unique_ptr<Shader>> _shaders;
 	std::unordered_map<std::string, std::unique_ptr<Mesh>> _geometries;
 	std::unordered_map<std::string, std::unique_ptr<Font>> _fonts;

@@ -1,10 +1,10 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
+#include "Core/FileSystem.h"
 #include <Game.h>
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Render/CompositeModel.h>
-#include "Core/FileSystem.h"
 #include <iostream>
 
 namespace Donut
@@ -80,7 +80,7 @@ CompositeModel::CompositeModel(const ICompositeModel& provider)
 
 	for (const auto& shader : shaders) Game::GetInstance().GetResourceManager().LoadShader(*shader);
 
-	for (const auto& texture : textures) Game::GetInstance().GetResourceManager().LoadTexture(*texture);
+	// for (const auto& texture : textures) Game::GetInstance().GetResourceManager().LoadTexture(*texture);
 
 	for (const auto& drawable : drawables)
 	{

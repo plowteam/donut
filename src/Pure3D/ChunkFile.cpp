@@ -17,9 +17,9 @@ ChunkFile::ChunkFile(File* file): _file(file)
 {
 	ChunkType type = Read<ChunkType>();
 
-	// if (type == FileType_P3D_Big || type == FileType_P3DZ_Big) {
-	// 	Log::Debug("Reverse endian");
-	// }
+	if (type == FileType_P3D_Big || type == FileType_P3DZ_Big) {
+		// SetEndianSwap(true);
+	}
 
 	if (type != FileType_P3D)
 	{

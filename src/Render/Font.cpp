@@ -4,7 +4,7 @@
 
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DChunk.h>
-#include <Render/Texture.h>
+#include "Pure3D/Texture.h"
 
 namespace Donut
 {

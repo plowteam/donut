@@ -2,33 +2,71 @@
 
 #pragma once
 
-#include "Core/Math/Vector3.h"
-#include "Render/OpenGL/GLTexture2D.h"
-#include "LoadObject.h"
-#include "Name.h"
+#include "Core/Object.h"
+#include "Core/Math/Vector2Int.h"
 
 #include <cstdint>
-#include <memory>
 #include <string>
+#include <vector>
 
 namespace Donut
 {
 
-class P3DTexture: public radLoadObject, public Name
+// forward declare
+namespace P3D
+{
+class Sprite;
+class Texture;
+} // namespace P3D
+
+// rename to Texture
+class Texture: public Object
 {
 public:
-protected:
-	uint32_t _width;
-	uint32_t _height;
-	uint32_t _bpp;
-	uint32_t _alphaDepth;
-	uint32_t _numMipMaps;
-	uint32_t _textureType;
-	uint32_t _usage;
-	uint32_t _priority;
+	Texture();
+	~Texture();
 
-	// 
-	//std::unique_ptr<GLTexture2D> _glTexture;
+	// legacy constructors
+	Texture(const P3D::Texture&);
+	Texture(const P3D::Sprite&);
+
+	enum class Format
+	{
+		R8,
+		RG8,
+		RGB8,
+		RGBA8,
+	};
+
+	enum class Interpolation
+	{
+		Nearest,
+		Bilinear,
+	};
+
+	void Create(int width, int height, Format format, const std::vector<uint8_t>& data);
+
+	int GetWidth() const { return _width; }
+	int GetHeight() const { return _height; }
+	Vector2Int GetSize() const { return Vector2Int(_width, _height); }
+	Format GetFormat() const { return _format; }
+
+	void Bind() const;
+	void Bind(unsigned int slot) const;
+
+	unsigned int GetNativeTextureHandle() const { return _texture; }
+	std::size_t GetMemorySize() const { return _memorySize; }
+
+
+	// bool HasAlpha();
+
+	virtual std::string GetClassName() const override { return "Texture"; }
+protected:
+	unsigned int _texture;
+	int _width;
+	int _height;
+	std::size_t _memorySize;
+	Format _format;
 
 	friend class TextureLoader;
 };

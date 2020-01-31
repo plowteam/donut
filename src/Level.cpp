@@ -19,6 +19,9 @@
 #include <array>
 #include <iostream>
 
+#include "Pure3D/ChunkFile.h"
+#include "Pure3D/Loaders/TextureLoader.h"
+
 namespace Donut
 {
 
@@ -71,11 +74,32 @@ void Level::LoadP3D(const std::string& filename)
 
 	std::cout << "Loading level: " << filename << "\n";
 
+	auto& rm = Game::GetInstance().GetResourceManager();
+
+	// do a quick chunkfile
+	// todo: move to P3D loader
+	{
+		File testFile(fullpath, FileMode::Read);
+		ChunkFile chunkFile(&testFile);
+		TextureLoader loader;
+		while (chunkFile.ChunksRemaining())
+		{
+			const auto type = chunkFile.BeginChunk();
+
+			// todo: iterate loaders for supported chunks
+			if (type == static_cast<ChunkType>(P3D::ChunkType::Texture))
+			{
+				auto texture = loader.LoadObject(chunkFile);
+				rm.AddTexture(texture);
+			}
+			chunkFile.EndChunk();
+		}
+	}
+
 	std::vector<std::unique_ptr<P3D::Locator2>> locators;
 
 	const auto p3d = P3D::P3DFile(fullpath);
 
-	auto& rm = Game::GetInstance().GetResourceManager();
 	const auto& root = p3d.GetRoot();
 
 	for (const auto& chunk : root.GetChildren())
@@ -83,7 +107,7 @@ void Level::LoadP3D(const std::string& filename)
 		switch (chunk->GetType())
 		{
 		case P3D::ChunkType::Shader: rm.LoadShader(*P3D::Shader::Load(*chunk)); break;
-		case P3D::ChunkType::Texture: rm.LoadTexture(*P3D::Texture::Load(*chunk)); break;
+		// case P3D::ChunkType::Texture: rm.LoadTexture(*P3D::Texture::Load(*chunk)); break;
 		case P3D::ChunkType::Set: rm.LoadSet(*P3D::Set::Load(*chunk)); break;
 		case P3D::ChunkType::Geometry: rm.LoadGeometry(*P3D::Geometry::Load(*chunk)); break;
 		case P3D::ChunkType::StaticEntity:

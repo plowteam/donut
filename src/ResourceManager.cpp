@@ -1,14 +1,15 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
+#include "Pure3D/Texture.h"
 #include <P3D/P3D.generated.h>
 #include <Render/Font.h>
 #include <Render/Mesh.h>
 #include <Render/Shader.h>
-#include <Render/Texture.h>
 #include <ResourceManager.h>
 
-#include "Render/OpenGL/glad/glad.h"
+#include "Render/OpenGL/glad/gl.h"
 #include "Render/imgui/imgui.h"
+#include "ThirdParty/magic_enum.h"
 
 #include <chrono>
 #include <ctime>
@@ -17,15 +18,23 @@
 namespace Donut
 {
 
-ResourceManager::ResourceManager() = default;
-ResourceManager::~ResourceManager() = default;
-
-void ResourceManager::LoadTexture(const P3D::Texture& texture)
+ResourceManager::ResourceManager()
 {
-	// if (_textures.find(texture.GetName()) != _textures.end())
-	// 	fmt::print("Texture {0} already loaded\n", texture.GetName());
+	createErrorTexture();
+}
 
-	_textures[texture.GetName()] = std::make_unique<Texture>(texture);
+ResourceManager::~ResourceManager()
+{
+	delete _errorTexture;
+
+	for (auto texture : _textures) {
+		delete texture.second;
+	}
+}
+
+void ResourceManager::AddTexture(Texture* texture)
+{
+	_textures[texture->GetName()] = texture;
 }
 
 void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
@@ -33,7 +42,7 @@ void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
 	// if (_textures.find(sprite.GetName()) != _textures.end())
 	// 	fmt::print("Sprite {0} already loaded\n", sprite.GetName());
 
-	_textures[sprite.GetName()] = std::make_unique<Texture>(sprite);
+	_textures[sprite.GetName()] = new Texture(sprite);
 }
 
 void ResourceManager::LoadShader(const P3D::Shader& shader)
@@ -51,7 +60,7 @@ void ResourceManager::LoadSet(const P3D::Set& set)
 
 	std::srand((uint32_t)std::time(0));
 	int idx = std::rand() % set.GetTextures().size();
-	_textures[set.GetName()] = std::make_unique<Texture>(*set.GetTextures().at(idx));
+	_textures[set.GetName()] = new Texture(*set.GetTextures().at(idx));
 }
 
 void ResourceManager::LoadGeometry(const P3D::Geometry& geo)
@@ -62,14 +71,24 @@ void ResourceManager::LoadGeometry(const P3D::Geometry& geo)
 	_geometries[geo.GetName()] = std::make_unique<Mesh>(geo);
 }
 
-void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<Texture> texture)
+/*void ResourceManager::AddTexture(const std::string& name, std::unique_ptr<Texture> texture)
 {
-	_textures[name] = std::move(texture);
-}
+    _textures[name] = std::move(texture);
+}*/
 
 void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> font)
 {
 	_fonts[name] = std::move(font);
+}
+
+void ResourceManager::createErrorTexture()
+{
+	// nice hot pink error texture
+	constexpr GLuint errorTextureData[] = {0xFFFF00DC, 0xFF000000, 0xFF000000, 0xFFFF00DC};
+
+	_errorTexture = new Texture();
+	_errorTexture->Create(2, 2, Texture::Format::RGBA8,
+	                      std::vector<uint8_t>(std::begin(errorTextureData), std::end(errorTextureData)));
 }
 
 void ResourceManager::ImGuiDebugWindow(bool* p_open) const
@@ -120,8 +139,11 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 		ImGui::SetColumnWidth(3, 96);
 
 		int i = 0;
-		for (auto const& [name, texture] : _textures)
+		for (std::pair<std::string, Texture*> pair : _textures)
 		{
+			auto name = pair.first;
+			Texture* texture = pair.second;
+
 			if (!filter.PassFilter(name.c_str()))
 				continue;
 
@@ -130,8 +152,9 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 			if (hovered)
 			{
 				ImGui::BeginTooltip();
-				ImGui::Image((ImTextureID)(intptr_t)texture->GetOpenGLHandle(),
+				ImGui::Image((ImTextureID)(intptr_t)texture->GetNativeTextureHandle(),
 				             ImVec2((float)texture->GetWidth(), (float)texture->GetHeight()));
+				ImGui::Text("Format: %s", std::string(magic_enum::enum_name(texture->GetFormat())).c_str());
 				ImGui::EndTooltip();
 			}
 
@@ -182,11 +205,11 @@ Shader* ResourceManager::GetShader(const std::string& name) const
 	// todo: check if a texture is set/valid before setting texture again
 	const std::string texName = shader->GetDiffuseTextureName();
 	if (_textures.find(texName) != _textures.end())
-		shader->SetDiffuseTexture(_textures.at(texName).get());
+		shader->SetDiffuseTexture(_textures.at(texName));
 	else
 	{
-		fmt::print("could not find texture {1} for shader {0}\n", name, texName);
-		shader->SetDiffuseTexture(_textures.begin()->second.get()); // todo: set an error texture
+		// fmt::print("could not find texture {1} for shader {0}\n", name, texName);
+		shader->SetDiffuseTexture(_errorTexture);
 	}
 
 	return shader.get();
@@ -194,11 +217,10 @@ Shader* ResourceManager::GetShader(const std::string& name) const
 
 Texture* ResourceManager::GetTexture(const std::string& name) const
 {
-	// todo: return missing texture
 	if (_textures.find(name) == _textures.end())
-		return nullptr;
+		return _errorTexture;
 
-	return _textures.at(name).get();
+	return _textures.at(name);
 }
 
 Mesh* ResourceManager::GetGeometry(const std::string& name) const

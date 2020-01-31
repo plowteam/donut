@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Render/OpenGL/glad/glad.h"
+#include "Render/OpenGL/glad/gl.h"
 #include <Render/SpriteBatch.h>
 #include <memory>
 #include <string>

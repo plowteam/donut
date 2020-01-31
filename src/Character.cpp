@@ -1,5 +1,6 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
+#include "Core/FileSystem.h"
 #include <Character.h>
 #include <CharacterController.h>
 #include <Game.h>
@@ -9,7 +10,6 @@
 #include <Render/OpenGL/ShaderProgram.h>
 #include <Render/SkinModel.h>
 #include <Skeleton.h>
-#include "Core/FileSystem.h"
 #include <fmt/format.h>
 
 namespace Donut
@@ -38,7 +38,7 @@ void Character::LoadModel(const std::string& name)
 		switch (chunk->GetType())
 		{
 		case P3D::ChunkType::Shader: Game::GetInstance().GetResourceManager().LoadShader(*P3D::Shader::Load(*chunk)); break;
-		case P3D::ChunkType::Texture: Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk)); break;
+		// case P3D::ChunkType::Texture: Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk)); break;
 		case P3D::ChunkType::PolySkin: _skinModel->LoadPolySkin(*P3D::PolySkin::Load(*chunk)); break;
 		case P3D::ChunkType::Skeleton: _skeleton = std::make_unique<Skeleton>(*P3D::Skeleton::Load(*chunk)); break;
 		default: fmt::print("unhandled chunk {1} in character {0}\n", name, chunk->GetType()); break;

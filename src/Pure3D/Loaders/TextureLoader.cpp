@@ -4,7 +4,6 @@
 
 #include "Core/Log.h"
 #include "Render/OpenGL/GLTexture2D.h"
-#include "ThirdParty/lodepng.h"
 
 #include <png.h>
 
@@ -28,17 +27,7 @@ enum class ImageFormat : uint32_t
 	DXT5 = 10,
 };
 
-// nice hot pink error texture (todo: return a shared_ptr of same instance?)
-static std::unique_ptr<GLTexture2D> GetErrorTexture()
-{
-	constexpr GLuint errorTextureData[] = {0xFFFF00DC, 0xFF000000, 0xFF000000, 0xFFFF00DC};
-
-	std::unique_ptr<GLTexture2D> texture =
-	    std::make_unique<GLTexture2D>(2, 2, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, errorTextureData);
-	return texture;
-}
-
-P3DTexture* TextureLoader::LoadObject(ChunkFile& file)
+Texture* TextureLoader::LoadObject(ChunkFile& file)
 {
 	std::string name = file.ReadU8String();
 	uint32_t version = file.Read<uint32_t>();
@@ -48,7 +37,7 @@ P3DTexture* TextureLoader::LoadObject(ChunkFile& file)
 	// not used at all
 	file.Seek(32, SeekOrigin::Current); // w, h, bpp, ad, mipmaps, type, usage, priority
 
-	P3DTexture* tex = nullptr;
+	Texture* tex = nullptr;
 
 	while (file.ChunksRemaining())
 	{
@@ -64,9 +53,11 @@ P3DTexture* TextureLoader::LoadObject(ChunkFile& file)
 		file.EndChunk();
 	}
 
+	tex->SetName(name);
+
 	return tex;
 }
-P3DTexture* TextureLoader::LoadImage(ChunkFile& file)
+Texture* TextureLoader::LoadImage(ChunkFile& file)
 {
 	// this is all unused, we trust the image data only!
 	std::string name = file.ReadU8String();
@@ -90,10 +81,6 @@ P3DTexture* TextureLoader::LoadImage(ChunkFile& file)
 	uint32_t size;
 	file.Read(&size);
 
-	/* read into a temporary array */
-	// std::vector<uint8_t> pngData(size);
-	// file.Read(pngData.data(), size);
-
 	/* use libpng */
 	png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	png_infop info = png_create_info_struct(png);
@@ -104,10 +91,11 @@ P3DTexture* TextureLoader::LoadImage(ChunkFile& file)
 		f->Read(data, length);
 	});
 
-	png_read_info(png, info);
+	png_uint_32 width, height;
+	int bit_depth, color_type;
 
-	png_byte bit_depth = png_get_bit_depth(png, info);
-	png_byte color_type = png_get_color_type(png, info);
+	png_read_info(png, info);
+	png_get_IHDR(png, info, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
 
 	// only support these types
 	if (color_type != PNG_COLOR_TYPE_PALETTE &&
@@ -118,50 +106,46 @@ P3DTexture* TextureLoader::LoadImage(ChunkFile& file)
 		return nullptr; // todo: return error texture
 	}
 
-	// fail?
-	png_byte interlace_type = png_get_interlace_type(png, info);
-	if (interlace_type) {
-
-	}
-
-	// strip alpha from paletted pngs
-	if (png_get_valid(png, info, PNG_INFO_PLTE)) {
-		png_set_strip_alpha(png);
-	}
-
-	// strip 16-bit png files down to 8 bit
-	if (bit_depth == 16) {
-		Log::Debug("bit_depth: {}\n", bit_depth);
-		png_set_strip_16(png);
-	}
-
-	// PNG_COLOR_TYPE_RGB
-	png_byte bpp = 32; // bits per PIXEL
-	if (bpp != 32) {
-		png_set_filler(png, 255, PNG_FILLER_AFTER);
-	}
+	// Convert transparency to full alpha
+	if (png_get_valid(png, info, PNG_INFO_tRNS))
+		png_set_tRNS_to_alpha(png);
 	
-	if (color_type == PNG_COLOR_TYPE_PALETTE && bit_depth != 4 && bit_depth != 8) {
-		png_set_expand(png);
+	// Convert paletted images to RGB
+	if (color_type == PNG_COLOR_TYPE_PALETTE) {
+		png_set_palette_to_rgb(png);
+	}
+
+	// ensure 8-bit packing
+	if (bit_depth < 8) {
+		png_set_packing(png);
+	} else if (bit_depth == 16) {
+		png_set_scale_16(png);
 	}
 
 	png_read_update_info(png, info);
 
-	// png_get_pixel
+	// read our new color type
+	color_type = png_get_color_type(png, info);
 
-	int width = png_get_image_width(png, info);
-	int height = png_get_image_height(png, info);
+	size_t row_bytes = png_get_rowbytes(png, info);
 
-	fmt::print("png: {}x{}\n", width, height);
+	// pull from png
+	std::vector<png_byte> image;
+	image.resize(row_bytes * height);
 
-	std::vector<uint8_t> image;
+	png_bytep* row_pointers = new png_bytep[height];
+	for (int i = 0; i < height; ++i)
+		row_pointers[i] = image.data() + i * row_bytes;
 
-	// should Texture wrap GLTexture2D? (probably)
-	auto texture = std::make_unique<GLTexture2D>(2, 2, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
-	texture->SetObjectLabel(name);
+	png_read_image(png, row_pointers);
 
-	P3DTexture* p3dtexture = new P3DTexture();
-	p3dtexture->SetName(name);
+	Texture::Format glFormat = Texture::Format::RGB8;
+	if (color_type == PNG_COLOR_TYPE_RGB_ALPHA) {
+		glFormat = Texture::Format::RGBA8;
+	}
+
+	Texture* p3dtexture = new Texture();
+	p3dtexture->Create(width, height, glFormat, image);
 
 	file.EndChunk();
 

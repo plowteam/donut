@@ -7,7 +7,7 @@
 #include <P3D/P3D.generated.h>
 #include <P3D/P3DFile.h>
 #include <Render/OpenGL/GLTexture2D.h>
-#include <Render/Texture.h>
+#include "Pure3D/Texture.h"
 #include <ResourceManager.h>
 #include <fmt/format.h>
 #include <iostream>
