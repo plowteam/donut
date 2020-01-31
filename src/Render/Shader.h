@@ -1,5 +1,5 @@
 #pragma once
-#include "OpenGL/glad/glad.h"
+#include "OpenGL/glad/gl.h"
 
 #include <Render/Texture.h>
 #include <memory>

@@ -1,6 +1,6 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
-#include "Render/OpenGL/glad/glad.h"
+#include "Render/OpenGL/glad/gl.h"
 #include <Window.h>
 #include <iostream>
 
@@ -38,8 +38,8 @@ Window::Window(const std::string& title, const int width, const int height)
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
-	// request a 4.3 core profile
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	// request a 3.3 core profile
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
@@ -67,17 +67,15 @@ Window::Window(const std::string& title, const int width, const int height)
 	_glContext = std::move(std::unique_ptr<SDL_GLContext, SDLDestroyer>(&context));
 
 	// Load GL extensions using glad
-	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
-		throw std::runtime_error("Failed to initialize the OpenGL context.");
-
-	std::cout << "OpenGL version loaded: " << GLVersion.major << "." << GLVersion.minor << "\n"
+	int version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
+	std::cout << "OpenGL: " << GLAD_VERSION_MAJOR(version) << "." << GLAD_VERSION_MINOR(version) << "\n"
 	          << "Vendor: " << glGetString(GL_VENDOR) << "\n"
 	          << "Renderer: " << glGetString(GL_RENDERER) << "\n"
 	          << "Version: " << glGetString(GL_VERSION) << "\n"
 	          << std::endl;
 
-	if (!GLAD_GL_VERSION_4_3)
-		throw std::runtime_error("Your OpenGL version is too low, expected 4.3 or higher.");
+	if (!GLAD_GL_VERSION_3_3)
+		throw std::runtime_error("Your OpenGL version is too low, expected 3.3 or higher.");
 
 	SDL_ShowWindow(_window.get());
 }

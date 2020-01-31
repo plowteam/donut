@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Render/OpenGL/glad/glad.h"
+#include "Render/OpenGL/glad/gl.h"
 
 #include <string>
 
@@ -24,7 +24,7 @@ public:
 		glBindTexture(GL_TEXTURE_2D, _textureID);
 	}
 
-	inline void SetObjectLabel(const std::string& name) { glObjectLabel(GL_TEXTURE, _textureID, name.length(), name.c_str()); }
+	inline void SetObjectLabel(const std::string& name) { /*glObjectLabel(GL_TEXTURE, _textureID, name.length(), name.c_str());*/ }
 
 	const GLuint GetHandle() const { return _textureID; }
 	const GLsizei GetWidth() const { return _width; }
