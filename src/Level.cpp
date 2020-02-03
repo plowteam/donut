@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include "Pure3D/ChunkFile.h"
+#include "Pure3D/P3DFileHandler.h"
 #include "Pure3D/Loaders/TextureLoader.h"
 
 namespace Donut
@@ -80,6 +81,7 @@ void Level::LoadP3D(const std::string& filename)
 	// todo: move to P3D loader
 	{
 		File testFile(fullpath, FileMode::Read);
+		{
 		ChunkFile chunkFile(&testFile);
 		TextureLoader loader;
 		while (chunkFile.ChunksRemaining())
@@ -94,6 +96,11 @@ void Level::LoadP3D(const std::string& filename)
 			}
 			chunkFile.EndChunk();
 		}
+		}
+
+		testFile.Seek(0, FileSeekMode::Begin);
+		P3DFileHandler handler;
+		handler.Load(&testFile);
 	}
 
 	std::vector<std::unique_ptr<P3D::Locator2>> locators;
