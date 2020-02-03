@@ -65,6 +65,7 @@ public:
 	std::size_t Position() const;
 	std::size_t Size() const;
 	bool IsEOF() const;
+	const std::string& GetFileName() const { return _fileName; }
 
 	void Flush();
 
@@ -77,6 +78,7 @@ public:
 protected:
 	FILE* _file;
 	std::size_t _size;
+	std::string _fileName;
 };
 
 } // namespace Donut

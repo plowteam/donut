@@ -38,6 +38,8 @@ void File::Open(const FileSystem::path& path, FileMode mode)
 	Seek(0, FileSeekMode::End);
 	_size = Position();
 	Seek(0, FileSeekMode::Begin);
+
+	_fileName = path.filename().string();
 }
 
 void File::Close()
