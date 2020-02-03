@@ -5,6 +5,7 @@
 #include "AnimCamera.h"
 #include "Audio/AudioManager.h"
 #include "Character.h"
+#include "Core/Log.h"
 #include "Core/FpsTimer.h"
 #include "Core/Math/Math.h"
 #include "FreeCamera.h"
@@ -62,9 +63,12 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 
 Game::Game(int argc, char** argv)
 {
+	Log::Info("donut - simpsons\nbuild date: {}\n\n", __DATE__);
+
 	instance = this; // global static :D
 
 	Commands::RunLine("HelloWorld();");
+
 	// for (const auto& entry : FileSystem::recursive_directory_iterator("scripts"))
 	//{
 	//	const auto& path = entry.path();
@@ -109,6 +113,8 @@ Game::Game(int argc, char** argv)
 		auto font = std::make_unique<Font>(*_textureFontP3D);
 		_resourceManager->AddFont(_textureFontP3D->GetName(), std::move(font));
 	}
+
+	// todo: load art\frontend\dynaload\images\mouse_cursor.p3d and use mouse_cursor.png Sprite
 
 	_level = std::make_unique<Level>();
 

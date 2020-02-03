@@ -3,30 +3,15 @@
 #include "Game.h"
 
 #include <SDL.h>
-
-#include <iostream>
-#include <memory>
-
 #ifdef _WIN32
 #include <Windows.h>
 #endif
 
+#include <iostream>
+#include <memory>
+
 int main(int argc, char** argv)
 {
-	std::cout << "+---------------------------------------------------+\n"
-	             "|    _____        /--------------------------\\      |\n"
-	             "|   /     \\      |                            |     |\n"
-	             "| \\/\\/     |    /     donut game               \\    |\n"
-	             "|  |  (o)(o)    |                              |    |\n"
-	             "|  C   .---_)   \\_   _________________________/     |\n"
-	             "|   | |.___|      | /                               |\n"
-	             "|   |  \\__/      <_/                                |\n"
-	             "|   /_____\\                                         |\n"
-	             "|  /_____/ \\                                        |\n"
-	             "| /         \\                                       |\n"
-	             "+---------------------------------------------------+\n"
-	          << std::endl;
-
 #ifdef NDEBUG
 	try
 	{
