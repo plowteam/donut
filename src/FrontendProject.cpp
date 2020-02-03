@@ -12,6 +12,8 @@
 #include <fmt/format.h>
 #include <iostream>
 
+#include "Core/Log.h"
+
 namespace Donut
 {
 enum class Alignment
@@ -42,16 +44,26 @@ FrontendProject::~FrontendProject()
 
 void FrontendProject::AddMultiSprite(const P3D::FrontendMultiSprite& multiSprite, int32_t resX, int32_t resY)
 {
-	auto texture = Game::GetInstance().GetResourceManager().GetTexture(multiSprite.GetImageNames()[0] + ".png");
+	auto texture = Game::GetInstance().GetResourceManager().GetTextureWeakPtr(multiSprite.GetImageNames()[0] + ".png");
 	auto dimX = (int32_t)multiSprite.GetDimensionX();
 	auto dimY = (int32_t)multiSprite.GetDimensionY();
 	Alignment alignX = (Alignment)multiSprite.GetAlignX();
 	Alignment alignY = (Alignment)multiSprite.GetAlignY();
 
+	// todo: error
+	if (texture.expired()) {
+		Log::Warn("{} - Tried to create MultiSprite from expired texture {}.\n", __func__, multiSprite.GetImageNames()[0] + ".png");
+		return;
+	}
+
+	// quickly get a lock and release so we can grab the width/height
+	auto texture_locked = texture.lock();
+	auto w = texture_locked->GetWidth();
+	auto h = texture_locked->GetHeight();
+	texture_locked.reset();
+
 	int32_t x = multiSprite.GetPositionX();
 	int32_t y = resY - multiSprite.GetPositionY();
-	int32_t w = texture->GetWidth();
-	int32_t h = texture->GetHeight();
 
 	if (alignX == Alignment::Right)
 	{
@@ -158,7 +170,16 @@ void FrontendProject::Draw(const Matrix4x4& proj)
 {
 	for (const auto& sprite : _sprites)
 	{
-		_spriteBatch.Draw(sprite.texture, Vector2(sprite.positionX, sprite.positionY), Vector2(sprite.width, sprite.height),
+		Texture* tex_ptr = nullptr;
+
+		// see if we can get a lock on the sprite texture
+		auto texture = sprite.texture.lock();
+		if (!texture) {
+			texture = Game::GetInstance().GetResourceManager().GetErrorTextureWeakPtr().lock();
+		}
+
+		// not ideal, shouldn't be passing raw here but there's loads of pointer shit so fuck it
+		_spriteBatch.Draw(texture.get(), Vector2(sprite.positionX, sprite.positionY), Vector2(sprite.width, sprite.height),
 		                  sprite.color);
 	}
 

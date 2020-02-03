@@ -27,7 +27,7 @@ enum class ImageFormat : uint32_t
 	DXT5 = 10,
 };
 
-Texture* TextureLoader::LoadObject(ChunkFile& file)
+std::shared_ptr<Texture> TextureLoader::LoadObject(ChunkFile& file)
 {
 	std::string name = file.ReadU8String();
 	uint32_t version = file.Read<uint32_t>();
@@ -37,7 +37,7 @@ Texture* TextureLoader::LoadObject(ChunkFile& file)
 	// not used at all
 	file.Seek(32, SeekOrigin::Current); // w, h, bpp, ad, mipmaps, type, usage, priority
 
-	Texture* tex = nullptr;
+	std::shared_ptr<Texture> texture;
 
 	while (file.ChunksRemaining())
 	{
@@ -45,7 +45,7 @@ Texture* TextureLoader::LoadObject(ChunkFile& file)
 
 		switch (chunkID)
 		{
-		case static_cast<ChunkType>(ChunkTypeID::Image): tex = LoadImage(file); break;
+		case static_cast<ChunkType>(ChunkTypeID::Image): texture = LoadImage(file); break;
 		case static_cast<ChunkType>(ChunkTypeID::VolumeImage):
 		default: Log::Debug("Unhandled chunk {}\n", chunkID);
 		}
@@ -53,11 +53,11 @@ Texture* TextureLoader::LoadObject(ChunkFile& file)
 		file.EndChunk();
 	}
 
-	tex->SetName(name);
+	texture->SetName(name);
 
-	return tex;
+	return texture;
 }
-Texture* TextureLoader::LoadImage(ChunkFile& file)
+std::shared_ptr<Texture> TextureLoader::LoadImage(ChunkFile& file)
 {
 	// this is all unused, we trust the image data only!
 	std::string name = file.ReadU8String();
@@ -144,11 +144,11 @@ Texture* TextureLoader::LoadImage(ChunkFile& file)
 		glFormat = Texture::Format::RGBA8;
 	}
 
-	Texture* p3dtexture = new Texture();
-	p3dtexture->Create(width, height, glFormat, image);
+	auto texture = std::make_shared<Texture>();
+	texture->Create(width, height, glFormat, image);
 
 	file.EndChunk();
 
-	return p3dtexture;
+	return texture;
 }
 } // namespace Donut

@@ -33,7 +33,7 @@ private:
 
 	struct Sprite
 	{
-		Texture* texture;
+		std::weak_ptr<Texture> texture;
 		int32_t positionX;
 		int32_t positionY;
 		int32_t width;

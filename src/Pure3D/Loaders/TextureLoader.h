@@ -7,6 +7,7 @@
 #include "Pure3D/Loaders/Loader.h"
 
 #include <cstdint>
+#include <memory>
 #include <string>
 
 namespace Donut
@@ -16,10 +17,10 @@ class TextureLoader: public Loader
 {
 public:
 	TextureLoader(): Loader(0x19000) {}
-	Texture* LoadObject(ChunkFile&); // todo: this doesn't override any virtuals.
+	std::shared_ptr<Texture> LoadObject(ChunkFile&); // todo: this doesn't override any virtuals.
 
 private:
-	Texture* LoadImage(ChunkFile& file);
+	std::shared_ptr<Texture> LoadImage(ChunkFile& file);
 };
 
 } // namespace Donut
