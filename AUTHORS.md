@@ -5,4 +5,4 @@ A copy of the license can be found in [LICENSE.md](LICENSE.md).
 The donut authors are:
 
 * Matthew Stevens (handsomematt) `<matt at handsomematt dot co dot uk>`
-* Michael Johnson (aylaylay) `<fortblox at gmail dot com>`
+* Michael Johnson (aylaylay) `<layla at facepunch dot com>`
