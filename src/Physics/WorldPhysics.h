@@ -4,24 +4,12 @@
 
 #include <BulletCollision/CollisionDispatch/btCollisionWorld.h>
 #include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
-#include <CharacterController.h>
 #include <Physics/BulletDebugDraw.h>
 
 namespace Donut
 {
 
 class LineRenderer;
-
-// forward declare some shit
-namespace P3D
-{
-class Intersect;
-class CollisionOBBoxVolume;
-class CollisionSphere;
-class CollisionCylinder;
-class CollisionVolume;
-class Fence;
-}; // namespace P3D
 
 enum class PhysicsDebugDrawMode
 {
@@ -43,13 +31,6 @@ public:
 	~WorldPhysics();
 
 	void Update(float dt) const;
-
-	void AddIntersect(const P3D::Intersect&);
-	void AddCollisionVolume(const P3D::CollisionVolume&);
-	void AddP3DOBBoxVolume(const P3D::CollisionOBBoxVolume&);
-	void AddP3DSphere(const P3D::CollisionSphere&);
-	void AddP3DCylinder(const P3D::CollisionCylinder&);
-	void AddP3DFence(const P3D::Fence&);
 
 	btDiscreteDynamicsWorld* GetDynamicsWorld() const { return _dynamicsWorld; }
 

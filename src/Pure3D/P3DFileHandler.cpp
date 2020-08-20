@@ -6,6 +6,10 @@
 #include "Core/File.h"
 #include "Pure3D/ChunkFile.h"
 
+// temp
+#include "Pure3D/LoadManager.h"
+#include "Pure3D/Loaders/TextureLoader.h"
+
 namespace Donut
 {
 
@@ -18,13 +22,18 @@ void P3DFileHandler::Load(File* file)
 {
 	ChunkFile chunkFile(file);
 
+	LoadManager manager;
+	manager.AddChunkLoader(std::unique_ptr<ChunkLoader>(new TextureLoader));
+
 	while (chunkFile.ChunksRemaining())
 	{
 		const auto id = chunkFile.BeginChunk();
-		void* loader = nullptr; // ILoadManager->GetLoadDataLoader(id);
-
+		auto loader = manager.GetChunkLoader(id);
 		if (loader != nullptr)
 		{
+			loader->LoadObject(chunkFile);
+			// loader->LoadObject();
+			// loader->get()
 			// loader->Load(chunkFile, entityStore);
 		} else {
 			Log::Warn("Unrecognized chunk ({:X}) in {}\n", id, file->GetFileName());

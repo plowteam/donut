@@ -1,9 +1,6 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
 #include "Pure3D/Texture.h"
-#include <P3D/P3D.generated.h>
-#include <Render/Font.h>
-#include <Render/Mesh.h>
 #include <Render/Shader.h>
 #include <ResourceManager.h>
 
@@ -43,45 +40,6 @@ void ResourceManager::AddTexture(std::shared_ptr<Texture> texture)
 		),
 		_textureCache.end()
 	);*/
-}
-
-void ResourceManager::LoadTexture(const P3D::Sprite& sprite)
-{
-	// if (_textures.find(sprite.GetName()) != _textures.end())
-	// 	fmt::print("Sprite {0} already loaded\n", sprite.GetName());
-
-	_textures[sprite.GetName()] = std::make_shared<Texture>(sprite);
-}
-
-void ResourceManager::LoadShader(const P3D::Shader& shader)
-{
-	// if (_shaders.find(shader.GetName()) != _shaders.end())
-	// 	fmt::print("Shader {0} already loaded\n", shader.GetName());
-
-	_shaders[shader.GetName()] = std::make_unique<Shader>(shader);
-}
-
-void ResourceManager::LoadSet(const P3D::Set& set)
-{
-	// if (_textures.find(set.GetName()) != _textures.end())
-	// 	fmt::print("Set {0} already loaded\n", set.GetName());
-
-	std::srand((uint32_t)std::time(0));
-	int idx = std::rand() % set.GetTextures().size();
-	_textures[set.GetName()] = std::make_shared<Texture>(*set.GetTextures().at(idx));
-}
-
-void ResourceManager::LoadGeometry(const P3D::Geometry& geo)
-{
-	// if (_geometries.find(geo.GetName()) != _geometries.end())
-	// 	fmt::print("Geometry {0} already loaded\n", geo.GetName());
-
-	_geometries[geo.GetName()] = std::make_unique<Mesh>(geo);
-}
-
-void ResourceManager::AddFont(const std::string& name, std::unique_ptr<Font> font)
-{
-	_fonts[name] = std::move(font);
 }
 
 void ResourceManager::createErrorTexture()
@@ -187,8 +145,6 @@ void ResourceManager::ImGuiDebugWindow(bool* p_open) const
 	ImGui::TextDisabled("Textures: %zu", _textures.size());
 	ImGui::SameLine();
 	ImGui::TextDisabled("Shaders: %zu", _shaders.size());
-	ImGui::SameLine();
-	ImGui::TextDisabled("Fonts: %zu", _fonts.size());
 
 	ImGui::End();
 }
@@ -248,22 +204,6 @@ Texture& ResourceManager::GetErrorTexture() const
 std::weak_ptr<Texture> ResourceManager::GetErrorTextureWeakPtr()
 {
 	return _errorTexture;
-}
-
-Mesh* ResourceManager::GetGeometry(const std::string& name) const
-{
-	if (_geometries.find(name) == _geometries.end())
-		return nullptr;
-
-	return _geometries.at(name).get();
-}
-
-Font* ResourceManager::GetFont(const std::string& name) const
-{
-	if (_fonts.find(name) == _fonts.end())
-		return nullptr;
-
-	return _fonts.at(name).get();
 }
 
 } // namespace Donut

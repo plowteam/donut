@@ -38,18 +38,16 @@ public:
 	P3DFileHandler() = default;
 	~P3DFileHandler() = default;
 
-	void AddHandler(); // tChunkHandler*
-	bool CheckExtension(const std::string& extension);
-
 	// radLoadOptions { char* file_name, int, int, int, int, ... }
 	// radLoadUpdatableRequest ( stream, inventory )
-	void LoadFile(void* load_options, void* load_updatable_request);
-	void Load(File* file); // File, EntityStore ( return type? )
+	void LoadFile(void* load_options, void* load_updatable_request); // ASYNC
+	void Load(File* file); // File, EntityStore ( return type? ) ((shouldn't be public?))
 
-	// AddHandler(tP3DFileHandler *this,tChunkHandler *param_1)
 
-	// virtual Load(tP3DFileHandler *this,tFile *param_1,tEntityStore *param_2)
-	// virtual CheckExtension(tP3DFileHandler *this,char *param_1)
+
+	void AddHandler(); // tChunkHandler*
+	virtual bool CheckExtension(const std::string& extension);
+
 
 	// Done(tLoadStatus param_1,tLoadRequest *param_2)
 	// LoadFile(P3DFileHandler *this,char *param_1,LoadFileCallback *param_2,void *param_3, GameMemoryAllocator param_4)

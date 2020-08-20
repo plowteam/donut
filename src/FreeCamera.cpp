@@ -7,8 +7,8 @@
 namespace Donut
 {
 FreeCamera::FreeCamera()
-    : _position(Vector3::Zero), _orientation(Quaternion::Identity), _fov(70.0f), _aspectRatio(1.0f), _znear(1.0f), _zfar(10000.0f),
-      _projectionMatrix(Matrix4x4::Zero), _viewMatrix(Matrix4x4::Identity)
+    : _position(Vector3::Zero), _orientation(Quaternion::Identity), _fov(70.0f), _aspectRatio(1.0f), _znear(1.0f),
+      _zfar(10000.0f), _projectionMatrix(Matrix4x4::Zero), _viewMatrix(Matrix4x4::Identity)
 {
 	updateProjectionMatrix();
 	updateViewMatrix();

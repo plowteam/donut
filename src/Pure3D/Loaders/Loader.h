@@ -7,19 +7,21 @@
 namespace Donut
 {
 
-class radLoadObject;
+class ChunkFile;
 
-class Loader
+class ChunkLoader
 {
 public:
-	Loader(uint32_t chunkID): _chunkID(chunkID) {}
+	ChunkLoader(std::size_t chunkID): _chunkID(chunkID) {}
+	// virtual ~ChunkLoader() = default;
 
-	virtual bool tP3DLoaderIsType(uint32_t type) { return false; } // = 0;
-	virtual uint32_t GetTypeID() { return 0; }                     // = 0;            // doesn't need to be priv?
-	virtual radLoadObject* LoadObject() { return nullptr; }        // = 0;
+	virtual std::size_t GetChunkID() { return _chunkID; } 
+	virtual void* LoadObject(ChunkFile&) = 0;
+
+	//virtual void LoadData() = 0;
 
 protected:
-	uint32_t _chunkID;
+	std::size_t _chunkID;
 };
 
 } // namespace Donut

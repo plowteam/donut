@@ -1,6 +1,5 @@
 // Copyright 2019-2020 the donut authors. See AUTHORS.md
 
-#include <P3D/P3D.generated.h>
 #include <Render/Shader.h>
 #include <fmt/format.h>
 #include <iostream>
@@ -8,7 +7,11 @@
 namespace Donut
 {
 
-Shader::Shader(const P3D::Shader& shader): _name(shader.GetName())
+Shader::Shader(const P3D::Shader& shader) {}
+Shader::~Shader() {}
+void Shader::SetDiffuseTexture(Texture* diffuseTexture) {}
+
+/*Shader::Shader(const P3D::Shader& shader): _name(shader.GetName())
 {
 	auto const& pddiName = shader.GetPddiShaderName();
 	if (pddiName != "simple")
@@ -103,6 +106,6 @@ void Shader::Bind(GLuint unit) const
 {
 	_diffuseTexture->Bind(unit);
 	glBindSampler(unit, _glSampler);
-}
+}*/
 
 } // namespace Donut

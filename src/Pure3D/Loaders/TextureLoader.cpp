@@ -27,7 +27,7 @@ enum class ImageFormat : uint32_t
 	DXT5 = 10,
 };
 
-std::shared_ptr<Texture> TextureLoader::LoadObject(ChunkFile& file)
+void* TextureLoader::LoadObject(ChunkFile& file)
 {
 	std::string name = file.ReadU8String();
 	uint32_t version = file.Read<uint32_t>();
@@ -55,7 +55,9 @@ std::shared_ptr<Texture> TextureLoader::LoadObject(ChunkFile& file)
 
 	texture->SetName(name);
 
-	return texture;
+	Log::Info("Loaded texture: {}\n", name);
+
+	return texture.get();
 }
 std::shared_ptr<Texture> TextureLoader::LoadImage(ChunkFile& file)
 {

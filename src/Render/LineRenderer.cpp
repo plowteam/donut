@@ -3,10 +3,11 @@
 #include "LineRenderer.h"
 
 #include "Core/Math/Math.h"
+#include "Core/Math/Matrix3x3.h"
+#include "Core/Math/Matrix4x4.h"
 #include "Core/Math/Quaternion.h"
 #include "Core/Math/Vector3.h"
 #include "Core/Math/Vector4.h"
-#include "Skeleton.h"
 
 namespace Donut
 {
@@ -213,24 +214,6 @@ void LineRenderer::DrawCone(const Vector3& position, const Quaternion& rotation,
 	{
 		DrawLine(vertices[i], vertices[i + 1], colour);
 		DrawLine(vertices[i], topVertex, colour);
-	}
-}
-
-void LineRenderer::DrawSkeleton(const Vector3& position, const Skeleton& skeleton)
-{
-	auto const& joints = skeleton.GetJoints();
-	for (auto const& joint : joints)
-	{
-		auto const& parent = joints[joint.parent];
-
-		Matrix4x4 mParent = Matrix4x4::MakeTranslate(position) * parent.pose;
-		Matrix4x4 mJoint = Matrix4x4::MakeTranslate(position) * joint.pose;
-
-		const Vector4 lineColor(1.0f, 1.0f, 1.0f, 1.0f);
-		const Vector4 sphereColor(0.0f, 1.0f, 0.0f, 1.0f);
-
-		DrawSphere(mJoint.Translation(), 0.025f, 4, 4, sphereColor);
-		DrawLine(mParent.Translation(), mJoint.Translation(), lineColor);
 	}
 }
 

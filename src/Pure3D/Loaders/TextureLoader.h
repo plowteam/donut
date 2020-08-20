@@ -13,11 +13,11 @@
 namespace Donut
 {
 
-class TextureLoader: public Loader
+class TextureLoader: public ChunkLoader
 {
 public:
-	TextureLoader(): Loader(0x19000) {}
-	std::shared_ptr<Texture> LoadObject(ChunkFile&); // todo: this doesn't override any virtuals.
+	TextureLoader(): ChunkLoader(0x19000) {}
+	virtual void* LoadObject(ChunkFile&) override; // todo: this doesn't override any virtuals.
 
 private:
 	std::shared_ptr<Texture> LoadImage(ChunkFile& file);

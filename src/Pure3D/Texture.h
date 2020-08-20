@@ -12,23 +12,11 @@
 namespace Donut
 {
 
-// forward declare
-namespace P3D
-{
-class Sprite;
-class Texture;
-} // namespace P3D
-
-// rename to Texture
 class Texture: public Object
 {
 public:
 	Texture();
 	~Texture();
-
-	// legacy constructors
-	Texture(const P3D::Texture&);
-	Texture(const P3D::Sprite&);
 
 	enum class Format
 	{

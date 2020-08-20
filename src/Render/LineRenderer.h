@@ -30,7 +30,6 @@ public:
 	void DrawCone(const Vector3& position, float radius, float height, std::size_t sides, const Vector4& colour);
 	void DrawCone(const Vector3& position, const Quaternion& rotation, float radius, float height, std::size_t sides,
 	              const Vector4& colour);
-	void DrawSkeleton(const Vector3& position, const Skeleton& skeleton);
 
 	void Flush(Matrix4x4& viewProj);
 

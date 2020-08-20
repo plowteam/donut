@@ -7,9 +7,7 @@
 
 #include <string>
 
-namespace Donut
-{
-namespace Log
+namespace Donut::Log
 {
 
 template <typename... Args>
@@ -36,5 +34,4 @@ inline void Error(std::string_view fmt, const Args&... args)
 	fmt::print(fmt, args...);
 }
 
-}
-} // namespace Donut
+} // namespace Donut::Log
