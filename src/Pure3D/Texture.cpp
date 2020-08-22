@@ -36,6 +36,12 @@ void Texture::Create(int width, int height, Format format, const std::vector<uin
 
 	switch (format)
 	{
+	case Format::R8:
+		glFormat = GL_RED;
+		glInternalFormat = GL_R8;
+		glType = GL_UNSIGNED_BYTE;
+		bytes_per_pixel = 1;
+		break;
 	case Format::RGB8:
 		glFormat = GL_RGB;
 		glInternalFormat = GL_RGB8;

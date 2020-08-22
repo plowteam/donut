@@ -8,6 +8,7 @@
 
 // temp
 #include "Pure3D/LoadManager.h"
+#include "Pure3D/Loaders/SpriteLoader.h"
 #include "Pure3D/Loaders/TextureLoader.h"
 
 namespace Donut
@@ -24,6 +25,7 @@ void P3DFileHandler::Load(File* file)
 
 	LoadManager manager;
 	manager.AddChunkLoader(std::unique_ptr<ChunkLoader>(new TextureLoader));
+	manager.AddChunkLoader(std::unique_ptr<ChunkLoader>(new SpriteLoader));
 
 	while (chunkFile.ChunksRemaining())
 	{

@@ -201,6 +201,7 @@ void Game::Run()
 	Input::CaptureTextEntry(this, &Game::OnInputTextEntry);
 
 	LoadP3D("./art/l1z1.p3d");
+	LoadP3D("./art/frontend/dynaload/images/mouse_cursor.p3d");
 
 	SDL_Event event;
 	bool running = true;
