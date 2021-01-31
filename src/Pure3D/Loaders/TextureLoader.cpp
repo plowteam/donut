@@ -32,7 +32,7 @@ void* TextureLoader::LoadObject(ChunkFile& file)
 	std::string name = file.ReadU8String();
 	uint32_t version = file.Read<uint32_t>();
 
-	assert(version == 0);
+	assert(version == 14000);
 
 	// not used at all
 	file.Seek(32, SeekOrigin::Current); // w, h, bpp, ad, mipmaps, type, usage, priority
