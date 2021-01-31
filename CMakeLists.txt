@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
+# make sure all submodules are pulled
+execute_process(COMMAND git submodule update --init --recursive
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
 if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
     CACHE STRING "Default to vcpkg toolchain file")
