@@ -13,7 +13,6 @@ class Window;
 class AudioManager;
 class ResourceManager;
 class LineRenderer;
-class WorldPhysics;
 class FreeCamera;
 
 namespace GL
@@ -33,7 +32,6 @@ public:
 
 	AudioManager& GetAudioManager() { return *_audioManager; }
 	ResourceManager& GetResourceManager() { return *_resourceManager; }
-	WorldPhysics& GetWorldPhysics() { return *_worldPhysics; }
 	LineRenderer& GetLineRenderer() { return *_lineRenderer; }
 
 	void InitializePure3D();
@@ -55,7 +53,6 @@ private:
 	std::unique_ptr<ResourceManager> _resourceManager;
 	std::unique_ptr<FreeCamera> _camera;
 	std::unique_ptr<LineRenderer> _lineRenderer;
-	std::unique_ptr<WorldPhysics> _worldPhysics;
 
 	std::unique_ptr<GL::ShaderProgram> _skinShaderProgram;
 

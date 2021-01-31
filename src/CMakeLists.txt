@@ -45,7 +45,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
 		SDL2::SDL2
-		BulletCollision BulletDynamics LinearMath
 		OpenAL::OpenAL
 		fmt::fmt
 		png

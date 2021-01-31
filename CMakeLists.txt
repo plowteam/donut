@@ -44,7 +44,6 @@ find_package(SDL2 CONFIG REQUIRED)
 find_package(libpng CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(OpenAL CONFIG REQUIRED)
-find_package(Bullet CONFIG REQUIRED)
 
 # Wrap OpenAL Soft in an interface too
 if (OPENAL_FOUND AND NOT TARGET OpenAL::OpenAL)

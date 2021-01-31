@@ -8,7 +8,6 @@
 #include "Core/Math/Math.h"
 #include "FreeCamera.h"
 #include "Input/Input.h"
-#include "Physics/WorldPhysics.h"
 #include "Pure3D/ChunkFile.h"
 #include "Pure3D/P3DFileHandler.h"
 #include "RCL/RCFFile.h"
@@ -90,8 +89,7 @@ Game::Game(int argc, char** argv)
 	// io.FontGlobalScale = dpi_scale;
 
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
-	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
-
+	
 	// init sub classes
 	_audioManager = std::make_unique<AudioManager>();
 	_resourceManager = std::make_unique<ResourceManager>();
@@ -255,8 +253,7 @@ void Game::Run()
 			_camera->Move(inputForce, static_cast<float>(deltaTime));
 		}
 
-		_worldPhysics->Update(static_cast<float>(deltaTime));
-
+		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
@@ -353,32 +350,6 @@ void Game::imguiMenuBar()
 		}
 		//	ImGui::EndMenu();
 		//}
-		ImGui::EndMenu();
-	}
-
-	if (ImGui::BeginMenu("Physics"))
-	{
-		PhysicsDebugDrawMode mode = _worldPhysics->GetDebugDrawMode();
-
-		ImGui::CheckboxFlags("Draw Wireframe", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawWireframe));
-		ImGui::CheckboxFlags("Draw AABB", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawAABB));
-		ImGui::CheckboxFlags("Draw Features Text", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFeaturesText));
-		ImGui::CheckboxFlags("Draw Contact Points", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawContactPoints));
-		ImGui::CheckboxFlags("Draw Text", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawText));
-		ImGui::CheckboxFlags("Fast Wireframe", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::FastWireframe));
-		ImGui::CheckboxFlags("Draw Normals", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawNormals));
-		ImGui::CheckboxFlags("Draw Frames", reinterpret_cast<unsigned int*>(&mode),
-		                     static_cast<unsigned int>(PhysicsDebugDrawMode::DrawFrames));
-
-		_worldPhysics->SetDebugDrawMode(mode);
-
 		ImGui::EndMenu();
 	}
 
