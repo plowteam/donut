@@ -2,12 +2,9 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
-# automatically use vcpkg if VCPKG_ROOT is defined
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  message(STATUS "Using VCPKG_ROOT $ENV{VCPKG_ROOT}")
-  set(CMAKE_TOOLCHAIN_FILE
-      "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
+if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+    CACHE STRING "Default to vcpkg toolchain file")
 endif()
 
 # Remove MinSizeRel build configuration, not useful

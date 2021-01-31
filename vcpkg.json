@@ -1,0 +1,11 @@
+{
+    "name": "donut",
+    "version-string": "0.0.1-dev",
+    "dependencies": [
+        "sdl2",
+        "bullet3",
+        "openal-soft",
+        "fmt",
+        "libpng"
+    ]
+}
