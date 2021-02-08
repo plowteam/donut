@@ -1,7 +1,7 @@
 # donut
 
 [![GitHub Stars](https://img.shields.io/github/stars/plowteam/donut?logo=github)](https://github.com/plowteam/donut/stargazers)
-[![Discord chat](https://img.shields.io/discord/611594006803120148?logo=discord&logoColor=white)](https://discord.gg/xpdbWzG)
+[![Discord chat](https://img.shields.io/discord/611594006803120148?logo=discord&logoColor=white)](https://discord.gg/U7jFGJKuW4)
 [![License](https://img.shields.io/github/license/plowteam/donut)](LICENSE.md)
 
 donut is an open source reimplementation of [The Simpsons: Hit & Run](https://en.wikipedia.org/wiki/The_Simpsons:_Hit_&_Run)
