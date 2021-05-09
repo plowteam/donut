@@ -50,6 +50,13 @@ target_link_libraries(${PROJECT_NAME}
 		fmt::fmt
 	)
 
+if (UNIX)
+	target_link_libraries(${PROJECT_NAME}
+			PRIVATE
+			${CMAKE_DL_LIBS}
+		)
+endif()
+
 # configure filesystem for slightly older compilers
 if (_CXX_FILESYSTEM_HAVE_HEADER)
 	target_compile_definitions(${PROJECT_NAME} PRIVATE DONUT_HAS_FILESYSTEM)

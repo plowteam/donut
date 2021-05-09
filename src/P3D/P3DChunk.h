@@ -8,6 +8,7 @@
 #include <fmt/format.h>
 #include <memory>
 #include <vector>
+#include <iostream>
 
 namespace Donut::P3D
 {
