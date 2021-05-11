@@ -49,17 +49,7 @@ cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpk
 
 ## Linux
 
-*Note: These instructions are for Ubuntu, but can be easily applied to other distros.*
-
-Ensure you have dependencies first
-```bash
-sudo apt install cmake
-cd donut
-cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-linux
-cmake --build build -j 5
-```
-
-**Mesa drivers on Linux:** if you are trying to run with Mesa drivers and are getting issues with OpenGL context try messing with `MESA_GL_VERSION_OVERRIDE` when running like so: `MESA_GL_VERSION_OVERRIDE=4.3FC MESA_GLSL_VERSION_OVERRIDE=430 bin/donut`
+*nobody has time for Linux mate*
 
 ## Docs
 * [Chunks](dev/Chunks.md)
