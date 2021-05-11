@@ -70,6 +70,8 @@ Contributions are always welcome, whether it's modifying source code to add new
 features or bug fixes, documenting new file formats or simply editing some
 grammar.
 
+Please take a moment to read through the [contribution guidelines](./CONTRIBUTING.md).
+
 You can also join the [Discord for development discussion]((https://discord.gg/xpdbWzG))
 if you are unsure of anything.
 
