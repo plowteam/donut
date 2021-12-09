@@ -2,22 +2,21 @@
 
 #pragma once
 
-#include "Core/Object.h"
+#include "Entity.h"
 #include "Core/Math/Vector2Int.h"
 
 #include <cstdint>
 #include <string>
 #include <vector>
 
-namespace Donut
+using namespace Donut;
+
+namespace donut::pure3d
 {
 
-class Texture: public Object
+class Texture: public Entity
 {
 public:
-	Texture();
-	~Texture();
-
 	enum class Format
 	{
 		R8,
@@ -32,28 +31,23 @@ public:
 		Bilinear,
 	};
 
-	void Create(int width, int height, Format format, const std::vector<uint8_t>& data);
-
 	int GetWidth() const { return _width; }
 	int GetHeight() const { return _height; }
-	Vector2Int GetSize() const { return Vector2Int(_width, _height); }
 	Format GetFormat() const { return _format; }
 
-	void Bind() const;
-	void Bind(unsigned int slot) const;
+	unsigned int GetTexture() const { return _texture; }
 
 	unsigned int GetNativeTextureHandle() const { return _texture; }
-	std::size_t GetMemorySize() const { return _memorySize; }
-
-
-	// bool HasAlpha();
 
 	virtual std::string GetClassName() const override { return "Texture"; }
 protected:
+	Texture();
+	~Texture();
+	void Create(int width, int height, Format format, const std::vector<uint8_t>& data);
+
 	unsigned int _texture;
 	int _width;
 	int _height;
-	std::size_t _memorySize;
 	Format _format;
 
 	friend class TextureLoader;

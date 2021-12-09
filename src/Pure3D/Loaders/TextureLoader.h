@@ -10,14 +10,14 @@
 #include <memory>
 #include <string>
 
-namespace Donut
+namespace donut::pure3d
 {
 
-class TextureLoader: public ChunkLoader
+class TextureLoader: public SimpleChunkLoader
 {
 public:
-	TextureLoader(): ChunkLoader(0x19000) {}
-	virtual void* LoadObject(ChunkFile&) override; // todo: this doesn't override any virtuals.
+	TextureLoader(): SimpleChunkLoader(ChunkID::Texture) {}
+	virtual std::shared_ptr<Entity> LoadEntity(ChunkFile&, void* store) override;
 
 private:
 	std::shared_ptr<Texture> LoadImage(ChunkFile& file);

@@ -1,17 +1,17 @@
-// Copyright 2019-2020 the donut authors. See COPYING.md for legal info.
+// Copyright 2019-2021 the donut authors. See COPYING.md for legal info.
 
 #include "Texture.h"
 
 #include "Core/Log.h"
 #include "Render/OpenGL/glad/gl.h"
 
-namespace Donut
+namespace donut::pure3d
 {
 
 Texture::Texture(): _width(0), _height(0), _format(Format::RGB8), _texture(0)
 {
 	// todo: generic renderer implementation
-	glGenTextures(1, &_texture);
+	// glGenTextures(1, &_texture);
 }
 
 Texture::~Texture()
@@ -26,6 +26,7 @@ Texture::~Texture()
 // todo: generic renderer implementation
 void Texture::Create(int width, int height, Format format, const std::vector<uint8_t>& data)
 {
+	glGenTextures(1, &_texture);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _texture);
 
@@ -68,19 +69,7 @@ void Texture::Create(int width, int height, Format format, const std::vector<uin
 
 	_width = width;
 	_height = height;
-	_memorySize = width * height * bytes_per_pixel;
 	_format = format;
 }
 
-void Texture::Bind() const
-{
-	glBindTexture(GL_TEXTURE_2D, _texture);
-}
-
-void Texture::Bind(GLuint slot) const
-{
-	glActiveTexture(GL_TEXTURE0 + slot);
-	glBindTexture(GL_TEXTURE_2D, _texture);
-}
-
-} // namespace Donut
+} // namespace donut::pure3d

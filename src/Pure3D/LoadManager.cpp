@@ -16,7 +16,43 @@ LoadManager::LoadManager()
 	// radLoadObjects ptr queue 0x20
 	// radLoadCallback ptr queue 32
 
-	// _loadThread = std::thread(&LoadManager::internalService, this);
+	_loadCallbacks = new std::queue<LoadCallback>();
+	_loadRequests = new std::queue<LoadRequest>();
+
+	// Use at least one thread
+	unsigned int num_workers = 1;
+
+	// Deduce how many more threads we can use
+	const auto thread_count = std::thread::hardware_concurrency();
+
+	_workerThread = std::thread(&LoadManager::WorkerThreadEntryPoint, this);
+}
+
+void LoadManager::Load(const std::string& name, LoadRequest* outRequest)
+{
+	LoadOptions options;
+	options.name = name;
+	this->Load(&options, outRequest);
+}
+
+void LoadManager::Load(LoadOptions* options, LoadRequest* outRequest)
+{
+	if (_syncLoading)
+		options->syncLoad = true;
+
+	auto loadRequest = std::make_shared<LoadRequest>();
+	loadRequest->SetState(LoadState::State1);
+	// loadRequest->SetStream(options->stream);
+
+	// outRequest = loadRequest;
+
+	if (options->syncLoad)
+	{
+		while (loadRequest->state != LoadState::State3)
+		{
+			// while loop this shit
+		}
+	}
 }
 
 void LoadManager::AddChunkLoader(std::unique_ptr<ChunkLoader>&& loader)

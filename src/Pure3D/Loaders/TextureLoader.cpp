@@ -9,7 +9,7 @@
 
 using namespace Donut::GL;
 
-namespace Donut
+namespace donut::pure3d
 {
 
 enum class ImageFormat : uint32_t
@@ -27,15 +27,15 @@ enum class ImageFormat : uint32_t
 	DXT5 = 10,
 };
 
-void* TextureLoader::LoadObject(ChunkFile& file)
+std::shared_ptr<Entity> TextureLoader::LoadEntity(ChunkFile& file, void* store)
 {
 	std::string name = file.ReadU8String();
 	uint32_t version = file.Read<uint32_t>();
 
 	assert(version == 14000);
 
-	// not used at all
-	file.Seek(32, SeekOrigin::Current); // w, h, bpp, ad, mipmaps, type, usage, priority
+	// skip: w, h, bpp, ad, mipmaps, type, usage, priority (we get this from the image)
+	file.Seek(32, Donut::SeekOrigin::Current);
 
 	std::shared_ptr<Texture> texture;
 
@@ -43,41 +43,62 @@ void* TextureLoader::LoadObject(ChunkFile& file)
 	{
 		auto const chunkID = file.BeginChunk();
 
+		// TODO: handle TextureVolumeImage
 		switch (chunkID)
 		{
-		case static_cast<ChunkType>(ChunkTypeID::Image): texture = LoadImage(file); break;
-		case static_cast<ChunkType>(ChunkTypeID::VolumeImage):
-		default: Log::Debug("Unhandled chunk {}\n", chunkID);
+			case static_cast<ChunkID>(ChunkID::TextureImage) : texture = LoadImage(file); break;
+			default: Log::Debug("Unhandled chunk {}\n", chunkID);
 		}
 
 		file.EndChunk();
 	}
 
-	texture->SetName(name);
+	if (texture != nullptr) {
+		texture->SetName(name);
+	}
 
-	Log::Info("Loaded texture: {}\n", name);
-
-	return texture.get();
+	return texture;
 }
+
 std::shared_ptr<Texture> TextureLoader::LoadImage(ChunkFile& file)
 {
-	// this is all unused, we trust the image data only!
 	std::string name = file.ReadU8String();
-	file.Seek(20, SeekOrigin::Current); // ver, w, h, bpp, pal not used
+	uint32_t version = file.Read<uint32_t>();
 
-	uint32_t hasAlpha, format;
-	file.Read(&hasAlpha);
-	file.Read(&format);
+	assert(version == 14000);
 
-	// only handle png atm as we suck
-	assert(format == 1);
+	// this is all unused, we trust the image data only!
+	file.Seek(16, SeekOrigin::Current); // w, h, bpp, pal not used
+
+	bool hasAlpha = file.Read<uint32_t>() == 1;
+	uint32_t format = file.Read<uint32_t>();
+
+	GLuint textureHandle;
+
+	glGenTextures(1, &textureHandle);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureHandle);
+
+	// if hasAlpha then GL_RGBA else GL_RGB?
+	// if format = dxt then glCompressedTexImage2D ( GL_COMPRESSED_RGBA_S3TC_DXT1_EXT )
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+
+	// we should probably make the texture here
+	// then copy into it the data from the TextureImageData chunk
+
+	// only handle png atm as we are shit
+	assert(format == 1); // RAW, PNG, TGA, BMP, IPU, DXT, DXT1, DXT2, DXT3, DXT4, DXT5
 
 	// there should be 1 chunk
-	assert(file.ChunksRemaining());
+	// assert(file.ChunksRemaining());
 
 	auto const chunkID = file.BeginChunk();
 
-	assert(chunkID == static_cast<ChunkType>(ChunkTypeID::ImageData));
+	assert(chunkID == ChunkID::TextureImageData);
 
 	/* get the image data size */
 	uint32_t size;

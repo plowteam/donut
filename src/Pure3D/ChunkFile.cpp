@@ -4,7 +4,9 @@
 
 #include "Core/Log.h"
 
-namespace Donut
+using namespace Donut;
+
+namespace donut::pure3d
 {
 
 constexpr const uint32_t FileType_P3D = 0xFF443350; // 'P3D'
@@ -15,7 +17,7 @@ constexpr const uint32_t FileType_RZ = 0x5A52; // 'RZ'
 
 ChunkFile::ChunkFile(File* file): _file(file)
 {
-	ChunkType type = Read<ChunkType>();
+	uint32_t type = Read<uint32_t>();
 
 	if (type == FileType_P3D_Big || type == FileType_P3DZ_Big) {
 		// SetEndianSwap(true);
@@ -35,12 +37,12 @@ ChunkFile::ChunkFile(File* file): _file(file)
 	// 	uint32_t realType = _file->Read<uint32_t>();
 	// }
 
-	BeginChunk(type);
+	BeginChunk(static_cast<ChunkID>(type));
 }
 
 ChunkFile::~ChunkFile() {}
 
-ChunkType ChunkFile::BeginChunk(ChunkType chunkType)
+ChunkID ChunkFile::BeginChunk(ChunkID chunkType)
 {
 	std::uint32_t dataSize, totalSize;
 
@@ -52,7 +54,7 @@ ChunkType ChunkFile::BeginChunk(ChunkType chunkType)
 	return chunkType;
 }
 
-ChunkType ChunkFile::BeginChunk()
+ChunkID ChunkFile::BeginChunk()
 {
 	if (!_chunks.empty())
 	{
@@ -62,7 +64,7 @@ ChunkType ChunkFile::BeginChunk()
 	}
 
 	auto startPosition = GetPosition();
-	auto chunkType = Read<ChunkType>();
+	auto chunkType = Read<ChunkID>();
 	auto dataSize = Read<uint32_t>();
 	auto totalSize = Read<uint32_t>();
 
@@ -89,7 +91,7 @@ bool ChunkFile::ChunksRemaining()
 	return GetPosition() < chunk.start_position + chunk.total_size;
 }
 
-ChunkType ChunkFile::GetCurrentID() const
+ChunkID ChunkFile::GetCurrentID() const
 {
 	auto const& chunk = _chunks.top();
 	return chunk.type;
