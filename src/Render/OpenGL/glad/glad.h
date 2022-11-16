@@ -19,8 +19,11 @@
         https://glad.dav1d.de/#profile=core&language=c&specification=gl&loader=on&api=gl%3D4.3
 */
 
+#if defined(__SWITCH__)
+#include <glad/glad.h>
+#endif
 
-#ifndef __glad_h_
+#if !defined(__glad_h_) && !defined(__SWITCH__)
 #define __glad_h_
 
 #ifdef __gl_h_

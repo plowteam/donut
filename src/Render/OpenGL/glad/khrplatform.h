@@ -1,4 +1,8 @@
-#ifndef __khrplatform_h_
+#if defined(__SWITCH__)
+#include <KHR/khrplatform.h>
+#endif
+
+#if !defined(__khrplatform_h_) && !defined(__SWITCH__)
 #define __khrplatform_h_
 
 /*
