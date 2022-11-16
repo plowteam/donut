@@ -81,6 +81,7 @@ Game::Game(int argc, char** argv)
 	glDebugMessageCallback(MessageCallback, 0);
 	glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0, GL_FALSE);
 
+	#ifndef SKIP_IMGUI
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(*_window), static_cast<SDL_GLContext*>(*_window));
 	ImGui_ImplOpenGL3_Init("#version 130");
@@ -89,6 +90,7 @@ Game::Game(int argc, char** argv)
 	// ImGuiIO& io = ImGui::GetIO();
 	// ImGui::GetStyle().ScaleAllSizes(dpi_scale);
 	// io.FontGlobalScale = dpi_scale;
+	#endif
 
 	_lineRenderer = std::make_unique<LineRenderer>(1000000);
 	_worldPhysics = std::make_unique<WorldPhysics>(_lineRenderer.get());
@@ -147,10 +149,11 @@ Game::Game(int argc, char** argv)
 
 Game::~Game()
 {
+	#ifndef SKIP_IMGUI
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-
+	#endif
 	// todo: might need to reset our unique_ptrs here in a certain order...
 
 	_window.reset();
@@ -263,7 +266,9 @@ void Game::Run()
 			if (event.type == SDL_QUIT)
 				running = false;
 
+			#ifndef SKIP_IMGUI
 			ImGui_ImplSDL2_ProcessEvent(&event);
+			#endif
 
 			Input::HandleEvent(event);
 		}
@@ -306,13 +311,15 @@ void Game::Run()
 		_lineRenderer->DrawSkeleton(_character->GetPosition(), _character->GetSkeleton());
 		_level->Update(deltaTime);
 
+		#ifndef SKIP_IMGUI
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(*_window));
 		ImGui::NewFrame();
 
 		imguiMenuBar();
 
-		//if (_character != nullptr)
+		// if (_character != nullptr)
 		//	guiModelMenu(*_character);
 
 		// ImGui::ShowDemoWindow();
@@ -350,12 +357,19 @@ void Game::Run()
 			_character->Update(deltaTime);
 
 		ImGui::Render();
+		#endif
 
 		int viewportWidth = 0;
 		int viewportHeight = 0;
 
+		#ifndef SKIP_IMGUI
 		viewportWidth = (int)io.DisplaySize.x;
 		viewportHeight = (int)io.DisplaySize.y;
+		#elif __SWITCH__
+		// yep this sucks
+		viewportWidth = 1280;
+		viewportHeight = 720;
+		#endif
 
 		glViewport(0, 0, viewportWidth, viewportHeight);
 
@@ -394,7 +408,10 @@ void Game::Run()
 		sprites.Flush(proj);
 		// frontend->Draw(proj);
 
+		#ifndef SKIP_IMGUI
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		#endif
+
 		_window->Swap();
 	}
 }
