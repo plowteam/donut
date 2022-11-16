@@ -21,8 +21,8 @@ class Window
 public:
 	Window(const std::string& title, int width, int height);
 
-	operator SDL_Window*() { return _window.get(); }
-	operator SDL_GLContext*() { return _glContext.get(); }
+	operator SDL_Window*() { return _window; }
+	operator SDL_Renderer*() { return _renderer; }
 
 	const std::string GetTitle() const;
 	void SetTitle(const std::string&);
@@ -30,8 +30,11 @@ public:
 	void Swap();
 
 private:
-	std::unique_ptr<SDL_Window, SDLDestroyer> _window;
-	std::unique_ptr<SDL_Renderer, SDLDestroyer> _renderer;
-	std::unique_ptr<SDL_GLContext, SDLDestroyer> _glContext;
+	SDL_Window* _window;
+	SDL_Renderer* _renderer;
+
+	EGLDisplay _display;
+	EGLSurface _surface;
+	EGLContext _context;
 };
 } // namespace Donut
