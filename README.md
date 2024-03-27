@@ -61,6 +61,10 @@ cmake --build build -j 5
 
 **Mesa drivers on Linux:** if you are trying to run with Mesa drivers and are getting issues with OpenGL context try messing with `MESA_GL_VERSION_OVERRIDE` when running like so: `MESA_GL_VERSION_OVERRIDE=4.3FC MESA_GLSL_VERSION_OVERRIDE=430 bin/donut`
 
+## Running
+
+The binary called `donut` should be launched from the root of the original game deployment (similar to original `Simpsons` binary). Additional assets from the `assets` source directory (both `windows` and `shaders`) should also be copied to the root of the original game deployment.
+
 ## Docs
 * [Chunks](dev/Chunks.md)
 * [Commands](dev/Commands.md)
