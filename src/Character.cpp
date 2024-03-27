@@ -41,7 +41,7 @@ void Character::LoadModel(const std::string& name)
 		case P3D::ChunkType::Texture: Game::GetInstance().GetResourceManager().LoadTexture(*P3D::Texture::Load(*chunk)); break;
 		case P3D::ChunkType::PolySkin: _skinModel->LoadPolySkin(*P3D::PolySkin::Load(*chunk)); break;
 		case P3D::ChunkType::Skeleton: _skeleton = std::make_unique<Skeleton>(*P3D::Skeleton::Load(*chunk)); break;
-		default: fmt::print("unhandled chunk {1} in character {0}\n", name, chunk->GetType()); break;
+		default: fmt::print("unhandled chunk {1} in character {0}\n", name, fmt::underlying(chunk->GetType())); break;
 		}
 	}
 }
