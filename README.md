@@ -18,7 +18,7 @@ You still need to have the original game assets in order to use this.
     <img src="https://files.facepunch.com/Layla/2019/August/11/2019-08-09_22-11-26.png" width="45%">
 </a>
 
-# Building
+## Building
 
 Clone the code using: `git clone --recursive https://github.com/plowteam/donut.git`
 
@@ -32,7 +32,7 @@ Linux:~/$ ./vcpkg install sdl2 bullet3 openal-soft fmt
 If you don't want to use vcpkg; CMake will fallback on installed system dependencies, or manually specified
 package directories.
 
-## Windows
+### Windows
 
 * Install [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
 * Install [CMake](https://cmake.org/download/)
@@ -47,7 +47,7 @@ cd donut
 cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows
 ```
 
-## Linux
+### Linux
 
 *Note: These instructions are for Ubuntu, but can be easily applied to other distros.*
 
