@@ -39,10 +39,11 @@ mark_as_advanced(_CXX_FILESYSTEM_HAVE_HEADER)
 mark_as_advanced(_CXX_FILESYSTEM_HAVE_EXPERIMENTAL_HEADER)
 
 # Dependencies
-find_package(SDL2 REQUIRED)
-find_package(fmt REQUIRED)
-find_package(OpenAL REQUIRED) #find_package(openal-soft CONFIG REQUIRED)
-find_package(Bullet REQUIRED)
+find_package(SDL2 REQUIRED) # https://www.libsdl.org
+find_package(fmt REQUIRED) # https://fmt.dev
+find_package(OpenAL REQUIRED) #find_package(openal-soft CONFIG REQUIRED) # https://github.com/kcat/openal-soft
+find_package(Bullet REQUIRED) # http://www.bulletphysics.com/Bullet/
+find_package(glm REQUIRED) # http://glm.g-truc.net
 
 # Setup an interface library for Bullet, this allows us to target Debug/Release configurations properly.
 # This should be resolved once https://github.com/microsoft/vcpkg/pull/9098 is merged.
